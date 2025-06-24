@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import FileUploadZone from "@/components/dashboard/FileUploadZone";
 import LabResultsTable from "@/components/dashboard/LabResultsTable";
-import PatientSummary from "@/components/dashboard/PatientSummary";
+
 import CriticalAlertCard from "@/components/dashboard/CriticalAlertCard";
 import SummaryMetrics from "@/components/dashboard/SummaryMetrics";
 import ChatInterface from "@/components/dashboard/ChatInterface";
@@ -81,15 +81,6 @@ const Index = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <LabResultsTable aiConfidence={94} />
-            </motion.div>
-
-            {/* Patient Summary */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <PatientSummary />
             </motion.div>
           </div>
 
