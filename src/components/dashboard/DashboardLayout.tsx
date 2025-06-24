@@ -5,6 +5,7 @@ import {
   HomeIcon,
   ChartBarIcon,
   DocumentTextIcon,
+  DocumentIcon,
   UsersIcon,
   CogIcon,
   BellIcon,
