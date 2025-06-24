@@ -4,11 +4,72 @@
 
 @layer base {
   /**
-   * Tailwind CSS theme
-   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
-   * A different format will require also updating the theme in tailwind.config.ts.
-  */
+   * Medical Dashboard Theme
+   * Sophisticated dark theme with blue-teal-purple gradients and glassmorphism effects
+   */
   :root {
+    --background: 210 30% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 215 25% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 215 25% 15%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 200 100% 60%;
+    --primary-foreground: 215 25% 12%;
+
+    --secondary: 215 25% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 215 25% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 195 100% 50%;
+    --accent-foreground: 215 25% 12%;
+
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 25% 20%;
+    --input: 215 25% 18%;
+    --ring: 200 100% 60%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 215 25% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 200 100% 60%;
+    --sidebar-primary-foreground: 215 25% 10%;
+    --sidebar-accent: 215 25% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 25% 20%;
+    --sidebar-ring: 200 100% 60%;
+
+    /* Medical Dashboard Specific Colors */
+    --medical-dark: 210 30% 8%;
+    --medical-darker: 210 35% 6%;
+    --medical-blue: 200 100% 60%;
+    --medical-teal: 180 100% 50%;
+    --medical-purple: 270 100% 70%;
+    --medical-cyan: 195 100% 50%;
+    --medical-green: 120 100% 50%;
+    --medical-amber: 45 100% 60%;
+    --medical-red: 0 85% 60%;
+
+    /* Glassmorphism Effects */
+    --medical-glass: 210 30% 15% / 0.1;
+    --medical-glass-border: 210 40% 98% / 0.1;
+
+    /* Neon Accent Colors */
+    --neon-blue: 200 100% 70%;
+    --neon-teal: 180 100% 60%;
+    --neon-purple: 270 100% 80%;
+    --neon-cyan: 195 100% 60%;
+  }
+
+  .light {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -18,7 +79,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 200 100% 50%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -37,60 +98,13 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
-
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -101,6 +115,186 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-medical-dark text-foreground font-sans antialiased;
+    background:
+      radial-gradient(
+        circle at 20% 20%,
+        rgba(59, 130, 246, 0.1) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(168, 85, 247, 0.1) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 40% 60%,
+        rgba(14, 165, 233, 0.05) 0%,
+        transparent 50%
+      ),
+      linear-gradient(135deg, hsl(210, 30%, 8%) 0%, hsl(215, 25%, 6%) 100%);
+    background-attachment: fixed;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply backdrop-blur-xl bg-medical-glass border border-medical-glass-border rounded-2xl shadow-2xl;
+    background: linear-gradient(
+      145deg,
+      hsla(210, 30%, 15%, 0.1) 0%,
+      hsla(210, 30%, 25%, 0.05) 100%
+    );
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Enhanced Glassmorphism */
+  .glass-enhanced {
+    @apply glass-card;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  /* Floating Animation */
+  .float-animation {
+    @apply animate-float;
+  }
+
+  /* Glow Effects */
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+
+  .glow-teal {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  }
+
+  /* Neural Network Pattern */
+  .neural-bg {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(59, 130, 246, 0.15) 1px,
+      transparent 0
+    );
+    background-size: 20px 20px;
+  }
+
+  /* Data Visualization Elements */
+  .data-point {
+    @apply w-2 h-2 rounded-full;
+    background: radial-gradient(
+      circle,
+      rgba(59, 130, 246, 1) 0%,
+      rgba(59, 130, 246, 0.3) 70%
+    );
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.6);
+  }
+
+  .data-line {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(59, 130, 246, 0.8) 50%,
+      transparent 100%
+    );
+    height: 1px;
+  }
+
+  /* AI Processing Indicator */
+  .ai-pulse {
+    @apply animate-neural-pulse;
+    background: radial-gradient(
+      circle,
+      rgba(168, 85, 247, 0.8) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Medical Status Colors */
+  .status-critical {
+    @apply text-medical-red;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+  }
+
+  .status-warning {
+    @apply text-medical-amber;
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+  }
+
+  .status-normal {
+    @apply text-medical-green;
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+  }
+
+  .status-info {
+    @apply text-medical-blue;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+
+  /* Scrollbar Styling */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.3);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.5);
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+
+  .text-glow-sm {
+    text-shadow: 0 0 5px currentColor;
+  }
+
+  .text-glow-lg {
+    text-shadow: 0 0 20px currentColor;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-medical-blue via-medical-teal to-medical-purple bg-clip-text text-transparent;
+  }
+
+  .gradient-border {
+    background: linear-gradient(
+      45deg,
+      rgba(59, 130, 246, 0.5),
+      rgba(168, 85, 247, 0.5)
+    );
+    padding: 1px;
+    border-radius: inherit;
+  }
+
+  .gradient-border > * {
+    @apply bg-medical-dark rounded-inherit;
   }
 }
