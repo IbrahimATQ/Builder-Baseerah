@@ -198,6 +198,15 @@ const Index = () => {
             </span>
           </div>
         </motion.div>
+
+        {/* Hidden improvement annotations (not visible to end-users) */}
+        <div style={{ display: "none" }}>
+          {/* FUTURE ENHANCEMENTS:
+          - Add trend-line spark charts beside each lab value once longitudinal data exists
+          - Surface patient-specific lifestyle tips fed by knowledge base v2
+          - Integrate in-app chat with referral clinic for real-time confirmations
+          - Provide one-click WhatsApp share of the Patient-Friendly Summary */}
+        </div>
       </div>
 
       {/* Floating Chat Interface */}
