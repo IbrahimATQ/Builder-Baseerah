@@ -70,6 +70,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       active: activeTab === "generator",
     },
     {
+      id: "lab-report",
+      label: "Lab Report Page",
+      icon: DocumentIcon,
+      active: activeTab === "lab-report",
+      href: "/lab-report-demo",
+    },
+    {
       id: "settings",
       label: "Settings",
       icon: CogIcon,
