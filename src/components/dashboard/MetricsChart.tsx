@@ -20,7 +20,7 @@ import { motion } from "framer-motion";
 import {
   HeartIcon,
   BeakerIcon,
-  ActivityIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/outline";
 
 interface MetricsChartProps {
@@ -302,9 +302,9 @@ const MetricsChart: React.FC<MetricsChartProps> = ({
       case "bar":
         return <BeakerIcon className="w-5 h-5" />;
       case "pie":
-        return <ActivityIcon className="w-5 h-5" />;
+        return <ChartBarIcon className="w-5 h-5" />;
       default:
-        return <ActivityIcon className="w-5 h-5" />;
+        return <ChartBarIcon className="w-5 h-5" />;
     }
   };
 
