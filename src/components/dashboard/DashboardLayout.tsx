@@ -121,10 +121,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <h2 className="text-lg font-bold text-medical-blue">
-                  Baseerah
-                </h2>
-                <p className="text-xs text-muted-foreground">Technologies</p>
+                <h2 className="text-lg font-bold text-medical-blue">Baseerah</h2>
+                <p className="text-xs text-muted-foreground">
+                  Technologies
+                </p>
               </motion.div>
             )}
           </div>
@@ -133,30 +133,57 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         {/* Navigation */}
         <nav className="p-4 space-y-2">
           {navigationItems.map((item, index) => (
-            <motion.button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 ${
-                item.active
-                  ? "bg-medical-blue/20 text-medical-blue border border-medical-blue/30"
-                  : "hover:bg-medical-glass/50 text-muted-foreground hover:text-foreground"
-              }`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <item.icon className="w-5 h-5 flex-shrink-0" />
-              {isSidebarOpen && (
-                <span className="text-sm font-medium">{item.label}</span>
-              )}
-              {isSidebarOpen && item.badge && (
-                <span className="ml-auto px-2 py-1 text-xs bg-medical-red rounded-full text-white">
-                  {item.badge}
-                </span>
-              )}
-            </motion.button>
+            {item.href ? (
+              <motion.a
+                key={item.id}
+                href={item.href}
+                className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 ${
+                  item.active
+                    ? "bg-medical-blue/20 text-medical-blue border border-medical-blue/30"
+                    : "hover:bg-medical-glass/50 text-muted-foreground hover:text-foreground"
+                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <item.icon className="w-5 h-5 flex-shrink-0" />
+                {isSidebarOpen && (
+                  <span className="text-sm font-medium">{item.label}</span>
+                )}
+                {isSidebarOpen && item.badge && (
+                  <span className="ml-auto px-2 py-1 text-xs bg-medical-red rounded-full text-white">
+                    {item.badge}
+                  </span>
+                )}
+              </motion.a>
+            ) : (
+              <motion.button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 ${
+                  item.active
+                    ? "bg-medical-blue/20 text-medical-blue border border-medical-blue/30"
+                    : "hover:bg-medical-glass/50 text-muted-foreground hover:text-foreground"
+                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <item.icon className="w-5 h-5 flex-shrink-0" />
+                {isSidebarOpen && (
+                  <span className="text-sm font-medium">{item.label}</span>
+                )}
+                {isSidebarOpen && item.badge && (
+                  <span className="ml-auto px-2 py-1 text-xs bg-medical-red rounded-full text-white">
+                    {item.badge}
+                  </span>
+                )}
+              </motion.button>
+            )}
           ))}
         </nav>
 
