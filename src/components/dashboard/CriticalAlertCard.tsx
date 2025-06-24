@@ -56,11 +56,11 @@ const CriticalAlertCard: React.FC<CriticalAlertCardProps> = ({
                   <ExclamationTriangleIcon className="w-5 h-5 text-medical-red" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-medical-red">
-                    🚨 Critical Alert
+                  <h3 className="text-sm font-semibold text-medical-green">
+                    Auto-Booked Referral
                   </h3>
                   <p className="text-xs text-muted-foreground">
-                    Immediate attention required
+                    Appointment successfully scheduled
                   </p>
                 </div>
               </div>
@@ -73,59 +73,63 @@ const CriticalAlertCard: React.FC<CriticalAlertCardProps> = ({
             </div>
           </div>
 
-          {/* Alert Content */}
+          {/* Referral Content */}
           <div className="p-4">
             <div className="mb-4">
-              <h4 className="text-base font-medium text-foreground mb-2">
-                Elevated Creatinine
-              </h4>
-              <p className="text-sm text-muted-foreground">
-                Suggest referral to Nephrology for further evaluation and
-                management.
-              </p>
+              <div className="flex items-center gap-2 mb-2">
+                <h4 className="text-base font-medium text-foreground">
+                  🚨 Elevated Creatinine — Nephrology referral booked
+                </h4>
+                <div className="px-2 py-1 bg-medical-green/20 text-medical-green rounded-full text-xs font-medium flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-medical-green" />
+                  Booked
+                </div>
+              </div>
             </div>
 
-            {/* Alert Details */}
-            <div className="grid grid-cols-2 gap-3 mb-4 text-xs">
-              <div>
-                <span className="text-muted-foreground">Patient ID:</span>
-                <span className="text-foreground ml-1 font-mono">#12847</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Severity:</span>
-                <span className="text-medical-red ml-1 font-medium">High</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Value:</span>
-                <span className="text-foreground ml-1 font-mono">
-                  2.4 mg/dL
+            {/* Appointment Details */}
+            <div className="space-y-3 mb-4 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Appointment:</span>
+                <span className="text-foreground font-medium">
+                  04 July 2025 • 10:00 AM
                 </span>
               </div>
-              <div>
-                <span className="text-muted-foreground">Normal:</span>
-                <span className="text-foreground ml-1 font-mono">
-                  0.6-1.2 mg/dL
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Location:</span>
+                <span className="text-foreground">
+                  King Faisal Specialist Hospital, Clinic B
                 </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Physician:</span>
+                <span className="text-foreground">
+                  Dr. A. Al-Qahtani (Nephrologist)
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">AI Confidence:</span>
+                <span className="text-medical-blue font-medium">96%</span>
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="flex gap-2">
               <motion.button
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-medical-red hover:bg-medical-red/80 text-white rounded-lg text-sm font-medium transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-medical-blue hover:bg-medical-blue/80 text-white rounded-lg text-sm font-medium transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <UserPlusIcon className="w-4 h-4" />
-                Auto-Refer
+                <EyeIcon className="w-4 h-4" />
+                View Referral Details
               </motion.button>
               <motion.button
                 className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-medical-dark/50 hover:bg-medical-dark/70 text-foreground border border-medical-glass-border rounded-lg text-sm font-medium transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <EyeIcon className="w-4 h-4" />
-                View Details
+                <UserPlusIcon className="w-4 h-4" />
+                Reschedule
               </motion.button>
             </div>
           </div>
