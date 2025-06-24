@@ -369,65 +369,232 @@ const LabReportDemo = () => {
             </div>
           </div>
 
-          {/* Patient Report Sent */}
+          {/* Intelligent Patient Report Sent */}
           <div className="mb-8">
             <div
-              className="p-6 rounded-xl"
-              style={{ backgroundColor: "#F3F4F6" }}
+              className="p-6 rounded-xl border-2 border-green-200"
+              style={{ backgroundColor: "#F0FDF4" }}
             >
-              <div className="flex items-center gap-2 mb-2">
-                <h2
-                  className="text-xl font-semibold"
-                  style={{ color: "#111827" }}
-                >
-                  Patient Report Sent 📨
-                </h2>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <h2
+                    className="text-xl font-semibold"
+                    style={{ color: "#111827" }}
+                  >
+                    Intelligent Patient Report Sent 📨
+                  </h2>
+                  <span className="px-2 py-1 bg-green-600 text-white text-xs rounded-full">
+                    AI-Personalized
+                  </span>
+                </div>
+                <div className="text-right text-sm text-gray-600">
+                  <div>📱 Baseerah Mobile App</div>
+                  <div>🕒 24 Jun 2025, 7:18 PM</div>
+                  <div>✅ Read Receipt: 7:23 PM</div>
+                </div>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Delivered to Baseerah mobile app • 24 Jun 2025 7:18 PM
-              </p>
 
+              {/* Personalized Summary Section */}
               <div className="space-y-4">
-                <div className="p-4 bg-white rounded-lg">
-                  <div className="text-sm font-medium text-blue-600 mb-2">
-                    ENGLISH
+                <div className="bg-white p-5 rounded-lg border border-green-100">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-blue-600 font-semibold">
+                      🧠 AI-Generated Personalized Summary
+                    </span>
+                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                      Based on your profile
+                    </span>
                   </div>
-                  <p className="text-gray-700 leading-relaxed">
-                    Imagine your red-blood cells as tiny ships carrying sugar on
-                    a three-month voyage.
-                    <br />
-                    Today we discovered they're bringing <em>
-                      just a little
-                    </em>{" "}
-                    too much cargo (HbA1c 6.2 %).
-                    <br />
-                    It's not a crisis, but it's a whisper from your body saying
-                    "ease off the sugar."
-                    <br />
-                    Picture swapping one soda for water and strolling 30 minutes
-                    each evening—
-                    <br />
-                    that simple habit can steer your ship back on course.
-                  </p>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {/* English Version */}
+                    <div className="p-4 bg-blue-50 rounded-lg">
+                      <div className="text-sm font-medium text-blue-600 mb-3 flex items-center gap-2">
+                        🇺🇸 ENGLISH REPORT
+                        <span className="text-xs bg-blue-200 px-2 py-0.5 rounded">
+                          Tailored for you
+                        </span>
+                      </div>
+                      <div className="space-y-3 text-gray-700 text-sm leading-relaxed">
+                        <p>
+                          <strong>Hello Ahmed,</strong>
+                        </p>
+                        <p>
+                          Your recent blood tests show some areas that need
+                          attention, but the good news is that with the right
+                          steps, you can improve your health significantly.
+                        </p>
+
+                        <div className="bg-white p-3 rounded border-l-4 border-yellow-400">
+                          <p>
+                            <strong>🍬 Blood Sugar (HbA1c): 6.2%</strong>
+                            <br />
+                            This means your average blood sugar over the past 3
+                            months has been slightly high. You're in the
+                            "pre-diabetes" range, which is like a yellow traffic
+                            light - a warning to take action now.
+                          </p>
+                        </div>
+
+                        <div className="bg-white p-3 rounded border-l-4 border-red-400">
+                          <p>
+                            <strong>❤️ Cholesterol (LDL): 160 mg/dL</strong>
+                            <br />
+                            Your "bad" cholesterol is too high, increasing your
+                            risk of heart problems. Think of it like having too
+                            much sticky material in your blood vessels.
+                          </p>
+                        </div>
+
+                        <div className="bg-white p-3 rounded border-l-4 border-red-400">
+                          <p>
+                            <strong>🫘 Kidney Function: Needs attention</strong>
+                            <br />
+                            Your kidneys aren't filtering as well as they
+                            should. We've already booked you an appointment with
+                            a kidney specialist.
+                          </p>
+                        </div>
+
+                        <div className="bg-green-50 p-3 rounded">
+                          <p>
+                            <strong>🎯 Your Action Plan:</strong>
+                          </p>
+                          <ul className="mt-2 space-y-1 text-xs">
+                            <li>
+                              • 🚭 <strong>Stop smoking</strong> - this is the
+                              #1 priority for your health
+                            </li>
+                            <li>
+                              • 🥗 <strong>DASH diet</strong> - we'll send you a
+                              personalized meal plan
+                            </li>
+                            <li>
+                              • 🚶‍♂️ <strong>Walk 30 min daily</strong> - start
+                              with 10 minutes if needed
+                            </li>
+                            <li>
+                              • 💊 <strong>New medications</strong> - your
+                              doctor will discuss these with you
+                            </li>
+                            <li>
+                              • 📅 <strong>Nephrology visit</strong> - July 4th
+                              at 10:00 AM
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Arabic Version */}
+                    <div className="p-4 bg-teal-50 rounded-lg" dir="rtl">
+                      <div className="text-sm font-medium text-teal-600 mb-3 flex items-center gap-2 justify-end">
+                        <span className="text-xs bg-teal-200 px-2 py-0.5 rounded">
+                          مُخصص لك
+                        </span>
+                        🇸🇦 التقرير العربي
+                      </div>
+                      <div className="space-y-3 text-gray-700 text-sm leading-relaxed">
+                        <p>
+                          <strong>أهلاً أحمد،</strong>
+                        </p>
+                        <p>
+                          تحاليل دمك الأخيرة تُظهر بعض النقاط التي تحتاج انتباه،
+                          لكن الخبر الجيد أنه بالخطوات الصحيحة، يمكنك تحسين صحتك
+                          بشكل كبير.
+                        </p>
+
+                        <div className="bg-white p-3 rounded border-r-4 border-yellow-400">
+                          <p>
+                            <strong>🍬 السكر التراكمي: 6.2%</strong>
+                            <br />
+                            هذا يعني أن معدل السكر في دمك خلال الثلاثة أشهر
+                            الماضية كان مرتفعاً قليلاً. أنت في مرحلة "ما قبل
+                            السكري" - مثل الإشارة الصفراء، تحذير للتحرك الآن.
+                          </p>
+                        </div>
+
+                        <div className="bg-white p-3 rounded border-r-4 border-red-400">
+                          <p>
+                            <strong>❤️ الكوليسترول الضار: 160</strong>
+                            <br />
+                            الكوليسترول "الضار" مرتفع، مما يزيد من خطر مشاكل
+                            القلب. فكر فيه كمادة لزجة زائدة في أوعيتك الدموية.
+                          </p>
+                        </div>
+
+                        <div className="bg-white p-3 rounded border-r-4 border-red-400">
+                          <p>
+                            <strong>🫘 وظائف الكلى: تحتاج انتباه</strong>
+                            <br />
+                            كليتاك لا تُنقيان الدم كما يجب. حجزنا لك موع�� مع
+                            أخصائي الكلى.
+                          </p>
+                        </div>
+
+                        <div className="bg-green-50 p-3 rounded">
+                          <p>
+                            <strong>🎯 خطة العلاج:</strong>
+                          </p>
+                          <ul className="mt-2 space-y-1 text-xs">
+                            <li>
+                              • 🚭 <strong>توقف عن التدخين</strong> - هذا
+                              الأولوية الأولى لصحتك
+                            </li>
+                            <li>
+                              • 🥗 <strong>حمية DASH</strong> - سنرسل لك خطة
+                              وجبات مُخصصة
+                            </li>
+                            <li>
+                              • 🚶‍♂️ <strong>امشِ 30 دقيقة يومياً</strong> - ابدأ
+                              بـ10 دقائق إن احتجت
+                            </li>
+                            <li>
+                              • 💊 <strong>أدوية جديدة</strong> - طبيبك سيناقشها
+                              معك
+                            </li>
+                            <li>
+                              • 📅 <strong>زيارة أخصائي الكلى</strong> - 4 يوليو
+                              الساعة 10:00 صباحاً
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="p-4 bg-white rounded-lg text-right" dir="rtl">
-                  <div className="text-sm font-medium text-teal-600 mb-2">
-                    العَرَبِيَّة
+                {/* Smart Features Section */}
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    🤖 Smart Report Features
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                    <div className="text-center p-2 bg-blue-50 rounded">
+                      <div className="font-medium text-blue-700">
+                        📊 Trend Analysis
+                      </div>
+                      <div className="text-gray-600">vs. 3 months ago</div>
+                    </div>
+                    <div className="text-center p-2 bg-green-50 rounded">
+                      <div className="font-medium text-green-700">
+                        🎯 Risk Score
+                      </div>
+                      <div className="text-gray-600">Moderate → Low</div>
+                    </div>
+                    <div className="text-center p-2 bg-purple-50 rounded">
+                      <div className="font-medium text-purple-700">
+                        📱 App Integration
+                      </div>
+                      <div className="text-gray-600">Daily reminders</div>
+                    </div>
+                    <div className="text-center p-2 bg-orange-50 rounded">
+                      <div className="font-medium text-orange-700">
+                        👨‍⚕️ Next Steps
+                      </div>
+                      <div className="text-gray-600">Auto-scheduled</div>
+                    </div>
                   </div>
-                  <p className="text-gray-700 leading-relaxed">
-                    تخيَّل خلايا دمك الحمراء كسفن صغيرة تحمل السكر في رحلةٍ
-                    تمتدّ لثلاثة أشهر.
-                    <br />
-                    اكتشفنا اليوم أن السفن محمَّلة <em>بزيادة طفيفة</em>{" "}
-                    (هيموغلوبين سكّر 6.2 ٪).
-                    <br />
-                    ليست حالة طارئة، لكنها همسة من جسدك: "قَلِّل السكر قليلًا."
-                    <br />
-                    جرّب استبدال مشروب غازي بكوب ماء والمشي 30 دقيقة مساءً—
-                    <br />
-                    هذه الخطوة البسيطة قد تعيد السفن إلى مسارها الصحيح.
-                  </p>
                 </div>
               </div>
             </div>
