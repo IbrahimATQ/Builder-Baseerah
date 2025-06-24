@@ -45,24 +45,29 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       active: activeTab === "dashboard",
     },
     {
-      id: "analytics",
-      label: "AI Analytics",
-      icon: ChartBarIcon,
-      active: activeTab === "analytics",
-      badge: 3,
-    },
-    {
-      id: "reports",
-      label: "Lab Reports",
+      id: "upload",
+      label: "Upload Report",
       icon: DocumentTextIcon,
-      active: activeTab === "reports",
-      badge: 12,
+      active: activeTab === "upload",
     },
     {
-      id: "patients",
-      label: "Patients",
-      icon: UsersIcon,
-      active: activeTab === "patients",
+      id: "interpretation",
+      label: "AI Interpretation",
+      icon: SparklesIcon,
+      active: activeTab === "interpretation",
+    },
+    {
+      id: "alerts",
+      label: "Critical Alerts",
+      icon: BellIcon,
+      active: activeTab === "alerts",
+      badge: 7,
+    },
+    {
+      id: "generator",
+      label: "Report Generator",
+      icon: ChartBarIcon,
+      active: activeTab === "generator",
     },
     {
       id: "settings",
@@ -109,10 +114,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <h2 className="text-lg font-bold gradient-text">MedAI Pro</h2>
-                <p className="text-xs text-muted-foreground">
-                  Neural Diagnostics
-                </p>
+                <h2 className="text-lg font-bold text-medical-blue">
+                  Baseerah
+                </h2>
+                <p className="text-xs text-muted-foreground">Technologies</p>
               </motion.div>
             )}
           </div>
@@ -213,7 +218,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
               <div>
                 <h1 className="text-xl font-bold text-foreground">
-                  Medical AI Dashboard
+                  Lab Interpretation Dashboard
                 </h1>
                 <p className="text-sm text-muted-foreground">
                   {currentTime.toLocaleDateString("en-US", {
