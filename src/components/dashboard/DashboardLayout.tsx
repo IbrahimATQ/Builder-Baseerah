@@ -132,8 +132,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
         {/* Navigation */}
         <nav className="p-4 space-y-2">
-          {navigationItems.map((item, index) => (
-            {item.href ? (
+          {navigationItems.map((item, index) =>
+            item.href ? (
               <motion.a
                 key={item.id}
                 href={item.href}
