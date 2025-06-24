@@ -130,7 +130,7 @@ const LabReportDemo = () => {
                   <td className="border border-gray-300 p-3 text-center font-mono">6.2</td>
                   <td className="border border-gray-300 p-3 text-center">4.0 - 5.6</td>
                   <td className="border border-gray-300 p-3 text-center">
-                    <span 
+                    <span
                       className="px-3 py-1 rounded-full text-white text-sm font-medium"
                       style={{ backgroundColor: '#F59E0B' }}
                     >
@@ -144,7 +144,7 @@ const LabReportDemo = () => {
                   <td className="border border-gray-300 p-3 text-center font-mono">160</td>
                   <td className="border border-gray-300 p-3 text-center">&lt; 100</td>
                   <td className="border border-gray-300 p-3 text-center">
-                    <span 
+                    <span
                       className="px-3 py-1 rounded-full text-white text-sm font-medium"
                       style={{ backgroundColor: '#EF4444' }}
                     >
@@ -159,9 +159,9 @@ const LabReportDemo = () => {
 
           {/* AI Clinical Interpretation */}
           <div className="mb-8">
-            <div 
+            <div
               className="p-6 rounded-lg border-l-4"
-              style={{ 
+              style={{
                 borderLeftColor: '#3B82F6',
                 backgroundColor: '#F8FAFC'
               }}
@@ -170,24 +170,24 @@ const LabReportDemo = () => {
                 <h2 className="text-xl font-semibold" style={{ color: '#111827' }}>
                   AI Clinical Interpretation
                 </h2>
-                <div 
+                <div
                   className="px-3 py-1 rounded-full text-white text-sm font-medium"
                   style={{ backgroundColor: '#3B82F6' }}
                 >
                   AI Confidence 94%
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold mb-2" style={{ color: '#111827' }}>Clinical Summary</h3>
                   <p className="text-gray-700 leading-relaxed">
-                    The laboratory results indicate elevated glycated hemoglobin (HbA1c) at 6.2%, 
-                    suggesting pre-diabetic range (5.7-6.4%). Additionally, LDL cholesterol is 
+                    The laboratory results indicate elevated glycated hemoglobin (HbA1c) at 6.2%,
+                    suggesting pre-diabetic range (5.7-6.4%). Additionally, LDL cholesterol is
                     significantly elevated at 160 mg/dL, indicating increased cardiovascular risk stratification.
                   </p>
                 </div>
-                
+
                 <div>
                   <h3 className="font-bold mb-2" style={{ color: '#111827' }}>Recommendations</h3>
                   <ul className="text-gray-700 space-y-1 ml-4">
@@ -205,7 +205,7 @@ const LabReportDemo = () => {
                     </li>
                   </ul>
                 </div>
-                
+
                 <div>
                   <h3 className="font-bold mb-2" style={{ color: '#111827' }}>Follow-up</h3>
                   <p className="text-gray-700">
@@ -218,7 +218,7 @@ const LabReportDemo = () => {
 
           {/* Auto-Referral Panel */}
           <div className="mb-8">
-            <div 
+            <div
               className="p-4 rounded-lg flex items-center gap-3"
               style={{ backgroundColor: '#DBEAFE' }}
             >
@@ -236,14 +236,14 @@ const LabReportDemo = () => {
 
           {/* Patient-Friendly Story Summary */}
           <div className="mb-8">
-            <div 
+            <div
               className="p-6 rounded-xl"
               style={{ backgroundColor: '#F3F4F6' }}
             >
               <h2 className="text-xl font-semibold mb-4" style={{ color: '#111827' }}>
                 What do these results mean for me?
               </h2>
-              
+
               <div className="space-y-4">
                 <div className="p-4 bg-white rounded-lg">
                   <div className="text-sm font-medium text-blue-600 mb-2">ENGLISH</div>
@@ -255,7 +255,7 @@ const LabReportDemo = () => {
                     that simple habit can steer your ship back on course.
                   </p>
                 </div>
-                
+
                 <div className="p-4 bg-white rounded-lg text-right" dir="rtl">
                   <div className="text-sm font-medium text-teal-600 mb-2">العَرَبِيَّة</div>
                   <p className="text-gray-700 leading-relaxed">
@@ -273,7 +273,7 @@ const LabReportDemo = () => {
           {/* Digital Access Footer */}
           <div className="mb-8">
             <div className="flex items-center gap-6">
-              <div 
+              <div
                 className="w-18 h-18 border-2 border-dashed border-gray-400 rounded-lg flex items-center justify-center"
                 style={{ width: '72px', height: '72px' }}
               >
@@ -284,7 +284,7 @@ const LabReportDemo = () => {
                   Scan to view full history & trends
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Access complete medical records, trending data, and detailed AI analysis reports 
+                  Access complete medical records, trending data, and detailed AI analysis reports
                   through our secure patient portal.
                 </p>
               </div>
@@ -296,7 +296,7 @@ const LabReportDemo = () => {
             <div className="text-center text-xs text-gray-500 mb-2">
               Generated by Baseerah AI | HIPAA & SFDA SaMD Ready | Report ID RPT-1750781784537
             </div>
-            <div 
+            <div
               className="border-t pt-2 text-center text-sm text-gray-600"
               style={{ borderColor: '#E5E7EB' }}
             >
@@ -314,7 +314,8 @@ const LabReportDemo = () => {
           .bg-white { box-shadow: none !important; }
         }
       `}</style>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
