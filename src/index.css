@@ -8,55 +8,55 @@
    * Sophisticated dark theme with blue-teal-purple gradients and glassmorphism effects
    */
   :root {
-    --background: 210 30% 8%;
-    --foreground: 210 40% 98%;
+    --background: 218 30% 7%;
+    --foreground: 0 0% 100%;
 
-    --card: 215 25% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 218 25% 12%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 215 25% 15%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 218 25% 15%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 200 100% 60%;
-    --primary-foreground: 215 25% 12%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 25% 18%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 218 25% 18%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 215 25% 15%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 218 25% 15%;
+    --muted-foreground: 218 20% 65%;
 
-    --accent: 195 100% 50%;
-    --accent-foreground: 215 25% 12%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 75% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 215 25% 20%;
-    --input: 215 25% 18%;
-    --ring: 200 100% 60%;
+    --border: 218 25% 20%;
+    --input: 218 25% 18%;
+    --ring: 217 91% 60%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 215 25% 10%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 200 100% 60%;
-    --sidebar-primary-foreground: 215 25% 10%;
-    --sidebar-accent: 215 25% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 25% 20%;
-    --sidebar-ring: 200 100% 60%;
+    --sidebar-background: 218 25% 10%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 218 25% 15%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 218 25% 20%;
+    --sidebar-ring: 217 91% 60%;
 
-    /* Medical Dashboard Specific Colors */
-    --medical-dark: 210 30% 8%;
-    --medical-darker: 210 35% 6%;
-    --medical-blue: 200 100% 60%;
-    --medical-teal: 180 100% 50%;
+    /* Baseerah Color Palette */
+    --medical-dark: 218 30% 7%;
+    --medical-darker: 218 35% 6%;
+    --medical-blue: 217 91% 60%;
+    --medical-teal: 178 100% 51%;
     --medical-purple: 270 100% 70%;
     --medical-cyan: 195 100% 50%;
-    --medical-green: 120 100% 50%;
-    --medical-amber: 45 100% 60%;
-    --medical-red: 0 85% 60%;
+    --medical-green: 167 70% 41%;
+    --medical-amber: 38 92% 50%;
+    --medical-red: 0 84% 60%;
 
     /* Glassmorphism Effects */
     --medical-glass: 210 30% 15% / 0.1;
@@ -116,23 +116,7 @@
 
   body {
     @apply bg-medical-dark text-foreground font-sans antialiased;
-    background:
-      radial-gradient(
-        circle at 20% 20%,
-        rgba(59, 130, 246, 0.1) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 80% 80%,
-        rgba(168, 85, 247, 0.1) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 40% 60%,
-        rgba(14, 165, 233, 0.05) 0%,
-        transparent 50%
-      ),
-      linear-gradient(135deg, hsl(210, 30%, 8%) 0%, hsl(215, 25%, 6%) 100%);
+    background: #0e1117;
     background-attachment: fixed;
   }
 
