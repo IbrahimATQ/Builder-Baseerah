@@ -37,22 +37,42 @@ const PatientSummary: React.FC<PatientSummaryProps> = ({ className = "" }) => {
         {/* English Summary */}
         <div className="p-4 bg-medical-dark/30 rounded-lg border-l-4 border-medical-blue">
           <div className="text-sm font-medium text-medical-blue mb-2">
-            English Summary
+            ENGLISH
           </div>
           <p className="text-foreground leading-relaxed">
-            Your HbA1c is a bit high, meaning your blood sugar has been above
-            normal. Start by reducing sugary drinks and walking 30 min daily.
+            Imagine your red-blood cells as tiny ships carrying sugar on a
+            three-month voyage.
+            <br />
+            Today we discovered they're bringing <em>just a little</em> too much
+            cargo (HbA1c 6.2 %).
+            <br />
+            It's not a crisis, but it's a whisper from your body saying "ease
+            off the sugar."
+            <br />
+            Picture swapping one soda for water and strolling 30 minutes each
+            evening—
+            <br />
+            that simple habit can steer your ship back on course.
           </p>
         </div>
 
         {/* Arabic Summary */}
         <div className="p-4 bg-medical-dark/30 rounded-lg border-r-4 border-medical-teal text-right">
           <div className="text-sm font-medium text-medical-teal mb-2">
-            الملخص العربي
+            العَرَبِيَّة
           </div>
           <p className="text-foreground leading-relaxed" dir="rtl">
-            هذا يعني أن نسبة السكر لديك أعلى من الطبيعي قليلاً. ابدأ بتقليل
-            المشروبات السكرية والمشي لمدة 30 دقيقة يومياً.
+            تخيَّل خلايا دمك الحمراء كسفن صغيرة تحمل السكر في رحلةٍ تمتدّ لثلاثة
+            أشهر.
+            <br />
+            اكتشفنا اليوم أن السفن محمَّلة <em>بزيادة طفيفة</em> (هيموغلوبين
+            سكّر 6.2 ٪).
+            <br />
+            ليست حالة طارئة، لكنها همسة من جسدك: "قَلِّل السكر قليلًا."
+            <br />
+            جرّب استبدال مشروب غازي بكوب ماء والمشي 30 دقيقة مساءً—
+            <br />
+            هذه الخطوة البسيطة قد تعيد السفن إلى مسارها الصحيح.
           </p>
         </div>
       </div>
