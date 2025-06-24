@@ -121,10 +121,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <h2 className="text-lg font-bold text-medical-blue">Baseerah</h2>
-                <p className="text-xs text-muted-foreground">
-                  Technologies
-                </p>
+                <h2 className="text-lg font-bold text-medical-blue">
+                  Baseerah
+                </h2>
+                <p className="text-xs text-muted-foreground">Technologies</p>
               </motion.div>
             )}
           </div>
@@ -183,8 +183,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                   </span>
                 )}
               </motion.button>
-            )}
-          ))}
+            ),
+          )}
         </nav>
 
         {/* System Status */}
