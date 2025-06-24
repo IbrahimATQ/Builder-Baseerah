@@ -429,10 +429,13 @@ const LabReportDemo = () => {
                           <p>
                             <strong>🍬 Blood Sugar (HbA1c): 6.2%</strong>
                             <br />
-                            This means your average blood sugar over the past 3
-                            months has been slightly high. You're in the
-                            "pre-diabetes" range, which is like a yellow traffic
-                            light - a warning to take action now.
+                            Picture your bloodstream as a bustling city, and
+                            sugar molecules as delivery trucks. For the past 3
+                            months, there have been too many trucks on the
+                            roads, causing mild traffic jams. You're at the
+                            "amber zone" - not a crisis, but your body's traffic
+                            control system is saying "slow down the sugar
+                            deliveries!"
                           </p>
                         </div>
 
@@ -440,9 +443,12 @@ const LabReportDemo = () => {
                           <p>
                             <strong>❤️ Cholesterol (LDL): 160 mg/dL</strong>
                             <br />
-                            Your "bad" cholesterol is too high, increasing your
-                            risk of heart problems. Think of it like having too
-                            much sticky material in your blood vessels.
+                            Imagine your arteries as pristine mountain rivers.
+                            The "bad" cholesterol is like sediment building up
+                            on the riverbed - too much accumulation (160 vs.
+                            ideal &lt;100) could eventually block the flow. We
+                            need to clear these waterways before they become
+                            dams.
                           </p>
                         </div>
 
@@ -450,9 +456,13 @@ const LabReportDemo = () => {
                           <p>
                             <strong>🫘 Kidney Function: Needs attention</strong>
                             <br />
-                            Your kidneys aren't filtering as well as they
-                            should. We've already booked you an appointment with
-                            a kidney specialist.
+                            Your kidneys are like sophisticated water
+                            purification plants, but they're working at reduced
+                            capacity. Think of them as having clogged filters
+                            that need expert maintenance. The good news? We've
+                            already scheduled you with the best "engineers"
+                            (nephrologists) to assess and optimize your
+                            filtration system.
                           </p>
                         </div>
 
@@ -508,9 +518,11 @@ const LabReportDemo = () => {
                           <p>
                             <strong>🍬 السكر التراكمي: 6.2%</strong>
                             <br />
-                            هذا يعني أن معدل السكر في دمك خلال الثلاثة أشهر
-                            الماضية كان مرتفعاً قليلاً. أنت في مرحلة "ما قبل
-                            السكري" - مثل الإشارة الصفراء، تحذير للتحرك الآن.
+                            تصوّر دمك كنهرٍ يجري، وجزيئات السكر كقوارب صغيرة
+                            تُبحر فيه. خلال الأشهر الثلاثة الماضية، كان هناك
+                            قوارب سكر أكثر من المعتاد تُبحر في نهرك. أنت في
+                            "المنطقة البرتقالية" - ليست عاصفة، لكن ربّان النهر
+                            (جسدك) يقول: "أبطئ حركة قوارب السكر!"
                           </p>
                         </div>
 
@@ -518,8 +530,10 @@ const LabReportDemo = () => {
                           <p>
                             <strong>❤️ الكوليسترول الضار: 160</strong>
                             <br />
-                            الكوليسترول "الضار" مرتفع، مما يزيد من خطر مشاكل
-                            القلب. فكر فيه كمادة لزجة زائدة في أوعيتك الدموية.
+                            تخيّل شرايينك كطرق سريعة نظيفة، والكوليسترول "الضار"
+                            كالرمال التي تتراكم على جوانب الطريق. لديك رمال أكثر
+                            من المطلوب (160 بدلاً من أقل من 100)، وقد تُبطئ حركة
+                            المرور إذا لم نُنظفها.
                           </p>
                         </div>
 
@@ -527,8 +541,10 @@ const LabReportDemo = () => {
                           <p>
                             <strong>🫘 وظائف الكلى: تحتاج انتباه</strong>
                             <br />
-                            كليتاك لا تُنقيان الدم كما يجب. حجزنا لك موع�� مع
-                            أخصائي الكلى.
+                            كليتاك مثل محطتان متطورتان لتنقية المياه، لكنهما
+                            تعملان بطاقة أقل من المعتاد. تصورهما كمرشحات تحتاج
+                            صيانة من خبراء. الخبر الجيد؟ حجزنا لك موعداً مع أفضل
+                            "المهندسين" (أطباء الكلى) لفحص وتحسين نظام التنقية.
                           </p>
                         </div>
 
