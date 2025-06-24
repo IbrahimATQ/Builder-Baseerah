@@ -191,6 +191,28 @@ const LabReportDemo = () => {
                     mg/dL
                   </td>
                 </tr>
+                <tr>
+                  <td className="border border-gray-300 p-3 font-medium">
+                    Creatinine
+                  </td>
+                  <td className="border border-gray-300 p-3 text-center font-mono">
+                    2.4
+                  </td>
+                  <td className="border border-gray-300 p-3 text-center">
+                    0.6 - 1.2
+                  </td>
+                  <td className="border border-gray-300 p-3 text-center">
+                    <span
+                      className="px-3 py-1 rounded-full text-white text-sm font-medium"
+                      style={{ backgroundColor: "#EF4444" }}
+                    >
+                      Critical
+                    </span>
+                  </td>
+                  <td className="border border-gray-300 p-3 text-center">
+                    mg/dL
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -219,49 +241,85 @@ const LabReportDemo = () => {
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-6">
+                {/* Integrated Clinical Context */}
                 <div>
-                  <h3 className="font-bold mb-2" style={{ color: "#111827" }}>
-                    Clinical Summary
+                  <h3 className="font-bold mb-3" style={{ color: "#111827" }}>
+                    Integrated Clinical Context
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    The laboratory results indicate elevated glycated hemoglobin
-                    (HbA1c) at 6.2%, suggesting pre-diabetic range (5.7-6.4%).
-                    Additionally, LDL cholesterol is significantly elevated at
-                    160 mg/dL, indicating increased cardiovascular risk
-                    stratification.
-                  </p>
+                  <div className="bg-gray-100 p-4 rounded-lg border-l-2 border-gray-400">
+                    <p className="text-sm text-gray-600 italic mb-1">
+                      Clinical Note Extract:
+                    </p>
+                    <p className="text-gray-700">
+                      "45-year-old male, BMI 31 kg/m², hypertension on
+                      lisinopril, smoker (15 pack-years), presents for routine
+                      metabolic panel."
+                    </p>
+                  </div>
                 </div>
 
+                {/* Result-Linked Analysis */}
                 <div>
-                  <h3 className="font-bold mb-2" style={{ color: "#111827" }}>
-                    Recommendations
+                  <h3 className="font-bold mb-3" style={{ color: "#111827" }}>
+                    Result-Linked Analysis
                   </h3>
-                  <ul className="text-gray-700 space-y-1 ml-4">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      Immediate lifestyle modification interventions including
-                      dietary consultation
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      Structured physical activity program initiation
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      Nephrology consultation for elevated creatinine assessment
-                    </li>
-                  </ul>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="font-mono text-sm bg-yellow-100 px-2 py-1 rounded">
+                        HbA1c 6.2%
+                      </span>
+                      <p className="text-gray-700 text-sm">
+                        → "Consistent with ADA 'pre-diabetes' criteria; aligns
+                        with prior fasting glucose (112 mg/dL)."
+                      </p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="font-mono text-sm bg-red-100 px-2 py-1 rounded">
+                        LDL 160 mg/dL
+                      </span>
+                      <p className="text-gray-700 text-sm">
+                        → "ASCVD 10-yr risk now ≥ 15%. Intensify lipid-lowering
+                        therapy."
+                      </p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="font-mono text-sm bg-red-100 px-2 py-1 rounded">
+                        Creatinine 2.4 mg/dL
+                      </span>
+                      <p className="text-gray-700 text-sm">
+                        → "eGFR ≈ 32 mL/min/1.73 m² (CKD-3b). Possible diabetic
+                        nephropathy."
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Evidence-Based Recommendations */}
                 <div>
-                  <h3 className="font-bold mb-2" style={{ color: "#111827" }}>
-                    Follow-up
+                  <h3 className="font-bold mb-3" style={{ color: "#111827" }}>
+                    Evidence-Based Recommendations
                   </h3>
-                  <p className="text-gray-700">
-                    Repeat HbA1c in 3 months and lipid profile reassessment in
-                    6-8 weeks post-intervention.
-                  </p>
+                  <ol className="text-gray-700 space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-3 font-bold">1.</span>
+                      Start high-intensity statin; target LDL &lt; 70 mg/dL.
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-3 font-bold">2.</span>
+                      Initiate metformin 500 mg BID after nephrology clearance.
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-3 font-bold">3.</span>
+                      Refer to Nephrology (auto-booked below) for renal work-up
+                      + ACE inhibitor optimization.
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-3 font-bold">4.</span>
+                      Lifestyle: DASH diet, smoking cessation, 150 min/week
+                      moderate exercise.
+                    </li>
+                  </ol>
                 </div>
               </div>
             </div>
@@ -285,11 +343,14 @@ const LabReportDemo = () => {
             </div>
           </div>
 
-          {/* Patient-Friendly Story Summary */}
+          {/* What do these results mean for me? - Doctor-tone */}
           <div className="mb-8">
             <div
-              className="p-6 rounded-xl"
-              style={{ backgroundColor: "#F3F4F6" }}
+              className="p-6 rounded-lg"
+              style={{
+                backgroundColor: "#F8FAFC",
+                borderLeft: "4px solid #6B7280",
+              }}
             >
               <h2
                 className="text-xl font-semibold mb-4"
@@ -297,6 +358,34 @@ const LabReportDemo = () => {
               >
                 What do these results mean for me?
               </h2>
+              <p className="text-gray-700 leading-relaxed">
+                These findings place the patient at high cardiometabolic risk
+                driven by combined pre-diabetes, severe dyslipidemia, and
+                reduced renal function. Early pharmacologic intervention plus
+                multidisciplinary follow-up is warranted to prevent progression
+                to overt diabetes, myocardial infarction, and end-stage kidney
+                disease.
+              </p>
+            </div>
+          </div>
+
+          {/* Patient Report Sent */}
+          <div className="mb-8">
+            <div
+              className="p-6 rounded-xl"
+              style={{ backgroundColor: "#F3F4F6" }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <h2
+                  className="text-xl font-semibold"
+                  style={{ color: "#111827" }}
+                >
+                  Patient Report Sent 📨
+                </h2>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">
+                Delivered to Baseerah mobile app • 24 Jun 2025 7:18 PM
+              </p>
 
               <div className="space-y-4">
                 <div className="p-4 bg-white rounded-lg">
@@ -341,6 +430,18 @@ const LabReportDemo = () => {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Quick Actions Section */}
+          <div className="mb-8">
+            <div className="flex gap-4">
+              <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+                🔄 Re-generate in Arabic-only
+              </button>
+              <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium transition-colors">
+                📈 View Trend Graphs
+              </button>
             </div>
           </div>
 
