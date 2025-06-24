@@ -10,7 +10,7 @@ import {
   CpuChipIcon,
   ChartBarIcon,
   ClockIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   UserGroupIcon,
   DocumentIcon,
   ShieldCheckIcon,
@@ -86,7 +86,7 @@ const Index = () => {
       unit: "%",
       change: "+0.3%",
       trend: "up",
-      icon: TrendingUpIcon,
+      icon: ArrowTrendingUpIcon,
       color: "medical-purple",
     },
     {
