@@ -100,12 +100,12 @@
    "source": "/home/user/film/scout/S3/wm_smithy_forging2_hi.mp4",
    "page": "https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm",
    "license": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded; original sound used.",
-   "in": 14.18,
+   "in": 9.9,
    "start": 8.5,
    "end": 11.2,
    "fadeIn": 0.0,
    "grade": "ember",
-   "pre": "crop=608:1080:660:0",
+   "pre": "crop=608:1080:640:0",
    "extra": "eq=contrast=1.06",
    "act": "II",
    "move": {
@@ -135,7 +135,8 @@
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "pre": "crop=720:1280:140:420"
   },
   {
    "id": "E5",
@@ -181,15 +182,14 @@
   },
   {
    "id": "E7",
-   "source": "/home/user/film/ember/hi/50956_hi.mp4",
-   "page": "https://mixkit.co/free-stock-video/soft-and-traslucent-smoke-flows-up-on-a-dark-background-50956/",
+   "source": "/home/user/film/ember/hi/3452_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/smoke-coming-out-of-charcoal-3452/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
-   "in": 3.0,
+   "in": 3.5,
    "start": 19.62,
    "end": 25.5,
    "fadeIn": 0.6,
    "grade": "smoke",
-   "pre": "crop=608:1080:1250:0",
    "act": "IV",
    "move": {
     "scaleFrom": 1.0,
@@ -198,7 +198,8 @@
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "extra": "eq=brightness=-0.10:contrast=1.04:gamma=0.92"
   },
   {
    "id": "E8",
@@ -268,6 +269,14 @@
   [
    0.0,
    1.0
+  ],
+  [
+   11.0,
+   13.95
+  ],
+  [
+   18.6,
+   19.62
   ],
   [
    37.98,
