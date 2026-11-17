@@ -1,6 +1,6 @@
 {
  "fps": 30,
- "duration": 44.891,
+ "duration": 41.4,
  "audio": "audio/ember_mix.wav",
  "title": {
   "text": "النِصالُ عَلى النِصالِ",
@@ -14,27 +14,26 @@
    "إلقاء: عبدالله العنزي"
   ],
   "fine": [
-   "Forging footage & sound: “Smithy: steel forging (2)”, Museum of Municipal Engineering, Kraków",
-   "video P. Leszczyński, sound M. Widzicka · CC BY 3.0 · cropped, retimed, graded",
-   "Other footage: Mixkit Free License · Fire sounds: Mixkit Sound Effects Free License",
-   "Original score: VSCO-2 Community Edition samples (CC0) · Fonts: Amiri, Aref Ruqaa (SIL OFL)"
+   "Forging footage & sound: “Smithy: steel forging (2)”,",
+   "P. Leszczyński & M. Widzicka, Museum of Municipal Engineering, Kraków",
+   "CC BY 3.0 · modified"
   ],
-  "start": 42.0,
-  "end": 44.7
+  "start": 38.4,
+  "end": 41.2
  },
  "shots": [
   {
-   "id": "E0",
-   "src": "ember/E0.mp4",
-   "start": 1.0,
-   "end": 2.3,
-   "fadeIn": 1.0,
+   "id": "E2",
+   "src": "ember/E2.mp4",
+   "start": 0.12,
+   "end": 7.3,
+   "fadeIn": 0.12,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": true,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.03,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -42,62 +41,21 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "prologue"
-  },
-  {
-   "id": "E1",
-   "src": "ember/E1.mp4",
-   "start": 2.3,
-   "end": 5.89,
-   "fadeIn": 0.4,
-   "fadeOut": 0.0,
-   "toBlack": false,
-   "fromBlack": false,
-   "move": {
-    "scaleFrom": 1.0,
-    "scaleTo": 1.05,
-    "xFrom": 0,
-    "xTo": 0,
-    "yFrom": 0,
-    "yTo": 0
-   },
-   "focusX": 0.5,
-   "focusY": 0.5,
-   "act": "I"
-  },
-  {
-   "id": "E2",
-   "src": "ember/E2.mp4",
-   "start": 5.89,
-   "end": 8.5,
-   "fadeIn": 0.35,
-   "fadeOut": 0.0,
-   "toBlack": false,
-   "fromBlack": false,
-   "move": {
-    "scaleFrom": 1.02,
-    "scaleTo": 1.06,
-    "xFrom": 0,
-    "xTo": 0,
-    "yFrom": 0,
-    "yTo": 0
-   },
-   "focusX": 0.5,
-   "focusY": 0.5,
-   "act": "I"
+   "act": "I",
+   "band": 1.0
   },
   {
    "id": "E3",
    "src": "ember/E3.mp4",
-   "start": 8.5,
-   "end": 11.2,
+   "start": 7.3,
+   "end": 10.3,
    "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.04,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -105,20 +63,21 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "II"
+   "act": "II",
+   "band": 1.45
   },
   {
    "id": "E4",
    "src": "ember/E4.mp4",
-   "start": 11.2,
-   "end": 13.55,
-   "fadeIn": 0.3,
+   "start": 10.3,
+   "end": 12.35,
+   "fadeIn": 0.55,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.03,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -126,20 +85,21 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "II"
+   "act": "II",
+   "band": 0.15
   },
   {
    "id": "E5",
    "src": "ember/E5.mp4",
-   "start": 13.95,
-   "end": 16.83,
-   "fadeIn": 0.4,
+   "start": 13.15,
+   "end": 15.63,
+   "fadeIn": 0.8,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -147,41 +107,21 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "III"
+   "act": "III",
+   "band": 1.0
   },
   {
    "id": "E6",
    "src": "ember/E6.mp4",
-   "start": 16.83,
-   "end": 19.62,
-   "fadeIn": 0.35,
-   "fadeOut": 0.0,
-   "toBlack": false,
-   "fromBlack": false,
-   "move": {
-    "scaleFrom": 1.0,
-    "scaleTo": 1.04,
-    "xFrom": 0,
-    "xTo": 0,
-    "yFrom": 0,
-    "yTo": 0
-   },
-   "focusX": 0.5,
-   "focusY": 0.5,
-   "act": "III"
-  },
-  {
-   "id": "E7",
-   "src": "ember/E7.mp4",
-   "start": 19.62,
-   "end": 25.5,
+   "start": 15.932,
+   "end": 18.42,
    "fadeIn": 0.6,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.03,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -189,20 +129,43 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "IV"
+   "act": "III",
+   "band": 0.6
+  },
+  {
+   "id": "E7",
+   "src": "ember/E7.mp4",
+   "start": 18.42,
+   "end": 24.3,
+   "fadeIn": 0.6,
+   "fadeOut": 0.0,
+   "toBlack": false,
+   "fromBlack": false,
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.5,
+   "act": "IV",
+   "band": 1.1
   },
   {
    "id": "E8",
    "src": "ember/E8.mp4",
-   "start": 25.5,
-   "end": 28.9,
+   "start": 24.3,
+   "end": 27.7,
    "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.06,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -210,20 +173,21 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "V"
+   "act": "V",
+   "band": 1.4
   },
   {
    "id": "E9",
    "src": "ember/E9.mp4",
-   "start": 28.9,
-   "end": 31.55,
-   "fadeIn": 0.35,
+   "start": 27.98,
+   "end": 30.35,
+   "fadeIn": 0.6,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -231,20 +195,21 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "V"
+   "act": "V",
+   "band": 0.2
   },
   {
    "id": "E10",
    "src": "ember/E10.mp4",
-   "start": 31.55,
-   "end": 37.98,
+   "start": 30.35,
+   "end": 35.1,
    "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
@@ -252,426 +217,427 @@
    },
    "focusX": 0.5,
    "focusY": 0.5,
-   "act": "VI"
+   "act": "VI",
+   "band": 1.45
   }
  ],
  "verses": [
   {
    "n": 1,
-   "showFrom": 2.38,
-   "showUntil": 9.023,
+   "showFrom": 1.1800000000000002,
+   "showUntil": 7.823,
    "sadr": {
     "verse": 1,
     "part": "a",
     "text": "يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي",
-    "start": 2.5,
-    "end": 5.591
+    "start": 1.3,
+    "end": 4.391
    },
    "ajuz": {
     "verse": 1,
     "part": "b",
     "text": "أَواخِرُنا عَلى هامِ الأَوالي",
-    "start": 6.191,
-    "end": 7.953
+    "start": 4.991,
+    "end": 6.753
    },
    "words": [
     {
      "text": "يُدَفِّنُ",
-     "start": 2.654,
-     "end": 3.134,
+     "start": 1.454,
+     "end": 1.934,
      "part": "a"
     },
     {
      "text": "بَعضُنا",
-     "start": 3.264,
-     "end": 3.699,
+     "start": 2.064,
+     "end": 2.499,
      "part": "a"
     },
     {
      "text": "بَعضاً",
-     "start": 3.808,
-     "end": 4.09,
+     "start": 2.608,
+     "end": 2.89,
      "part": "a"
     },
     {
      "text": "وَتَمشي",
-     "start": 5.07,
-     "end": 5.591,
+     "start": 3.87,
+     "end": 4.391,
      "part": "a"
     },
     {
      "text": "أَواخِرُنا",
-     "start": 6.191,
-     "end": 6.823,
+     "start": 4.991,
+     "end": 5.623,
      "part": "b"
     },
     {
      "text": "عَلى",
-     "start": 6.91,
-     "end": 7.127,
+     "start": 5.71,
+     "end": 5.927,
      "part": "b"
     },
     {
      "text": "هامِ",
-     "start": 7.214,
-     "end": 7.432,
+     "start": 6.014,
+     "end": 6.232,
      "part": "b"
     },
     {
      "text": "الأَوالي",
-     "start": 7.518,
-     "end": 7.953,
+     "start": 6.318,
+     "end": 6.753,
      "part": "b"
     }
    ]
   },
   {
    "n": 2,
-   "showFrom": 8.983,
-   "showUntil": 14.471,
+   "showFrom": 7.7829999999999995,
+   "showUntil": 13.271,
    "sadr": {
     "verse": 2,
     "part": "a",
     "text": "نُعِدُّ المَشرَفِيَّةَ وَالعَوالي",
-    "start": 9.103,
-    "end": 10.909
+    "start": 7.903,
+    "end": 9.709
    },
    "ajuz": {
     "verse": 2,
     "part": "b",
     "text": "وَتَقتُلُنا المَنونُ بِلا قِتالِ",
-    "start": 11.509,
-    "end": 13.401
+    "start": 10.309,
+    "end": 12.201
    },
    "words": [
     {
      "text": "نُعِدُّ",
-     "start": 9.103,
-     "end": 9.409,
+     "start": 7.903,
+     "end": 8.209,
      "part": "a"
     },
     {
      "text": "المَشرَفِيَّةَ",
-     "start": 9.496,
-     "end": 10.17,
+     "start": 8.296,
+     "end": 8.97,
      "part": "a"
     },
     {
      "text": "وَالعَوالي",
-     "start": 10.322,
-     "end": 10.909,
+     "start": 9.122,
+     "end": 9.709,
      "part": "a"
     },
     {
      "text": "وَتَقتُلُنا",
-     "start": 11.509,
-     "end": 12.139,
+     "start": 10.309,
+     "end": 10.939,
      "part": "b"
     },
     {
      "text": "المَنونُ",
-     "start": 12.161,
-     "end": 12.597,
+     "start": 10.961,
+     "end": 11.397,
      "part": "b"
     },
     {
      "text": "بِلا",
-     "start": 12.705,
-     "end": 12.923,
+     "start": 11.505,
+     "end": 11.723,
      "part": "b"
     },
     {
      "text": "قِتالِ",
-     "start": 13.032,
-     "end": 13.401,
+     "start": 11.832,
+     "end": 12.201,
      "part": "b"
     }
    ]
   },
   {
    "n": 3,
-   "showFrom": 14.431000000000001,
-   "showUntil": 20.116,
+   "showFrom": 13.231000000000002,
+   "showUntil": 18.916,
    "sadr": {
     "verse": 3,
     "part": "a",
     "text": "وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ",
-    "start": 14.551,
-    "end": 16.532
+    "start": 13.351,
+    "end": 15.332
    },
    "ajuz": {
     "verse": 3,
     "part": "b",
     "text": "وَما يُنجينَ مِن خَبَبِ اللَيالي",
-    "start": 17.132,
-    "end": 19.046
+    "start": 15.932,
+    "end": 17.846
    },
    "words": [
     {
      "text": "وَنَرتَبِطُ",
-     "start": 14.551,
-     "end": 15.161,
+     "start": 13.351,
+     "end": 13.961,
      "part": "a"
     },
     {
      "text": "السَوابِقَ",
-     "start": 15.248,
-     "end": 15.835,
+     "start": 14.048,
+     "end": 14.635,
      "part": "a"
     },
     {
      "text": "مُقرَباتٍ",
-     "start": 15.965,
-     "end": 16.532,
+     "start": 14.765,
+     "end": 15.332,
      "part": "a"
     },
     {
      "text": "وَما",
-     "start": 17.132,
-     "end": 17.327,
+     "start": 15.932,
+     "end": 16.127,
      "part": "b"
     },
     {
      "text": "يُنجينَ",
-     "start": 17.414,
-     "end": 17.827,
+     "start": 16.214,
+     "end": 16.627,
      "part": "b"
     },
     {
      "text": "مِن",
-     "start": 17.937,
-     "end": 18.046,
+     "start": 16.737,
+     "end": 16.846,
      "part": "b"
     },
     {
      "text": "خَبَبِ",
-     "start": 18.133,
-     "end": 18.437,
+     "start": 16.933,
+     "end": 17.237,
      "part": "b"
     },
     {
      "text": "اللَيالي",
-     "start": 18.502,
-     "end": 19.046,
+     "start": 17.302,
+     "end": 17.846,
      "part": "b"
     }
    ]
   },
   {
    "n": 4,
-   "showFrom": 20.076,
-   "showUntil": 25.999,
+   "showFrom": 18.875999999999998,
+   "showUntil": 24.799,
    "sadr": {
     "verse": 4,
     "part": "a",
     "text": "وَهانَ فَما أُبالي بِالرَزايا",
-    "start": 20.196,
-    "end": 22.48
+    "start": 18.996,
+    "end": 21.28
    },
    "ajuz": {
     "verse": 4,
     "part": "b",
     "text": "لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي",
-    "start": 23.08,
-    "end": 24.929
+    "start": 21.88,
+    "end": 23.729
    },
    "words": [
     {
      "text": "وَهانَ",
-     "start": 20.196,
-     "end": 20.588,
+     "start": 18.996,
+     "end": 19.388,
      "part": "a"
     },
     {
      "text": "فَما",
-     "start": 20.979,
-     "end": 21.197,
+     "start": 19.779,
+     "end": 19.997,
      "part": "a"
     },
     {
      "text": "أُبالي",
-     "start": 21.349,
-     "end": 21.718,
+     "start": 20.149,
+     "end": 20.518,
      "part": "a"
     },
     {
      "text": "بِالرَزايا",
-     "start": 21.828,
-     "end": 22.48,
+     "start": 20.628,
+     "end": 21.28,
      "part": "a"
     },
     {
      "text": "لِأَنّي",
-     "start": 23.08,
-     "end": 23.515,
+     "start": 21.88,
+     "end": 22.315,
      "part": "b"
     },
     {
      "text": "ما",
-     "start": 23.624,
-     "end": 23.689,
+     "start": 22.424,
+     "end": 22.489,
      "part": "b"
     },
     {
      "text": "اِنتَفَعتُ",
-     "start": 23.711,
-     "end": 24.147,
+     "start": 22.511,
+     "end": 22.947,
      "part": "b"
     },
     {
      "text": "بِأَن",
-     "start": 24.234,
-     "end": 24.495,
+     "start": 23.034,
+     "end": 23.295,
      "part": "b"
     },
     {
      "text": "أُبالي",
-     "start": 24.603,
-     "end": 24.929,
+     "start": 23.403,
+     "end": 23.729,
      "part": "b"
     }
    ]
   },
   {
    "n": 5,
-   "showFrom": 25.959,
-   "showUntil": 32.057,
+   "showFrom": 24.759,
+   "showUntil": 30.857,
    "sadr": {
     "verse": 5,
     "part": "a",
     "text": "رَماني الدَهرُ بِالأَرزاءِ حَتّى",
-    "start": 26.079,
-    "end": 28.582
+    "start": 24.879,
+    "end": 27.382
    },
    "ajuz": {
     "verse": 5,
     "part": "b",
     "text": "فُؤادي في غِشاءٍ مِن نِبالِ",
-    "start": 29.205,
-    "end": 30.987
+    "start": 28.005,
+    "end": 29.787
    },
    "words": [
     {
      "text": "رَماني",
-     "start": 26.079,
-     "end": 26.689,
+     "start": 24.879,
+     "end": 25.489,
      "part": "a"
     },
     {
      "text": "الدَهرُ",
-     "start": 26.711,
-     "end": 27.08,
+     "start": 25.511,
+     "end": 25.88,
      "part": "a"
     },
     {
      "text": "بِالأَرزاءِ",
-     "start": 27.167,
-     "end": 27.734,
+     "start": 25.967,
+     "end": 26.534,
      "part": "a"
     },
     {
      "text": "حَتّى",
-     "start": 28.255,
-     "end": 28.582,
+     "start": 27.055,
+     "end": 27.382,
      "part": "a"
     },
     {
      "text": "فُؤادي",
-     "start": 29.205,
-     "end": 29.638,
+     "start": 28.005,
+     "end": 28.438,
      "part": "b"
     },
     {
      "text": "في",
-     "start": 29.725,
-     "end": 29.812,
+     "start": 28.525,
+     "end": 28.612,
      "part": "b"
     },
     {
      "text": "غِشاءٍ",
-     "start": 29.9,
-     "end": 30.291,
+     "start": 28.7,
+     "end": 29.091,
      "part": "b"
     },
     {
      "text": "مِن",
-     "start": 30.443,
-     "end": 30.596,
+     "start": 29.243,
+     "end": 29.396,
      "part": "b"
     },
     {
      "text": "نِبالِ",
-     "start": 30.639,
-     "end": 30.987,
+     "start": 29.439,
+     "end": 29.787,
      "part": "b"
     }
    ]
   },
   {
    "n": 6,
-   "showFrom": 32.017,
-   "showUntil": 37.617,
+   "showFrom": 30.817,
+   "showUntil": 35.517,
    "sadr": {
     "verse": 6,
     "part": "a",
     "text": "فَصِرتُ إِذا أَصابَتني سِهامٌ",
-    "start": 32.137,
-    "end": 33.921
+    "start": 30.937,
+    "end": 32.721
    },
    "ajuz": {
     "verse": 6,
     "part": "b",
     "text": "تَكَسَّرَتِ النِصالُ عَلى النِصالِ",
-    "start": 34.521,
-    "end": 36.717
+    "start": 33.321,
+    "end": 35.517
    },
    "words": [
     {
      "text": "فَصِرتُ",
-     "start": 32.137,
-     "end": 32.42,
+     "start": 30.937,
+     "end": 31.22,
      "part": "a"
     },
     {
      "text": "إِذا",
-     "start": 32.573,
-     "end": 32.725,
+     "start": 31.373,
+     "end": 31.525,
      "part": "a"
     },
     {
      "text": "أَصابَتني",
-     "start": 32.855,
-     "end": 33.464,
+     "start": 31.655,
+     "end": 32.264,
      "part": "a"
     },
     {
      "text": "سِهامٌ",
-     "start": 33.529,
-     "end": 33.921,
+     "start": 32.329,
+     "end": 32.721,
      "part": "a"
     },
     {
      "text": "تَكَسَّرَتِ",
-     "start": 34.521,
-     "end": 35.173,
+     "start": 33.321,
+     "end": 33.973,
      "part": "b"
     },
     {
      "text": "النِصالُ",
-     "start": 35.26,
-     "end": 35.825,
+     "start": 34.06,
+     "end": 34.625,
      "part": "b"
     },
     {
      "text": "عَلى",
-     "start": 35.934,
-     "end": 36.109,
+     "start": 34.734,
+     "end": 34.909,
      "part": "b"
     },
     {
      "text": "النِصالِ",
-     "start": 36.174,
-     "end": 36.717,
+     "start": 34.974,
+     "end": 35.517,
      "part": "b"
     }
    ]
@@ -679,7 +645,7 @@
  ],
  "endWord": {
   "text": "النِصالِ",
-  "start": 38.35,
-  "end": 42.6
+  "start": 34.974,
+  "end": 38.3
  }
 }

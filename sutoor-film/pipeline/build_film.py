@@ -88,7 +88,7 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
         edl_shots.append({
             "id": s["id"], "src": f"{sub}/{s['id']}.mp4", "start": start, "end": end, "fadeIn": fade_in,
             "fadeOut": fade_out, "toBlack": s.get("toBlack", False), "fromBlack": s.get("fromBlack", False),
-            "move": s["move"], "focusX": s.get("focusX", 0.5), "focusY": s.get("focusY", 0.5), "act": s["act"],
+            "move": s["move"], "focusX": s.get("focusX", 0.5), "focusY": s.get("focusY", 0.5), "act": s["act"], "band": s.get("band", 1.0),
         })
         assert s.get("license"), f"{s['id']}: licence missing"
         print(f"{s['id']:4s} {start:6.2f}-{end:6.2f}  src {os.path.basename(s['source'])} @{src_in:.2f}s x{speed}  {s['grade']}")

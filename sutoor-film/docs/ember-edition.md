@@ -32,25 +32,43 @@ Verified:
 - Whisper still transcribes the verses.
 - No clicks at the joins: the largest sample step in the slowed file (0.67) is lower than in the original (0.72), and the steepest attacks belong to the reciter's own consonants.
 
-The score and the mix are regenerated on the new timeline, so the music's ducking and its accents follow the new pauses. In the reel the voice enters at 2.5 s, not 4.5 s, because the first seconds of a reel decide whether people keep watching.
+The score and the mix are regenerated on the new timeline, so the music's ducking and its accents follow the new pauses. In the reel the voice enters at 1.3 s, because the first seconds of a reel decide whether people keep watching.
 
-## Shot list
+## Shot list (after the independent review)
 | Shot | Time (s) | Line | Image | Source · licence |
 |---|---|---|---|---|
-| E0 | 0–2.3 | — | Veins of fire in black coal, fading up from darkness | [Mixkit 3435](https://mixkit.co/free-stock-video/chunks-of-coal-lit-in-the-dark-3435/) · Free |
-| E1 | 2.3–5.9 | يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي | Live embers under a crust of ash | [Mixkit 3454](https://mixkit.co/free-stock-video/coal-consumed-in-fire-3454/) · Free |
-| E2 | 5.9–8.5 | أَواخِرُنا عَلى هامِ الأَوالي | Grey coals lying on the glowing ones beneath | [Mixkit 3443](https://mixkit.co/free-stock-video/fire-burning-red-burning-coal-3443/) · Free |
-| E3 | 8.5–11.2 | نُعِدُّ المَشرَفِيَّةَ وَالعَوالي | The forge: a glowing blade hammered, strike on «المَشرَفِيَّةَ» | [Commons: Smithy- steel forging (2)](https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm) · CC BY 3.0 |
-| E4 | 11.2–13.6 | وَتَقتُلُنا المَنونُ بِلا قِتالِ | A candle falters on «المَنونُ» and dies on «قِتالِ» | [Mixkit 3458](https://mixkit.co/free-stock-video/candle-lighting-in-the-dark-3458/) · Free |
-| E5 | 14.0–16.8 | وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ | The horse's eye under its forelock | [Mixkit 100645](https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/) · Free |
-| E6 | 16.8–19.6 | وَما يُنجينَ مِن خَبَبِ اللَيالي | Tealights; darkness falls on «اللَيالي» | [Mixkit 3438](https://mixkit.co/free-stock-video/flames-in-candles-close-up-3438/) · Free |
-| E7 | 19.6–25.5 | وَهانَ فَما أُبالي … / لِأَنّي ما اِنتَفَعتُ … | One long thread of smoke: nothing left to burn | [Mixkit 50956](https://mixkit.co/free-stock-video/soft-and-traslucent-smoke-flows-up-on-a-dark-background-50956/) · Free |
-| E8 | 25.5–28.9 | رَماني الدَهرُ بِالأَرزاءِ حَتّى | Sparks fly at the camera; a burst on «رَماني» | [Mixkit 3463](https://mixkit.co/free-stock-video/sparks-of-fire-on-a-black-background-3463/) · Free |
-| E9 | 28.9–31.6 | فُؤادي في غِشاءٍ مِن نِبالِ | A glowing core inside a jagged black crust | [Mixkit 3462](https://mixkit.co/free-stock-video/flame-burning-coal-in-detail-3462/) · Free |
-| E10 | 31.6–38.0 | فَصِرتُ إِذا أَصابَتني سِهامٌ / تَكَسَّرَتِ النِصالُ عَلى النِصالِ | Hammer on hot steel: sparks on «أَصابَتني سِهامٌ», real strikes on «تَكَسَّرَتِ» and «النِصالِ» | Commons (as E3) · CC BY 3.0 |
-| End | 38.0–44.9 | — | «النِصالِ» white-hot on black, cooling through orange and red; credits | — |
+| E2 | 0–7.3 | يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي / أَواخِرُنا عَلى هامِ الأَوالي | Grey coals lying on the glowing ones beneath, bright from frame 0 | [Mixkit 3443](https://mixkit.co/free-stock-video/fire-burning-red-burning-coal-3443/) · Free |
+| E3 | 7.3–10.3 | نُعِدُّ المَشرَفِيَّةَ وَالعَوالي | The forge: a glowing blade struck, then lifted | [Commons: Smithy- steel forging (2)](https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm) · CC BY 3.0 |
+| E4 | 10.3–12.35 | وَتَقتُلُنا المَنونُ بِلا قِتالِ | A candle falters and dies with «قِتالِ» | [Mixkit 3458](https://mixkit.co/free-stock-video/candle-lighting-in-the-dark-3458/) · Free |
+| E5 | 13.15–15.6 | وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ | The horse's eye, regraded to low firelight | [Mixkit 100645](https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/) · Free |
+| E6 | 15.9–18.4 | وَما يُنجينَ مِن خَبَبِ اللَيالي | Tealights; darkness falls on «اللَيالي» | [Mixkit 3438](https://mixkit.co/free-stock-video/flames-in-candles-close-up-3438/) · Free |
+| E7 | 18.4–24.3 | وَهانَ فَما أُبالي … / لِأَنّي ما اِنتَفَعتُ … | Smoke rising from spent charcoal: the fire is out | [Mixkit 3452](https://mixkit.co/free-stock-video/smoke-coming-out-of-charcoal-3452/) · Free |
+| E8 | 24.3–27.7 | رَماني الدَهرُ بِالأَرزاءِ حَتّى | A coal fire flaring, sparks streaming off the embers; a burst on «رَماني» | [Mixkit 3459](https://mixkit.co/free-stock-video/intense-fire-burning-coal-3459/) · Free |
+| E9 | 28.0–30.35 | فُؤادي في غِشاءٍ مِن نِبالِ | A glowing core inside a jagged black crust | [Mixkit 3462](https://mixkit.co/free-stock-video/flame-burning-coal-in-detail-3462/) · Free |
+| E10 | 30.35–35.1 | فَصِرتُ إِذا أَصابَتني سِهامٌ / تَكَسَّرَتِ النِصالُ عَلى … | Hammer on hot steel. The last strike (34.93 s) falls on «النِصالِ» (34.97 s), and the picture cuts to black | Commons (as E3) · CC BY 3.0 |
+| End | 35.0–41.4 | النِصالِ | The last word arrives on its own, as it is spoken. It flares white-hot on the strike, cools through orange and red, then the credits follow | — |
 
-E3 and E10 use two different, non-overlapping moments of one real take. QC checks that no moment of footage is reused.
+E3 and E10 use two different, non-overlapping moments of one real take, and QC checks that no moment of footage is reused.
+
+### What the independent review changed
+- **The opening:** it now hooks. The reel opens bright on glowing coals, and the voice enters at 1.3 s instead of after nearly 2 s of black. This was the one finding confirmed by both verifiers.
+- **The last word:** it lands as it is spoken, the way the reference's «سحر» does. The final word is held back from the line, and the hammer strike cuts to black. The word itself becomes the white-hot iron.
+- **The sparks:** sparks on a black background read as a stock effect. They are replaced by a real coal fire whose sparks visibly come off the embers.
+- **One night world:**
+  - The sunlit horse is regraded to low firelight.
+  - The cold smoke is warmed, with its blacks set at true black.
+  - The same push-in is no longer used on every shot. Enlarged and moving shots hold still; a 3 % push is kept only on the static close-ups.
+- **Legibility:**
+  - Verse text is 72 px (was 62).
+  - The dark band under the text is stronger over the forge and the flames, and lighter over dark shots.
+  - Each verse clears at the picture change.
+  - The CC BY attribution is readable and held on screen.
+- **Not adopted:**
+  - Rebuilding the whole reel around a single forge take. The other forge clips found on Commons are only 480p, and a full search of the Smithy series could not be completed because Commons kept rate-limiting this network.
+  - A hand or human gesture, which one of the two verifiers rejected as a matter of taste. Your reference's own hand appears for only about 1.4 s.
+
+## Companion reel: verse 6 only
+`Nisal-ala-Nisal_Ember_verse6_9x16.mp4` (about 11 s) is the format closest to the reference: one verse, one object, one action, and one glowing word landing on the strike.
 
 ## Sound
 - **Voice:** re-paced as above. Nothing else is done to it beyond gain and a 45 Hz high-pass.

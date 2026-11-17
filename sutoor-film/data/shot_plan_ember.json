@@ -18,82 +18,42 @@
    "إلقاء: عبدالله العنزي"
   ],
   "fine": [
-   "Forging footage & sound: “Smithy: steel forging (2)”, Museum of Municipal Engineering, Kraków",
-   "video P. Leszczyński, sound M. Widzicka · CC BY 3.0 · cropped, retimed, graded",
-   "Other footage: Mixkit Free License · Fire sounds: Mixkit Sound Effects Free License",
-   "Original score: VSCO-2 Community Edition samples (CC0) · Fonts: Amiri, Aref Ruqaa (SIL OFL)"
+   "Forging footage & sound: “Smithy: steel forging (2)”,",
+   "P. Leszczyński & M. Widzicka, Museum of Municipal Engineering, Kraków",
+   "CC BY 3.0 · modified"
   ],
-  "start": 42.0,
-  "end": 44.7
+  "start": 38.4,
+  "end": 41.2
  },
  "end_word": {
   "text": "النِصالِ",
-  "start": 38.35,
-  "end": 42.6
+  "start": 34.974,
+  "end": 38.3
  },
- "last_verse_hold": 0.9,
+ "last_verse_hold": 0.0,
  "shots": [
-  {
-   "id": "E0",
-   "source": "/home/user/film/ember/hi/3435_hi.mp4",
-   "page": "https://mixkit.co/free-stock-video/chunks-of-coal-lit-in-the-dark-3435/",
-   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
-   "in": 4.5,
-   "start": 1.0,
-   "end": 2.3,
-   "fadeIn": 1.0,
-   "fromBlack": true,
-   "grade": "ember",
-   "extra": "eq=gamma=1.12",
-   "act": "prologue",
-   "move": {
-    "scaleFrom": 1.0,
-    "scaleTo": 1.05,
-    "xFrom": 0,
-    "xTo": 0,
-    "yFrom": 0,
-    "yTo": 0
-   }
-  },
-  {
-   "id": "E1",
-   "source": "/home/user/film/ember/hi/3454_hi.mp4",
-   "page": "https://mixkit.co/free-stock-video/coal-consumed-in-fire-3454/",
-   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
-   "in": 4.0,
-   "start": 2.3,
-   "end": 5.89,
-   "fadeIn": 0.4,
-   "grade": "ember",
-   "act": "I",
-   "move": {
-    "scaleFrom": 1.0,
-    "scaleTo": 1.05,
-    "xFrom": 0,
-    "xTo": 0,
-    "yFrom": 0,
-    "yTo": 0
-   }
-  },
   {
    "id": "E2",
    "source": "/home/user/film/ember/hi/3443_hi.mp4",
    "page": "https://mixkit.co/free-stock-video/fire-burning-red-burning-coal-3443/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
    "in": 1.0,
-   "start": 5.89,
-   "end": 8.5,
-   "fadeIn": 0.35,
+   "start": 0.12,
+   "end": 7.3,
+   "fadeIn": 0.12,
    "grade": "ember",
    "act": "I",
    "move": {
-    "scaleFrom": 1.02,
-    "scaleTo": 1.06,
+    "scaleFrom": 1.0,
+    "scaleTo": 1.03,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "fromBlack": true,
+   "extra": "eq=gamma=1.15",
+   "band": 1.0
   },
   {
    "id": "E3",
@@ -101,8 +61,8 @@
    "page": "https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm",
    "license": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded; original sound used.",
    "in": 9.9,
-   "start": 8.5,
-   "end": 11.2,
+   "start": 7.3,
+   "end": 10.3,
    "fadeIn": 0.0,
    "grade": "ember",
    "pre": "crop=608:1080:640:0",
@@ -110,33 +70,35 @@
    "act": "II",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.04,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "band": 1.45
   },
   {
    "id": "E4",
    "source": "/home/user/film/scout/S4/3458_hi.mp4",
    "page": "https://mixkit.co/free-stock-video/candle-lighting-in-the-dark-3458/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
-   "in": 10.25,
-   "start": 11.2,
-   "end": 13.55,
-   "fadeIn": 0.3,
+   "in": 10.26,
+   "start": 10.3,
+   "end": 12.35,
+   "fadeIn": 0.55,
    "grade": "ember",
    "act": "II",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.03,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
    },
-   "pre": "crop=720:1280:140:420"
+   "pre": "crop=720:1280:140:640",
+   "band": 0.15
   },
   {
    "id": "E5",
@@ -144,41 +106,43 @@
    "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
    "in": 1.1,
-   "start": 13.95,
-   "end": 16.83,
-   "fadeIn": 0.4,
+   "start": 13.15,
+   "end": 15.63,
+   "fadeIn": 0.8,
    "grade": "ember",
    "pre": "crop=608:1080:726:0",
-   "extra": "eq=saturation=0.85,colorbalance=rh=-0.02:bh=0.015",
+   "extra": "eq=brightness=-0.07:gamma=0.82:saturation=0.8,colorbalance=rs=0.05:bs=-0.06:rm=0.05:bm=-0.06,curves=master='0/0 0.4/0.2 0.8/0.62 1/0.88'",
    "act": "III",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "band": 1.0
   },
   {
    "id": "E6",
    "source": "/home/user/film/ember/hi/3438_hi.mp4",
    "page": "https://mixkit.co/free-stock-video/flames-in-candles-close-up-3438/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
-   "in": 3.68,
-   "start": 16.83,
-   "end": 19.62,
-   "fadeIn": 0.35,
+   "in": 3.78,
+   "start": 15.932,
+   "end": 18.42,
+   "fadeIn": 0.6,
    "grade": "ember",
    "act": "III",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.04,
+    "scaleTo": 1.03,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "band": 0.6
   },
   {
    "id": "E7",
@@ -186,40 +150,44 @@
    "page": "https://mixkit.co/free-stock-video/smoke-coming-out-of-charcoal-3452/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
    "in": 3.5,
-   "start": 19.62,
-   "end": 25.5,
+   "start": 18.42,
+   "end": 24.3,
    "fadeIn": 0.6,
    "grade": "smoke",
    "act": "IV",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
    },
-   "extra": "eq=brightness=-0.10:contrast=1.04:gamma=0.92"
+   "extra": "eq=brightness=-0.06:contrast=1.04,curves=master='0/0 0.25/0.04 0.6/0.45 1/0.9',colorbalance=rh=0.04:bh=-0.05",
+   "band": 1.1
   },
   {
    "id": "E8",
-   "source": "/home/user/film/ember/hi/3463_hi.mp4",
-   "page": "https://mixkit.co/free-stock-video/sparks-of-fire-on-a-black-background-3463/",
+   "source": "/home/user/film/scout/S3/3459_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/intense-fire-burning-coal-3459/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
-   "in": 5.92,
-   "start": 25.5,
-   "end": 28.9,
+   "in": 5.82,
+   "start": 24.3,
+   "end": 27.7,
    "fadeIn": 0.0,
    "grade": "ember",
    "act": "V",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.06,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "pre": "crop=608:1080:560:0",
+   "extra": "eq=saturation=0.8",
+   "band": 1.4
   },
   {
    "id": "E9",
@@ -227,20 +195,21 @@
    "page": "https://mixkit.co/free-stock-video/flame-burning-coal-in-detail-3462/",
    "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
    "in": 2.0,
-   "start": 28.9,
-   "end": 31.55,
-   "fadeIn": 0.35,
+   "start": 27.98,
+   "end": 30.35,
+   "fadeIn": 0.6,
    "grade": "ember",
    "pre": "crop=608:1080:846:0",
    "act": "V",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "band": 0.2
   },
   {
    "id": "E10",
@@ -248,8 +217,8 @@
    "page": "https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm",
    "license": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded; original sound used.",
    "in": 0.91,
-   "start": 31.55,
-   "end": 37.98,
+   "start": 30.35,
+   "end": 35.1,
    "fadeIn": 0.0,
    "grade": "ember",
    "pre": "crop=608:1080:640:0",
@@ -257,30 +226,23 @@
    "act": "VI",
    "move": {
     "scaleFrom": 1.0,
-    "scaleTo": 1.05,
+    "scaleTo": 1.0,
     "xFrom": 0,
     "xTo": 0,
     "yFrom": 0,
     "yTo": 0
-   }
+   },
+   "band": 1.45
   }
  ],
  "intended_black": [
   [
-   0.0,
-   1.0
+   12.1,
+   13.0
   ],
   [
-   11.0,
-   13.95
-  ],
-  [
-   18.6,
-   19.62
-  ],
-  [
-   37.98,
-   44.891
+   35.05,
+   41.4
   ]
  ]
 }
