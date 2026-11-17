@@ -1,0 +1,247 @@
+{
+ "frame": [
+  1080,
+  1920
+ ],
+ "shots_subdir": "paper",
+ "edl_name": "edl_paper.json",
+ "audio_name": "paper_mix.wav",
+ "title": {
+  "text": "النِصالُ عَلى النِصالِ",
+  "poet": "أبو الطيّب المتنبّي",
+  "start": 0,
+  "end": 0
+ },
+ "credits": {
+  "lines": [
+   "شِعر: أبو الطيّب المتنبّي",
+   "إلقاء: عبدالله العنزي"
+  ],
+  "fine": [
+   "Forging footage & sound: “Smithy: steel forging (2)”,",
+   "P. Leszczyński & M. Widzicka, Museum of Municipal Engineering, Kraków",
+   "CC BY 3.0 · modified"
+  ],
+  "start": 38.4,
+  "end": 41.2
+ },
+ "end_word": {
+  "text": "النِصالِ",
+  "start": 34.974,
+  "end": 38.3
+ },
+ "last_verse_hold": 0.0,
+ "shots": [
+  {
+   "id": "P1",
+   "source": "/home/user/film/paper/scenes/P1.mp4",
+   "page": "https://mixkit.co/free-stock-video/vertical-video-of-vibrant-flames-flowing-upwards-over-a-black-52290/ ; https://mixkit.co/free-stock-video/vertical-video-of-blazing-flames-over-a-black-backdrop-52284/ ; https://mixkit.co/free-stock-video/burning-flames-with-black-background-3761/",
+   "license": "Rendered for this film: paper, handwriting (Scheherazade New, SIL OFL) and burn simulated; real flame footage Mixkit 52290, 52284, 3761 (Mixkit Stock Video Free License, videoFree, verified on item pages)",
+   "start": 0.12,
+   "end": 7.3,
+   "fadeIn": 0.12,
+   "grade": "none",
+   "act": "I",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "band": 0.15,
+   "layout": "around",
+   "in": 0.0,
+   "fromBlack": true
+  },
+  {
+   "id": "E3",
+   "source": "/home/user/film/scout/S3/wm_smithy_forging2_hi.mp4",
+   "page": "https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm",
+   "license": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded; original sound used.",
+   "in": 9.9,
+   "start": 7.3,
+   "end": 10.3,
+   "fadeIn": 0.0,
+   "grade": "ember",
+   "pre": "crop=608:1080:640:0",
+   "extra": "eq=contrast=1.06",
+   "act": "II",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "band": 1.45
+  },
+  {
+   "id": "E4",
+   "source": "/home/user/film/scout/S4/3458_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/candle-lighting-in-the-dark-3458/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 10.26,
+   "start": 10.3,
+   "end": 12.35,
+   "fadeIn": 0.55,
+   "grade": "ember",
+   "act": "II",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.03,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "pre": "crop=720:1280:140:640",
+   "band": 0.15
+  },
+  {
+   "id": "E5",
+   "source": "/home/user/film/scout/S5/100645_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 1.1,
+   "start": 13.15,
+   "end": 15.63,
+   "fadeIn": 0.8,
+   "grade": "ember",
+   "pre": "crop=608:1080:726:0",
+   "extra": "eq=brightness=-0.07:gamma=0.82:saturation=0.8,colorbalance=rs=0.05:bs=-0.06:rm=0.05:bm=-0.06,curves=master='0/0 0.4/0.2 0.8/0.62 1/0.88'",
+   "act": "III",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "band": 1.0
+  },
+  {
+   "id": "E6",
+   "source": "/home/user/film/ember/hi/3438_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/flames-in-candles-close-up-3438/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 3.78,
+   "start": 15.932,
+   "end": 18.42,
+   "fadeIn": 0.6,
+   "grade": "ember",
+   "act": "III",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.03,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "band": 0.6
+  },
+  {
+   "id": "P2",
+   "source": "/home/user/film/paper/scenes/P2.mp4",
+   "page": "https://mixkit.co/free-stock-video/vertical-video-of-vibrant-flames-flowing-upwards-over-a-black-52290/ ; https://mixkit.co/free-stock-video/vertical-video-of-blazing-flames-over-a-black-backdrop-52284/ ; https://mixkit.co/free-stock-video/burning-flames-with-black-background-3761/",
+   "license": "Rendered for this film: paper, handwriting (Scheherazade New, SIL OFL) and burn simulated; real flame footage Mixkit 52290, 52284, 3761 (Mixkit Stock Video Free License, videoFree, verified on item pages)",
+   "start": 18.42,
+   "end": 24.3,
+   "fadeIn": 0.6,
+   "grade": "none",
+   "act": "IV",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "band": 0.15,
+   "layout": "around",
+   "in": 0.0
+  },
+  {
+   "id": "E8",
+   "source": "/home/user/film/scout/S3/3459_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/intense-fire-burning-coal-3459/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 5.82,
+   "start": 24.3,
+   "end": 27.7,
+   "fadeIn": 0.0,
+   "grade": "ember",
+   "act": "V",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "pre": "crop=608:1080:560:0",
+   "extra": "eq=saturation=0.8",
+   "band": 1.4
+  },
+  {
+   "id": "E9",
+   "source": "/home/user/film/ember/hi/3462_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/flame-burning-coal-in-detail-3462/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 2.0,
+   "start": 27.98,
+   "end": 30.35,
+   "fadeIn": 0.6,
+   "grade": "ember",
+   "pre": "crop=608:1080:846:0",
+   "act": "V",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "band": 0.2
+  },
+  {
+   "id": "P3",
+   "source": "/home/user/film/paper/scenes/P3.mp4",
+   "page": "https://mixkit.co/free-stock-video/vertical-video-of-vibrant-flames-flowing-upwards-over-a-black-52290/ ; https://mixkit.co/free-stock-video/vertical-video-of-blazing-flames-over-a-black-backdrop-52284/ ; https://mixkit.co/free-stock-video/burning-flames-with-black-background-3761/",
+   "license": "Rendered for this film: paper, handwriting (Scheherazade New, SIL OFL) and burn simulated; real flame footage Mixkit 52290, 52284, 3761 (Mixkit Stock Video Free License, videoFree, verified on item pages)",
+   "start": 30.35,
+   "end": 35.1,
+   "fadeIn": 0.0,
+   "grade": "none",
+   "act": "VI",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.0,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "band": 0.15,
+   "layout": "around",
+   "in": 0.0
+  }
+ ],
+ "intended_black": [
+  [
+   10.8,
+   13.0
+  ],
+  [
+   35.05,
+   41.4
+  ]
+ ]
+}

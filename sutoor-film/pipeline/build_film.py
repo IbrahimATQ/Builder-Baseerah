@@ -22,6 +22,7 @@ GRADES = {
     "time": "colorbalance=bs=0.07:bm=0.04:rh=-0.02,eq=saturation=0.7:brightness=-0.01:contrast=1.05",
     "detachment": "eq=saturation=0.55:contrast=1.02,colorbalance=rh=0.04:bh=-0.03,curves=master='0/0.03 0.5/0.49 1/0.94'",
     "suffering": "eq=contrast=1.12:saturation=0.75,colorbalance=rh=0.07:gm=-0.01:bs=-0.03,curves=master='0/0 0.5/0.46 1/0.97'",
+    "none": "null",
     "ember": "eq=contrast=1.05:saturation=0.88,colorbalance=rh=0.02:bh=-0.02,curves=master='0/0 0.5/0.48 1/0.97'",
     "smoke": "eq=saturation=0.2:contrast=1.08:brightness=-0.02,colorbalance=rm=0.02:bm=-0.015",
     "endurance": "eq=contrast=1.08:saturation=0.85,colorbalance=rh=0.08:gh=0.03:bh=-0.06:bs=0.02,curves=master='0/0.01 0.5/0.47 1/0.96'",
@@ -88,7 +89,7 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
         edl_shots.append({
             "id": s["id"], "src": f"{sub}/{s['id']}.mp4", "start": start, "end": end, "fadeIn": fade_in,
             "fadeOut": fade_out, "toBlack": s.get("toBlack", False), "fromBlack": s.get("fromBlack", False),
-            "move": s["move"], "focusX": s.get("focusX", 0.5), "focusY": s.get("focusY", 0.5), "act": s["act"], "band": s.get("band", 1.0),
+            "move": s["move"], "focusX": s.get("focusX", 0.5), "focusY": s.get("focusY", 0.5), "act": s["act"], "band": s.get("band", 1.0), "layout": s.get("layout", "lower"),
         })
         assert s.get("license"), f"{s['id']}: licence missing"
         print(f"{s['id']:4s} {start:6.2f}-{end:6.2f}  src {os.path.basename(s['source'])} @{src_in:.2f}s x{speed}  {s['grade']}")

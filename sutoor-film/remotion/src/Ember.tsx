@@ -17,6 +17,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import emberJson from "./edl_ember.json";
+import paperJson from "./edl_paper.json";
 import type { Edl, Shot, Verse } from "./edl";
 
 await Promise.all([
@@ -30,7 +31,16 @@ type EmberEdl = Omit<Edl, "verses"> & {
   readonly verses: readonly EmberVerse[];
   readonly endWord: { readonly text: string; readonly start: number; readonly end: number };
 };
-const edl = emberJson as unknown as EmberEdl;
+const EDLS = { ember: emberJson, paper: paperJson } as unknown as Record<"ember" | "paper", EmberEdl>;
+export type ReelProps = { readonly which: "ember" | "paper" };
+const EdlCtx = React.createContext<EmberEdl>(EDLS.ember);
+const useEdl = () => React.useContext(EdlCtx);
+type LayoutShot = Shot & { band?: number; layout?: "lower" | "around" };
+/** Paper scenes: the sadr sits above the strip and the ajuz below it, as in the reference reel. */
+const layoutAt = (edl: EmberEdl, t: number): "lower" | "around" => {
+  const s = (edl.shots as readonly LayoutShot[]).find((x) => t >= x.start - x.fadeIn && t <= x.end);
+  return s?.layout ?? "lower";
+};
 
 const IVORY = "#F2E8D5";
 const CHAMPAGNE = "#D8C49C";
@@ -88,10 +98,12 @@ const SpokenWord: React.FC<{ w: Word; dimAfter: number | null }> = ({ w, dimAfte
 };
 
 const VerseWords: React.FC<{ v: EmberVerse; isLast: boolean }> = ({ v, isLast }) => {
+  const edl = useEdl();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
-  const until = clearAt(v, isLast);
+  const until = clearAt(edl, v, isLast);
+  const around = layoutAt(edl, v.sadr.start) === "around";
   const out = interpolate(t, inc([until - 0.3, until]), [1, 0], { ...clamp, easing: SOFT });
   // The poem's last word is not shown in the line: it arrives on its own, glowing, as it is spoken.
   const held = (w: Word) => isLast && w.start >= edl.endWord.start - 0.01;
@@ -108,13 +120,13 @@ const VerseWords: React.FC<{ v: EmberVerse; isLast: boolean }> = ({ v, isLast })
     fontFeatureSettings: '"kern" 1, "liga" 1, "calt" 1',
   };
   return (
-    <AbsoluteFill style={{ justifyContent: "flex-start", alignItems: "center", paddingTop: 1110, opacity: out }}>
+    <AbsoluteFill style={{ justifyContent: "flex-start", alignItems: "center", paddingTop: around ? 690 : 1110, opacity: out }}>
       <div style={lineStyle}>
         {line("a").map((w, i) => (
           <SpokenWord key={`a${i}`} w={w} dimAfter={v.ajuz.start - 0.1} />
         ))}
       </div>
-      <div style={lineStyle}>
+      <div style={{ ...lineStyle, marginTop: around ? 330 : 0 }}>
         {line("b").map((w, i) => (
           <SpokenWord key={`b${i}`} w={w} dimAfter={null} />
         ))}
@@ -125,6 +137,7 @@ const VerseWords: React.FC<{ v: EmberVerse; isLast: boolean }> = ({ v, isLast })
 
 /** The last word, alone on black: white-hot, then cooling through orange and red to darkness. */
 const GlowWord: React.FC = () => {
+  const edl = useEdl();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -156,6 +169,7 @@ const GlowWord: React.FC = () => {
 };
 
 const EndCredits: React.FC = () => {
+  const edl = useEdl();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -181,7 +195,7 @@ const EndCredits: React.FC = () => {
 };
 
 /** Strength of the dark text band at time t: each shot sets its own (1 = default), blended through dissolves. */
-const bandAt = (t: number): number => {
+const bandAt = (edl: EmberEdl, t: number): number => {
   let b = 1;
   for (const s of edl.shots as readonly (Shot & { band?: number })[]) {
     const v = s.band ?? 1;
@@ -192,16 +206,17 @@ const bandAt = (t: number): number => {
 };
 
 /** A verse clears at the first picture change after it is fully spoken (never later than showUntil). */
-const clearAt = (v: EmberVerse, isLast: boolean): number => {
+const clearAt = (edl: EmberEdl, v: EmberVerse, isLast: boolean): number => {
   if (isLast) return edl.shots[edl.shots.length - 1].end;
   const next = edl.shots.map((s) => s.start - s.fadeIn).filter((c) => c > v.ajuz.end - 0.01).sort((a, b) => a - b)[0];
   return Math.min(v.showUntil, next ?? v.showUntil);
 };
 
 const TextBand: React.FC = () => {
+  const edl = useEdl();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const b = bandAt(frame / fps);
+  const b = bandAt(edl, frame / fps);
   const a = (x: number) => Math.min(0.85, x * b).toFixed(3);
   return (
     <AbsoluteFill
@@ -212,9 +227,11 @@ const TextBand: React.FC = () => {
   );
 };
 
-export const Ember: React.FC = () => {
+export const Ember: React.FC<ReelProps> = ({ which }) => {
+  const edl = EDLS[which ?? "ember"];
   const { fps } = useVideoConfig();
   return (
+    <EdlCtx.Provider value={edl}>
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       {edl.shots.map((shot) => (
         <Sequence
@@ -238,8 +255,9 @@ export const Ember: React.FC = () => {
       <EndCredits />
       <Audio src={staticFile(edl.audio)} />
     </AbsoluteFill>
+    </EdlCtx.Provider>
   );
 };
 
-export const emberDurationInFrames = Math.round(edl.duration * edl.fps);
-export const emberFps = edl.fps;
+export const reelDurationInFrames = (which: "ember" | "paper") => Math.round(EDLS[which].duration * EDLS[which].fps);
+export const reelFps = (which: "ember" | "paper") => EDLS[which].fps;
