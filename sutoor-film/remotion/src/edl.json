@@ -6,7 +6,7 @@
   "text": "النِصالُ عَلى النِصالِ",
   "poet": "أبو الطيّب المتنبّي",
   "start": 0.7,
-  "end": 4.2
+  "end": 3.6
  },
  "credits": {
   "lines": [
@@ -39,7 +39,7 @@
     "yTo": 0
    },
    "focusX": 0.5,
-   "focusY": 0.4,
+   "focusY": 0.0,
    "act": "prologue"
   },
   {
@@ -59,7 +59,7 @@
     "yFrom": 0,
     "yTo": 0
    },
-   "focusX": 0.3,
+   "focusX": 0.18,
    "focusY": 0.5,
    "act": "I"
   },
@@ -80,7 +80,7 @@
     "yFrom": 0,
     "yTo": 0
    },
-   "focusX": 0.55,
+   "focusX": 0.7,
    "focusY": 0.04,
    "act": "I"
   },
@@ -101,7 +101,7 @@
     "yFrom": 0,
     "yTo": 0
    },
-   "focusX": 0.45,
+   "focusX": 0.3,
    "focusY": 0.45,
    "act": "II"
   },
@@ -131,7 +131,7 @@
    "src": "shots/S5.mp4",
    "start": 13.36,
    "end": 15.72,
-   "fadeIn": 0.6,
+   "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
@@ -143,7 +143,7 @@
     "yFrom": 0,
     "yTo": 0
    },
-   "focusX": 0.52,
+   "focusX": 0.4,
    "focusY": 0.42,
    "act": "III"
   },
@@ -185,7 +185,7 @@
     "yFrom": 0,
     "yTo": 0
    },
-   "focusX": 0.7,
+   "focusX": 0.3,
    "focusY": 0.5,
    "act": "IV"
   },
@@ -215,7 +215,7 @@
    "src": "shots/S9.mp4",
    "start": 22.38,
    "end": 24.76,
-   "fadeIn": 0.1,
+   "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
@@ -278,7 +278,7 @@
    "src": "shots/S12.mp4",
    "start": 28.3,
    "end": 31.2,
-   "fadeIn": 0.4,
+   "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
    "fromBlack": false,
@@ -290,7 +290,7 @@
     "yFrom": 0,
     "yTo": 0
    },
-   "focusX": 0.5,
+   "focusX": 0.3,
    "focusY": 0.55,
    "act": "VI"
   },
@@ -299,7 +299,7 @@
    "src": "shots/C1.mp4",
    "start": 31.2,
    "end": 34.6,
-   "fadeIn": 0.9,
+   "fadeIn": 0.3,
    "fadeOut": 1.2,
    "toBlack": true,
    "fromBlack": false,
@@ -311,7 +311,7 @@
     "yFrom": 0,
     "yTo": 0
    },
-   "focusX": 0.5,
+   "focusX": 0.35,
    "focusY": 0.45,
    "act": "coda"
   }

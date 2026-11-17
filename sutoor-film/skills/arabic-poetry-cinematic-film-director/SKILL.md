@@ -57,7 +57,7 @@ If any item cannot be produced, say which and why; never substitute a plan for t
 
 Detailed method: [references/audio.md](references/audio.md), [references/text-and-typography.md](references/text-and-typography.md),
 [references/direction.md](references/direction.md). Runnable tools: `python scripts/align_recitation.py`,
-`python scripts/separation_qc.py` (see headers for arguments).
+`python scripts/separation_qc.py`, `python scripts/flash_check.py`, `python scripts/flash_limit.py` (see headers for arguments).
 
 ## Workflow
 
@@ -84,6 +84,8 @@ Detailed method: [references/audio.md](references/audio.md), [references/text-an
 | "Vertical because the source is vertical" | If footage is replaced by stock (often ≤1080p landscape), a 9:16 crop needs 1.8-2.7× upscale. Choose aspect from the actual source resolution. |
 | "It's from a free stock site, so it's free to use" | Check each item's own licence. Mixkit serves two: `data-license="videoFree"` and `videoRestricted` (personal use only; never in a film, ads or monetised video). In one production 7 of 13 picks were Restricted. |
 | "It's a beautiful, cinematic stock shot" | Glossy drone ruins and staged beauty shots read as AI-fake to viewers; in one production two such shots were rejected on sight. Prefer real documentary footage, and offer a contemporary layer (clock, station crowd, train) instead of ruling modern imagery out. |
+| "Lightning on the word is powerful" | Ten strikes in 2.4 s failed the 3-flashes-per-second rule in the vertical edition. Screen every edition with scripts/flash_check.py; limit with scripts/flash_limit.py. |
+| "Crush the blacks / slow it down for drama" | Crushed rock (60 % of pixels at black) and 0.7× slow motion by frame repetition made real footage look composited. Keep shadow detail; use real speed. |
 | "The samples are labelled, so the pitch is right" | Measure: VSCO strings are named an octave low; one timpani rolls on F#; a tremolo sample carries C#. |
 
 ## Common Mistakes

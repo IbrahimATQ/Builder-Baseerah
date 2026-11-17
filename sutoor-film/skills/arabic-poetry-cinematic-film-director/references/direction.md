@@ -62,8 +62,20 @@ same edit with per-shot `focusX`.
 
 ## QC checklist (report numbers, not adjectives)
 
-Visual: every shot relevant to its verse; no anachronism; no repeated clip; transitions only at
-verse/hemistich turns; frame stills per hemistich reviewed.
+Visual: every shot relevant to its verse; no repeated clip; transitions only at verse/hemistich
+turns; frame stills per hemistich reviewed, in BOTH editions (a 4:5 or 9:16 window can crop away the
+subject: a clock's hub, a tower). Have someone other than the editor rate every shot "does a person
+believe this was filmed?" before delivery.
+Levels: picture black = matte black (Y 16), shadows rolled off, not clipped. Measure the share of
+picture pixels at Y <= 18: above ~25 % the subject turns into a flat cut-out and reads as composited.
+Motion: never slow 24/25/30p footage with setpts (it repeats frames, visible judder); use real speed
+or a native high-frame-rate source. Prefer 30p sources in a 30p timeline.
+Dissolves: if the outgoing shot has a bright element (flame, spray, lightning afterglow), it ghosts
+over the next image; hard-cut instead. Keep the title off the screen before the next shot dissolves in.
+Photosensitivity: lightning, strobes, muzzle flashes. Run `scripts/flash_check.py FILM.mp4` on every
+edition (general-flash rule: no more than 3 flashes in any 1 s over > ~11 % of the screen; the
+vertical edition fails first because its picture fills more of the screen). Fix with
+`scripts/flash_limit.py IN OUT --max-per-second 2 --keep-first` on the shot, not by darkening it.
 Audio: integrated LUFS, true peak, LRA; voice-minus-music per hemistich; music-only-region level of
 the isolated voice; max short-term jump; sync (subtitle start − aligned word start ≤ 0.15 s).
 Arabic: exact string equality with the truth table; harakat unclipped; RTL order; sadr right of ajuz.

@@ -122,6 +122,13 @@ def main(film, edl_p, poem_p, timing_p, plan_p, voice_p, out_p):
     srcs = [s["source"] for s in plan["shots"]]
     check("no source clip reused", len(srcs) == len(set(srcs)), {"sources": srcs})
 
+    # ---- Photosensitivity: general-flash screen over the whole film (see flash_check.py)
+    fc = subprocess.run([sys.executable, __file__.replace("qc_film.py", "flash_check.py"), film],
+                        capture_output=True, text=True, check=True)
+    flash = json.loads(fc.stdout)
+    check("photosensitivity: no general-flash failure (<= 3 flashes/s over > 11 % of screen)",
+          flash["verdict"] == "PASS", flash)
+
     rep["summary"] = {"passed": sum(c["pass"] for c in rep["checks"]), "total": len(rep["checks"])}
     json.dump(rep, open(out_p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     for c in rep["checks"]:

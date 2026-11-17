@@ -74,6 +74,13 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
         vf.append("format=yuv420p")
         run(["ffmpeg", "-v", "error", "-y", "-ss", f"{src_in:.3f}", "-t", f"{src_need:.3f}", "-i", s["source"], "-an",
              "-vf", ",".join(vf), "-c:v", "libx264", "-preset", "slow", "-crf", "12", "-g", "15", out])
+        if s.get("flashLimit"):  # photosensitivity: at most N flashes per second, strongest kept
+            tmp = out + ".flash.mp4"
+            r = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "flash_limit.py"),
+                                out, tmp, "--max-per-second", str(s["flashLimit"]), "--keep-first"],
+                               capture_output=True, text=True, check=True)
+            os.replace(tmp, out)
+            print(f"     flash limit: {r.stdout.strip()}")
         edl_shots.append({
             "id": s["id"], "src": f"shots/{s['id']}.mp4", "start": start, "end": end, "fadeIn": fade_in,
             "fadeOut": fade_out, "toBlack": s.get("toBlack", False), "fromBlack": s.get("fromBlack", False),

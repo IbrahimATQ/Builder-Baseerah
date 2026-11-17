@@ -48,10 +48,10 @@ H.264 High@4.1, yuv420p, 30 fps, AAC-LC 317 kb/s 48 kHz, `+faststart`, no waterm
 | S4 | 3458 | Mixkit videoFree (verified on item page) |
 | S5 | 100645 | Mixkit videoFree (verified on item page) |
 | S6 | 3025 | Mixkit videoFree (verified on item page) |
-| S7 | 3977 | Mixkit videoFree (verified on item page) |
+| S7 | 2846 | Mixkit videoFree (verified on item page) |
 | S8 | 28890 | Mixkit videoFree (verified on item page) |
 | S9 | 4423 | Mixkit videoFree (verified on item page) |
-| S10 | 4426 | Mixkit videoFree (verified on item page) |
+| S10 | 3459 | Mixkit videoFree (verified on item page) |
 | S11 | 1081 | Mixkit videoFree (verified on item page) |
 | S12 | 4013 | Mixkit videoFree (verified on item page) |
 | C1 | 4149 | Mixkit videoFree (verified on item page) |
