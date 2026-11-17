@@ -83,6 +83,7 @@ Detailed method: [references/audio.md](references/audio.md), [references/text-an
 | "The music is gone" (unmeasured) | Report the music-only-region level and the ASR check, or say it is unverified. |
 | "Vertical because the source is vertical" | If footage is replaced by stock (often ≤1080p landscape), a 9:16 crop needs 1.8-2.7× upscale. Choose aspect from the actual source resolution. |
 | "It's from a free stock site, so it's free to use" | Check each item's own licence. Mixkit serves two: `data-license="videoFree"` and `videoRestricted` (personal use only; never in a film, ads or monetised video). In one production 7 of 13 picks were Restricted. |
+| "It's a beautiful, cinematic stock shot" | Glossy drone ruins and staged beauty shots read as AI-fake to viewers; in one production two such shots were rejected on sight. Prefer real documentary footage, and offer a contemporary layer (clock, station crowd, train) instead of ruling modern imagery out. |
 | "The samples are labelled, so the pitch is right" | Measure: VSCO strings are named an octave low; one timpani rolls on F#; a tremolo sample carries C#. |
 
 ## Common Mistakes

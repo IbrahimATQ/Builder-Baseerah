@@ -52,13 +52,13 @@ Timings are MMS forced-alignment word times on the isolated voice, offset so tha
 
 One metaphor per hemistich, about a dozen shots, no literal illustration:
 
-- **Ground and dust**: the dead beneath us (tombs, footsteps on rippled sand).
+- **Clock and crowd (today)**: the poem is not a museum piece. A real clock's hands move over the burial of generations, and the crowd at Grand Central flows beneath its great clock, the living walking over those before them.
 - **Steel and flame**: preparation and its futility.
-- **Horse and sky**: readiness against the gallop of time.
+- **Horse and train**: readiness, and the fastest thing we have built, against the gallop of the nights.
 - **Air and fabric**: detachment (a curtain breathing, sand leaving an open hand).
 - **Arrows and stone**: accumulation, then endurance (a target dense with arrows; sea breaking on rock; a lone figure who does not move).
 
-Recurring presence: a solitary human figure seen only in part (feet, hand, silhouette), never a face, so the viewer can stand in that place.
+Human presence: real people, never staged models. Commuters caught in passing, never posed and never a lingering close-up, so the viewer can stand in their place. Ancient and modern images alternate, so the eleventh-century verse speaks to today.
 
 Camera: slow push-ins of 3–8 %, gentle lateral drift, no shaky handheld, no drone clichés. Dissolves fall only between hemistichs, never inside one.
 
@@ -106,17 +106,17 @@ The free source footage (Mixkit) is 1080p at best and often 720p. A full-screen 
 
 ## 9. Final shot list (14 shots)
 
-Cuts fall in the pauses between hemistichs. Dissolves are 0.25–0.7 s, with a 0.1 s hard cut into the lightning. Every clip's licence was read from its own source page. Seven earlier Mixkit picks were dropped because they were under Mixkit's Restricted (personal-use) licence.
+Cuts fall in the pauses between hemistichs. Dissolves are 0.25–0.7 s, with a 0.1 s hard cut into the lightning. Every clip's licence was read from its own source page. Seven earlier Mixkit picks were dropped because they were under Mixkit's Restricted (personal-use) licence. After review, S1 (temple ruins) and S2 (feet on a beach) were replaced because they read as artificial; S1, S2 and S6 now use real contemporary footage (a clock, Grand Central, a train), so the classical verse speaks to the present.
 
 | Shot | Film time (s) | Verse | Image | Purpose | Source · licence |
 |---|---|---|---|---|---|
 | P1 | 1.20–4.30 | — | Shafts of light breaking through cloud into a mountain gorge; the title appears in the sky | The world before the voice: vast, indifferent, luminous | [sun-rays-pass-through-the-clouds-in-the-mo](https://mixkit.co/free-stock-video/sun-rays-pass-through-the-clouds-in-the-mountains-4113/) · Mixkit Free (verified) |
-| S1 | 4.30–7.42 | يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي | The ruined colonnade of an ancient temple, columns in a row | Generations of a vanished civilisation laid side by side | [ruins-of-the-temple-of-segesta-in-sicily-4](https://mixkit.co/free-stock-video/ruins-of-the-temple-of-segesta-in-sicily-4402/) · Mixkit Free (verified) |
-| S2 | 7.42–9.13 | أَواخِرُنا عَلى هامِ الأَوالي | Bare feet in a white robe crossing rippled wet sand | The ground we walk on is made of those before us | [feet-walking-on-the-beach-1013](https://mixkit.co/free-stock-video/feet-walking-on-the-beach-1013/) · Mixkit Free (verified) |
+| S1 | 4.30–7.42 | يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي | A black analogue clock in extreme close-up, the hands moving | Time burying generations, one after another, today as then | [black-analog-clock-in-a-very-close-shot-28893](https://mixkit.co/free-stock-video/black-analog-clock-in-a-very-close-shot-28893/) · Mixkit Free (verified) |
+| S2 | 7.42–9.13 | أَواخِرُنا عَلى هامِ الأَوالي | Commuters crossing Grand Central's concourse beneath its great clock (real footage) | The living walk over those before them, without noticing | [commuters-at-new-yorks-grand-central-station-4180](https://mixkit.co/free-stock-video/commuters-at-new-yorks-grand-central-station-4180/) · Mixkit Free (verified) |
 | S3 | 9.13–11.10 | نُعِدُّ المَشرَفِيَّةَ وَالعَوالي | A glowing bar hammered on an anvil, sparks | Human labour preparing for war | [File:Smithy-_steel_forging_(2).webm](https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm) · CC BY 3.0 (credited) |
 | S4 | 11.10–13.36 | وَتَقتُلُنا المَنونُ بِلا قِتالِ | A single flame gutters and dies on its own in darkness | Death needs no battle | [candle-lighting-in-the-dark-3458](https://mixkit.co/free-stock-video/candle-lighting-in-the-dark-3458/) · Mixkit Free (verified) |
 | S5 | 13.36–15.72 | وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ | A tethered horse's eye under its forelock, warm light | Readiness, power held close | [horse-in-a-stable-close-up-100645](https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/) · Mixkit Free (verified) |
-| S6 | 15.72–17.90 | وَما يُنجينَ مِن خَبَبِ اللَيالي | Stars wheeling over a dark peak (time-lapse), cold | The nights gallop faster than horses | [mountain-during-the-night-until-dawn-4357](https://mixkit.co/free-stock-video/mountain-during-the-night-until-dawn-4357/) · Mixkit Free (verified) |
+| S6 | 15.72–17.90 | وَما يُنجينَ مِن خَبَبِ اللَيالي | A passenger train rushing past (real footage), cold and desaturated | Even our fastest machines cannot outrun the gallop of the nights | [passenger-train-passing-3025](https://mixkit.co/free-stock-video/passenger-train-passing-3025/) · Mixkit Free (verified) |
 | S7 | 17.90–20.20 | وَهانَ فَما أُبالي بِالرَزايا | A curtain fold breathing across low golden light | Withdrawal; a held breath | [view-of-a-window-with-a-curtain-3977](https://mixkit.co/free-stock-video/view-of-a-window-with-a-curtain-3977/) · Mixkit Free (verified) |
 | S8 | 20.20–22.38 | لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي | A single thread of sand falling in darkness | Letting go of what caring never saved | [white-sand-falling-inside-an-hourglass-288](https://mixkit.co/free-stock-video/white-sand-falling-inside-an-hourglass-28890/) · Mixkit Free (verified) |
 | S9 | 22.38–24.76 | رَماني الدَهرُ بِالأَرزاءِ حَتّى | Lightning flaring inside storm clouds behind a black ridge (hard cut, flash on «رَماني») | Time shoots; the calm is broken | [electrical-storm-in-the-mountains-4423](https://mixkit.co/free-stock-video/electrical-storm-in-the-mountains-4423/) · Mixkit Free (verified) |

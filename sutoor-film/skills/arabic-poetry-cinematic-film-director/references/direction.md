@@ -8,16 +8,26 @@ mortality → vanity of effort → time → detachment → suffering → enduran
 
 ## Choosing images (one metaphor per hemistich)
 
-| Verse idea | Literal (avoid) | Metaphor (prefer) |
-|---|---|---|
-| Generations bury one another | corpses, funerals | weathered tombs in mist; feet on ancient paving |
-| Preparing weapons, dying without battle | battle scenes, blood | steel being forged → a candle's flame breathing out |
-| Swift horses cannot outrun the nights | a clock | tethered horse's eye/mane → night sky wheeling (time-lapse) |
-| Indifference to calamity | sad face | a curtain breathing in an empty room; sand leaving open fingers |
-| Struck by time's arrows | wounded man | arrows packed into an old target; a storm front |
-| Blades breaking on blades | literal swords clashing | sea breaking on rock that stays; a lone figure unmoved at dusk |
+| Verse idea | Literal (avoid) | Timeless metaphor | Contemporary metaphor |
+|---|---|---|---|
+| Generations bury one another | corpses, funerals | weathered tombs in mist | a real clock's hands moving in close-up; a station crowd flowing under a big clock |
+| Preparing weapons, dying without battle | battle scenes, blood | steel being forged → a candle's flame breathing out | (forge footage is already documentary; keep it) |
+| Swift horses cannot outrun the nights | a horse race | tethered horse's eye/mane → night sky wheeling | horse's eye → a passenger train rushing past |
+| Indifference to calamity | sad face | a curtain breathing in an empty room; sand leaving open fingers | an hourglass; an empty platform after the train |
+| Struck by time's arrows | wounded man | arrows packed into an old target; a storm front | lightning over a city skyline |
+| Blades breaking on blades | literal swords clashing | sea breaking on rock that stays; a lone figure unmoved at dusk | an old stone fortress or wall still standing |
 
-Rules: 10-14 shots for ~30-40 s; no modern objects, logos, text or AI-plastic imagery; slow, motivated
+**Authenticity beats polish.** Viewers reject footage that "looks AI": glossy drone flyovers of ruins,
+staged beauty shots (bare feet on a perfect beach), over-smooth slow motion, plastic colour. Prefer real
+documentary footage with natural motion, real people and imperfection (handheld steadiness is fine).
+Before locking, look at each pick at full speed and ask: would someone believe a person filmed this?
+
+**Offer a contemporary layer.** Mixing modern imagery (clocks, stations, trains, city crowds) with
+timeless imagery makes classical verse speak to the present. Ask the requester, or offer both; never
+silently rule modern footage out.
+
+Rules: 10-14 shots for ~30-40 s; no logos, readable brand text or AI-plastic imagery (modern objects are a
+director's choice, see above); slow, motivated
 camera moves (push-ins 3-8 %, lateral drifts); dissolves 0.4-0.8 s on verse turns, hard cuts never
 inside a hemistich; end on a held wide composition with a slow fade, never an abrupt stop.
 

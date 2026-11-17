@@ -177,3 +177,14 @@ See `docs/qc-report.md` for the final film QC. Pipeline and infrastructure tests
 | Custom skill, RED baseline (3 runs) | Whisper timing used as final 2/3; whole bayt shown early 3/3; pause gating proposed 3/3; unsourced tashkeel 3/3 |
 | Custom skill, GREEN | 0/3, 1/3, 0/3, 0/3 respectively; intro boundary noticed 3/3 |
 | Custom skill, REFACTOR | **3/3 runs pass all 7 criteria** |
+| **Final film**, 16:9 master and 9:16 vertical | Each passes 14/16 automated checks; 2 reviewed exceptions (dying-candle darkness; speech onsets after pauses) |
+| Final film audio | −14.14 LUFS, −0.9 dBTP, 0 clipped samples; voice correlation 0.982 at 0 ms lag |
+| Final film Arabic | 12/12 hemistichs identical to the truth table; reveal 0.12 s before each aligned onset; no overlaps |
+| Footage licences | 14/14 verified at source: 13 Mixkit `videoFree` + 1 Wikimedia CC BY 3.0 (credited). 7 Restricted picks were replaced |
+
+### Deliverables (in `sutoor-film/output/`; not committed, because the repository is public)
+- `Nisal-ala-Nisal_16x9_scope.mp4`: master, 1920×1080, 2.39:1 scope matte, 38.5 s, 112 MB
+- `Nisal-ala-Nisal_16x9_scope_share.mp4`: the same at 25 MB for phones and social media
+- `Nisal-ala-Nisal_9x16_vertical.mp4`: vertical edition, 1080×1920
+- `Nisal_isolated-voice_full-recording_48k24.wav` (+ `.m4a`): the original voice, music removed, complete recording
+- `Nisal_subtitles_hemistich_film-timeline.srt`: 12 cues, exact text

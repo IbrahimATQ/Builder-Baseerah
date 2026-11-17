@@ -28,7 +28,7 @@ and per-hemistich stills reviewed frame by frame.
 
 ## Picture
 - 14 shots, one metaphor per hemistich. Cuts fall only in the pauses between hemistichs. No source clip is reused.
-- Modern intrusions were cropped out: solar panels (dune), a painted stencil (anvil) and a flag (Alhambra).
+- Modern footage is deliberate in three shots (clock, Grand Central, train). Grand Central's kiosk signage («Information», «Arrivals») and a small MTA logo stay visible in S2 as documentary context (no product branding). Unintended modern intrusions were cropped out of the others: solar panels (dune), a painted stencil (anvil) and a flag (Alhambra).
 - Colour: graded per act. Output is tagged BT.709 limited range. Black level inside the picture (Y≈15) matches the matte (Y=16). Grain is applied only inside the picture, so text stays clean.
 
 ## Export
@@ -42,12 +42,12 @@ H.264 High@4.1, yuv420p, 30 fps, AAC-LC 317 kb/s 48 kHz, `+faststart`, no waterm
 | Shot | Clip | Licence |
 |---|---|---|
 | P1 | 4113 | Mixkit videoFree (verified on item page) |
-| S1 | 4402 | Mixkit videoFree (verified on item page) |
-| S2 | 1013 | Mixkit videoFree (verified on item page) |
+| S1 | 28893 | Mixkit videoFree (verified on item page) |
+| S2 | 4180 | Mixkit videoFree (verified on item page) |
 | S3 | wm_smithy_forging2 | CC BY 3.0 (credited) |
 | S4 | 3458 | Mixkit videoFree (verified on item page) |
 | S5 | 100645 | Mixkit videoFree (verified on item page) |
-| S6 | 4357 | Mixkit videoFree (verified on item page) |
+| S6 | 3025 | Mixkit videoFree (verified on item page) |
 | S7 | 3977 | Mixkit videoFree (verified on item page) |
 | S8 | 28890 | Mixkit videoFree (verified on item page) |
 | S9 | 4423 | Mixkit videoFree (verified on item page) |
