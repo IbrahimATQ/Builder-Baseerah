@@ -236,6 +236,8 @@ const Credits: React.FC<{ layout: Layout }> = ({ layout }) => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
   const { start, end, lines } = edl.credits;
+  const fine = edl.credits.fine ?? [];
+  const fineOpacity = interpolate(t, inc([start + lines.length * 0.5, start + lines.length * 0.5 + 0.9, end - 0.8, end]), [0, 0.6, 0.6, 0], { ...clamp, easing: SOFT });
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 14 }}>
       {lines.map((line, i) => (
@@ -252,6 +254,15 @@ const Credits: React.FC<{ layout: Layout }> = ({ layout }) => {
           {line}
         </div>
       ))}
+      {fine.length > 0 ? (
+        <div style={{ marginTop: 26, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, opacity: fineOpacity }}>
+          {fine.map((f) => (
+            <div key={f} style={{ fontFamily: "Amiri", fontSize: layout === "scope" ? 19 : 24, color: CHAMPAGNE, letterSpacing: 0.3 }}>
+              {f}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </AbsoluteFill>
   );
 };

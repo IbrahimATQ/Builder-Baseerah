@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "arabic-poetry-film": {
+      "type": "stdio",
+      "command": "/opt/poetry-film/venv/bin/python",
+      "args": ["sutoor-film/mcp/server.py", "--stdio"],
+      "env": {
+        "HF_HUB_DISABLE_XET": "1",
+        "REMOTION_BROWSER": "/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell"
+      }
+    }
+  }
+}

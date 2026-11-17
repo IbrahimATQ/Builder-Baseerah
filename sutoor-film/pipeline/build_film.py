@@ -61,6 +61,8 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
         vf = [f"setpts=(PTS-STARTPTS)/{speed}"] if speed != 1.0 else []
         if s.get("reverse"):
             vf.append("reverse")
+        if s.get("pre"):  # crop/reframe on the source before scaling (e.g. remove a stencil, reframe a vertical clip)
+            vf.append(s["pre"])
         vf += [
             f"fps={fps}",
             "scale=1920:1080:force_original_aspect_ratio=increase:flags=lanczos",
@@ -77,6 +79,7 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
             "fadeOut": fade_out, "toBlack": s.get("toBlack", False), "fromBlack": s.get("fromBlack", False),
             "move": s["move"], "focusX": s.get("focusX", 0.5), "focusY": s.get("focusY", 0.5), "act": s["act"],
         })
+        assert s.get("license"), f"{s['id']}: licence missing"
         print(f"{s['id']:4s} {start:6.2f}-{end:6.2f}  src {os.path.basename(s['source'])} @{src_in:.2f}s x{speed}  {s['grade']}")
 
     verses = []

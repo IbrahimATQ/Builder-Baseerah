@@ -47,7 +47,7 @@ export type Edl = {
   readonly duration: number;
   readonly audio: string;
   readonly title: { readonly text: string; readonly poet: string; readonly start: number; readonly end: number };
-  readonly credits: { readonly lines: readonly string[]; readonly start: number; readonly end: number };
+  readonly credits: { readonly lines: readonly string[]; readonly fine?: readonly string[]; readonly start: number; readonly end: number };
   readonly shots: readonly Shot[];
   readonly verses: readonly Verse[];
 };
