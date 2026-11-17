@@ -1,0 +1,6 @@
+node_modules/
+remotion/out/
+remotion/public/shots/
+remotion/public/audio/
+*.log
+__pycache__/

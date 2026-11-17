@@ -1,0 +1,36 @@
+{
+  "title": "النِّصالُ عَلى النِّصالِ",
+  "poet": "أبو الطيّب المتنبّي",
+  "source_note": "Verses 1, 2, 3, 5, 6 are copied character-for-character from the text supplied by the user. Verse 4 (وَهانَ...) is recited in the uploaded video but was not in the supplied text; it is taken from the canonical diwan text of the same poem (al-Mutanabbi, rithaa' of Sayf al-Dawla's mother, 'نُعِدُّ المَشرَفِيَّةَ وَالعَوالي'), using the same orthographic conventions as the supplied verses, and cross-checked against the subtitles burned into the uploaded video. The supplied verses 'وَمَن لَم يَعشَقِ الدُنيا قَديماً' and 'نَصيبُكَ في حَياتِكَ مِن حَبيبٍ' are NOT recited in the uploaded video and therefore are not subtitled.",
+  "intro_spoken": "شوف فلسفة المتنبي يقول",
+  "verses": [
+    {"n": 1, "act": "I",  "theme": "mortality",
+     "sadr": "يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي",
+     "ajuz": "أَواخِرُنا عَلى هامِ الأَوالي",
+     "supplied": true},
+    {"n": 2, "act": "II", "theme": "futility of preparation",
+     "sadr": "نُعِدُّ المَشرَفِيَّةَ وَالعَوالي",
+     "ajuz": "وَتَقتُلُنا المَنونُ بِلا قِتالِ",
+     "supplied": true},
+    {"n": 3, "act": "III", "theme": "time cannot be outrun",
+     "sadr": "وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ",
+     "ajuz": "وَما يُنجينَ مِن خَبَبِ اللَيالي",
+     "supplied": true},
+    {"n": 4, "act": "IV", "theme": "numbness / letting go",
+     "sadr": "وَهانَ فَما أُبالي بِالرَزايا",
+     "ajuz": "لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي",
+     "supplied": false},
+    {"n": 5, "act": "V", "theme": "accumulated suffering",
+     "sadr": "رَماني الدَهرُ بِالأَرزاءِ حَتّى",
+     "ajuz": "فُؤادي في غِشاءٍ مِن نِبالِ",
+     "supplied": true},
+    {"n": 6, "act": "VI", "theme": "resilience",
+     "sadr": "فَصِرتُ إِذا أَصابَتني سِهامٌ",
+     "ajuz": "تَكَسَّرَتِ النِصالُ عَلى النِصالِ",
+     "supplied": true}
+  ],
+  "supplied_but_not_recited": [
+    {"sadr": "وَمَن لَم يَعشَقِ الدُنيا قَديماً", "ajuz": "وَلَكِن لا سَبيلَ إِلى الوِصالِ"},
+    {"sadr": "نَصيبُكَ في حَياتِكَ مِن حَبيبٍ", "ajuz": "نَصيبُكَ في مَنامِكَ مِن خَيالِ"}
+  ]
+}
