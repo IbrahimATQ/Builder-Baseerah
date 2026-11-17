@@ -1,14 +1,16 @@
 # QC report — «النِصالُ عَلى النِصالِ»
 
-Automated checks: `pipeline/qc_film.py` (results JSON kept with the project); visual checks: contact sheets
-and per-hemistich stills reviewed frame by frame.
+Automated checks: `pipeline/qc_film.py` (17 checks; results JSON kept with the project). Visual checks: contact sheets
+and per-hemistich stills reviewed frame by frame, plus an independent review panel. Every shot was rated by a
+separate reviewer for "does this look really filmed?", and each flagged shot was re-examined by three skeptics
+(forensic, ordinary-viewer, devil's-advocate).
 
 ## Summary
 
 | Edition | File | Automated checks |
 |---|---|---|
-| Master 16:9, 2.39:1 scope | `output/Nisal-ala-Nisal_16x9_scope.mp4` | 14/16 pass; 2 reviewed exceptions (below) |
-| Vertical 9:16 | `output/Nisal-ala-Nisal_9x16_vertical.mp4` | 14/16 pass; same 2 exceptions |
+| Master 16:9, 2.39:1 scope | `output/Nisal-ala-Nisal_16x9_scope.mp4` | 15/17 pass; 2 reviewed exceptions (below) |
+| Vertical 9:16 | `output/Nisal-ala-Nisal_9x16_vertical.mp4` | 15/17 pass; same 2 exceptions |
 | Share encode 16:9 | `output/Nisal-ala-Nisal_16x9_scope_share.mp4` | Re-encode of the master (CRF 22) |
 
 ## Arabic text
@@ -31,11 +33,22 @@ and per-hemistich stills reviewed frame by frame.
 - Modern footage is deliberate in three shots (clock, Grand Central, train). Grand Central's kiosk signage («Information», «Arrivals») and a small MTA logo stay visible in S2 as documentary context (no product branding). Unintended modern intrusions were cropped out of the others: solar panels (dune), a painted stencil (anvil) and a flag (Alhambra).
 - Colour: graded per act. Output is tagged BT.709 limited range. Black level inside the picture (Y≈15) matches the matte (Y=16). Grain is applied only inside the picture, so text stays clean.
 
+## Photosensitivity (flashing)
+- The lightning shot (S9) originally had 10 single-frame strikes in 2.4 s, up to 5 within one second. The vertical edition marginally failed the general-flash rule (11.1 % of the screen flashing more than 3 times per second; limit 11 %).
+- Fixed with `pipeline/flash_limit.py`: the strongest strikes are kept, at most 2 per second (5 kept, 7 replaced with the dark frame before them). The strike on «رَماني» is kept.
+- `pipeline/flash_check.py` (QC check 17) now passes on both editions. The worst window is no longer the lightning but commuters in high-contrast clothing walking close to the camera in S2: 3.5 % of the screen (16:9) and 10.8 % (vertical). That is ordinary documentary motion, not flashing.
+- This is an automated screen modelled on WCAG 2.3.1 / Harding general-flash rules (red-flash and spatial-pattern rules not evaluated), not a certified Harding test.
+
+## Shot review (independent panel)
+- All 14 shots were judged real filmed footage. None was rated AI-generated after verification.
+- Acted on: S10's spark particles read as CGI and were replaced by a real coal fire. S7's curtain could not be read and was replaced by rain on a window. S11's grade had clipped 51–66 % of the picture to black, which made the rocks look composited. It is now 0.6 %, the source's natural darkness is kept, and the shot plays at real speed instead of 0.7× frame-repeat slow motion.
+- Also fixed: the candle flame ghosting on the horse's cheek and the sea spray over the Alhambra (now hard cuts); the title under the clock hands; vertical framing of the clock hub, the Alhambra towers and the dune; the prologue's sunburst cropped out of the 16:9.
+
 ## Export
-H.264 High@4.1, yuv420p, 30 fps, AAC-LC 317 kb/s 48 kHz, `+faststart`, no watermark. Video bitrate: master 24557 kb/s, vertical 20302 kb/s, share encode 4971 kb/s.
+H.264 High@4.1, yuv420p, 30 fps, AAC-LC 317 kb/s 48 kHz, `+faststart`, no watermark. Video bitrate: master 24442 kb/s, vertical 19748 kb/s, share encode 4587 kb/s.
 
 ## Reviewed exceptions (flagged by the automated checks and kept deliberately)
-1. **"Black segment" at 12.07–12.90 s.** This is the dying candle in Act II («بِلا قِتالِ»). The flame is still visible (peak luma 150–227; thousands of lit pixels per frame). It is dark by design.
+1. **"Black segment" at 12.07–13.37 s.** This is the dying candle in Act II («بِلا قِتالِ»). The ember stays visible throughout (peak luma 113–227; 135–6,470 lit pixels per frame) and the verse stays on screen. It is dark by design: death without a battle.
 2. **"Loudness jump > 12 dB."** These jumps occur at speech onsets after pauses: the first verse after the prologue (+18 dB at 4.4 s), and words at 6.86 s and 13.63 s. That is the reciter's natural dynamics, not automation. The music bus itself never jumps more than 5.9 dB.
 
 ## Footage licences (each verified on its own source page)
