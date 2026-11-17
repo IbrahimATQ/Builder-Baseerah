@@ -1,0 +1,252 @@
+{
+ "checks": [
+  {
+   "check": "verse text identical to truth table (Unicode)",
+   "pass": true,
+   "detail": {
+    "verses": 6,
+    "mismatches": []
+   }
+  },
+  {
+   "check": "text is NFC-normalised",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "harakat present on every hemistich",
+   "pass": true,
+   "detail": {
+    "v1": [
+     11,
+     6
+    ],
+    "v2": [
+     12,
+     9
+    ],
+    "v3": [
+     11,
+     8
+    ],
+    "v4": [
+     6,
+     10
+    ],
+    "v5": [
+     8,
+     6
+    ],
+    "v6": [
+     8,
+     11
+    ]
+   }
+  },
+  {
+   "check": "unrecited supplied verses are not displayed",
+   "pass": true,
+   "detail": {
+    "unrecited": [
+     "وَمَن لَم يَعشَقِ الدُنيا قَديماً",
+     "نَصيبُكَ في حَياتِكَ مِن حَبيبٍ"
+    ]
+   }
+  },
+  {
+   "check": "subtitle reveal leads speech by 0.12 s (|err| <= 0.15 s)",
+   "pass": true,
+   "detail": {
+    "lead_s": [
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12
+    ]
+   }
+  },
+  {
+   "check": "word-by-word text rebuilds every hemistich exactly",
+   "pass": true,
+   "detail": {
+    "mismatches": []
+   }
+  },
+  {
+   "check": "every word is revealed at its own aligned onset",
+   "pass": true,
+   "detail": {
+    "words": 49
+   }
+  },
+  {
+   "check": "closing word identical to the poem's last word",
+   "pass": true,
+   "detail": {
+    "shown": "النِصالِ",
+    "truth": "النِصالِ"
+   }
+  },
+  {
+   "check": "verses never overlap on screen",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "H.264 High, yuv420p",
+   "pass": true,
+   "detail": {
+    "codec_name": "h264",
+    "profile": "High",
+    "width": 1080,
+    "height": 1920,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "30/1",
+    "bit_rate": "5115025"
+   }
+  },
+  {
+   "check": "duration matches edit (±0.1 s)",
+   "pass": true,
+   "detail": {
+    "file": 41.4,
+    "edit": 41.4
+   }
+  },
+  {
+   "check": "no unintended black segments",
+   "pass": true,
+   "detail": {
+    "black": [
+     [
+      10.9,
+      12.6
+     ],
+     [
+      37.0,
+      41.3667
+     ]
+    ],
+    "unexpected": []
+   }
+  },
+  {
+   "check": "no frozen picture > 1.5 s (outside black)",
+   "pass": true,
+   "detail": {
+    "freeze_starts": [
+     "39.2333"
+    ]
+   }
+  },
+  {
+   "check": "integrated loudness -14 ±1 LUFS",
+   "pass": true,
+   "detail": {
+    "integrated_lufs": -14.63,
+    "true_peak_dbfs": -0.9,
+    "clipped_samples": 0
+   }
+  },
+  {
+   "check": "true peak <= -0.9 dBFS and no clipping",
+   "pass": true,
+   "detail": {
+    "integrated_lufs": -14.63,
+    "true_peak_dbfs": -0.9,
+    "clipped_samples": 0
+   }
+  },
+  {
+   "check": "no sudden loudness jump > 12 dB per 0.4 s (after the prologue)",
+   "pass": false,
+   "detail": {
+    "max_jump": 21.1
+   }
+  },
+  {
+   "check": "film audio carries the original voice (corr > 0.8) in sync (|lag| <= 45 ms)",
+   "pass": true,
+   "detail": {
+    "corr": 0.969,
+    "lag_ms": 0.0
+   }
+  },
+  {
+   "check": "every shot has a licence record",
+   "pass": true,
+   "detail": {
+    "P1": "Rendered for this film: paper, handwriting (Scheherazade New, SIL OFL) and burn simulated; real flame footage Mixkit 52290, 52284, 3761 (Mixkit Stock Video Free License, videoFree, verified on item pages)",
+    "E3": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded; original sound used.",
+    "E4": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "E5": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "E6": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "P2": "Rendered for this film: paper, handwriting (Scheherazade New, SIL OFL) and burn simulated; real flame footage Mixkit 52290, 52284, 3761 (Mixkit Stock Video Free License, videoFree, verified on item pages)",
+    "E8": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "E9": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "P3": "Rendered for this film: paper, handwriting (Scheherazade New, SIL OFL) and burn simulated; real flame footage Mixkit 52290, 52284, 3761 (Mixkit Stock Video Free License, videoFree, verified on item pages)"
+   }
+  },
+  {
+   "check": "no source footage reused (no overlapping segments)",
+   "pass": true,
+   "detail": {
+    "overlaps": []
+   }
+  },
+  {
+   "check": "photosensitivity: no general-flash failure (<= 3 flashes/s over > 11 % of screen)",
+   "pass": true,
+   "detail": {
+    "file": "/home/user/film/paper/out/Nisal-ala-Nisal_Paper_9x16.mp4",
+    "range": [
+     null,
+     null
+    ],
+    "grid": "32x18",
+    "max_flashing_area_fraction": 0.026,
+    "worst_window_start_s": 26.2,
+    "threshold_area_fraction": 0.11,
+    "verdict": "PASS",
+    "whole_frame_transitions": 2
+   }
+  }
+ ],
+ "video": {
+  "codec_name": "h264",
+  "profile": "High",
+  "width": 1080,
+  "height": 1920,
+  "pix_fmt": "yuv420p",
+  "r_frame_rate": "30/1",
+  "bit_rate": "5115025"
+ },
+ "audio": {
+  "codec_name": "aac",
+  "sample_rate": "48000",
+  "channels": 2,
+  "bit_rate": "342289"
+ },
+ "loudness": {
+  "integrated_lufs": -14.63,
+  "true_peak_dbfs": -0.9,
+  "clipped_samples": 0
+ },
+ "max_short_term_jump_db": 21.1,
+ "voice_alignment": {
+  "corr": 0.969,
+  "lag_ms": 0.0
+ },
+ "summary": {
+  "passed": 19,
+  "total": 20
+ }
+}
