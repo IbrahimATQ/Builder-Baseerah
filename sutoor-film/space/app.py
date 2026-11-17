@@ -32,6 +32,45 @@ except ImportError:  # pragma: no cover - local / CPU-only
 GPU_TOOLS = {"separate_voice", "transcribe_arabic"}
 
 
+def ensure_node22() -> None:
+    """Gradio Spaces run Debian (Node 18); Remotion's bundler needs Node >= 22.12. Fetch the latest
+    official Node 22 build, verify it against nodejs.org's SHASUMS256.txt, and install the Remotion
+    project's dependencies. Runs once in the background so the MCP endpoint is available at once."""
+    import hashlib
+    import subprocess
+    import tarfile
+    import threading
+    import urllib.request
+
+    def work() -> None:
+        home = os.path.expanduser("~/.node22")
+        bin_dir = os.path.join(home, "bin")
+        if not os.path.exists(os.path.join(bin_dir, "node")):
+            base = "https://nodejs.org/dist/latest-v22.x/"
+            sums = urllib.request.urlopen(base + "SHASUMS256.txt", timeout=60).read().decode()
+            line = next(l for l in sums.splitlines() if l.endswith("-linux-x64.tar.xz"))
+            digest, name = line.split()
+            blob = urllib.request.urlopen(base + name, timeout=300).read()
+            if hashlib.sha256(blob).hexdigest() != digest:
+                raise RuntimeError("Node download failed checksum verification")
+            tmp = os.path.join("/tmp", name)
+            open(tmp, "wb").write(blob)
+            with tarfile.open(tmp) as tf:
+                tf.extractall("/tmp/node22", filter="data")
+            os.rename(os.path.join("/tmp/node22", name[: -len(".tar.xz")]), home)
+        os.environ["PATH"] = bin_dir + os.pathsep + os.environ["PATH"]
+        os.environ.setdefault("REMOTION_BROWSER", "/usr/bin/chromium")
+        remotion = os.path.join(ROOT, "remotion")
+        if not os.path.isdir(os.path.join(remotion, "node_modules")):
+            subprocess.run(["npm", "ci", "--no-audit", "--no-fund"], cwd=remotion, check=True)
+
+    threading.Thread(target=work, daemon=True).start()
+
+
+if os.environ.get("SPACE_ID"):  # only on Hugging Face Spaces
+    ensure_node22()
+
+
 def _expose(fn):
     target = gpu(fn) if fn.__name__ in GPU_TOOLS else fn
 

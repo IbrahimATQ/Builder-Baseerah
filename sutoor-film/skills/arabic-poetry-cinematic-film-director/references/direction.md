@@ -34,6 +34,15 @@ inside a hemistich; end on a held wide composition with a slow fade, never an ab
 
 Finish: gentle vignette, fine luma grain (`noise=c0s=7:c0f=t`), keep skin tones natural.
 
+## Licence gate (before visual review)
+
+Read each clip's licence from its own page, not the site's name or a listing:
+- Mixkit: item page `data-license` must be `videoFree`. `videoRestricted` = personal use only,
+  explicitly not "in a film", ads, or monetised social/YouTube. Listing-page JSON-LD is unreliable.
+- Wikimedia Commons: `extmetadata.LicenseShortName` via the API; accept PD, CC0, CC BY (credit +
+  "modified" note). Reject CC BY-SA (makes the whole film BY-SA), NC, ND.
+- Record source URL + licence per shot in the shot plan; the build refuses a shot without one.
+
 ## Aspect ratio decision
 
 Compute the upscale factor: output height ÷ usable source crop height. Free stock (Mixkit) is ≤1080p,

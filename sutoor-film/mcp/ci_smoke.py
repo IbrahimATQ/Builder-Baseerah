@@ -68,7 +68,9 @@ async def main(url: str) -> None:
         await call("transcribe_arabic", {"asset": voice, "model": "small"})
         await call("sync_subtitles", {"asset": voice, "verses": [{"sadr": "تَكَسَّرَتِ النِصالُ", "ajuz": "عَلى النِصالِ"}]})
         await call("search_footage", {"query": "fog", "source": "mixkit", "limit": 3})
-        await call("download_licensed_media", {"url": "https://example.com/a.mp4", "filename": "a.mp4", "license": "x"}, expect_error=True)
+        await call("download_licensed_media", {"url": "https://example.com/a.mp4", "filename": "a.mp4"}, expect_error=True)
+        await call("download_licensed_media", {"url": "https://assets.mixkit.co/videos/9592/9592-720.mp4", "filename": "r.mp4",
+                   "source_page": "https://mixkit.co/free-stock-video/rainstorm-clouds-approaching-the-desert-9592/"}, expect_error=True)  # Restricted
         await call("edit_video", {"asset": "pattern.mp4", "output": "graded.mp4", "duration": 3, "grade": "endurance"})
         timing = {"duration": 3.0, "voice_film_start": 0.0, "words": [{"film_start": 0.5, "film_end": 1.5}]}
         await call("import_media", {"filename": "timing.json", "base64_data": base64.b64encode(json.dumps(timing).encode()).decode()})

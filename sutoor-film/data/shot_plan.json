@@ -1,0 +1,352 @@
+{
+ "title": {
+  "text": "النِصالُ عَلى النِصالِ",
+  "poet": "أبو الطيّب المتنبّي",
+  "start": 0.7,
+  "end": 4.2
+ },
+ "credits": {
+  "lines": [
+   "شِعر: أبو الطيّب المتنبّي",
+   "إلقاء: عبدالله العنزي"
+  ],
+  "fine": [
+   "Forging footage: “Smithy: steel forging (2)”, Museum of Municipal Engineering, Kraków — P. Leszczyński · CC BY 3.0 · cropped, retimed, graded",
+   "Other footage: Mixkit Free License · Original score: VSCO-2 Community Edition samples (CC0) · Fonts: Amiri, Aref Ruqaa (SIL OFL)"
+  ],
+  "start": 35.6,
+  "end": 38.3
+ },
+ "last_verse_hold": 1.4,
+ "shots": [
+  {
+   "id": "P1",
+   "source": "/home/user/film/scout/reslot/4113_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/sun-rays-pass-through-the-clouds-in-the-mountains-4113/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 2.0,
+   "start": 1.2,
+   "end": 4.3,
+   "fadeIn": 1.2,
+   "fromBlack": true,
+   "grade": "prologue",
+   "act": "prologue",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.06,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.4,
+   "speed": 1.0
+  },
+  {
+   "id": "S1",
+   "source": "/home/user/film/scout/reslot/4402_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/ruins-of-the-temple-of-segesta-in-sicily-4402/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 1.0,
+   "start": 4.3,
+   "end": 7.42,
+   "fadeIn": 0.7,
+   "grade": "mortality",
+   "act": "I",
+   "move": {
+    "scaleFrom": 1.04,
+    "scaleTo": 1.08,
+    "xFrom": 1,
+    "xTo": -1,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.4,
+   "focusY": 0.5,
+   "extra": "eq=saturation=0.5:contrast=1.05:brightness=-0.03",
+   "speed": 1.0
+  },
+  {
+   "id": "S2",
+   "source": "/home/user/film/scout/S2/1013_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/feet-walking-on-the-beach-1013/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 0.3,
+   "start": 7.42,
+   "end": 9.13,
+   "fadeIn": 0.35,
+   "grade": "mortality",
+   "act": "I",
+   "move": {
+    "scaleFrom": 1.03,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.38,
+   "focusY": 0.75
+  },
+  {
+   "id": "S3",
+   "source": "/home/user/film/scout/S3/wm_smithy_forging2_hi.mp4",
+   "page": "https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm",
+   "license": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded.",
+   "in": 1.6,
+   "start": 9.13,
+   "end": 11.1,
+   "fadeIn": 0.5,
+   "grade": "preparation",
+   "act": "II",
+   "pre": "crop=1600:900:320:0",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.45,
+   "focusY": 0.45
+  },
+  {
+   "id": "S4",
+   "source": "/home/user/film/scout/S4/3458_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/candle-lighting-in-the-dark-3458/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 10.0,
+   "start": 11.1,
+   "end": 13.36,
+   "fadeIn": 0.4,
+   "speed": 1.0,
+   "grade": "preparation",
+   "act": "II",
+   "pre": "crop=860:484:125:725",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.04,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.5
+  },
+  {
+   "id": "S5",
+   "source": "/home/user/film/scout/S5/100645_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 0.5,
+   "start": 13.36,
+   "end": 15.72,
+   "fadeIn": 0.6,
+   "grade": "preparation",
+   "act": "III",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.07,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.52,
+   "focusY": 0.42
+  },
+  {
+   "id": "S6",
+   "source": "/home/user/film/scout/S6/4357_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/mountain-during-the-night-until-dawn-4357/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 0.0,
+   "start": 15.72,
+   "end": 17.9,
+   "fadeIn": 0.4,
+   "grade": "time",
+   "act": "III",
+   "extra": "eq=brightness=0.05:gamma=1.35:saturation=0.85",
+   "move": {
+    "scaleFrom": 1.02,
+    "scaleTo": 1.08,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 1,
+    "yTo": -1
+   },
+   "focusX": 0.45,
+   "focusY": 0.7
+  },
+  {
+   "id": "S7",
+   "source": "/home/user/film/scout/S7/3977_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/view-of-a-window-with-a-curtain-3977/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 1.0,
+   "start": 17.9,
+   "end": 20.2,
+   "fadeIn": 0.7,
+   "grade": "detachment",
+   "act": "IV",
+   "move": {
+    "scaleFrom": 1.03,
+    "scaleTo": 1.06,
+    "xFrom": -1,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.7,
+   "focusY": 0.5
+  },
+  {
+   "id": "S8",
+   "source": "/home/user/film/scout/reslot/28890_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/white-sand-falling-inside-an-hourglass-28890/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 2.0,
+   "start": 20.2,
+   "end": 22.38,
+   "fadeIn": 0.4,
+   "speed": 1.0,
+   "grade": "detachment",
+   "act": "IV",
+   "move": {
+    "scaleFrom": 1.02,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.5
+  },
+  {
+   "id": "S9",
+   "source": "/home/user/film/scout/reslot/4423_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/electrical-storm-in-the-mountains-4423/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 2.75,
+   "start": 22.38,
+   "end": 24.76,
+   "fadeIn": 0.1,
+   "grade": "suffering",
+   "act": "V",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.45,
+   "speed": 1.0
+  },
+  {
+   "id": "S10",
+   "source": "/home/user/film/scout/reslot/4426_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/burning-lava-particles-leaping-through-the-air-4426/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 0.0,
+   "start": 24.76,
+   "end": 26.5,
+   "fadeIn": 0.35,
+   "grade": "suffering",
+   "act": "V",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.1,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.5,
+   "speed": 1.0
+  },
+  {
+   "id": "S11",
+   "source": "/home/user/film/scout/S11/1081_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/waves-crash-on-the-rocks-1081/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 2.4,
+   "start": 26.5,
+   "end": 28.3,
+   "fadeIn": 0.25,
+   "speed": 0.7,
+   "grade": "endurance",
+   "act": "VI",
+   "extra": "eq=brightness=-0.03:contrast=1.1:saturation=0.8",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.03,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.35,
+   "focusY": 0.5
+  },
+  {
+   "id": "S12",
+   "source": "/home/user/film/scout/reslot/4013_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/medieval-castle-in-the-mountains-4013/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 0.5,
+   "start": 28.3,
+   "end": 31.2,
+   "fadeIn": 0.4,
+   "grade": "endurance",
+   "act": "VI",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.06,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.55,
+   "pre": "crop=1700:956:0:62",
+   "extra": "eq=saturation=0.9:contrast=1.08:brightness=-0.045:gamma=0.95",
+   "speed": 1.0
+  },
+  {
+   "id": "C1",
+   "source": "/home/user/film/scout/C1/4149_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/dunes-in-the-sahara-desert-4149/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 2.5,
+   "start": 31.2,
+   "end": 34.6,
+   "fadeIn": 0.9,
+   "fadeOut": 1.2,
+   "toBlack": true,
+   "grade": "endurance",
+   "act": "coda",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.04,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   },
+   "focusX": 0.5,
+   "focusY": 0.45,
+   "pre": "crop=1520:855:400:0",
+   "extra": "eq=brightness=-0.05:saturation=0.85,colorbalance=bs=0.05:bm=0.02",
+   "speed": 1.0
+  }
+ ]
+}

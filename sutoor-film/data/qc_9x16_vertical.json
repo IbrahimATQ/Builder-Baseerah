@@ -1,0 +1,236 @@
+{
+ "checks": [
+  {
+   "check": "verse text identical to truth table (Unicode)",
+   "pass": true,
+   "detail": {
+    "verses": 6,
+    "mismatches": []
+   }
+  },
+  {
+   "check": "text is NFC-normalised",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "harakat present on every hemistich",
+   "pass": true,
+   "detail": {
+    "v1": [
+     11,
+     6
+    ],
+    "v2": [
+     12,
+     9
+    ],
+    "v3": [
+     11,
+     8
+    ],
+    "v4": [
+     6,
+     10
+    ],
+    "v5": [
+     8,
+     6
+    ],
+    "v6": [
+     8,
+     11
+    ]
+   }
+  },
+  {
+   "check": "unrecited supplied verses are not displayed",
+   "pass": true,
+   "detail": {
+    "unrecited": [
+     "وَمَن لَم يَعشَقِ الدُنيا قَديماً",
+     "نَصيبُكَ في حَياتِكَ مِن حَبيبٍ"
+    ]
+   }
+  },
+  {
+   "check": "subtitle reveal leads speech by 0.12 s (|err| <= 0.15 s)",
+   "pass": true,
+   "detail": {
+    "lead_s": [
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12,
+     -0.12
+    ]
+   }
+  },
+  {
+   "check": "verses never overlap on screen",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "H.264 High, yuv420p",
+   "pass": true,
+   "detail": {
+    "codec_name": "h264",
+    "profile": "High",
+    "width": 1080,
+    "height": 1920,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "30/1",
+    "bit_rate": "18337690"
+   }
+  },
+  {
+   "check": "duration matches edit (±0.1 s)",
+   "pass": true,
+   "detail": {
+    "file": 38.507,
+    "edit": 38.5
+   }
+  },
+  {
+   "check": "no unintended black segments",
+   "pass": false,
+   "detail": {
+    "black": [
+     [
+      12.2333,
+      12.9
+     ],
+     [
+      35.2667,
+      38.4667
+     ]
+    ],
+    "unexpected": [
+     [
+      12.2333,
+      12.9
+     ]
+    ]
+   }
+  },
+  {
+   "check": "no frozen picture > 1.5 s (outside black)",
+   "pass": true,
+   "detail": {
+    "freeze_starts": []
+   }
+  },
+  {
+   "check": "integrated loudness -14 ±1 LUFS",
+   "pass": true,
+   "detail": {
+    "integrated_lufs": -14.14,
+    "true_peak_dbfs": -0.9,
+    "clipped_samples": 0
+   }
+  },
+  {
+   "check": "true peak <= -0.9 dBFS and no clipping",
+   "pass": true,
+   "detail": {
+    "integrated_lufs": -14.14,
+    "true_peak_dbfs": -0.9,
+    "clipped_samples": 0
+   }
+  },
+  {
+   "check": "no sudden loudness jump > 12 dB per 0.4 s (after the prologue)",
+   "pass": false,
+   "detail": {
+    "max_jump": 18.0
+   }
+  },
+  {
+   "check": "film audio carries the original voice (corr > 0.8) in sync (|lag| <= 45 ms)",
+   "pass": true,
+   "detail": {
+    "corr": 0.982,
+    "lag_ms": 0.0
+   }
+  },
+  {
+   "check": "every shot has a licence record",
+   "pass": true,
+   "detail": {
+    "P1": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S1": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S2": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S3": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded.",
+    "S4": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S5": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S6": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S7": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S8": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S9": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S10": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S11": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "S12": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+    "C1": "Mixkit Stock Video Free License (videoFree, verified on item page)"
+   }
+  },
+  {
+   "check": "no source clip reused",
+   "pass": true,
+   "detail": {
+    "sources": [
+     "/home/user/film/scout/reslot/4113_hi.mp4",
+     "/home/user/film/scout/reslot/4402_hi.mp4",
+     "/home/user/film/scout/S2/1013_hi.mp4",
+     "/home/user/film/scout/S3/wm_smithy_forging2_hi.mp4",
+     "/home/user/film/scout/S4/3458_hi.mp4",
+     "/home/user/film/scout/S5/100645_hi.mp4",
+     "/home/user/film/scout/S6/4357_hi.mp4",
+     "/home/user/film/scout/S7/3977_hi.mp4",
+     "/home/user/film/scout/reslot/28890_hi.mp4",
+     "/home/user/film/scout/reslot/4423_hi.mp4",
+     "/home/user/film/scout/reslot/4426_hi.mp4",
+     "/home/user/film/scout/S11/1081_hi.mp4",
+     "/home/user/film/scout/reslot/4013_hi.mp4",
+     "/home/user/film/scout/C1/4149_hi.mp4"
+    ]
+   }
+  }
+ ],
+ "video": {
+  "codec_name": "h264",
+  "profile": "High",
+  "width": 1080,
+  "height": 1920,
+  "pix_fmt": "yuv420p",
+  "r_frame_rate": "30/1",
+  "bit_rate": "18337690"
+ },
+ "audio": {
+  "codec_name": "aac",
+  "sample_rate": "48000",
+  "channels": 2,
+  "bit_rate": "317372"
+ },
+ "loudness": {
+  "integrated_lufs": -14.14,
+  "true_peak_dbfs": -0.9,
+  "clipped_samples": 0
+ },
+ "max_short_term_jump_db": 18.0,
+ "voice_alignment": {
+  "corr": 0.982,
+  "lag_ms": 0.0
+ },
+ "summary": {
+  "passed": 14,
+  "total": 16
+ }
+}

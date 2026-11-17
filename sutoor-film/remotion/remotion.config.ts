@@ -11,3 +11,9 @@ Config.setRspack(true);
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
 Config.setDefaultPremountInSeconds(2);
+
+// Use a local Chrome Headless Shell when Remotion's own download host is unreachable
+// (e.g. in Claude Code cloud sessions): REMOTION_BROWSER=/path/to/chrome-headless-shell
+if (process.env.REMOTION_BROWSER) {
+  Config.setBrowserExecutable(process.env.REMOTION_BROWSER);
+}

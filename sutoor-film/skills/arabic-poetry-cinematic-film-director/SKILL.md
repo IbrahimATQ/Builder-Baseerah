@@ -82,6 +82,7 @@ Detailed method: [references/audio.md](references/audio.md), [references/text-an
 | "The supplied text is the script" | The recording is the script. Never subtitle unrecited verses; never drop recited ones. |
 | "The music is gone" (unmeasured) | Report the music-only-region level and the ASR check, or say it is unverified. |
 | "Vertical because the source is vertical" | If footage is replaced by stock (often ≤1080p landscape), a 9:16 crop needs 1.8-2.7× upscale. Choose aspect from the actual source resolution. |
+| "It's from a free stock site, so it's free to use" | Check each item's own licence. Mixkit serves two: `data-license="videoFree"` and `videoRestricted` (personal use only; never in a film, ads or monetised video). In one production 7 of 13 picks were Restricted. |
 | "The samples are labelled, so the pitch is right" | Measure: VSCO strings are named an octave low; one timpani rolls on F#; a tremolo sample carries C#. |
 
 ## Common Mistakes

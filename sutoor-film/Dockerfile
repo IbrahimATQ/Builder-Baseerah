@@ -1,4 +1,4 @@
-# ARABIC POETRY FILM PRODUCTION MCP — container for Hugging Face Spaces (Docker SDK, free CPU basic)
+# ARABIC POETRY FILM PRODUCTION MCP — portable container (any Docker host; Hugging Face Docker Spaces need a paid plan to create)
 FROM python:3.12-slim-bookworm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

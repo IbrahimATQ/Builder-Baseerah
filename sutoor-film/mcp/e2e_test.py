@@ -60,11 +60,11 @@ async def main(url: str, video: str, poem_path: str, render: bool) -> None:
         dl = None
         for u in (first["download"], first["fallback_download"]):
             try:
-                dl = await call("download_licensed_media", {"url": u, "filename": "fog_test.mp4", "license": first["license"], "source_page": first["page_url"]})
+                dl = await call("download_licensed_media", {"url": u, "filename": "fog_test.mp4", "source_page": first["page_url"]})
                 break
             except SystemExit:
                 continue
-        await call("download_licensed_media", {"url": "https://example.com/a.mp4", "filename": "bad.mp4", "license": "x"}, expect_error=True)
+        await call("download_licensed_media", {"url": "https://example.com/a.mp4", "filename": "bad.mp4"}, expect_error=True)
         await call("edit_video", {"asset": "fog_test.mp4", "output": "fog_graded.mp4", "start": 1, "duration": 3, "grade": "mortality"})
         await call("inspect_output", {"asset": "fog_graded.mp4", "stills": 6})
         if render:

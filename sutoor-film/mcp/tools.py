@@ -313,11 +313,53 @@ def search_footage(query: str, source: str = "mixkit", limit: int = 12) -> list[
     raise ToolError("source must be mixkit, wikimedia or pixabay")
 
 
-def download_licensed_media(url: str, filename: str, license: str, source_page: str = "", attribution: str = "") -> dict:
-    """Download a footage/audio file from an allowlisted licensed-media CDN and record its licence."""
+def _verify_licence(url: str, source_page: str, personal_use_only: bool) -> str:
+    """Read the item's real licence from its source (never trust a site name or listing).
+    Fails closed: if the licence cannot be read, nothing is downloaded."""
+    try:
+        return _verify_licence_unchecked(url, source_page, personal_use_only)
+    except urllib.error.HTTPError as e:
+        hint = " (rate limited; retry in a minute)" if e.code == 429 else ""
+        raise ToolError(f"could not verify the licence: HTTP {e.code}{hint}. Nothing was downloaded.")
+    except urllib.error.URLError as e:
+        raise ToolError(f"could not verify the licence: {e.reason}. Nothing was downloaded.")
+
+
+def _verify_licence_unchecked(url: str, source_page: str, personal_use_only: bool) -> str:
+    host = urllib.parse.urlparse(url).hostname or ""
+    if host == "assets.mixkit.co":
+        if not source_page.startswith("https://mixkit.co/free-stock-video/"):
+            raise ToolError("Mixkit downloads need source_page = the clip's mixkit.co item page (to verify its licence)")
+        page = urllib.request.urlopen(urllib.request.Request(source_page, headers={"User-Agent": UA}), timeout=60).read().decode("utf-8", "replace")
+        m = re.search(r'data-license="(video\w+)"', page)
+        lic = m.group(1) if m else "unknown"
+        if lic == "videoRestricted" and not personal_use_only:
+            raise ToolError("this Mixkit clip is under the Stock Video RESTRICTED licence (personal use only; not in a film, "
+                            "ads or monetised video). Pick a videoFree clip, or set personal_use_only=true if that truly applies.")
+        if lic not in ("videoFree", "videoRestricted"):
+            raise ToolError(f"could not verify the Mixkit licence (found {lic!r})")
+        return {"videoFree": "Mixkit Stock Video Free License", "videoRestricted": "Mixkit Stock Video Restricted License (personal use only)"}[lic]
+    if host == "upload.wikimedia.org":
+        name = urllib.parse.unquote(url.split("?")[0].split("/")[-1])
+        m = re.match(r"(.+?\.(?:webm|ogv|ogg|mp4|mpg|jpg|jpeg|png|gif|tif|tiff|svg))(?:\.|$)", name, re.I)
+        title = "File:" + (m.group(1) if m else name)
+        q = urllib.parse.urlencode({"action": "query", "format": "json", "titles": title, "prop": "imageinfo", "iiprop": "extmetadata"})
+        data = json.load(urllib.request.urlopen(urllib.request.Request(f"https://commons.wikimedia.org/w/api.php?{q}", headers={"User-Agent": UA}), timeout=60))
+        page = next(iter(data["query"]["pages"].values()))
+        lic = ((page.get("imageinfo") or [{}])[0].get("extmetadata", {}).get("LicenseShortName", {}) or {}).get("value", "")
+        if not lic or re.search(r"\b(SA|NC|ND)\b|share|noncommercial|noderiv", lic, re.I):
+            raise ToolError(f"Commons licence {lic!r} is not usable (accept PD, CC0 or CC BY only)")
+        return lic
+    return "Pixabay Content License"
+
+
+def download_licensed_media(url: str, filename: str, source_page: str = "", attribution: str = "", personal_use_only: bool = False) -> dict:
+    """Download a footage/audio file from an allowlisted licensed-media CDN, VERIFY its licence at the source
+    (Mixkit item page data-license; Commons API), refuse unusable licences, and record it."""
     host = urllib.parse.urlparse(url).hostname or ""
     if host not in FOOTAGE_HOSTS:
         raise ToolError(f"host not allowlisted: {host}")
+    license = _verify_licence(url, source_page, personal_use_only)
     dest = _asset(filename, must_exist=False)
     size = _download(url, dest)
     lic = _licences()
