@@ -1,0 +1,277 @@
+{
+ "frame": [
+  1080,
+  1920
+ ],
+ "shots_subdir": "ember",
+ "edl_name": "edl_ember.json",
+ "audio_name": "ember_mix.wav",
+ "title": {
+  "text": "النِصالُ عَلى النِصالِ",
+  "poet": "أبو الطيّب المتنبّي",
+  "start": 0,
+  "end": 0
+ },
+ "credits": {
+  "lines": [
+   "شِعر: أبو الطيّب المتنبّي",
+   "إلقاء: عبدالله العنزي"
+  ],
+  "fine": [
+   "Forging footage & sound: “Smithy: steel forging (2)”, Museum of Municipal Engineering, Kraków",
+   "video P. Leszczyński, sound M. Widzicka · CC BY 3.0 · cropped, retimed, graded",
+   "Other footage: Mixkit Free License · Fire sounds: Mixkit Sound Effects Free License",
+   "Original score: VSCO-2 Community Edition samples (CC0) · Fonts: Amiri, Aref Ruqaa (SIL OFL)"
+  ],
+  "start": 42.0,
+  "end": 44.7
+ },
+ "end_word": {
+  "text": "النِصالِ",
+  "start": 38.35,
+  "end": 42.6
+ },
+ "last_verse_hold": 0.9,
+ "shots": [
+  {
+   "id": "E0",
+   "source": "/home/user/film/ember/hi/3435_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/chunks-of-coal-lit-in-the-dark-3435/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 4.5,
+   "start": 1.0,
+   "end": 2.3,
+   "fadeIn": 1.0,
+   "fromBlack": true,
+   "grade": "ember",
+   "extra": "eq=gamma=1.12",
+   "act": "prologue",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E1",
+   "source": "/home/user/film/ember/hi/3454_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/coal-consumed-in-fire-3454/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 4.0,
+   "start": 2.3,
+   "end": 5.89,
+   "fadeIn": 0.4,
+   "grade": "ember",
+   "act": "I",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E2",
+   "source": "/home/user/film/ember/hi/3443_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/fire-burning-red-burning-coal-3443/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 1.0,
+   "start": 5.89,
+   "end": 8.5,
+   "fadeIn": 0.35,
+   "grade": "ember",
+   "act": "I",
+   "move": {
+    "scaleFrom": 1.02,
+    "scaleTo": 1.06,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E3",
+   "source": "/home/user/film/scout/S3/wm_smithy_forging2_hi.mp4",
+   "page": "https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm",
+   "license": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded; original sound used.",
+   "in": 14.18,
+   "start": 8.5,
+   "end": 11.2,
+   "fadeIn": 0.0,
+   "grade": "ember",
+   "pre": "crop=608:1080:660:0",
+   "extra": "eq=contrast=1.06",
+   "act": "II",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.04,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E4",
+   "source": "/home/user/film/scout/S4/3458_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/candle-lighting-in-the-dark-3458/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 10.25,
+   "start": 11.2,
+   "end": 13.55,
+   "fadeIn": 0.3,
+   "grade": "ember",
+   "act": "II",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E5",
+   "source": "/home/user/film/scout/S5/100645_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 1.1,
+   "start": 13.95,
+   "end": 16.83,
+   "fadeIn": 0.4,
+   "grade": "ember",
+   "pre": "crop=608:1080:726:0",
+   "extra": "eq=saturation=0.85,colorbalance=rh=-0.02:bh=0.015",
+   "act": "III",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E6",
+   "source": "/home/user/film/ember/hi/3438_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/flames-in-candles-close-up-3438/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 3.68,
+   "start": 16.83,
+   "end": 19.62,
+   "fadeIn": 0.35,
+   "grade": "ember",
+   "act": "III",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.04,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E7",
+   "source": "/home/user/film/ember/hi/50956_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/soft-and-traslucent-smoke-flows-up-on-a-dark-background-50956/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 3.0,
+   "start": 19.62,
+   "end": 25.5,
+   "fadeIn": 0.6,
+   "grade": "smoke",
+   "pre": "crop=608:1080:1250:0",
+   "act": "IV",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E8",
+   "source": "/home/user/film/ember/hi/3463_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/sparks-of-fire-on-a-black-background-3463/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 5.92,
+   "start": 25.5,
+   "end": 28.9,
+   "fadeIn": 0.0,
+   "grade": "ember",
+   "act": "V",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.06,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E9",
+   "source": "/home/user/film/ember/hi/3462_hi.mp4",
+   "page": "https://mixkit.co/free-stock-video/flame-burning-coal-in-detail-3462/",
+   "license": "Mixkit Stock Video Free License (videoFree, verified on item page)",
+   "in": 2.0,
+   "start": 28.9,
+   "end": 31.55,
+   "fadeIn": 0.35,
+   "grade": "ember",
+   "pre": "crop=608:1080:846:0",
+   "act": "V",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  },
+  {
+   "id": "E10",
+   "source": "/home/user/film/scout/S3/wm_smithy_forging2_hi.mp4",
+   "page": "https://commons.wikimedia.org/wiki/File:Smithy-_steel_forging_(2).webm",
+   "license": "CC BY 3.0 — Museum of Municipal Engineering (Kraków); video: Piotr Leszczyński; sound recordist: Monika Widzicka (Sounds of Changes). Modified: cropped, retimed, colour graded; original sound used.",
+   "in": 0.91,
+   "start": 31.55,
+   "end": 37.98,
+   "fadeIn": 0.0,
+   "grade": "ember",
+   "pre": "crop=608:1080:640:0",
+   "extra": "eq=contrast=1.06",
+   "act": "VI",
+   "move": {
+    "scaleFrom": 1.0,
+    "scaleTo": 1.05,
+    "xFrom": 0,
+    "xTo": 0,
+    "yFrom": 0,
+    "yTo": 0
+   }
+  }
+ ],
+ "intended_black": [
+  [
+   0.0,
+   1.0
+  ],
+  [
+   37.98,
+   44.891
+  ]
+ ]
+}

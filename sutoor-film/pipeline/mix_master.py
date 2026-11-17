@@ -7,7 +7,10 @@
 * A wide static presence dip (2.8 kHz) on the music bus leaves room for consonants.
 * Master: two-pass EBU R128 loudness normalisation (linear) to -14 LUFS, -1 dBTP.
 
-Usage: python mix_master.py timing.json voice.wav score.wav ambience.wav OUT_DIR
+Usage: python mix_master.py timing.json voice.wav score.wav ambience.wav OUT_DIR [sfx.wav]
+
+Optional sfx.wav (diegetic sound design, e.g. real hammer strikes synced to picture) is not ducked;
+its active (non-silent) part is set to -25 LUFS, about 9 LU under the voice.
 """
 from __future__ import annotations
 
@@ -81,7 +84,7 @@ def load_stereo_48k(path: str, min_len: int) -> np.ndarray:
     return x
 
 
-def main(timing_p: str, voice_p: str, score_p: str, amb_p: str, out_dir: str) -> None:
+def main(timing_p: str, voice_p: str, score_p: str, amb_p: str, out_dir: str, sfx_p: str | None = None) -> None:
     timing = json.load(open(timing_p, encoding="utf-8"))
     T = timing["duration"]
     n = int(T * SR)
@@ -112,6 +115,11 @@ def main(timing_p: str, voice_p: str, score_p: str, amb_p: str, out_dir: str) ->
     ambience = amb[:n] * _gain(-38.0, a_lufs)
 
     mix = vbus + music + ambience
+    if sfx_p:
+        sfx = load_stereo_48k(sfx_p, n)
+        active = np.abs(sfx).max(axis=1) > 1e-4
+        s_lufs = meter.integrated_loudness(sfx[active]) if active.sum() > SR else -70.0
+        mix = mix + sfx * _gain(-25.0, s_lufs)
     os.makedirs(out_dir, exist_ok=True)
     pre = os.path.join(out_dir, "mix_premaster.wav")
     sf.write(pre, mix, SR, subtype="FLOAT")
@@ -145,4 +153,4 @@ def main(timing_p: str, voice_p: str, score_p: str, amb_p: str, out_dir: str) ->
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:6])
+    main(*sys.argv[1:7])

@@ -80,3 +80,11 @@ Audio: integrated LUFS, true peak, LRA; voice-minus-music per hemistich; music-o
 the isolated voice; max short-term jump; sync (subtitle start − aligned word start ≤ 0.15 s).
 Arabic: exact string equality with the truth table; harakat unclipped; RTL order; sadr right of ajuz.
 Export: H.264 High, yuv420p, CRF ≤ 16, AAC 320 kb/s 48 kHz, `+faststart`, no watermark.
+
+## Reel form (9:16, full screen)
+For phone feeds, one intimate practical world beats a stock montage: few shots, long holds, real
+textures. Reveal the verse word by word at each aligned onset (lead ~0.06 s), words holding their
+place in the line from the start so nothing reflows. Keep the verse in the lower-middle, over a soft
+dark band, clear of the bottom ~20 % that app controls cover. Start the voice within ~2.5 s. End on
+one word alone on black (the poem's own last word, from the truth table) with a light that suits the
+poem (e.g. iron glowing then cooling for a poem about blades).

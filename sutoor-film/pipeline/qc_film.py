@@ -56,6 +56,17 @@ def main(film, edl_p, poem_p, timing_p, plan_p, voice_p, out_p):
             key = f"v{v['n']}{'a' if part == 'sadr' else 'b'}"
             offs.append(round((h["start"] - 0.12) - H[key]["start"], 3))
     check("subtitle reveal leads speech by 0.12 s (|err| <= 0.15 s)", all(abs(o + 0.12) <= 0.15 for o in offs), {"lead_s": offs})
+    if all("words" in v for v in edl["verses"]):  # word-by-word editions
+        rebuilt = [(v["n"], " ".join(w["text"] for w in v["words"] if w["part"] == "a"),
+                    " ".join(w["text"] for w in v["words"] if w["part"] == "b")) for v in edl["verses"]]
+        check("word-by-word text rebuilds every hemistich exactly", rebuilt == truth,
+              {"mismatches": [r for r, t in zip(rebuilt, truth) if r != t]})
+        tw = [(w["word"], w["film_start"]) for w in timing["words"]]
+        ew = [(w["text"], w["start"]) for v in edl["verses"] for w in v["words"]]
+        check("every word is revealed at its own aligned onset", tw == ew, {"words": len(ew)})
+    if "endWord" in edl:
+        last = poem["verses"][-1]["ajuz"].split(" ")[-1]
+        check("closing word identical to the poem's last word", edl["endWord"]["text"] == last, {"shown": edl["endWord"]["text"], "truth": last})
     order_ok = all(edl["verses"][i]["showUntil"] <= edl["verses"][i + 1]["sadr"]["start"] for i in range(len(edl["verses"]) - 1))
     check("verses never overlap on screen", order_ok, "")
 
@@ -70,12 +81,13 @@ def main(film, edl_p, poem_p, timing_p, plan_p, voice_p, out_p):
     check("duration matches edit (±0.1 s)", abs(dur - edl["duration"]) <= 0.1, {"file": dur, "edit": edl["duration"]})
     black = sh(["ffmpeg", "-hide_banner", "-i", film, "-vf", "blackdetect=d=0.4:pic_th=0.985", "-an", "-f", "null", "-"])
     blacks = [(float(x), float(y)) for x, y in re.findall(r"black_start:([\d.]+) black_end:([\d.]+)", black)]
-    intended = [(0.0, 1.2), (edl["duration"] - 4.2, edl["duration"])]
+    intended = [tuple(x) for x in plan.get("intended_black", [(0.0, 1.2), (edl["duration"] - 4.2, edl["duration"])])]
     unexpected = [b for b in blacks if not any(b[0] >= i0 - 0.3 and b[1] <= i1 + 0.3 for i0, i1 in intended)]
     check("no unintended black segments", not unexpected, {"black": blacks, "unexpected": unexpected})
     freeze = sh(["ffmpeg", "-hide_banner", "-i", film, "-vf", "freezedetect=n=0.001:d=1.5", "-an", "-f", "null", "-"])
     freezes = re.findall(r"freeze_start: ([\d.]+)", freeze)
-    check("no frozen picture > 1.5 s (outside black)", all(float(f) >= edl["duration"] - 4.5 or float(f) < 1.3 for f in freezes), {"freeze_starts": freezes})
+    check("no frozen picture > 1.5 s (outside black)",
+          all(any(i0 - 0.3 <= float(f) <= i1 for i0, i1 in intended) or float(f) < 1.3 for f in freezes), {"freeze_starts": freezes})
 
     # ---- Audio
     wav = out_p.replace(".json", "_audio.wav")
@@ -119,8 +131,12 @@ def main(film, edl_p, poem_p, timing_p, plan_p, voice_p, out_p):
     # ---- Licensing: every shot has a recorded source and licence
     lic = {s["id"]: s.get("license", "") for s in plan["shots"]}
     check("every shot has a licence record", all(lic.values()), lic)
-    srcs = [s["source"] for s in plan["shots"]]
-    check("no source clip reused", len(srcs) == len(set(srcs)), {"sources": srcs})
+    segs = []  # the same long take may be used twice, but never the same moment of it
+    for s in plan["shots"]:
+        need = (s["end"] - s["start"] + s.get("fadeIn", 0.4) + s.get("fadeOut", 0.0)) * s.get("speed", 1.0)
+        segs.append((s["source"], s["in"], s["in"] + need, s["id"]))
+    overlaps = [(a[3], b[3]) for i, a in enumerate(segs) for b in segs[i + 1:] if a[0] == b[0] and a[1] < b[2] and b[1] < a[2]]
+    check("no source footage reused (no overlapping segments)", not overlaps, {"overlaps": overlaps})
 
     # ---- Photosensitivity: general-flash screen over the whole film (see flash_check.py)
     fc = subprocess.run([sys.executable, __file__.replace("qc_film.py", "flash_check.py"), film],

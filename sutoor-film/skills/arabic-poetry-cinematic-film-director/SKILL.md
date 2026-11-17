@@ -57,7 +57,7 @@ If any item cannot be produced, say which and why; never substitute a plan for t
 
 Detailed method: [references/audio.md](references/audio.md), [references/text-and-typography.md](references/text-and-typography.md),
 [references/direction.md](references/direction.md). Runnable tools: `python scripts/align_recitation.py`,
-`python scripts/separation_qc.py`, `python scripts/flash_check.py`, `python scripts/flash_limit.py` (see headers for arguments).
+`python scripts/separation_qc.py`, `python scripts/flash_check.py`, `python scripts/flash_limit.py`, `python scripts/repace.py` (see headers for arguments).
 
 ## Workflow
 
@@ -86,6 +86,7 @@ Detailed method: [references/audio.md](references/audio.md), [references/text-an
 | "It's a beautiful, cinematic stock shot" | Glossy drone ruins and staged beauty shots read as AI-fake to viewers; in one production two such shots were rejected on sight. Prefer real documentary footage, and offer a contemporary layer (clock, station crowd, train) instead of ruling modern imagery out. |
 | "Lightning on the word is powerful" | Ten strikes in 2.4 s failed the 3-flashes-per-second rule in the vertical edition. Screen every edition with scripts/flash_check.py; limit with scripts/flash_limit.py. |
 | "Crush the blacks / slow it down for drama" | Crushed rock (60 % of pixels at black) and 0.7× slow motion by frame repetition made real footage look composited. Keep shadow detail; use real speed. |
+| "He speaks too fast, so slow the whole voice down a lot" | Measure first. In one production the syllable rate was normal; the gaps between lines were 0.04-0.2 s. Open the pauses (>= 0.6 s within a verse, >= 1.15 s between verses) and stretch at most ~8 % with pitch preserved (scripts/repace.py); re-verify with forced alignment and Whisper. |
 | "The samples are labelled, so the pitch is right" | Measure: VSCO strings are named an octave low; one timpani rolls on F#; a tremolo sample carries C#. |
 
 ## Common Mistakes

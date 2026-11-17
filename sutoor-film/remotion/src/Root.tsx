@@ -1,6 +1,7 @@
 import { Composition } from "remotion";
 import { edl } from "./edl";
 import { Film } from "./Film";
+import { Ember, emberDurationInFrames, emberFps } from "./Ember";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -22,6 +23,14 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={{ layout: "vertical" as const }}
+      />
+      <Composition
+        id="NisalEmber"
+        component={Ember}
+        durationInFrames={emberDurationInFrames}
+        fps={emberFps}
+        width={1080}
+        height={1920}
       />
     </>
   );

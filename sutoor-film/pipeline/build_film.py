@@ -22,6 +22,8 @@ GRADES = {
     "time": "colorbalance=bs=0.07:bm=0.04:rh=-0.02,eq=saturation=0.7:brightness=-0.01:contrast=1.05",
     "detachment": "eq=saturation=0.55:contrast=1.02,colorbalance=rh=0.04:bh=-0.03,curves=master='0/0.03 0.5/0.49 1/0.94'",
     "suffering": "eq=contrast=1.12:saturation=0.75,colorbalance=rh=0.07:gm=-0.01:bs=-0.03,curves=master='0/0 0.5/0.46 1/0.97'",
+    "ember": "eq=contrast=1.05:saturation=0.88,colorbalance=rh=0.02:bh=-0.02,curves=master='0/0 0.5/0.48 1/0.97'",
+    "smoke": "eq=saturation=0.2:contrast=1.08:brightness=-0.02,colorbalance=rm=0.02:bm=-0.015",
     "endurance": "eq=contrast=1.08:saturation=0.85,colorbalance=rh=0.08:gh=0.03:bh=-0.06:bs=0.02,curves=master='0/0.01 0.5/0.47 1/0.96'",
 }
 
@@ -43,7 +45,9 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
     timing = json.load(open(timing_p, encoding="utf-8"))
     poem = json.load(open(poem_p, encoding="utf-8"))
     H = timing["hemistichs"]
-    shots_dir = os.path.join(remotion, "public", "shots")
+    sub = plan.get("shots_subdir", "shots")  # per-edition folders so editions never overwrite each other
+    W, Hh = plan.get("frame", [1920, 1080])
+    shots_dir = os.path.join(remotion, "public", sub)
     os.makedirs(shots_dir, exist_ok=True)
     fps = 30
     edl_shots = []
@@ -65,8 +69,8 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
             vf.append(s["pre"])
         vf += [
             f"fps={fps}",
-            "scale=1920:1080:force_original_aspect_ratio=increase:flags=lanczos",
-            "crop=1920:1080",
+            f"scale={W}:{Hh}:force_original_aspect_ratio=increase:flags=lanczos",
+            f"crop={W}:{Hh}",
             GRADES[s["grade"]],
         ]
         if s.get("extra"):
@@ -82,7 +86,7 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
             os.replace(tmp, out)
             print(f"     flash limit: {r.stdout.strip()}")
         edl_shots.append({
-            "id": s["id"], "src": f"shots/{s['id']}.mp4", "start": start, "end": end, "fadeIn": fade_in,
+            "id": s["id"], "src": f"{sub}/{s['id']}.mp4", "start": start, "end": end, "fadeIn": fade_in,
             "fadeOut": fade_out, "toBlack": s.get("toBlack", False), "fromBlack": s.get("fromBlack", False),
             "move": s["move"], "focusX": s.get("focusX", 0.5), "focusY": s.get("focusY", 0.5), "act": s["act"],
         })
@@ -99,14 +103,19 @@ def main(plan_p: str, timing_p: str, poem_p: str, remotion: str, audio: str) -> 
             "n": v["n"], "showFrom": a["start"] - 0.12, "showUntil": round(show_until, 3),
             "sadr": {"verse": v["n"], "part": "a", "text": v["sadr"], "start": a["start"], "end": a["end"]},
             "ajuz": {"verse": v["n"], "part": "b", "text": v["ajuz"], "start": b["start"], "end": b["end"]},
+            "words": [{"text": w["word"], "start": w["film_start"], "end": w["film_end"], "part": w["line"][-1]}
+                      for w in timing["words"] if w["line"] in (f"v{v['n']}a", f"v{v['n']}b")],
         })
     os.makedirs(os.path.join(remotion, "public", "audio"), exist_ok=True)
-    shutil.copy(audio, os.path.join(remotion, "public", "audio", "film_mix.wav"))
+    audio_name = plan.get("audio_name", "film_mix.wav")
+    shutil.copy(audio, os.path.join(remotion, "public", "audio", audio_name))
     edl = {
-        "fps": fps, "duration": timing["duration"], "audio": "audio/film_mix.wav",
+        "fps": fps, "duration": timing["duration"], "audio": f"audio/{audio_name}",
         "title": plan["title"], "credits": plan["credits"], "shots": edl_shots, "verses": verses,
     }
-    json.dump(edl, open(os.path.join(remotion, "src", "edl.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    if plan.get("end_word"):
+        edl["endWord"] = plan["end_word"]
+    json.dump(edl, open(os.path.join(remotion, "src", plan.get("edl_name", "edl.json")), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("edl written:", len(edl_shots), "shots,", len(verses), "verses,", timing["duration"], "s")
 
 
