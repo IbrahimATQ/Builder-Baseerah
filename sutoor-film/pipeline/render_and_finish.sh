@@ -11,7 +11,8 @@ mkdir -p "$WORK" "$OUT"
   npx remotion render NisalVertical "$WORK/vertical_raw.mp4" --codec=h264 --crf=10 --audio-codec=aac --audio-bitrate=320k --concurrency=4 --browser-executable="$B" )
 
 finish() { # in out W H Y crf
-  ffmpeg -v error -y -i "$1" -f lavfi -i "color=c=0x808080:s=${3}x${4}:r=30:d=38.6,format=yuv420p,noise=c0s=22:c0f=t" \
+  local D; D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$1")
+  ffmpeg -v error -y -i "$1" -f lavfi -i "color=c=0x808080:s=${3}x${4}:r=30:d=${D},format=yuv420p,noise=c0s=22:c0f=t" \
     -filter_complex "[0:v]scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p,split[a][b];[b]crop=${3}:${4}:0:${5}[pic];[pic][1:v]blend=all_mode=overlay:all_opacity=0.32,format=yuv420p[g];[a][g]overlay=0:${5}:shortest=1:format=yuv420,format=yuv420p[v]" \
     -map "[v]" -map 0:a -c:v libx264 -preset slow -crf "$6" -profile:v high -level 4.1 -pix_fmt yuv420p \
     -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 -tag:v avc1 -c:a copy -movflags +faststart \

@@ -112,7 +112,7 @@ def main(timing_p: str, voice_p: str, score_p: str, amb_p: str, out_dir: str, sf
     music *= auto[:, None].astype(np.float32)
 
     a_lufs = meter.integrated_loudness(amb[:n])
-    ambience = amb[:n] * _gain(-38.0, a_lufs)
+    ambience = amb[:n] * _gain(float(os.environ.get("AMBIENCE_LUFS", "-38")), a_lufs)  # a reel built on fire can carry it louder
 
     mix = vbus + music + ambience
     if sfx_p:

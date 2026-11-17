@@ -2,7 +2,7 @@
 """Assemble a sound-effects or ambience track on the film timeline from a cue list.
 
 Spec JSON: {"duration": seconds, "cues": [{"src": path, "src_in": s, "start": film_s, "end": film_s,
-            "gain_db": 0, "fade_in": 0.03, "fade_out": 0.12}], "automation": [[t, dB], ...] (optional)}
+            "gain_db": 0, "fade_in": 0.03, "fade_out": 0.12, "lufs": -30 (optional)}], "automation": [[t, dB], ...] (optional)}
 Picture-synced cues (e.g. a clip's own hammer strikes) use the same src_in as the picture, so sound
 and image stay locked. Any input format ffmpeg reads is accepted.
 
@@ -38,6 +38,11 @@ def main(spec_p: str, out_p: str) -> None:
             x[:fi] *= np.linspace(0, 1, min(fi, len(x)))[:, None]
         if fo:
             x[-fo:] *= np.linspace(1, 0, min(fo, len(x)))[:, None]
+        if "lufs" in c and len(x) > SR // 2:  # level-match recordings before mixing them
+            import pyloudnorm as pyln
+            cur = pyln.Meter(SR).integrated_loudness(x)
+            if np.isfinite(cur):
+                x *= 10 ** ((c["lufs"] - cur) / 20)
         x *= 10 ** (c.get("gain_db", 0.0) / 20)
         s = int(c["start"] * SR)
         e = min(n, s + len(x))
