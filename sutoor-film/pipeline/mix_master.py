@@ -58,26 +58,47 @@ def duck_envelope(n: int, words: list[dict], depth_db: float, attack: float, rel
     return np.repeat(gain, hop)[:n]
 
 
+def _gain(target_lufs: float, measured: float) -> float:
+    """Linear gain to reach a loudness target; silent input (-inf LUFS) stays silent."""
+    return float(10 ** ((target_lufs - measured) / 20)) if np.isfinite(measured) else 0.0
+
+
+def load_stereo_48k(path: str, min_len: int) -> np.ndarray:
+    """Read any WAV as float32 stereo at 48 kHz, zero-padded to at least `min_len` samples."""
+    from fractions import Fraction
+
+    from scipy.signal import resample_poly
+
+    x, sr = sf.read(path, dtype="float32", always_2d=True)
+    if x.shape[1] == 1:
+        x = np.repeat(x, 2, axis=1)
+    x = x[:, :2]
+    if sr != SR:
+        f = Fraction(SR, sr).limit_denominator(1000)
+        x = resample_poly(x, f.numerator, f.denominator, axis=0).astype(np.float32)
+    if len(x) < min_len:
+        x = np.concatenate([x, np.zeros((min_len - len(x), 2), np.float32)])
+    return x
+
+
 def main(timing_p: str, voice_p: str, score_p: str, amb_p: str, out_dir: str) -> None:
     timing = json.load(open(timing_p, encoding="utf-8"))
     T = timing["duration"]
     n = int(T * SR)
-    voice, sr = sf.read(voice_p, dtype="float32", always_2d=True)
-    assert sr == SR
-    score, _ = sf.read(score_p, dtype="float32", always_2d=True)
-    amb, _ = sf.read(amb_p, dtype="float32", always_2d=True)
+    voice, score, amb = (load_stereo_48k(p, n) for p in (voice_p, score_p, amb_p))
 
     vbus = np.zeros((n, 2), np.float32)
     s = int(timing["voice_film_start"] * SR)
-    vbus[s : s + len(voice)] = voice[: n - s] if voice.shape[1] == 2 else np.repeat(voice[: n - s], 2, 1)
+    voice = voice[: n - s]
+    vbus[s : s + len(voice)] = voice
 
     meter = pyln.Meter(SR)
     v_lufs = meter.integrated_loudness(vbus[s : s + len(voice)])
-    vbus *= 10 ** ((-16.0 - v_lufs) / 20)  # voice integrated loudness -16 LUFS before mastering
+    vbus *= _gain(-16.0, v_lufs)  # voice integrated loudness -16 LUFS before mastering
 
     music = peaking(score[:n], 2800, -3.5, 0.8)
     m_lufs = meter.integrated_loudness(music)
-    music *= 10 ** ((-25.0 - m_lufs) / 20)  # music bed sits ~9 LU under the voice on average
+    music *= _gain(-25.0, m_lufs)  # music bed sits ~9 LU under the voice on average
     duck = duck_envelope(n, timing["words"], depth_db=-7.0, attack=0.12, release=0.45)
     music *= duck[:, None]
     # Section automation (dB): the prologue bed carries the opening alone, then hands over to the voice.
@@ -88,7 +109,7 @@ def main(timing_p: str, voice_p: str, score_p: str, amb_p: str, out_dir: str) ->
     music *= auto[:, None].astype(np.float32)
 
     a_lufs = meter.integrated_loudness(amb[:n])
-    ambience = amb[:n] * 10 ** ((-38.0 - a_lufs) / 20)
+    ambience = amb[:n] * _gain(-38.0, a_lufs)
 
     mix = vbus + music + ambience
     os.makedirs(out_dir, exist_ok=True)

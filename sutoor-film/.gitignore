@@ -4,3 +4,10 @@ remotion/public/shots/
 remotion/public/audio/
 *.log
 __pycache__/
+mcp/workspace/
+output/
+*.mp4
+*.wav
+*.mov
+mcp/e2e_log.json
+ci_results.json

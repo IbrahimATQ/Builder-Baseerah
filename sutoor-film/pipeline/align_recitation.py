@@ -92,6 +92,7 @@ def mms_align(wav: torch.Tensor, words: list[str]) -> list[dict]:
         k += n
         out.append(
             {
+                "index": idx,
                 "word": words[idx],
                 "roman": roman[idx],
                 "start": round(sp[0].start * ratio, 3),
@@ -116,8 +117,8 @@ def main(voice: str, poem_path: str, out_path: str) -> None:
     wav = load_mono16k(voice)
     print("aligning", len(words), "words ...", file=sys.stderr)
     aligned = mms_align(wav, words)
-    for a, key in zip(aligned, [owner[i] for i, w in enumerate(words) if True][: len(aligned)]):
-        a["line"] = key
+    for a in aligned:  # words whose romanisation is empty are skipped by mms_align; map by index
+        a["line"] = owner[a["index"]]
     by_line = {}
     for a in aligned:
         by_line.setdefault(a["line"], []).append(a)
