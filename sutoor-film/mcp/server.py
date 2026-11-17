@@ -86,7 +86,9 @@ def _asset(name: str, must_exist: bool = True) -> Path:
 def _run(args: list[str], timeout: int = 3600, cwd: Path | None = None) -> str:
     r = subprocess.run(args, capture_output=True, text=True, timeout=timeout, cwd=cwd)
     if r.returncode != 0:
-        raise ToolError(f"{Path(args[0]).name} failed: {r.stderr[-1500:]}")
+        text = r.stderr + r.stdout
+        key = [ln for ln in text.splitlines() if "Error" in ln or "error:" in ln][:3]
+        raise ToolError(f"{Path(args[0]).name} failed: {' | '.join(key)[:600]} … {text[-700:]}")
     return r.stdout + r.stderr
 
 

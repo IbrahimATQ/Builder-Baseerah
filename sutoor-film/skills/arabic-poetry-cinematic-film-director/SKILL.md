@@ -27,6 +27,13 @@ lyric videos of sung songs (melody, not prosody, drives timing).
 1. **Text truth table** — for every verse: supplied? recited? canonical source checked? Recited order.
 2. **Isolated voice** — WAV of the complete original recitation, plus QC numbers.
 3. **Timing file** — word and hemistich start/end in source and film time, from forced alignment.
+   Every subtitle file you hand over (draft or final) has this cue shape, two cues per verse:
+   ```
+   cue 2k-1  start = sadr_start - 0.12   end = ajuz_start - 0.12   text = sadr
+   cue 2k    start = ajuz_start - 0.12   end = next_sadr_start - 0.05   text = sadr ⏎ ajuz
+   ```
+   Before alignment exists, take ajuz_start from the pause between the hemistichs (energy minimum)
+   or the segment midpoint, and label the file DRAFT.
 4. **Director's treatment** — per verse: meaning, emotional intensity 1-10, image metaphor, grade, music cue.
 5. **Finished film** — rendered MP4, then the QC report (visual, audio, Arabic) with measured values.
 

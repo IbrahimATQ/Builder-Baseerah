@@ -1,0 +1,61 @@
+name: Poetry film MCP — Docker smoke test
+
+# Builds the Hugging Face Spaces image for the ARABIC POETRY FILM PRODUCTION MCP and runs the
+# end-to-end smoke test against the running container. Uses synthetic media only.
+on:
+  push:
+    branches: [claude/brave-noether-omet0a]
+    paths:
+      - "sutoor-film/Dockerfile"
+      - "sutoor-film/mcp/**"
+      - "sutoor-film/pipeline/**"
+      - "sutoor-film/remotion/src/Film.tsx"
+      - "sutoor-film/remotion/src/Root.tsx"
+      - ".github/workflows/poetry-film-mcp-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t poetry-film-mcp sutoor-film
+
+      - name: Start server
+        run: |
+          docker run -d --name mcp -p 7860:7860 poetry-film-mcp
+          for i in $(seq 1 90); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:7860/mcp \
+              -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' \
+              -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' || true)
+            [ "$code" = "200" ] && echo "server up" && exit 0
+            sleep 2
+          done
+          docker logs mcp; exit 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Smoke test (synthetic media only)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q "mcp>=2.3"
+          python sutoor-film/mcp/ci_smoke.py http://127.0.0.1:7860/mcp
+
+      - name: Server log
+        if: always()
+        run: docker logs mcp 2>&1 | tail -150
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-results
+          path: ci_results.json
+          if-no-files-found: ignore

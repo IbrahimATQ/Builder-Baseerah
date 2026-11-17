@@ -27,6 +27,15 @@ const CHAMPAGNE = "#D8C49C";
 const SOFT = Easing.bezier(0.33, 0, 0.2, 1);
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
+/** Keyframes computed from data can collide when a segment is short; keep them strictly increasing. */
+const inc = (pts: number[]): number[] => {
+  const out = [...pts];
+  for (let i = 1; i < out.length; i++) {
+    if (!(out[i] > out[i - 1])) out[i] = out[i - 1] + 0.001;
+  }
+  return out;
+};
+
 /** Picture window for each layout: 2.39:1 scope matte, or 4:5 window in a 9:16 frame. */
 const pictureRect = (layout: Layout, width: number, height: number) => {
   if (layout === "scope") {
@@ -45,7 +54,7 @@ const ShotLayer: React.FC<{ shot: Shot; layout: Layout; rect: ReturnType<typeof 
   const progress = interpolate(t, [0, visibleLen], [0, 1], clamp);
   const opacity = interpolate(
     t,
-    [0, Math.max(shot.fadeIn, 0.001), visibleLen - Math.max(shot.fadeOut, 0.001), visibleLen],
+    inc([0, Math.max(shot.fadeIn, 0.001), visibleLen - Math.max(shot.fadeOut, 0.001), visibleLen]),
     [shot.fadeIn > 0 ? 0 : 1, 1, 1, shot.toBlack ? 0 : 1],
     { ...clamp, easing: SOFT },
   );
@@ -124,7 +133,7 @@ const HemistichText: React.FC<{ h: Hemistich; verse: Verse; layout: Layout }> = 
   const appear = h.start - 0.12;
   const opacity = interpolate(
     t,
-    [appear, appear + 0.45, verse.showUntil - 0.32, verse.showUntil],
+    inc([appear, appear + 0.45, verse.showUntil - 0.32, verse.showUntil]),
     [0, 1, 1, 0],
     { ...clamp, easing: SOFT },
   );
@@ -182,8 +191,8 @@ const TitleCard: React.FC<{ layout: Layout }> = ({ layout }) => {
   const { fps, width, height } = useVideoConfig();
   const t = frame / fps;
   const { start, end, text, poet } = edl.title;
-  const opacity = interpolate(t, [start, start + 1.1, end - 0.9, end], [0, 1, 1, 0], { ...clamp, easing: SOFT });
-  const poetOpacity = interpolate(t, [start + 0.7, start + 1.7, end - 0.9, end], [0, 1, 1, 0], { ...clamp, easing: SOFT });
+  const opacity = interpolate(t, inc([start, start + 1.1, end - 0.9, end]), [0, 1, 1, 0], { ...clamp, easing: SOFT });
+  const poetOpacity = interpolate(t, inc([start + 0.7, start + 1.7, end - 0.9, end]), [0, 1, 1, 0], { ...clamp, easing: SOFT });
   const rect = pictureRect(layout, width, height);
   const ruleW = interpolate(t, [start + 0.4, start + 1.9], [0, layout === "scope" ? 220 : 200], { ...clamp, easing: SOFT });
   return (
@@ -237,7 +246,7 @@ const Credits: React.FC<{ layout: Layout }> = ({ layout }) => {
             fontSize: layout === "scope" ? 36 : 44,
             color: CHAMPAGNE,
             direction: "rtl",
-            opacity: interpolate(t, [start + i * 0.5, start + i * 0.5 + 0.9, end - 0.8, end], [0, 0.9, 0.9, 0], { ...clamp, easing: SOFT }),
+            opacity: interpolate(t, inc([start + i * 0.5, start + i * 0.5 + 0.9, end - 0.8, end]), [0, 0.9, 0.9, 0], { ...clamp, easing: SOFT }),
           }}
         >
           {line}
