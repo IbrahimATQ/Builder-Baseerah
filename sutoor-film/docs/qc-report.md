@@ -32,10 +32,10 @@ and per-hemistich stills reviewed frame by frame.
 - Colour: graded per act. Output is tagged BT.709 limited range. Black level inside the picture (Y≈15) matches the matte (Y=16). Grain is applied only inside the picture, so text stays clean.
 
 ## Export
-H.264 High@4.1, yuv420p, 30 fps, AAC-LC 317 kb/s 48 kHz, `+faststart`, no watermark. Video bitrate: master 22913 kb/s, vertical 18337 kb/s.
+H.264 High@4.1, yuv420p, 30 fps, AAC-LC 317 kb/s 48 kHz, `+faststart`, no watermark. Video bitrate: master 24557 kb/s, vertical 20302 kb/s, share encode 4971 kb/s.
 
 ## Reviewed exceptions (flagged by the automated checks and kept deliberately)
-1. **"Black segment" at 12.17–12.83 s.** This is the dying candle in Act II («بِلا قِتالِ»). The flame is still visible (peak luma 150–227; thousands of lit pixels per frame). It is dark by design.
+1. **"Black segment" at 12.07–12.90 s.** This is the dying candle in Act II («بِلا قِتالِ»). The flame is still visible (peak luma 150–227; thousands of lit pixels per frame). It is dark by design.
 2. **"Loudness jump > 12 dB."** These jumps occur at speech onsets after pauses: the first verse after the prologue (+18 dB at 4.4 s), and words at 6.86 s and 13.63 s. That is the reciter's natural dynamics, not automation. The music bus itself never jumps more than 5.9 dB.
 
 ## Footage licences (each verified on its own source page)

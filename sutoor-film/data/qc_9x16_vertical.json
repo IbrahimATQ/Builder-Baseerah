@@ -88,7 +88,7 @@
     "height": 1920,
     "pix_fmt": "yuv420p",
     "r_frame_rate": "30/1",
-    "bit_rate": "18337690"
+    "bit_rate": "20301832"
    }
   },
   {
@@ -187,12 +187,12 @@
    "detail": {
     "sources": [
      "/home/user/film/scout/reslot/4113_hi.mp4",
-     "/home/user/film/scout/reslot/4402_hi.mp4",
-     "/home/user/film/scout/S2/1013_hi.mp4",
+     "/home/user/film/scout/modern/28893_hi.mp4",
+     "/home/user/film/scout/modern/4180_hi.mp4",
      "/home/user/film/scout/S3/wm_smithy_forging2_hi.mp4",
      "/home/user/film/scout/S4/3458_hi.mp4",
      "/home/user/film/scout/S5/100645_hi.mp4",
-     "/home/user/film/scout/S6/4357_hi.mp4",
+     "/home/user/film/scout/modern/3025_hi.mp4",
      "/home/user/film/scout/S7/3977_hi.mp4",
      "/home/user/film/scout/reslot/28890_hi.mp4",
      "/home/user/film/scout/reslot/4423_hi.mp4",
@@ -211,7 +211,7 @@
   "height": 1920,
   "pix_fmt": "yuv420p",
   "r_frame_rate": "30/1",
-  "bit_rate": "18337690"
+  "bit_rate": "20301832"
  },
  "audio": {
   "codec_name": "aac",

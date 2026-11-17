@@ -183,7 +183,7 @@ See `docs/qc-report.md` for the final film QC. Pipeline and infrastructure tests
 | Footage licences | 14/14 verified at source: 13 Mixkit `videoFree` + 1 Wikimedia CC BY 3.0 (credited). 7 Restricted picks were replaced |
 
 ### Deliverables (in `sutoor-film/output/`; not committed, because the repository is public)
-- `Nisal-ala-Nisal_16x9_scope.mp4`: master, 1920×1080, 2.39:1 scope matte, 38.5 s, 112 MB
+- `Nisal-ala-Nisal_16x9_scope.mp4`: master, 1920×1080, 2.39:1 scope matte, 38.5 s, 120 MB
 - `Nisal-ala-Nisal_16x9_scope_share.mp4`: the same at 25 MB for phones and social media
 - `Nisal-ala-Nisal_9x16_vertical.mp4`: vertical edition, 1080×1920
 - `Nisal_isolated-voice_full-recording_48k24.wav` (+ `.m4a`): the original voice, music removed, complete recording
