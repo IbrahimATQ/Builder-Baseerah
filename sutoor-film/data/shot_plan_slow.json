@@ -185,7 +185,7 @@
    "focusX": 0.5,
    "focusY": 0.5,
    "speed": 1.0,
-   "extra": "eq=saturation=0.4"
+   "extra": "eq=saturation=0.4,tmix=frames=3:weights='1 2 1'"
   },
   {
    "id": "S7",

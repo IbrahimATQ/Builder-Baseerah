@@ -1,6 +1,6 @@
 {
  "fps": 30,
- "duration": 38.5,
+ "duration": 46.891,
  "audio": "audio/film_mix.wav",
  "title": {
   "text": "النِصالُ عَلى النِصالِ",
@@ -17,8 +17,8 @@
    "Forging footage: “Smithy: steel forging (2)”, Museum of Municipal Engineering, Kraków — P. Leszczyński · CC BY 3.0 · cropped, retimed, graded",
    "Other footage: Mixkit Free License · Original score: VSCO-2 Community Edition samples (CC0) · Fonts: Amiri, Aref Ruqaa (SIL OFL)"
   ],
-  "start": 35.6,
-  "end": 38.3
+  "start": 43.991,
+  "end": 46.691
  },
  "shots": [
   {
@@ -46,7 +46,7 @@
    "id": "S1",
    "src": "shots/S1.mp4",
    "start": 4.3,
-   "end": 7.42,
+   "end": 7.917,
    "fadeIn": 0.7,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -66,8 +66,8 @@
   {
    "id": "S2",
    "src": "shots/S2.mp4",
-   "start": 7.42,
-   "end": 9.13,
+   "start": 7.917,
+   "end": 10.672,
    "fadeIn": 0.35,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -87,8 +87,8 @@
   {
    "id": "S3",
    "src": "shots/S3.mp4",
-   "start": 9.13,
-   "end": 11.1,
+   "start": 10.672,
+   "end": 13.235,
    "fadeIn": 0.5,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -108,8 +108,8 @@
   {
    "id": "S4",
    "src": "shots/S4.mp4",
-   "start": 11.1,
-   "end": 13.36,
+   "start": 13.235,
+   "end": 15.98,
    "fadeIn": 0.4,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -129,8 +129,8 @@
   {
    "id": "S5",
    "src": "shots/S5.mp4",
-   "start": 13.36,
-   "end": 15.72,
+   "start": 15.98,
+   "end": 18.856,
    "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -150,8 +150,8 @@
   {
    "id": "S6",
    "src": "shots/S6.mp4",
-   "start": 15.72,
-   "end": 17.9,
+   "start": 18.856,
+   "end": 21.685,
    "fadeIn": 0.4,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -171,8 +171,8 @@
   {
    "id": "S7",
    "src": "shots/S7.mp4",
-   "start": 17.9,
-   "end": 20.2,
+   "start": 21.685,
+   "end": 24.762,
    "fadeIn": 0.7,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -192,8 +192,8 @@
   {
    "id": "S8",
    "src": "shots/S8.mp4",
-   "start": 20.2,
-   "end": 22.38,
+   "start": 24.762,
+   "end": 27.994,
    "fadeIn": 0.4,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -213,8 +213,8 @@
   {
    "id": "S9",
    "src": "shots/S9.mp4",
-   "start": 22.38,
-   "end": 24.76,
+   "start": 27.994,
+   "end": 30.925,
    "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -234,8 +234,8 @@
   {
    "id": "S10",
    "src": "shots/S10.mp4",
-   "start": 24.76,
-   "end": 26.5,
+   "start": 30.925,
+   "end": 33.605,
    "fadeIn": 0.35,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -255,8 +255,8 @@
   {
    "id": "S11",
    "src": "shots/S11.mp4",
-   "start": 26.5,
-   "end": 28.3,
+   "start": 33.605,
+   "end": 36.285,
    "fadeIn": 0.25,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -276,8 +276,8 @@
   {
    "id": "S12",
    "src": "shots/S12.mp4",
-   "start": 28.3,
-   "end": 31.2,
+   "start": 36.285,
+   "end": 39.524,
    "fadeIn": 0.0,
    "fadeOut": 0.0,
    "toBlack": false,
@@ -297,8 +297,8 @@
   {
    "id": "C1",
    "src": "shots/C1.mp4",
-   "start": 31.2,
-   "end": 34.6,
+   "start": 39.524,
+   "end": 42.955,
    "fadeIn": 0.3,
    "fadeOut": 1.2,
    "toBlack": true,
@@ -320,116 +320,422 @@
   {
    "n": 1,
    "showFrom": 4.38,
-   "showUntil": 9.065,
+   "showUntil": 11.023,
    "sadr": {
     "verse": 1,
     "part": "a",
     "text": "يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي",
     "start": 4.5,
-    "end": 7.344
+    "end": 7.591
    },
    "ajuz": {
     "verse": 1,
     "part": "b",
     "text": "أَواخِرُنا عَلى هامِ الأَوالي",
-    "start": 7.484,
-    "end": 9.105
-   }
+    "start": 8.191,
+    "end": 9.953
+   },
+   "words": [
+    {
+     "text": "يُدَفِّنُ",
+     "start": 4.654,
+     "end": 5.134,
+     "part": "a"
+    },
+    {
+     "text": "بَعضُنا",
+     "start": 5.264,
+     "end": 5.699,
+     "part": "a"
+    },
+    {
+     "text": "بَعضاً",
+     "start": 5.808,
+     "end": 6.09,
+     "part": "a"
+    },
+    {
+     "text": "وَتَمشي",
+     "start": 7.07,
+     "end": 7.591,
+     "part": "a"
+    },
+    {
+     "text": "أَواخِرُنا",
+     "start": 8.191,
+     "end": 8.823,
+     "part": "b"
+    },
+    {
+     "text": "عَلى",
+     "start": 8.91,
+     "end": 9.127,
+     "part": "b"
+    },
+    {
+     "text": "هامِ",
+     "start": 9.214,
+     "end": 9.432,
+     "part": "b"
+    },
+    {
+     "text": "الأَوالي",
+     "start": 9.518,
+     "end": 9.953,
+     "part": "b"
+    }
+   ]
   },
   {
    "n": 2,
-   "showFrom": 9.025,
-   "showUntil": 13.548,
+   "showFrom": 10.983,
+   "showUntil": 16.471,
    "sadr": {
     "verse": 2,
     "part": "a",
     "text": "نُعِدُّ المَشرَفِيَّةَ وَالعَوالي",
-    "start": 9.145,
-    "end": 10.806
+    "start": 11.103,
+    "end": 12.909
    },
    "ajuz": {
     "verse": 2,
     "part": "b",
     "text": "وَتَقتُلُنا المَنونُ بِلا قِتالِ",
-    "start": 11.347,
-    "end": 13.088
-   }
+    "start": 13.509,
+    "end": 15.401
+   },
+   "words": [
+    {
+     "text": "نُعِدُّ",
+     "start": 11.103,
+     "end": 11.409,
+     "part": "a"
+    },
+    {
+     "text": "المَشرَفِيَّةَ",
+     "start": 11.496,
+     "end": 12.17,
+     "part": "a"
+    },
+    {
+     "text": "وَالعَوالي",
+     "start": 12.322,
+     "end": 12.909,
+     "part": "a"
+    },
+    {
+     "text": "وَتَقتُلُنا",
+     "start": 13.509,
+     "end": 14.139,
+     "part": "b"
+    },
+    {
+     "text": "المَنونُ",
+     "start": 14.161,
+     "end": 14.597,
+     "part": "b"
+    },
+    {
+     "text": "بِلا",
+     "start": 14.705,
+     "end": 14.923,
+     "part": "b"
+    },
+    {
+     "text": "قِتالِ",
+     "start": 15.032,
+     "end": 15.401,
+     "part": "b"
+    }
+   ]
   },
   {
    "n": 3,
-   "showFrom": 13.508000000000001,
-   "showUntil": 17.971,
+   "showFrom": 16.430999999999997,
+   "showUntil": 22.116,
    "sadr": {
     "verse": 3,
     "part": "a",
     "text": "وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ",
-    "start": 13.628,
-    "end": 15.45
+    "start": 16.551,
+    "end": 18.532
    },
    "ajuz": {
     "verse": 3,
     "part": "b",
     "text": "وَما يُنجينَ مِن خَبَبِ اللَيالي",
-    "start": 15.95,
-    "end": 17.711
-   }
+    "start": 19.132,
+    "end": 21.046
+   },
+   "words": [
+    {
+     "text": "وَنَرتَبِطُ",
+     "start": 16.551,
+     "end": 17.161,
+     "part": "a"
+    },
+    {
+     "text": "السَوابِقَ",
+     "start": 17.248,
+     "end": 17.835,
+     "part": "a"
+    },
+    {
+     "text": "مُقرَباتٍ",
+     "start": 17.965,
+     "end": 18.532,
+     "part": "a"
+    },
+    {
+     "text": "وَما",
+     "start": 19.132,
+     "end": 19.327,
+     "part": "b"
+    },
+    {
+     "text": "يُنجينَ",
+     "start": 19.414,
+     "end": 19.827,
+     "part": "b"
+    },
+    {
+     "text": "مِن",
+     "start": 19.937,
+     "end": 20.046,
+     "part": "b"
+    },
+    {
+     "text": "خَبَبِ",
+     "start": 20.133,
+     "end": 20.437,
+     "part": "b"
+    },
+    {
+     "text": "اللَيالي",
+     "start": 20.502,
+     "end": 21.046,
+     "part": "b"
+    }
+   ]
   },
   {
    "n": 4,
-   "showFrom": 17.930999999999997,
-   "showUntil": 22.334,
+   "showFrom": 22.076,
+   "showUntil": 27.999,
    "sadr": {
     "verse": 4,
     "part": "a",
     "text": "وَهانَ فَما أُبالي بِالرَزايا",
-    "start": 18.051,
-    "end": 20.153
+    "start": 22.196,
+    "end": 24.48
    },
    "ajuz": {
     "verse": 4,
     "part": "b",
     "text": "لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي",
-    "start": 20.253,
-    "end": 21.954
-   }
+    "start": 25.08,
+    "end": 26.929
+   },
+   "words": [
+    {
+     "text": "وَهانَ",
+     "start": 22.196,
+     "end": 22.588,
+     "part": "a"
+    },
+    {
+     "text": "فَما",
+     "start": 22.979,
+     "end": 23.197,
+     "part": "a"
+    },
+    {
+     "text": "أُبالي",
+     "start": 23.349,
+     "end": 23.718,
+     "part": "a"
+    },
+    {
+     "text": "بِالرَزايا",
+     "start": 23.828,
+     "end": 24.48,
+     "part": "a"
+    },
+    {
+     "text": "لِأَنّي",
+     "start": 25.08,
+     "end": 25.515,
+     "part": "b"
+    },
+    {
+     "text": "ما",
+     "start": 25.624,
+     "end": 25.689,
+     "part": "b"
+    },
+    {
+     "text": "اِنتَفَعتُ",
+     "start": 25.711,
+     "end": 26.147,
+     "part": "b"
+    },
+    {
+     "text": "بِأَن",
+     "start": 26.234,
+     "end": 26.495,
+     "part": "b"
+    },
+    {
+     "text": "أُبالي",
+     "start": 26.603,
+     "end": 26.929,
+     "part": "b"
+    }
+   ]
   },
   {
    "n": 5,
-   "showFrom": 22.294,
-   "showUntil": 26.457,
+   "showFrom": 27.959,
+   "showUntil": 34.057,
    "sadr": {
     "verse": 5,
     "part": "a",
     "text": "رَماني الدَهرُ بِالأَرزاءِ حَتّى",
-    "start": 22.414,
-    "end": 24.716
+    "start": 28.079,
+    "end": 30.582
    },
    "ajuz": {
     "verse": 5,
     "part": "b",
     "text": "فُؤادي في غِشاءٍ مِن نِبالِ",
-    "start": 24.796,
-    "end": 26.457
-   }
+    "start": 31.205,
+    "end": 32.987
+   },
+   "words": [
+    {
+     "text": "رَماني",
+     "start": 28.079,
+     "end": 28.689,
+     "part": "a"
+    },
+    {
+     "text": "الدَهرُ",
+     "start": 28.711,
+     "end": 29.08,
+     "part": "a"
+    },
+    {
+     "text": "بِالأَرزاءِ",
+     "start": 29.167,
+     "end": 29.734,
+     "part": "a"
+    },
+    {
+     "text": "حَتّى",
+     "start": 30.255,
+     "end": 30.582,
+     "part": "a"
+    },
+    {
+     "text": "فُؤادي",
+     "start": 31.205,
+     "end": 31.638,
+     "part": "b"
+    },
+    {
+     "text": "في",
+     "start": 31.725,
+     "end": 31.812,
+     "part": "b"
+    },
+    {
+     "text": "غِشاءٍ",
+     "start": 31.9,
+     "end": 32.291,
+     "part": "b"
+    },
+    {
+     "text": "مِن",
+     "start": 32.443,
+     "end": 32.596,
+     "part": "b"
+    },
+    {
+     "text": "نِبالِ",
+     "start": 32.639,
+     "end": 32.987,
+     "part": "b"
+    }
+   ]
   },
   {
    "n": 6,
-   "showFrom": 26.416999999999998,
-   "showUntil": 31.8,
+   "showFrom": 34.017,
+   "showUntil": 40.117,
    "sadr": {
     "verse": 6,
     "part": "a",
     "text": "فَصِرتُ إِذا أَصابَتني سِهامٌ",
-    "start": 26.537,
-    "end": 28.178
+    "start": 34.137,
+    "end": 35.921
    },
    "ajuz": {
     "verse": 6,
     "part": "b",
     "text": "تَكَسَّرَتِ النِصالُ عَلى النِصالِ",
-    "start": 28.379,
-    "end": 30.4
-   }
+    "start": 36.521,
+    "end": 38.717
+   },
+   "words": [
+    {
+     "text": "فَصِرتُ",
+     "start": 34.137,
+     "end": 34.42,
+     "part": "a"
+    },
+    {
+     "text": "إِذا",
+     "start": 34.573,
+     "end": 34.725,
+     "part": "a"
+    },
+    {
+     "text": "أَصابَتني",
+     "start": 34.855,
+     "end": 35.464,
+     "part": "a"
+    },
+    {
+     "text": "سِهامٌ",
+     "start": 35.529,
+     "end": 35.921,
+     "part": "a"
+    },
+    {
+     "text": "تَكَسَّرَتِ",
+     "start": 36.521,
+     "end": 37.173,
+     "part": "b"
+    },
+    {
+     "text": "النِصالُ",
+     "start": 37.26,
+     "end": 37.825,
+     "part": "b"
+    },
+    {
+     "text": "عَلى",
+     "start": 37.934,
+     "end": 38.109,
+     "part": "b"
+    },
+    {
+     "text": "النِصالِ",
+     "start": 38.174,
+     "end": 38.717,
+     "part": "b"
+    }
+   ]
   }
  ]
 }
