@@ -75,7 +75,10 @@ server = MCPServer(
 def _asset(name: str, must_exist: bool = True) -> Path:
     if not NAME_RE.match(name or ""):
         raise ToolError(f"invalid asset name: {name!r}")
-    p = (WORKSPACE / name).resolve()
+    raw = WORKSPACE / name
+    if raw.is_symlink():
+        raise ToolError("symlinked assets are refused")
+    p = raw.resolve()
     if WORKSPACE not in p.parents:
         raise ToolError("asset outside workspace")
     if must_exist and not p.exists():
@@ -93,12 +96,12 @@ def _run(args: list[str], timeout: int = 3600, cwd: Path | None = None) -> str:
 
 
 def _ffprobe(p: Path) -> dict:
-    out = _run(["ffprobe", "-v", "error", "-show_format", "-show_streams", "-of", "json", str(p)])
+    out = _run(["ffprobe", "-v", "error", "-protocol_whitelist", "file,pipe", "-show_format", "-show_streams", "-of", "json", str(p)])
     return json.loads(out[out.index("{"):])
 
 
 def _loudness(p: Path) -> dict:
-    out = _run(["ffmpeg", "-hide_banner", "-nostats", "-i", str(p), "-af", "ebur128=peak=true", "-f", "null", "-"])
+    out = _run(["ffmpeg", "-hide_banner", "-nostats", "-protocol_whitelist", "file,pipe", "-i", str(p), "-af", "ebur128=peak=true", "-f", "null", "-"])
     tail = out[out.rfind("Summary:"):]
     grab = lambda k: (re.search(rf"{k}:\s+(-?[\d.]+)", tail) or [None, None])[1]  # noqa: E731
     return {"integrated_lufs": grab("I"), "lra_lu": grab("LRA"), "true_peak_dbfs": grab("Peak")}
@@ -183,7 +186,7 @@ def extract_audio(asset: str, sample_rate: int = 44100) -> dict:
     """Extract the audio track as 16-bit PCM WAV (44.1 kHz suits the separation models)."""
     src = _asset(asset)
     out = _asset(Path(asset).stem + f"_audio{sample_rate // 1000}k.wav", must_exist=False)
-    _run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-vn", "-ac", "2", "-ar", str(int(sample_rate)), "-c:a", "pcm_s16le", str(out)])
+    _run(["ffmpeg", "-v", "error", "-protocol_whitelist", "file,pipe", "-y", "-i", str(src), "-vn", "-ac", "2", "-ar", str(int(sample_rate)), "-c:a", "pcm_s16le", str(out)])
     return {"asset": out.name, "probe": inspect_media(out.name)}
 
 
@@ -265,7 +268,12 @@ def sync_subtitles(asset: str, verses: list[dict], intro: str = "") -> dict:
     srt = []
     for i, (k, v) in enumerate(cues):
         nxt = cues[i + 1][1]["start"] if i + 1 < len(cues) else v["end"] + 1.0
-        srt.append(f"{i + 1}\n{ts(max(0, v['start'] - 0.12))} --> {ts(max(v['end'] + 0.3, nxt - 0.05) if k.endswith('b') else nxt - 0.05)}\n{' '.join(v['words'])}\n")
+        # cues never overlap: each ends where the next begins (next start - 0.12 s lead-in)
+        end = (nxt - 0.12) if i + 1 < len(cues) else v["end"] + 1.5
+        text = " ".join(v["words"])
+        if k.endswith("b"):  # the ajuz cue keeps the sadr above it (the bayt builds up)
+            text = " ".join(hem[k[:-1] + "a"]["words"]) + "\n" + text
+        srt.append(f"{i + 1}\n{ts(max(0, v['start'] - 0.12))} --> {ts(end)}\n{text}\n")
     base = Path(asset).stem
     _asset(base + "_hemistichs.srt", False).write_text("\n".join(srt), encoding="utf-8")
     _asset(base + "_alignment.json", False).write_text(json.dumps({"words": aligned, "hemistichs": hem}, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -343,7 +351,7 @@ def edit_video(asset: str, output: str, start: float = 0.0, duration: float = 5.
     src, out = _asset(asset), _asset(output, must_exist=False)
     vf = (f"setpts=PTS/{speed},scale={width}:{height}:force_original_aspect_ratio=increase:flags=lanczos,"
           f"crop={width}:{height},fps={fps},{GRADES[grade]},format=yuv420p")
-    _run(["ffmpeg", "-v", "error", "-y", "-ss", str(start), "-i", str(src), "-t", str(duration * speed), "-an",
+    _run(["ffmpeg", "-v", "error", "-protocol_whitelist", "file,pipe", "-y", "-ss", str(start), "-i", str(src), "-t", str(duration * speed), "-an",
           "-vf", vf, "-c:v", "libx264", "-preset", "slow", "-crf", "14", str(out)])
     return {"asset": out.name, "probe": inspect_media(out.name)}
 
@@ -405,7 +413,7 @@ def render_film(composition: str = "NisalScope", output: str = "film.mp4", crf: 
         args.append(f"--browser-executable={browser}")
     _run(args, timeout=7200, cwd=REMOTION)
     out = _asset(output, False)
-    _run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-vf", "noise=c0s=6:c0f=t,format=yuv420p", "-c:v", "libx264",
+    _run(["ffmpeg", "-v", "error", "-protocol_whitelist", "file,pipe", "-y", "-i", str(raw), "-vf", "noise=c0s=6:c0f=t,format=yuv420p", "-c:v", "libx264",
           "-preset", "slow", "-crf", str(int(crf)), "-profile:v", "high", "-c:a", "copy", "-movflags", "+faststart", str(out)])
     return {"asset": out.name, "probe": inspect_media(out.name)}
 
@@ -418,7 +426,7 @@ def inspect_output(asset: str, stills: int = 6) -> dict:
     n = max(1, min(int(stills), 24))
     sheet = _asset(Path(asset).stem + "_contact.png", False)
     dur = meta["duration_s"]
-    _run(["ffmpeg", "-v", "error", "-y", "-i", str(p), "-vf", f"fps={n / max(dur, 0.1)},scale=480:-2,tile={min(n, 6)}x{(n + 5) // 6}",
+    _run(["ffmpeg", "-v", "error", "-protocol_whitelist", "file,pipe", "-y", "-i", str(p), "-vf", f"fps={n / max(dur, 0.1)},scale=480:-2,tile={min(n, 6)}x{(n + 5) // 6}",
           "-frames:v", "1", str(sheet)])
     return {"meta": meta, "contact_sheet": sheet.name, "licences": _licences()}
 

@@ -30,8 +30,9 @@ lyric videos of sung songs (melody, not prosody, drives timing).
    Every subtitle file you hand over (draft or final) has this cue shape, two cues per verse:
    ```
    cue 2k-1  start = sadr_start - 0.12   end = ajuz_start - 0.12   text = sadr
-   cue 2k    start = ajuz_start - 0.12   end = next_sadr_start - 0.05   text = sadr ⏎ ajuz
+   cue 2k    start = ajuz_start - 0.12   end = next_sadr_start - 0.12   text = sadr ⏎ ajuz
    ```
+   Cues never overlap (each ends exactly where the next begins); the last verse holds ~1.5 s.
    Before alignment exists, take ajuz_start from the pause between the hemistichs (energy minimum)
    or the segment midpoint, and label the file DRAFT.
 4. **Director's treatment** — per verse: meaning, emotional intensity 1-10, image metaphor, grade, music cue.

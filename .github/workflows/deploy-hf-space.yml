@@ -1,0 +1,32 @@
+name: Deploy poetry film MCP to Hugging Face Space
+
+# Manual deploy (Actions tab -> this workflow -> Run workflow; works from the GitHub website on iPhone).
+# Needs, in repo Settings -> Secrets and variables -> Actions:
+#   secret   HF_TOKEN  : a Hugging Face *write* token (huggingface.co/settings/tokens)
+#   variable HF_SPACE  : <hf-username>/<space-name> of an existing Docker Space
+# Only the sutoor-film/ folder is pushed. No media, footage or user files are in it.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push sutoor-film/ to the Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: ${{ vars.HF_SPACE }}
+        run: |
+          test -n "$HF_TOKEN" || { echo "HF_TOKEN secret missing"; exit 1; }
+          test -n "$HF_SPACE" || { echo "HF_SPACE variable missing"; exit 1; }
+          git config user.email "actions@users.noreply.github.com"
+          git config user.name "deploy-bot"
+          git subtree split --prefix sutoor-film -b space-deploy
+          user="${HF_SPACE%%/*}"
+          git push --force "https://${user}:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}" space-deploy:main

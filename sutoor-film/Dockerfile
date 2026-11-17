@@ -2,7 +2,7 @@
 FROM python:3.12-slim-bookworm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      ffmpeg chromium nodejs npm ca-certificates git fonts-dejavu-core \
+      ffmpeg chromium nodejs npm ca-certificates git fonts-dejavu-core build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -u 1000 user
