@@ -74,11 +74,13 @@ def main() -> None:
         if parts:
             for pi, part in enumerate(parts):
                 a, b = part["words"]
-                pc = {**base, **{k: v for k, v in part.items() if k != "words"}}
+                at = {int(k): float(v) for k, v in (part.get("at") or {}).items()}  # word index -> the time it is SHOWN (spoken later)
+                pc = {**base, **{k: v for k, v in part.items() if k not in ("words", "at")}}
                 p_clear = pc.pop("clear", None)
                 if p_clear is None:
                     p_clear = (ws[b]["start"] - 0.06) if b < len(ws) else clear
-                lines.append({"id": f"{lid}.{pi}", "words": [{"text": w["word"], "start": round(w["start"], 3), **({"em": True} if k in em else {})}
+                lines.append({"id": f"{lid}.{pi}", "words": [{"text": w["word"], "start": round(w["start"], 3), **({"show": round(at[k], 3)} if k in at else {}),
+                                                               **({"em": True} if k in em else {})}
                                                               for k, w in enumerate(ws) if a <= k < b],
                               "clear": round(p_clear, 3), **pc})
         else:

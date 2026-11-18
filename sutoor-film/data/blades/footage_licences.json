@@ -14,17 +14,6 @@
    ]
   },
   {
-   "id": 417,
-   "title": "Silhouette and smoke at sunset",
-   "page": "https://mixkit.co/free-stock-video/silhouette-and-smoke-at-sunset-417/",
-   "licence": "videoFree",
-   "verified": "item page data-license=videoFree (storm scout page check)",
-   "checked": "2026-11-18T14:57:40Z",
-   "used_for": [
-    "shot dust (17.42 s)"
-   ]
-  },
-  {
    "id": 948,
    "title": "Man stretching in the dark and smoke",
    "page": "https://mixkit.co/free-stock-video/man-stretching-in-the-dark-and-smoke-948/",
@@ -33,6 +22,7 @@
    "checked": "2026-11-18T14:57:50Z",
    "used_for": [
     "shot man (14.95 s)",
+    "shot man_b (17.42 s)",
     "shot man2 (23.7 s)"
    ]
   },
@@ -53,8 +43,8 @@
    "title": "A horse being trained by its owner",
    "page": "https://mixkit.co/free-stock-video/a-horse-being-trained-by-its-owner-1154/",
    "licence": "videoFree",
-   "verified": "item page data-license=videoFree (read by the horses scout)",
-   "checked": "2026-11-18",
+   "verified": "item page data-license=videoFree",
+   "checked": "2026-11-18T18:01:21Z",
    "used_for": [
     "shot canter (12.82 s)"
    ]
@@ -64,8 +54,8 @@
    "title": "Train arriving to a subway station",
    "page": "https://mixkit.co/free-stock-video/train-arriving-to-a-subway-station-1622/",
    "licence": "videoFree",
-   "verified": "item page data-license=videoFree (read by the horses scout)",
-   "checked": "2026-11-18",
+   "verified": "item page data-license=videoFree",
+   "checked": "2026-11-18T18:01:46Z",
    "used_for": [
     "shot train (19.5 s)"
    ]
@@ -82,17 +72,6 @@
    ]
   },
   {
-   "id": 1961,
-   "title": "Smoke on a black background",
-   "page": "https://mixkit.co/free-stock-video/smoke-on-a-black-background-1961/",
-   "licence": "videoFree",
-   "verified": "item page data-license=videoFree",
-   "checked": "2026-11-18T15:37:19Z",
-   "used_for": [
-    "matte into dust"
-   ]
-  },
-  {
    "id": 2861,
    "title": "Producing gold bullion",
    "page": "https://mixkit.co/free-stock-video/producing-gold-bullion-2861/",
@@ -101,28 +80,6 @@
    "checked": "2026-11-18T14:54:08Z",
    "used_for": [
     "shot pour (6.34 s)"
-   ]
-  },
-  {
-   "id": 3433,
-   "title": "Pedestrian street with people walking at night",
-   "page": "https://mixkit.co/free-stock-video/pedestrian-street-with-people-walking-at-night-3433/",
-   "licence": "videoFree",
-   "verified": "item page data-license=videoFree",
-   "checked": "2026-11-18T14:56:09Z",
-   "used_for": [
-    "shot crowd (4.68 s)"
-   ]
-  },
-  {
-   "id": 3438,
-   "title": "Flames in candles close up",
-   "page": "https://mixkit.co/free-stock-video/flames-in-candles-close-up-3438/",
-   "licence": "videoFree",
-   "verified": "item page data-license=videoFree",
-   "checked": "2026-11-18T14:55:39Z",
-   "used_for": [
-    "shot lights (1.78 s)"
    ]
   },
   {
@@ -163,8 +120,8 @@
    "title": "Mountain during the night until dawn",
    "page": "https://mixkit.co/free-stock-video/mountain-during-the-night-until-dawn-4357/",
    "licence": "videoFree",
-   "verified": "item page data-license=videoFree (read by the horses scout)",
-   "checked": "2026-11-18",
+   "verified": "item page data-license=videoFree",
+   "checked": "2026-11-18T18:02:12Z",
    "used_for": [
     "shot night (14.38 s)"
    ]
@@ -175,7 +132,7 @@
    "page": "https://mixkit.co/free-stock-video/burning-lava-particles-leaping-through-the-air-4426/",
    "licence": "videoFree",
    "verified": "item page data-license=videoFree",
-   "checked": "earlier in this project",
+   "checked": "2026-11-18T18:02:37Z",
    "used_for": [
     "shot volley (20.6 s)",
     "overlay 24.2-25.52 s"
@@ -193,12 +150,23 @@
    ]
   },
   {
+   "id": 28890,
+   "title": "White sand falling inside an hourglass",
+   "page": "https://mixkit.co/free-stock-video/white-sand-falling-inside-an-hourglass-28890/",
+   "licence": "videoFree",
+   "verified": "item page data-license=videoFree",
+   "checked": "2026-11-18T18:03:02Z",
+   "used_for": [
+    "shot sand (1.78 s)"
+   ]
+  },
+  {
    "id": 28894,
    "title": "Hourglass in the dark finishes its count",
    "page": "https://mixkit.co/free-stock-video/hourglass-in-the-dark-finishes-its-count-28894/",
    "licence": "videoFree",
    "verified": "item page data-license=videoFree",
-   "checked": "earlier in this project",
+   "checked": "2026-11-18T18:03:28Z",
    "used_for": [
     "shot glass (8.13 s)"
    ]
@@ -211,7 +179,7 @@
    "verified": "item page data-license=videoFree (storm scout page check)",
    "checked": "2026-11-18T14:59:14Z",
    "used_for": [
-    "shot forge (7.4 s)"
+    "shot fire (0.0 s)"
    ]
   },
   {
@@ -237,14 +205,14 @@
    ]
   },
   {
-   "id": 52292,
-   "title": "Vertical video of flames slowly growing into a blazing fire (from the page address)",
-   "page": "https://mixkit.co/free-stock-video/vertical-video-of-flames-slowly-growing-into-a-blazing-fire-52292/",
+   "id": 51634,
+   "title": "Smoke from the campfire elevates with the woods in the background",
+   "page": "https://mixkit.co/free-stock-video/smoke-from-the-campfire-elevates-with-the-woods-in-the-51634/",
    "licence": "videoFree",
    "verified": "item page data-license=videoFree",
-   "checked": "earlier in this project",
+   "checked": "2026-11-18T15:38:35Z",
    "used_for": [
-    "shot fire (0.0 s)"
+    "shot forge (7.4 s)"
    ]
   },
   {
@@ -252,8 +220,8 @@
    "title": "Horse in a stable close-up",
    "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/",
    "licence": "videoFree",
-   "verified": "item page data-license=videoFree (read by the horses scout)",
-   "checked": "2026-11-18",
+   "verified": "item page data-license=videoFree",
+   "checked": "2026-11-18T18:03:53Z",
    "used_for": [
     "shot eye (11.42 s)"
    ]
@@ -263,19 +231,19 @@
    "title": "Horse in a Stable",
    "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-100646/",
    "licence": "videoFree",
-   "verified": "item page data-license=videoFree (read by the horses scout)",
-   "checked": "2026-11-18",
+   "verified": "item page data-license=videoFree",
+   "checked": "2026-11-18T18:04:19Z",
    "used_for": [
     "shot grey (12.08 s)"
    ]
   },
   {
    "id": 100663,
-   "title": "Black and white horses in stable (from the page address)",
+   "title": "Black and White Horses in Stable",
    "page": "https://mixkit.co/free-stock-video/black-and-white-horses-in-stable-100663/",
    "licence": "videoFree",
    "verified": "item page data-license=videoFree",
-   "checked": "earlier in this project",
+   "checked": "2026-11-18T18:04:44Z",
    "used_for": [
     "shot tether (10.63 s)"
    ]

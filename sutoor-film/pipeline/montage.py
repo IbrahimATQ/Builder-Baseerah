@@ -26,7 +26,8 @@ Plan (JSON):
               "shock": {"at": film_t, "dur": 0.3, "amount": 0.015, "gain": 0.2}, "soften": px,
               "trans": {"type": "cut|dissolve|dip|whip|zoom|flash|matte", "dur": 0.25, ...}}],
    "overlays": [{"src", "start", "end", "in": 0, "speed": 1.0, "mode": "screen", "gain": 1.0, "fade": 0.2,
-                 "fade_in": s, "fade_out": s, "flip": false, "black": 0.02, "tint": [r, g, b]}]}
+                 "fade_in": s, "fade_out": s, "flip": false, "rotate": 0, "black": 0.02, "tint": [r, g, b],
+                 "mono": false, "r2g": 0.0, "soften": px}]}
 A transition belongs to the incoming shot and spans [start - dur/2, start + dur/2].
   whip : "dir": "left|right|up|down" (the way the picture travels), "ease": 3.0
   zoom : "factor": 3.0, "centre": [0.5, 0.5]
@@ -330,7 +331,7 @@ def t_whip(a: np.ndarray, b: np.ndarray, p: float, tr: dict, dp: float) -> np.nd
     return dir_blur(out, v * float(tr.get("shutter", 0.9)), horizontal)
 
 
-def zoom_blur(img: np.ndarray, s: float, ds: float, centre: tuple[float, float], n: int = 7) -> np.ndarray:
+def zoom_blur(img: np.ndarray, s: float, ds: float, centre: tuple[float, float], n: int = 18) -> np.ndarray:
     """img scaled by s about centre, integrated over scales s..s*exp(ds) (radial motion blur), mirrored edges."""
     h, w = img.shape[:2]
     cx, cy = centre[0] * w, centre[1] * h
@@ -525,6 +526,12 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
                 fd = float(ov.get("fade", 0.2))  # "fade_in" / "fade_out" override it (0 = the layer is cut with the picture)
                 env = min(1.0, (t - ov["start"] + 1e-6) / max(float(ov.get("fade_in", fd)), 1e-3), (ov["end"] - t) / max(float(ov.get("fade_out", fd)), 1e-3))
                 o = o * (float(ov.get("gain", 1.0)) * max(0.0, env))
+                if ov.get("mono"):  # keep only the layer's light (a prism leak without its rainbow)
+                    o = np.repeat((o @ LUMA)[..., None], 3, axis=2)
+                if ov.get("r2g"):  # red sparks towards orange and gold: their red also feeds green
+                    o[..., 1] = np.minimum(1.0, o[..., 1] + float(ov["r2g"]) * o[..., 0])
+                if ov.get("soften"):
+                    o = cv2.GaussianBlur(o, (0, 0), float(ov["soften"]) * scale)
                 if ov.get("tint"):
                     o = o * np.array(ov["tint"], np.float32)
                 img = (1 - (1 - np.clip(img, 0, 1)) * (1 - np.clip(o, 0, 1))) if ov.get("mode", "screen") == "screen" else img + o

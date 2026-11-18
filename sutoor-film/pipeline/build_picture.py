@@ -202,6 +202,8 @@ def grade(img: np.ndarray, g: dict) -> np.ndarray:
     lin *= g["pre"] * 2.0 ** g["ev"]
     t, ti = g["temp"], g["tint"]
     lin *= np.array([1 + 0.12 * t - 0.03 * ti, 1 + 0.06 * ti, 1 - 0.14 * t - 0.03 * ti], np.float32)
+    if g.get("r2g"):  # fire filmed as flat red: let red feed green, so bright cores go orange, gold, then white
+        lin[..., 1] += float(g["r2g"]) * lin[..., 0]
     lum = lin @ np.array([0.2126, 0.7152, 0.0722], np.float32)
     sat = g["sat"] * (1 - g["bw"])
     lin = lum[..., None] + (lin - lum[..., None]) * sat

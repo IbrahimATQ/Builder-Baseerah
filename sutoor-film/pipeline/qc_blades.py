@@ -88,25 +88,28 @@ def main() -> None:
     # ------------------------------------------------------------ sync
     cuts = qc_edl["cuts"] + [dur]
     shot_ids = list(qc_edl["licences"].keys())
-    rows, off, early, short = [], [], [], []
+    rows, off, early, short, ahead = [], [], [], [], []
     for lid in ORDER:
         k = 0
         for b in blocks[lid]:
             fade = float(b.get("out", 0.0))
             for w in b["words"]:
                 al = aligned[lid][k]; k += 1
-                on = w["start"] - float(b.get("lead", LEAD))
+                on = float(w.get("show", w["start"])) - float(b.get("lead", LEAD))
                 si = max(i for i, c in enumerate(cuts[:-1]) if c <= w["start"] + 1e-6)
                 row = {"line": b["id"], "word": w["text"], "aligned_onset": al["start"], "appears": round(on, 3), "shot": shot_ids[si],
                        "full_until": round(b["clear"] - fade, 3), "spoken_end": al["end"]}
                 rows.append(row)
-                if abs(w["start"] - al["start"]) > 0.002:
+                if "show" in w:   # a rhyme word brought on with the word before it: by design, and never by more than 0.36 s
+                    ahead.append({"line": b["id"], "word": w["text"], "shown": w["show"], "spoken": al["start"], "ahead_s": round(al["start"] - w["show"], 3)})
+                if abs(w["start"] - al["start"]) > 0.002 or al["start"] - float(w.get("show", w["start"])) > 0.36 or float(w.get("show", w["start"])) > al["start"] + 0.002:
                     off.append(row)
                 if on < cuts[si] - 0.085 or b["clear"] > cuts[si + 1] + 0.26:   # a block may ride a transition's half
                     early.append({**row, "shot_span": [cuts[si], cuts[si + 1]], "clear": b["clear"]})
                 if b["clear"] - fade < al["end"] - 0.12:   # it may leave with a cut that lands inside its last syllable
                     short.append(row)
-    check("every word appears at its aligned onset (fixed 0.06 s lead)", not off, {"words": len(rows), "off": off})
+    check("every word appears at its aligned onset (0.06 s lead; a rhyme word may come on with the word before it, at most 0.36 s early)", not off,
+          {"words": len(rows), "off": off, "shown_with_the_word_before": ahead})
     check("every word is shown inside the shot it is spoken over", not early, early)
     check("every word stays at full strength until it has been spoken (within 0.12 s of its last sound)", not short, short)
     rep["words"] = rows
@@ -128,11 +131,13 @@ def main() -> None:
                 item = {"id": l["id"], "text": " ".join(w["text"] for w in r), "size": size, "width_frac": round(frac, 3), "y": l["y"],
                         "top": round(top, 3), "bottom": round(bot, 3)}
                 lay.append(item)
-                if frac > 0.86:
+                xc = float(l.get("x", 0.5))
+                item["left"], item["right"] = round(xc - frac / 2, 3), round(xc + frac / 2, 3)
+                if frac > 0.86 or item["left"] < 0.04 or item["right"] > 0.96:
                     wide.append(item)
                 if top < 0.08 or bot > 0.84:
                     unsafe.append(item)
-        check("no row is wider than 86 % of the frame", not wide, wide)
+        check("no row is wider than 86 % of the frame or closer than 4 % to an edge", not wide, wide)
         check("every row sits inside the safe area (8 %..84 % of the height)", not unsafe, unsafe)
         rep["layout"] = lay
     except Exception as e:  # noqa: BLE001
@@ -171,7 +176,7 @@ def main() -> None:
             p = i
         else:
             runs.append([round(s0 / fps, 2), round((p + 1) / fps, 2)]); s0 = p = i
-    allow = plan.get("qc_dark", [[0.0, 0.3], [3.2, 3.8], [9.9, 10.7], [20.5, 20.7], [30.4, 31.1]])
+    allow = plan.get("qc_dark", [[0.0, 0.15], [9.9, 10.7], [20.5, 20.7], [30.4, 31.1]])
     stray = [r for r in runs if r[1] - r[0] > 0.09 and not any(a0 - 0.05 <= r[0] and r[1] <= a1 + 0.05 for a0, a1 in allow)]
     check("no stray black stretch", not stray, {"dark_runs": runs, "allowed": allow, "stray": stray})
 
