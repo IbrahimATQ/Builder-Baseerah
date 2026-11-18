@@ -20,6 +20,10 @@ Inputs: the cut picture (montage.py), a transparent text pass (Remotion BladesTe
   track:   global camera motion measured on the picture (features + RANSAC) moves the letters with the
            world, so they sit in the space and not on the glass.
   shade / texture: the letters take the brightness and the grain of what is under them.
+  pool:    0..1, a soft darkening pooled under the line ONLY where the plate there is bright (measured),
+           so the line stays readable over a white blaze or a sky without a caption box.
+  lit:     {"lo": .03, "hi": .14}: the letters are only as visible as the light around them (a match, a
+           candle, a fire brings the line out of the dark and takes it back).
   reveal:  the luma of a REAL clip (ink blooming in water) lets the line appear.
 
 Usage: python comp_text.py PICTURE.mp4 TEXT_DIR COMP.json OUT.mp4 [--from T] [--to T] [--depth DIR] [--pic-start T]
@@ -227,6 +231,17 @@ def main() -> None:
             out = Pc * (1 - dens * (1 - ink))
         else:
             big = cv2.GaussianBlur(lum, (0, 0), 70 * S)
+            pool = float(cfg.get("pool", 0.0))
+            if pool > 0:  # darken softly under the line where the plate is bright there
+                near_a = cv2.GaussianBlur(a, (0, 0), 46 * S)
+                near_a = near_a / max(float(near_a.max()), 1e-4)
+                bright = smoothstep(cv2.GaussianBlur(lum, (0, 0), 30 * S), 0.30, 0.62)
+                Pc = Pc * (1 - pool * 0.62 * (near_a * bright)[..., None])
+                lum = Pc @ LUMA
+            lit = cfg.get("lit")
+            if lit:
+                a = a * smoothstep(big, float(lit.get("lo", 0.03)), float(lit.get("hi", 0.14)))
+                a3 = a[..., None]
             ref = float(cfg.get("shade_ref", 0.22))
             shade = np.clip(1 + float(cfg["shade"]) * (big - ref) * 1.6, 0.72, 1.22)
             tex = 1 + float(cfg["texture"]) * (lum - cv2.GaussianBlur(lum, (0, 0), 4 * S)) * 2.2
