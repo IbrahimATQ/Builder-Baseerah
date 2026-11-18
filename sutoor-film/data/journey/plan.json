@@ -484,7 +484,8 @@
    "grade": {
     "sat": 0.95,
     "halation": 0.18,
-    "split": 0.3
+    "split": 0.3,
+    "ev": 0.5
    },
    "toBlack": 0.3,
    "licence": "Render (paper_burn7) on Mixkit 1081; flames Mixkit 3764 + 52292; sparks 3463; smoke 50956; steam 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
