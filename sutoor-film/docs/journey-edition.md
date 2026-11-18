@@ -157,18 +157,21 @@ The score: `cd $A && SCORE_EDITION=journey QUENCH_T=38.75 CREDITS_T=40.5 $V $R/p
 - **Picture:** no unintended black (the candle's death at 12.0–12.7 and the credits are the only black), no frozen picture, and no photosensitive flash failure.
 - **Audio:** −14.45 LUFS, −1.5 dBTP, no clipping. The film's audio carries the original voice (correlation 0.957, lag 3 ms).
 - **Licences:** every shot has a licence record, and no source footage is reused.
-- **Master:** 2160×3840 H.264 High, 44.0 s, 475 MB. A 1080×1920 share copy of 50 MB is also provided.
+- **Master:** 2160×3840 H.264 High, 44.0 s, 448 MB. Two copies are also provided:
+  - a 4K send copy of 327 MB (2-pass at 62 Mb/s, for upload limits);
+  - a 1080×1920 share copy of 49 MB.
 
 **Fire never touches a word before it is spoken** (`journey_qc_extra.json`; the renderer logs each word's first-burn time):
 - **Burn I:** the margins are 0.41, 0.89, 0.76 and 0.85 s.
 - **Burn II:** 0.85–2.03 s.
-- **Burn III:** the title line is held whole until 0.61 s after he finishes it. The margins are 2.02, 1.49, 1.17 and 0.61 s.
+- **Burn III:** the title line is held whole until 0.61 s after he finishes it. The margins are 2.01, 1.48, 1.18 and 0.62 s.
 - In Burn III every wound clears all ink by at least 56 px at render size.
 
 **Black levels by shot** (share of pixels at video black; mean luma):
-- **Burn III:** 18 %, mean 34.6. It was 41 % before, mean 31.9.
+- **Burn III:** 30 %, mean 28.5: a moonlit night that fades up from black, against 41 % and a mean of 31.9 in the round-1 cut.
 - **Candle:** 65 %, by design: it is a flame in the dark.
 - **Every other shot:** 12 % or less, apart from the rock shot's planned sink to black at its end.
+- **The cut from the Alhambra to the heron** now goes from a mean of 54.6 to 52.7.
 
 ## 7. The review: verified findings and what was done
 | Finding (severity) | Done |
