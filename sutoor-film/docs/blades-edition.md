@@ -144,6 +144,17 @@ What is checked on the finished file:
 - **Flashes**: the photosensitivity screen (`pipeline/flash_check.py`).
 - **Licences**: every source recorded as verified free.
 
+**Results on the delivered files** (`data/blades/qc_blades.json`, `data/blades/qc_blades_share.json`): 19 of 19 checks pass on both.
+
+| | 4K master | 1080 share copy |
+|---|---|---|
+| File | 2160×3840, 24 fps, H.264 High, BT.709, 375.7 MB | 1080×1920, 24 fps, H.264 High, BT.709, 73.7 MB |
+| Luma range | 5–245 | 7–245 |
+| Loudness, true peak | −14.18 LUFS, −1.06 dBTP | the same sound |
+| Sound against the original mix | in sync to the sample, correlation 0.9956 | the same |
+| Flicker screen | 0.078 against a limit of 0.11 | 0.078 |
+| Lettering ink, measured | between 22.4 % and 83.7 % of the height; nothing right of 84.7 % of the width in the lower half | the same |
+
 ## 7. What could not be had
 - **Earth thrown into a grave.** Mixkit has the picture ("Man throws dirt into a grave", 32827; "Person filling a hole in the ground", 33727), but both pages state its restricted licence. The burial line therefore stays with the hand on the earth, which is shot with the hand out of focus.
 - **Real burning calligraphy.** The only free burning-paper footage reachable is a printed Latin-script book in flames (Mixkit 52295, 52298–52300); it does not suit Arabic verse. Blank-paper burns exist on Mixkit only under its restricted licence.

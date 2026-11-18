@@ -113,7 +113,7 @@
      "bt709",
      "tv"
     ],
-    "bit_rate": "19036764"
+    "bit_rate": "19017517"
    }
   },
   {
@@ -140,9 +140,9 @@
    "detail": {
     "frames": 744,
     "min": 7.0,
-    "max": 242.0,
+    "max": 245.0,
     "frames_below_16": 200,
-    "frames_above_235": 91
+    "frames_above_235": 87
    }
   },
   {
@@ -1238,7 +1238,7 @@
    "line": "v1a.1",
    "word": "بَعضُنا",
    "t": 2.708,
-   "mean_delta": 164.7,
+   "mean_delta": 164.6,
    "share_visible": 0.98,
    "plate_luma": 63.1
   },
@@ -1254,7 +1254,7 @@
    "line": "v1a.2",
    "word": "وَتَمشي",
    "t": 4.375,
-   "mean_delta": 173.9,
+   "mean_delta": 175.0,
    "share_visible": 0.93,
    "plate_luma": 32.4
   },
@@ -1262,7 +1262,7 @@
    "line": "v1b.0",
    "word": "أَواخِرُنا",
    "t": 5.0,
-   "mean_delta": 147.4,
+   "mean_delta": 163.5,
    "share_visible": 0.98,
    "plate_luma": 63.4
   },
@@ -1278,7 +1278,7 @@
    "line": "v1b.1",
    "word": "هامِ",
    "t": 5.917,
-   "mean_delta": 160.6,
+   "mean_delta": 160.7,
    "share_visible": 1.0,
    "plate_luma": 62.2
   },
