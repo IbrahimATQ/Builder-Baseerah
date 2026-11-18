@@ -74,27 +74,27 @@ def lock_keys(track_file: str, frame0: int, start: float, fill: float, px: float
 
 shots = [
     # ---------------------------------------------------------------- the name, behind a real fire
-    {"id": "fire", "src": clip(3468), "lic": 3468, "start": 0.0, "in": 0.3, "window": {"cx": 0.18},
-     # a flame takes hold among ash-covered logs, at its own speed: sharp wood, a lit first frame. This stretch and framing
-     # (the flame at the frame's edge) keep the flicker inside the photosensitivity limit; cx 0.22 does not
-     "move": {"z": [1.0, 1.08]}, "grade": {"ev": -0.9, "sat": 0.85, "temp": 0.0, "contrast": 1.1, "halation": 0.3},
+    {"id": "fire", "src": clip(3468), "lic": 3468, "start": 0.0, "in": 2.0, "window": {"cx": 0.2},
+     # a flame stands among ash-covered logs, at its own speed: sharp wood, tall fire and a lit first frame. This stretch and
+     # framing keep the flicker inside the photosensitivity limit (0.08 against 0.11; 0.09 at cx 0.22); from 1.7 s it does not
+     "move": {"z": [1.0, 1.08]}, "grade": {"ev": -0.9, "sat": 0.62, "temp": 0.0, "contrast": 1.1, "halation": 0.3},  # ash grey, not violet
      "text": {"glow": 0.5, "pool": 0.5, "occlude": {"type": "luma", "lo": 0.7, "hi": 0.96, "gain": 0.75, "blur": 2.0}}},
     # ---------------------------------------------------------------- 1  we bury one another; the last walk on the first
-    {"id": "earth", "src": clip(2851), "lic": 2851, "start": 1.78, "in": 16.85, "speed": 0.8008, "window": {"cx": 0.67, "cy": 0.615, "fill": 1.3},
-     # bare earth at dusk; the first word lands on it, then a hand comes and smooths the earth over, and is still leaving at
-     # the cut (a 29.97 fps clip played frame for frame, so 0.8 speed). The hourglass stays the film's only falling sand
-     "move": {"z": [1.0, 1.05]}, "grade": {"ev": -1.15, "sat": 0.42, "temp": 1.2, "tint": 3.5, "contrast": 1.1},
-     "text": {"glow": 0.4, "pool": 0.6, "occlude": {"type": "luma", "lo": 0.24, "hi": 0.4, "gain": 0.9, "blur": 2.0}}},  # the pale hand passes in front of the words
-    {"id": "walk", "src": clip("1013-22"), "lic": 1013, "start": 3.76, "in": in_at_frame(88, 3.76), "window": {"cx": 0.33, "cy": 0.6, "fill": 1.25},
+    {"id": "earth", "src": clip(2851), "lic": 2851, "start": 1.78, "in": 16.85, "speed": 0.8008, "window": {"cx": 0.6, "cy": 0.615, "fill": 1.3},
+     # bare earth at dusk; the first word lands on it; then a hand comes, presses the earth down over that word and holds it
+     # there to the cut: the word that means "buries" is buried (a 29.97 fps clip played frame for frame, so 0.8 speed)
+     "move": {"z": [1.0, 1.06]}, "grade": {"ev": -0.7, "sat": 0.3, "temp": 1.2, "tint": 3.5, "contrast": 1.2},
+     "text": {"glow": 0.4, "pool": 0.6, "occlude": {"type": "luma", "lo": 0.34, "hi": 0.5, "gain": 0.97, "blur": 2.5}}},  # the pale hand is in front of the words (the lit clods are not)
+    {"id": "walk", "src": clip("1013-22"), "lic": 1013, "start": 3.76, "in": in_at_frame(88, 3.76), "window": {"cx": 0.33, "cy": 0.63, "fill": 1.35},
      # 1013 from 0.4 s at its true cadence (true_cadence.py: every real frame, the dropped ones rebuilt), so 0.71 speed:
      # the foot comes down on «وَتَمشي»; white cloth, skin and sand kept apart by the grade
-     "move": {"z": [1.0, 1.05]}, "shake": {"amp": 2, "seed": 5}, "grade": {"ev": 0.45, "sat": 0.78, "temp": -2.0, "tint": 1.6, "contrast": 1.08},
-     "text": {"pool": 0.8, "glow": 0.3, "occlude": {"type": "warm", "lo": 0.10, "hi": 0.25, "gain": 0.95, "blur": 2.0}}},  # the foot steps in front of the word
+     "move": {"z": [1.0, 1.04]}, "shake": {"amp": 2, "seed": 5}, "grade": {"ev": 0.95, "sat": 0.78, "temp": -2.0, "tint": 1.6, "contrast": 1.18},
+     "text": {"pool": 0.9, "glow": 0.3, "occlude": {"type": "warm", "lo": 0.10, "hi": 0.25, "gain": 0.95, "blur": 2.0}}},  # the foot steps in front of the word
     {"id": "foam", "src": clip("1013-21"), "lic": 1013, "start": 5.34, "in": in_at_frame(56, 5.34), "window": {"fill": 1.25},
      # 1013 from 9.3 s at its true cadence, and the frame held on the sand (ground_lock.py): the walker leaves, the footprint
      # stays, the edge of the sea comes for it. The foot lifts off the print as «الأَوالي» lands
      "move": {"keys": lock_keys("footprint_lock.json", 56, 5.34, 1.25, 0.40, 0.76)},
-     "grade": {"ev": 0.5, "sat": 0.8, "temp": -2.0, "tint": 1.6, "contrast": 1.1},
+     "grade": {"ev": 0.55, "sat": 0.8, "temp": -2.0, "tint": 1.6, "contrast": 1.12},
      "text": {"pool": 0.8, "glow": 0.35, "occlude": [{"type": "warm", "lo": 0.10, "hi": 0.25, "gain": 0.95, "blur": 2.0},      # the lifting foot,
                                                       {"type": "luma", "lo": 0.5, "hi": 0.78, "gain": 0.85, "blur": 2.0}]}},   # and the foam, pass in front
     # ---------------------------------------------------------------- 2  we ready the swords; death needs no fight
@@ -172,9 +172,10 @@ shots = [
 # transition's first half. "clear"/"out" in extra override that. "at": {word: time} shows a word before it is
 # spoken (a rhyme word brought on with the word before it).
 lines = {
-    "v1a": {"em": [0], "parts": [(0, 1, 0.645, 190, {"x": 0.68}), (1, 3, 0.782, 150, {"x": 0.59}),  # in the earth, clear of the twig, under the hand
-                                 (3, 4, 0.785, 170, {"clear": 4.62, "out": 0.1})]},              # beneath the foot that comes down
-    "v1b": {"em": [3], "parts": [(0, 1, 0.785, 170, {"x": 0.6}),                                  # its marks clear of the planted toes
+    "v1a": {"em": [0], "parts": [(0, 1, 0.625, 190, {"x": 0.33}),                                 # on the earth where the hand will press: it is buried
+                                 (1, 3, 0.79, 140, {"x": 0.42}),                                  # below the hand's reach, in the soft foreground
+                                 (3, 4, 0.762, 170, {"clear": 4.62, "out": 0.1})]},               # beneath the foot that comes down
+    "v1b": {"em": [3], "parts": [(0, 1, 0.766, 165, {"x": 0.6}),                                  # its marks clear of the planted toes
                                  (1, 3, 0.52, 132, {"x": 0.21, "clear": 6.31, "out": 0.08}),      # on the sand the sea is about to reach, clear of his ankle
                                  (3, 4, 0.64, 200, {"x": 0.42, "at": {3: 5.78}, "clear": 6.31, "out": 0.08})]},  # over the footprint, as the foot lifts off it; gone before the flash
     "v2a": {"em": [1], "parts": [(0, 1, 0.645, 180, {"lead": 0.0}), (1, 2, 0.76, 180, {}), (2, 3, 0.5, 210, {})]},  # «نُعِدُّ» comes with the pour, not over the flash
@@ -182,11 +183,11 @@ lines = {
     "v3a": {"em": [1], "parts": [(0, 1, 0.735, 180, {}), (1, 2, 0.735, 180, {}), (2, 3, 0.735, 180, {})]},
     "v3b": {"em": [4], "parts": [(0, 2, 0.31, 175, {}), (2, 4, 0.425, 175, {}), (4, 5, 0.42, 230, {})]},  # on the horse's dark flank; the hooves stay clear
     "v4a": {"em": [3], "parts": [(0, 1, 0.64, 220, {"x": 0.4}), (1, 3, 0.77, 160, {"x": 0.4, "at": {2: 15.971}}), (3, 4, 0.62, 220, {})]},  # inside his shoulders, wherever he leans
-    "v4b": {"parts": [(0, 3, 0.63, 130, {"x": 0.38}), (3, 5, 0.775, 165, {"x": 0.38})]},
+    "v4b": {"parts": [(0, 3, 0.625, 130, {"x": 0.38}), (3, 5, 0.768, 165, {"x": 0.38})]},
     "v5a": {"em": [1], "parts": [(0, 1, 0.71, 210, {}), (1, 2, 0.52, 230, {"x": 0.37, "lead": 0.0}),  # «الدَهرُ» is printed on the dial: it cannot come before the dial
                                  (2, 3, 0.7, 200, {"lead": 0.0}), (3, 4, 0.318, 150, {})]},
     "v5b": {"em": [0, 4], "parts": [(0, 1, 0.44, 220, {}), (1, 3, 0.43, 190, {}), (3, 5, 0.685, 200, {"at": {4: 23.156}})]},  # the sun (the heart) sits between the two rows
-    "v6a": {"em": [3], "parts": [(0, 2, 0.655, 130, {"x": 0.58}), (2, 4, 0.775, 160, {"x": 0.53})]},  # both rows inside his shoulders, clear of the smoke and of the button column at the right edge
+    "v6a": {"em": [3], "parts": [(0, 2, 0.632, 130, {"x": 0.58}), (2, 4, 0.765, 160, {"x": 0.53})]},  # both rows inside his shoulders, clear of the smoke and of the button column at the right edge
     "v6b": {"em": [1, 3], "parts": [(0, 1, 0.72, 200, {"breakAt": 25.95}),  # the word that means "shattered" cracks before the cut takes it
                                     (1, 2, 0.72, 220, {}), (2, 4, 0.735, 200, {"clear": 28.25, "out": 0.45})]},
 }
@@ -201,10 +202,11 @@ extra_lines = [
 ]
 
 overlays = [
-    # the arrows reach him: real embers cross the man's silhouette from the first frame of his shot, light the air around them
-    # (and so him), and are gone with the cut
-    {"src": clip(4426), "rotate": 90, "start": 23.7, "end": 25.52, "in": 1.0, "gain": 1.25, "fade_in": 0.2, "fade_out": 0.0, "black": 0.3,
-     "r2g": 0.35, "soften": 1.8, "tint": [1.0, 0.92, 0.8], "glow": {"sigma": 46, "gain": 0.7}},
+    # the arrows reach him: real embers cross the man's silhouette, at working level from the first frame of his shot and
+    # held there (a steady stretch of the clip, played frame for frame: it is a 30 fps file), blurred along their flight so
+    # they read as shafts, with a little of their own light on what they cross; gone with the cut
+    {"src": clip(4426), "rotate": 90, "start": 23.7, "end": 25.52, "in": 2.6, "speed": 0.8, "gain": 1.6, "fade_in": 0.0, "fade_out": 0.0, "black": 0.55,  # only the bright cores: sparks in flight, not a haze of fire
+     "r2g": 0.35, "soften": 1.2, "tint": [1.0, 0.92, 0.8], "streak": {"length": 46, "angle": -37}, "glow": {"sigma": 46, "gain": 0.25}},
 ]
 
 

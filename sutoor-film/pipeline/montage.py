@@ -27,7 +27,8 @@ Plan (JSON):
               "trans": {"type": "cut|dissolve|dip|whip|zoom|flash|matte", "dur": 0.25, ...}}],
    "overlays": [{"src", "start", "end", "in": 0, "speed": 1.0, "mode": "screen", "gain": 1.0, "fade": 0.2,
                  "fade_in": s, "fade_out": s, "flip": false, "rotate": 0, "black": 0.02, "tint": [r, g, b],
-                 "mono": false, "r2g": 0.0, "soften": px, "glow": {"sigma": px at 4K, "gain": 0.6}}]}
+                 "mono": false, "r2g": 0.0, "soften": px, "streak": {"length": px at 4K, "angle": deg, x right / y down},
+                 "glow": {"sigma": px at 4K, "gain": 0.6}}]}
 A transition belongs to the incoming shot and spans [start - dur/2, start + dur/2].
   whip : "dir": "left|right|up|down" (the way the picture travels), "ease": 3.0
   zoom : "factor": 3.0, "centre": [0.5, 0.5]
@@ -538,6 +539,15 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
                     o = cv2.GaussianBlur(o, (0, 0), float(ov["soften"]) * scale)
                 if ov.get("tint"):
                     o = o * np.array(ov["tint"], np.float32)
+                if ov.get("streak"):  # a shutter for the layer: blur along its travel, so sparks read as shafts in flight, not as dots
+                    st = ov["streak"]
+                    n = max(3, int(round(float(st.get("length", 30.0)) * scale)) | 1)
+                    ker = np.zeros((n, n), np.float32)
+                    a = math.radians(float(st.get("angle", 0.0)))
+                    c = (n - 1) / 2.0
+                    cv2.line(ker, (int(round(c - c * math.cos(a))), int(round(c - c * math.sin(a)))),
+                             (int(round(c + c * math.cos(a))), int(round(c + c * math.sin(a)))), 1.0, 1, cv2.LINE_AA)
+                    o = cv2.filter2D(o, -1, ker / max(float(ker.sum()), 1e-6))
                 if ov.get("glow"):  # the light a bright element throws around itself: a wide soft copy, so embers light what they cross
                     g = ov["glow"]
                     small = cv2.resize(o, (max(W // 8, 2), max(H // 8, 2)), interpolation=cv2.INTER_AREA)

@@ -147,6 +147,41 @@ def main() -> None:
     except Exception as e:  # noqa: BLE001
         check("layout measured", False, f"could not measure: {e}")
 
+    # ------------------------------------------------------------ the lettering as rendered (its ink, not an estimate of it)
+    try:
+        import glob
+        import re
+        import cv2
+        fr = sorted((int(re.search(r"element-(\d+)\.png$", f).group(1)), f) for f in glob.glob(os.path.join(work, "text", "element-*.png")))
+        runs, cur, worst = [], None, {"top": 1.0, "bottom": 0.0, "right_low": 0.0}
+        for k, f in fr[::2]:
+            im = cv2.imread(f, cv2.IMREAD_UNCHANGED)
+            if im is None or im.ndim < 3 or im.shape[2] < 4:
+                continue
+            a = im[::2, ::2, 3] > 96  # ink, not the faint edge of a word still arriving
+            H2, W2 = a.shape
+            ys, xs = np.where(a.any(axis=1))[0], np.where(a[int(H2 * 0.5):int(H2 * 0.9)].any(axis=0))[0]
+            if not len(ys):
+                bad = None
+            else:
+                top, bot = ys[0] / H2, (ys[-1] + 1) / H2
+                right = (xs[-1] + 1) / W2 if len(xs) else 0.0
+                worst = {"top": min(worst["top"], top), "bottom": max(worst["bottom"], bot), "right_low": max(worst["right_low"], right)}
+                bad = [n for n, v in (("above 8 %", top < 0.08), ("below 84 %", bot > 0.842), ("under the buttons", right > 0.862)) if v] or None
+            if bad:
+                if cur and cur["why"] == bad and k - cur["last"] <= 2:
+                    cur["last"] = k
+                else:
+                    cur = {"first": k, "last": k, "why": bad}; runs.append(cur)
+            else:
+                cur = None
+        held = [{"from_s": round(r["first"] / fps, 2), "to_s": round((r["last"] + 1) / fps, 2), "why": r["why"]} for r in runs if r["last"] - r["first"] >= 6]
+        check("the lettering as rendered stays inside 8 %..84 % of the height and left of the button column (ink measured in the text frames; a landing word's first quarter second excepted)",
+              bool(fr) and not held, {"frames_measured": len(fr[::2]), "highest_ink": round(worst["top"], 3), "lowest_ink": round(worst["bottom"], 3),
+                                      "rightmost_ink_in_lower_half": round(worst["right_low"], 3), "out_of_bounds": held})
+    except Exception as e:  # noqa: BLE001
+        check("the lettering as rendered measured", False, f"could not measure: {e}")
+
     # ------------------------------------------------------------ the file
     pr = json.loads(run(["ffprobe", "-v", "error", "-show_streams", "-show_format", "-of", "json", film]))
     v = next(s for s in pr["streams"] if s["codec_type"] == "video")

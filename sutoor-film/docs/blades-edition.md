@@ -17,8 +17,8 @@
 
 | Start (s) | Shot | Picture (Mixkit item) | Words on it | Into the shot |
 |---|---|---|---|---|
-| 0.00 | fire | a flame takes hold among ash-covered logs (3468): sharp wood, cold blue against the fire, lit from the first frame | «المُتَنَبّي», in the dark between two logs, up on the first frame | none: the film starts lit |
-| 1.78 | earth | bare earth at dusk; then a hand comes and smooths it over, still leaving at the cut (2851); the voice is alone here | «يُدَفِّنُ» lands on the earth before the hand arrives, then «بَعضُنا بَعضاً»; the hand passes in front | cut |
+| 0.00 | fire | a tall flame stands among ash-covered logs (3468): sharp wood, cold ash against the fire, lit from the first frame | «المُتَنَبّي», in the dark between two logs, up on the first frame | none: the film starts lit |
+| 1.78 | earth | bare earth at dusk; then a hand comes, presses the earth down and smooths it over, busy to the cut (2851); the voice is alone here | «يُدَفِّنُ» lands on the earth before the hand arrives, and the hand presses down over it; «بَعضُنا بَعضاً» below | cut |
 | 3.76 | walk | bare feet and a white robe on wet sand, in slow motion made of the clip's real frames (1013); the music enters; a foot comes down | «وَتَمشي» under the foot that lands, which steps in front of it; then «أَواخِرُنا» | cut from the dark earth to the white cloth |
 | 5.34 | foam | the frame stays behind on the sand (1013): the foot lifts off its print and leaves, and the white edge of the sea comes for the footprint | «عَلى هامِ» on the sand, which the foam reaches; «الأَوالي» in gold over the footprint, as the foot lifts off it | cut on the step |
 | 6.34 | pour | molten metal poured (2861): the stream starts on the cut, the sparks burst on «المَشرَفِيَّةَ», a push-in on the accent at 7.01 | «نُعِدُّ» / «المَشرَفِيَّةَ» | warm flash |
@@ -37,7 +37,7 @@
 | 20.60 | volley | a storm of embers streaking like arrows (4426, turned 90°) | «بِالأَرزاءِ», embers passing in front | dissolve |
 | 21.56 | coal | one glowing coal (3462) | «حَتّى» / «فُؤادي» | dissolve |
 | 22.46 | thorns | black branches across a low sun (3969), a little out of focus | «في غِشاءٍ» above the sun, «مِن نِبالِ» below it, both behind the branches | dissolve (the coal becomes the sun) |
-| 23.70 | man2 | the same man, closer and from the other side (948, mirrored), his head whole in the frame; from the first frame real embers stream across him and light him (4426) | «فَصِرتُ إِذا» / «أَصابَتني سِهامٌ», inside his shoulders, clear of the buttons the platforms draw at the right edge | cut |
+| 23.70 | man2 | the same man, closer and from the other side (948, mirrored), his head in the frame; real sparks in flight cross him from the first frame (4426) | «فَصِرتُ إِذا» / «أَصابَتني سِهامٌ», inside his shoulders, clear of the buttons the platforms draw at the right edge | cut |
 | 25.52 | shards | splinters of rock in exploding water, from above (1956, turned 90°), with a lens jolt | «تَكَسَّرَتِ», which cracks into shards | smash cut |
 | 26.22 | blade | a long blade of rock, a wave sweeping over it (51455, turned 90°) | «النِصالُ» | cut |
 | 26.84 | rock | a 0.9 s fall onto a lone rock in a dark sea (44398, turned 90°, ×12 then real time); it stays | «عَلى النِصالِ», then the two credits | cut |
@@ -61,7 +61,7 @@
 - **Time remapping** with keys, so a shot ramps (the hourglass, the fall onto the rock). Near real time the nearest source frame is shown whole: mixing two neighbours doubles every moving edge. Only a real rush (2.5× and up) is integrated into motion blur, in linear light.
 - **Transitions centred on the cut:** whip (a push with directional blur), zoom (one continuous punch-through), flash (a soft bloom, one rise and one fall), dissolve, and matte (the luma of a real clip wipes one shot into the next; not used in the final cut).
 - **Shake** (a small handheld drift; stronger on the impact shots), **shock** (colour fringes that close and a breath of overexposure on the smash cut), **soften** (a shot held slightly out of focus).
-- **Overlays** of real elements shot on black (the embers), screen-blended, with a wide soft copy of themselves added so they light what they cross.
+- **Overlays** of real elements shot on black (the sparks), screen-blended: only their bright cores are kept, they are blurred along their own flight so they read as shafts, a wide soft copy of themselves lets them light what they cross, and a 30 fps layer is played frame for frame like any other clip (sampled at 24 it skipped every fourth frame).
 - **Rotation** of top-down sources.
 - **Even motion.** Some stock files carry a stutter of their own: conformed to 24 fps by dropping frames, they advance in uneven steps (1, 2, 1, 1, 2 … units of true time), or they repeat every sixth frame. Three repairs, by case:
   - *A tracking shot over textured ground* (the walker): `pipeline/true_cadence.py` keeps every real frame and synthesizes only the missing in-between ones from optical flow in both directions (falling back to broad motion where the flow cannot be trusted, such as fluttering cloth). The stretch then plays 1.4× longer: slow motion made of real frames. Ground travel per frame in the finished shot: 32–35 px at half size, where the supplier's file alternated 26 and 51 px at 4K.
@@ -114,6 +114,17 @@ Kept against the review's advice: the subway train and the clock for «رَما�
 | "We bury one another" reads as gardening until the word arrives; the hand is gone before the cut | The word now lands on bare earth first and the hand comes over it, still leaving at the cut |
 | In the embers shot both rows start under the platforms' button column, the frame cuts his head, he is a flat black shape for a third of a second, and no light from the embers touches him | Reframed with his head whole; rows moved inside his shoulders and left of the column (now a check); embers from the first frame, with their own glow on him |
 
+**A fourth review**, again of the opening and the sparks shot only, by a reviewer who saw none of the earlier ones. Its judgement: nothing looks generated, the lettering is mostly designed into the shots, and from the walking feet on it is "the image-for-sentence he asked for"; two places could still draw a "not it".
+
+| Finding | Change |
+|---|---|
+| The burial picture is still the weakest: the hand is out of focus, and for half a second only a blurred forearm is left over an almost frozen frame | Reframed so the hand stays in the picture and is at work for the whole two seconds; lifted half a stop. It now presses down over the first word. The hand stays out of focus: that is how the clip was shot, and the two free clips of earth thrown into a grave are restricted-licence (section 7) |
+| The spark layer reads as an overlay: it fades up over five frames and keeps brightening, slides as one sheet, skips every fourth frame, and looks like a man burning | Cut in at working level on a steady stretch of the clip; played frame for frame; only the bright cores kept, blurred along their flight; less of their glow on him |
+| The opening flame is small and at the edge for the first 0.75 s; the logs are too violet | A stretch where the flame stands tall on the first frame (flicker 0.076 against 0.11); the ash pulled back toward grey |
+| The walking shot is muddy next to the footprint shot (frame average 57 against 71) | Lifted about half a stop with a firmer white, and framed a little closer |
+| Three rows reach below the 84 % line (the ink was measured at 85–86 %; the check had estimated it) | The check now measures the ink of the rendered lettering frame by frame; those rows were raised, and a fourth it found (in the silhouette shot) with them |
+| Marks of stacked rows interlock in the earth and sparks shots | Upper rows raised |
+
 ## 5. Sound (`pipeline/mix_blades.py`, `data/blades/sfx_cues.json`)
 - **The original mix is the soundtrack**: static gain 0.0 dB, no EQ, ducking, separation or re-timing. Outside 145 ms of limiter action at 11 voice peaks and the final fade, the master minus the effects is the original, sample for sample.
 - **27 cues from 26 Mixkit recordings**, each anchored to a shot id, so their times are resolved from the plan on every run. Among them: a fire whoosh under the name, one small wave as the sea's edge comes in for the footprint, the roar of the pour, a low thump on the cut to the hourglass, muffled hooves, distant thunder under the sky, a gust as the man turns away, the rush of the train, two clock ticks, arrow fly-bys in the pauses, one heartbeat on «فُؤادي», a breaking wave on the smash cut, and open sea under the ending.
@@ -126,7 +137,7 @@ Kept against the review's advice: the subway train and the clock for «رَما�
 What is checked on the finished file:
 - **Text**: all 12 hemistichs on screen equal the poem record and the aligned words, character for character; no other lettering than the poet's name and the two credits.
 - **Sync**: every word appears at its aligned onset (0.06 s lead), inside the shot it is spoken over, and stays until it has been spoken.
-- **Layout**: every row measured with HarfBuzz shaping: none wider than 86 % of the frame, none outside 8–84 % of the height, none under the button column at the right edge of the lower half.
+- **Layout**: every row measured with HarfBuzz shaping: none wider than 86 % of the frame, none outside 8–84 % of the height, none under the button column at the right edge of the lower half. Then the same limits are measured again on the ink of the rendered lettering, frame by frame, because an estimate of how far a tail or a kasra reaches was wrong by 2 % of the height.
 - **Seen**: in the finished frames each word really differs from the picture under it.
 - **File**: 2160×3840, 24 fps, H.264 High, BT.709, levels inside EBU R103; no stray black.
 - **Sound**: loudness, true peak, and that the film's sound is the original mix in sync.
@@ -134,6 +145,7 @@ What is checked on the finished file:
 - **Licences**: every source recorded as verified free.
 
 ## 7. What could not be had
+- **Earth thrown into a grave.** Mixkit has the picture ("Man throws dirt into a grave", 32827; "Person filling a hole in the ground", 33727), but both pages state its restricted licence. The burial line therefore stays with the hand on the earth, which is shot with the hand out of focus.
 - **Real burning calligraphy.** The only free burning-paper footage reachable is a printed Latin-script book in flames (Mixkit 52295, 52298–52300); it does not suit Arabic verse. Blank-paper burns exist on Mixkit only under its restricted licence.
 - **Swords, spears, archery, a smith, Arabian horses.** Mixkit's free tier has none. Wikimedia Commons has candidates, but its media server refused every download from this machine (HTTP 429), so none could even be viewed.
 - **A person in a real storm.** Free only as a figure in smoke (the man used here).
