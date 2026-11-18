@@ -52,9 +52,9 @@ def main() -> None:
               for w in words if w["line"][:-1] == f"v{n}"]
         style = dict(plan["verses"][str(n)])
         nxt = [w["film_start"] for w in words if w["line"][:-1] == f"v{n + 1}"]
-        auto = ws[-1]["end"] + 0.35
+        auto = ws[-1]["end"] + 0.45  # every line stays clean >= 0.4 s after its hemistich ends
         if nxt:
-            auto = min(auto, nxt[0] - 1.0)
+            auto = min(auto, nxt[0] - 0.95)
         clear = style.pop("clear", None)
         if n == 6:
             clear = clear if clear is not None else plan["endWord"].get("clear_line", last_word["film_start"] + 1.6)
@@ -67,7 +67,7 @@ def main() -> None:
     ew = plan["endWord"]
     edl = {
         "fps": fps,
-        "duration": end,
+        "duration": max(end, timing["duration"]),
         "picture": plan["picture"],
         "audio": plan["audio"],
         "light": light,
@@ -77,6 +77,7 @@ def main() -> None:
                     "end": round(ew.get("end", last_word["film_start"] + 3.3), 3), "y": ew.get("y", 0.45),
                     "overlay": ew.get("overlay", True)},
         "credits": plan["credits"],
+        "tints": plan.get("tints", []),
     }
     if plan.get("title"):
         edl["title"] = plan["title"]

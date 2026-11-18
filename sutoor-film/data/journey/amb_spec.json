@@ -1,0 +1,185 @@
+{
+ "duration": 44.0,
+ "cues": [
+  {
+   "src": "/home/user/film/journey/audio/score/ambience.wav",
+   "src_in": 0.0,
+   "start": 0.0,
+   "end": 8.4,
+   "gain_db": 0,
+   "fade_in": 0.5,
+   "fade_out": 1.2
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1222.mp3",
+   "src_in": 20.0,
+   "start": 0.0,
+   "end": 5.2,
+   "gain_db": -9,
+   "fade_in": 0.6,
+   "fade_out": 0.6
+  },
+  {
+   "src": "/home/user/film/ember/scout/sfx/1329.mp3",
+   "src_in": 2.0,
+   "start": 0.0,
+   "end": 5.1,
+   "gain_db": -11,
+   "fade_in": 0.6,
+   "fade_out": 0.5
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1253.mp3",
+   "src_in": 3.0,
+   "start": 4.45,
+   "end": 8.3,
+   "gain_db": -6,
+   "fade_in": 0.3,
+   "fade_out": 0.6
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1253.mp3",
+   "src_in": 12.0,
+   "start": 7.6,
+   "end": 16.2,
+   "gain_db": -17,
+   "fade_in": 0.6,
+   "fade_out": 0.8
+  },
+  {
+   "src": "/home/user/film/journey/audio/score/ambience.wav",
+   "src_in": 7.6,
+   "start": 7.6,
+   "end": 16.2,
+   "gain_db": -8,
+   "fade_in": 0.6,
+   "fade_out": 0.8
+  },
+  {
+   "src": "/home/user/film/journey/audio/score/ambience.wav",
+   "src_in": 15.4,
+   "start": 15.4,
+   "end": 20.0,
+   "gain_db": 2,
+   "fade_in": 0.5,
+   "fade_out": 0.8
+  },
+  {
+   "src": "/home/user/film/journey/sfx/82_far.wav",
+   "src_in": 0.0,
+   "start": 16.0,
+   "end": 18.4,
+   "gain_db": -15,
+   "fade_in": 1.0,
+   "fade_out": 0.8
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1206.mp3",
+   "src_in": 20.0,
+   "start": 18.9,
+   "end": 21.9,
+   "gain_db": -2,
+   "fade_in": 0.8,
+   "fade_out": 0.25
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1206.mp3",
+   "src_in": 22.8,
+   "start": 21.7,
+   "end": 25.1,
+   "gain_db": -9,
+   "fade_in": 0.25,
+   "fade_out": 0.25
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1206.mp3",
+   "src_in": 26.0,
+   "start": 24.9,
+   "end": 44.0,
+   "gain_db": -4,
+   "fade_in": 0.25,
+   "fade_out": 1.5
+  },
+  {
+   "src": "/home/user/film/ember/scout/sfx/1330.mp3",
+   "src_in": 4.0,
+   "start": 21.7,
+   "end": 24.95,
+   "gain_db": -9,
+   "fade_in": 0.3,
+   "fade_out": 0.2
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1331.mp3",
+   "src_in": 0.3,
+   "start": 24.05,
+   "end": 25.0,
+   "gain_db": -7,
+   "fade_in": 0.15,
+   "fade_out": 0.3
+  },
+  {
+   "src": "/home/user/film/journey/sfx/2394.mp3",
+   "src_in": 5.0,
+   "start": 24.5,
+   "end": 30.9,
+   "gain_db": -1,
+   "fade_in": 0.45,
+   "fade_out": 1.2
+  },
+  {
+   "src": "/home/user/film/journey/sfx/2399.mp3",
+   "src_in": 1.0,
+   "start": 25.9,
+   "end": 27.9,
+   "gain_db": -6,
+   "fade_in": 0.2,
+   "fade_out": 0.6
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1296.mp3",
+   "src_in": 0.0,
+   "start": 26.3,
+   "end": 30.2,
+   "gain_db": -3,
+   "fade_in": 0.8,
+   "fade_out": 1.0
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1253.mp3",
+   "src_in": 20.0,
+   "start": 27.75,
+   "end": 30.7,
+   "gain_db": -8,
+   "fade_in": 0.3,
+   "fade_out": 0.6
+  },
+  {
+   "src": "/home/user/film/journey/audio/score/ambience.wav",
+   "src_in": 30.0,
+   "start": 30.0,
+   "end": 44.0,
+   "gain_db": -2,
+   "fade_in": 0.8,
+   "fade_out": 1.5
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1331.mp3",
+   "src_in": 0.3,
+   "start": 33.1,
+   "end": 36.6,
+   "gain_db": -1,
+   "fade_in": 0.05,
+   "fade_out": 0.6
+  },
+  {
+   "src": "/home/user/film/ember/scout/sfx/1330.mp3",
+   "src_in": 6.0,
+   "start": 33.1,
+   "end": 40.2,
+   "gain_db": -7,
+   "fade_in": 0.1,
+   "fade_out": 1.0
+  }
+ ]
+}

@@ -40,7 +40,7 @@ type JVerse = {
   readonly style: {
     readonly mode: Mode;
     readonly exit: Exit;
-    readonly y: number; // centre of the two lines, 0..1 of frame height
+    readonly y?: number; // (legacy) centre of a two-line block
     readonly gap?: number; // extra px between sadr and ajuz
     readonly size?: number;
     readonly shade?: number; // 0..1 soft shadow pooled behind the words (legibility on bright plates)
@@ -49,6 +49,12 @@ type JVerse = {
     readonly hide?: readonly ("a" | "b")[]; // a hemistich that is written in the picture itself (burning paper)
     readonly follow?: { readonly k: number; readonly ref: number; readonly from?: number; readonly to?: number }; // words dim with the scene light: (lum/ref)^k
     readonly lit?: { readonly word: number; readonly at: number; readonly glow: number }; // one word lights up (e.g. floodlights on «اللَيالي»)
+    readonly ya?: number; // centre of the sadr line (fraction of height)
+    readonly yb?: number; // centre of the ajuz line
+    readonly levels?: readonly (readonly [number, number])[]; // keyframed level of the letters
+    readonly lumRef?: number; // scene light at which the letters sit at their nominal brightness
+    readonly recallHidden?: boolean; // a sadr burnt on paper still returns as the recall above the ajuz
+    readonly recallUntil?: number; // the recall fades out by this time
   };
 };
 type Overlay = {
@@ -75,6 +81,7 @@ type JEdl = {
   readonly endWord: { readonly text: string; readonly start: number; readonly end: number; readonly y?: number; readonly overlay?: boolean };
   readonly credits: { readonly lines: readonly string[]; readonly fine?: readonly string[]; readonly start: number; readonly end: number };
   readonly title?: { readonly text: string; readonly sub: string; readonly start: number; readonly end: number };
+  readonly tints?: readonly (readonly [number, string])[];
 };
 const edl = journeyJson as unknown as JEdl;
 
@@ -101,25 +108,6 @@ const lightAt = (t: number): { lum: number; warm: number } => {
   return n ? { lum: a / n, warm: b / n } : { lum: 0.15, warm: 0 };
 };
 
-const wordColor = (mode: Mode, lum: number, warm: number): { color: string; glow: string; glowPx: number } => {
-  const w = Math.max(0, Math.min(1, warm * 4));
-  if (mode === "ember") {
-    return { color: interpolateColors(w, [0, 1], ["#FFD9A8", "#FFC27A"]), glow: "rgba(255,110,30,0.55)", glowPx: 26 };
-  }
-  if (mode === "moon") {
-    return { color: "#E6ECF2", glow: "rgba(170,200,235,0.35)", glowPx: 18 };
-  }
-  if (mode === "ink") {
-    return { color: "#24160D", glow: "rgba(0,0,0,0)", glowPx: 0 };
-  }
-  // light: ivory that takes the scene's warmth; brighter scenes give the words a little bloom
-  return {
-    color: interpolateColors(w, [0, 1], [IVORY, "#FFE3BF"]),
-    glow: `rgba(255,${Math.round(220 - 90 * w)},${Math.round(180 - 120 * w)},${(0.12 + 0.35 * lum).toFixed(3)})`,
-    glowPx: 16 + 30 * lum,
-  };
-};
-
 /** Word exit by scene: ash rises and reddens, wind carries it left, smoke lifts it grey, burn chars it. */
 const exitStyle = (exit: Exit, k: number, mode: Mode): React.CSSProperties => {
   if (k <= 0) return {};
@@ -140,42 +128,63 @@ const exitStyle = (exit: Exit, k: number, mode: Mode): React.CSSProperties => {
   }
 };
 
-const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; dimAfter: number | null }> = ({ w, v, idx, count, dimAfter }) => {
+/** Colour of the words at time t: each shot's own key light (edl.tints), crossfaded over 0.35 s. */
+const tintAt = (t: number): string => {
+  const tints = edl.tints ?? [];
+  if (!tints.length) return IVORY;
+  let i = 0;
+  while (i + 1 < tints.length && tints[i + 1][0] <= t) i++;
+  const [t1, c1] = tints[i];
+  const c0 = i > 0 ? tints[i - 1][1] : c1;
+  return interpolateColors(Math.min(1, Math.max(0, (t - t1) / 0.35)), [0, 1], [c0, c1]);
+};
+
+/** Keyframed level (0..1) of a verse's letters, e.g. dying with the candle. */
+const levelAt = (v: JVerse, t: number): number => {
+  const ks = v.style.levels;
+  if (!ks || !ks.length) return 1;
+  if (t <= ks[0][0]) return ks[0][1];
+  if (t >= ks[ks.length - 1][0]) return ks[ks.length - 1][1];
+  let i = 0;
+  while (ks[i + 1][0] <= t) i++;
+  const u = (t - ks[i][0]) / Math.max(1e-6, ks[i + 1][0] - ks[i][0]);
+  return ks[i][1] + (ks[i + 1][1] - ks[i][1]) * SOFT(u);
+};
+
+const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; recallFrom: number | null }> = ({ w, v, idx, count, recallFrom }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
-  const a = w.start - 0.08;
-  const on = interpolate(t, [a, a + 0.36], [0, 1], { ...clamp, easing: SOFT });
-  const dim = dimAfter === null ? 1 : interpolate(t, [dimAfter, dimAfter + 0.5], [1, 0.82], clamp);
-  // the verse leaves word by word, in reading order (right to left), over ~0.9 s
-  const k = (t - (v.clear + (idx / Math.max(1, count)) * 0.45)) / 0.55;
-  const { lum, warm } = lightAt(t);
-  const c = wordColor(v.style.mode, lum, warm);
+  // ink-bleed: alpha up from a 1 px blur to sharp in 0.18 s, no slide, no scale
+  const a = w.start - 0.06;
+  const on = interpolate(t, [a, a + 0.18], [0, 1], { ...clamp, easing: SOFT });
+  // during the ajuz the sadr stays above it as a recall at 45 %
+  const recall = recallFrom === null ? 1 : interpolate(t, [recallFrom, recallFrom + 0.4], [1, 0.45], { ...clamp, easing: SOFT });
+  // the verse leaves in the pause, in reading order, over ~0.7 s
+  const k = (t - (v.clear + (idx / Math.max(1, count)) * 0.25)) / 0.45;
+  const { lum } = lightAt(t);
+  // the scene's light modulates the letters by about +/-15 %
+  const mod = Math.max(0.85, Math.min(1.15, 1 + 0.9 * (lum - (v.style.lumRef ?? 0.18))));
   const ex = exitStyle(v.style.exit, k, v.style.mode);
-  const fo = v.style.follow;
-  const followOn = fo && t >= (fo.from ?? -1) && t <= (fo.to ?? 1e9);
-  const follow = followOn ? Math.max(0, Math.min(1.08, Math.pow(Math.max(0, lum) / fo.ref, fo.k))) : 1;
   const lw = v.style.lit;
-  const litK = lw && lw.word === idx ? interpolate(t, [lw.at, lw.at + 0.5], [0, 1], { ...clamp, easing: SOFT }) : 0;
-  const breathe = v.style.mode === "ember" ? 1 + 0.05 * Math.sin(frame * 0.5 + idx) : 1;
+  const litK = lw && lw.word === idx ? interpolate(t, [lw.at, lw.at + 0.4], [0, 1], { ...clamp, easing: SOFT }) : 0;
+  const col = litK > 0 ? interpolateColors(litK, [0, 1], [tintAt(t), "#FFD9A0"]) : tintAt(t);
+  const level = levelAt(v, t);
+  const op = on * recall * Math.max(level, litK * 0.9);
   return (
     <span
       style={{
         display: "inline-block",
-        marginInline: 10,
-        color: c.color,
+        marginInline: 11,
+        color: col,
         textShadow:
-          v.style.mode === "ink"
-            ? "0 1px 1px rgba(255,240,220,0.18)"
-            : litK > 0
-              ? `0 0 ${Math.round(10 + 30 * litK * (lw?.glow ?? 1))}px rgba(255,190,110,${(0.25 + 0.5 * litK).toFixed(3)}), 0 0 ${Math.round(c.glowPx * breathe)}px ${c.glow}, 0 2px 10px rgba(0,0,0,0.55)`
-              : `0 0 ${Math.round(c.glowPx * breathe)}px ${c.glow}, 0 2px 10px rgba(0,0,0,0.55)`,
-        mixBlendMode: v.style.mode === "ink" ? "multiply" : "normal",
-        opacity: on * dim * Math.max(follow, litK),
-        filter: `blur(${(1 - on) * 6}px)${litK > 0 ? ` brightness(${(1 + 0.25 * litK).toFixed(3)})` : ""}`,
-        translate: `0 ${(1 - on) * 14}px`,
+          litK > 0
+            ? `0 ${Math.round(6 * litK)}px ${Math.round(18 + 22 * litK)}px rgba(255,170,80,${(0.25 + 0.45 * litK).toFixed(3)}), 0 0 14px rgba(255,220,180,0.25), 0 2px 8px rgba(0,0,0,0.5)`
+            : `0 0 16px rgba(255,240,225,${(0.10 + 0.18 * mod - 0.15).toFixed(3)}), 0 2px 8px rgba(0,0,0,0.5)`,
+        opacity: op,
+        filter: `blur(${(1 - on) * 1.2}px) brightness(${mod.toFixed(3)})`,
         ...ex,
-        ...(ex.opacity !== undefined ? { opacity: on * dim * Math.max(follow, litK) * (ex.opacity as number) } : {}),
+        ...(ex.opacity !== undefined ? { opacity: op * (ex.opacity as number) } : {}),
       }}
     >
       {w.text}
@@ -191,53 +200,43 @@ const VerseBlock: React.FC<{ v: JVerse; isLast: boolean }> = ({ v, isLast }) => 
   if (!shown.length || t < shown[0].start - 0.3 || t > v.clear + 1.2) return null;
   const s = v.style;
   const held = (w: Word) => isLast && w.start >= edl.endWord.start - 0.01;
-  const hidden = (part: "a" | "b") => (v.style.hide ?? []).includes(part);
-  const line = (part: "a" | "b") => (hidden(part) ? [] : v.words.filter((w) => w.part === part && !held(w)));
-  const la = line("a"), lb = line("b");
+  const hidden = (part: "a" | "b") => (s.hide ?? []).includes(part);
+  const sadr = v.words.filter((w) => w.part === "a");
+  const ajuz = v.words.filter((w) => w.part === "b");
+  // a hidden sadr (it was burning on paper) still returns as the recall above the ajuz
+  const la = hidden("a") && !s.recallHidden ? [] : sadr.filter((w) => !held(w));
+  const lb = hidden("b") ? [] : ajuz.filter((w) => !held(w));
   const all = [...la, ...lb];
-  // shared camera move: the words drift with the picture, a little less than it (they float in front)
-  let zoom = 1, tx = 0, ty = 0;
-  if (s.track) {
-    const p = s.parallax ?? 0.6;
-    const k = Easing.inOut(Easing.sin)(Math.max(0, Math.min(1, (t - s.track.from) / Math.max(0.01, s.track.to - s.track.from))));
-    const z = s.track.z[0] + (s.track.z[1] - s.track.z[0]) * k;
-    zoom = 1 + (z / s.track.z[0] - 1) * p;
-    tx = -((s.track.dx?.[0] ?? 0) + ((s.track.dx?.[1] ?? 0) - (s.track.dx?.[0] ?? 0)) * k) * 1080 * p;
-    ty = -((s.track.dy?.[0] ?? 0) + ((s.track.dy?.[1] ?? 0) - (s.track.dy?.[0] ?? 0)) * k) * 1920 * p;
-  }
-  const { lum } = lightAt(t);
-  const shadeOn = interpolate(t, inc([shown[0].start - 0.4, shown[0].start + 0.2, v.clear + 0.4, v.clear + 1.0]), [0, 1, 1, 0], clamp);
-  const shade = (s.shade ?? 0.35) * (0.5 + lum) * shadeOn;
+  const recallAt = ajuz.length ? ajuz[0].start - 0.1 : null;
+  // a sadr that was on paper appears only as the recall, from the ajuz on
+  const sadrFrom = hidden("a") ? (recallAt ?? 0) : 0;
   const lineStyle: React.CSSProperties = {
+    position: "absolute",
+    left: 0,
+    right: 0,
     fontFamily: "AmiriJ",
-    fontSize: s.size ?? 74,
-    lineHeight: 1.7,
+    fontSize: s.size ?? 86,
+    lineHeight: 1.0,
     direction: "rtl",
     whiteSpace: "nowrap",
     textAlign: "center",
     fontFeatureSettings: '"kern" 1, "liga" 1, "calt" 1',
   };
-  const top = s.y * 1920;
+  const ya = (s.ya ?? 0.19) * 1920, yb = (s.yb ?? 0.27) * 1920;
+  const fs = s.size ?? 86;
+  const sadrOp = hidden("a") ? interpolate(t, [sadrFrom, sadrFrom + 0.4], [0, 1], clamp) : 1;
+  const recallEnd = s.recallUntil !== undefined ? interpolate(t, [s.recallUntil - 0.4, s.recallUntil], [1, 0], clamp) : 1;
   return (
-    <AbsoluteFill style={{ scale: String(zoom), translate: `${tx}px ${ty}px` }}>
-      {s.mode !== "ink" && shade > 0.01 ? (
-        <AbsoluteFill
-          style={{
-            background: `radial-gradient(ellipse 62% ${9 + (s.gap ?? 0) / 40}% at 50% ${(s.y * 100).toFixed(2)}%, rgba(0,0,0,${Math.min(0.75, shade).toFixed(3)}) 0%, rgba(0,0,0,${Math.min(0.5, shade * 0.6).toFixed(3)}) 45%, rgba(0,0,0,0) 100%)`,
-          }}
-        />
-      ) : null}
-      <div style={{ position: "absolute", left: 0, right: 0, top: top - 130 - (s.gap ?? 0) / 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div style={lineStyle}>
-          {la.map((w, i) => (
-            <SpokenWord key={`a${i}`} w={w} v={v} idx={i} count={all.length} dimAfter={lb.length ? lb[0].start - 0.1 : null} />
-          ))}
-        </div>
-        <div style={{ ...lineStyle, marginTop: s.gap ?? 0 }}>
-          {lb.map((w, i) => (
-            <SpokenWord key={`b${i}`} w={w} v={v} idx={la.length + i} count={all.length} dimAfter={null} />
-          ))}
-        </div>
+    <AbsoluteFill>
+      <div style={{ ...lineStyle, top: ya - fs * 0.62, opacity: sadrOp * recallEnd, height: fs * 1.5, paddingTop: fs * 0.12 }}>
+        {la.map((w, i) => (
+          <SpokenWord key={`a${i}`} w={hidden("a") ? { ...w, start: Math.max(w.start, sadrFrom) } : w} v={v} idx={i} count={all.length} recallFrom={recallAt} />
+        ))}
+      </div>
+      <div style={{ ...lineStyle, top: yb - fs * 0.62, height: fs * 1.5, paddingTop: fs * 0.12 }}>
+        {lb.map((w, i) => (
+          <SpokenWord key={`b${i}`} w={w} v={v} idx={la.length + i} count={all.length} recallFrom={null} />
+        ))}
       </div>
     </AbsoluteFill>
   );
@@ -310,13 +309,13 @@ const Credits: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", flexDirection: "column", gap: 16 }}>
       {lines.map((l, i) => (
-        <div key={l} style={{ fontFamily: "AmiriJ", fontSize: 54, color: CHAMPAGNE, direction: "rtl", opacity: 0.94 * o(i * 0.3) }}>
+        <div key={l} style={{ fontFamily: "ArefRuqaaJ", fontSize: 60, color: "#9A4026", direction: "rtl", opacity: 0.95 * o(i * 0.3), textShadow: "0 0 18px rgba(150,40,10,0.35)" }}>
           {l}
         </div>
       ))}
       <div style={{ marginTop: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, opacity: 0.85 * o(0.5), maxWidth: 820 }}>
         {fine.map((f) => (
-          <div key={f} style={{ fontFamily: "AmiriJ", fontSize: 29, color: CHAMPAGNE, textAlign: "center", lineHeight: 1.35 }}>
+          <div key={f} style={{ fontFamily: "AmiriJ", fontSize: 25, color: "#7A4A3A", textAlign: "center", lineHeight: 1.35 }}>
             {f}
           </div>
         ))}

@@ -1,0 +1,628 @@
+{
+ "timing": "data/timing_journey.json",
+ "fps": 24,
+ "end": 40.6,
+ "intended_black": [
+  [
+   0.0,
+   0.65
+  ],
+  [
+   40.4,
+   44.0
+  ]
+ ],
+ "look": {
+  "pre": 0.8,
+  "vignette": 0.28,
+  "halation": 0.2,
+  "split": 0.45,
+  "sat": 0.92
+ },
+ "picture": "journey/picture.mp4",
+ "audio": "journey/mix.wav",
+ "shots": [
+  {
+   "id": "B1",
+   "line": "v1a",
+   "src": "/home/user/film/journey/burnr/burn1.mp4",
+   "in": 0.0,
+   "start": 0.0,
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "sat": 0.95,
+    "halation": 0.15,
+    "split": 0.3
+   },
+   "sharpen": 0,
+   "blend": false,
+   "licence": "Render (paper_burn7) on Mixkit 1692 still; flames Mixkit 3764; smoke Mixkit 50956 + 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "P1324",
+   "line": "v1b",
+   "src": "/home/user/film/journey/src/1324.mp4",
+   "in": 2.65,
+   "start": 5.05,
+   "trans": {
+    "type": "smoke",
+    "dur": 0.3,
+    "seed": 5,
+    "origin": [
+     0.2,
+     0.4
+    ]
+   },
+   "window": {
+    "cx": 0.638,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ],
+    "dx": [
+     0,
+     0.19
+    ]
+   },
+   "grade": {
+    "ev": -0.35,
+    "sat": 0.5,
+    "temp": -0.35,
+    "contrast": 1.05
+   },
+   "licence": "Mixkit 1324 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "H100653",
+   "line": "v2a",
+   "src": "/home/user/film/journey/src/100653.mp4",
+   "in": 0.4,
+   "start": 7.65,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "window": {
+    "cx": 0.52,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -0.35,
+    "sat": 0.72,
+    "temp": 0.35
+   },
+   "licence": "Mixkit 100653 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "H100655",
+   "line": "v2a",
+   "src": "/home/user/film/journey/src/100655.mp4",
+   "in": 7.6,
+   "start": 9.1,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "window": {
+    "cx": 0.43,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -0.35,
+    "sat": 0.72,
+    "temp": 0.35
+   },
+   "toBlack": 0.22,
+   "licence": "Mixkit 100655 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "C3458",
+   "line": "v2b",
+   "src": "/home/user/film/journey/src/3458.mp4",
+   "in": 9.5,
+   "start": 10.15,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "sat": 0.9,
+    "temp": 0.2,
+    "halation": 0.25
+   },
+   "toBlack": 0.35,
+   "licence": "Mixkit 3458 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "H100639",
+   "line": "v3a",
+   "src": "/home/user/film/journey/src/100639.mp4",
+   "in": 1.3,
+   "start": 13.35,
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.4
+   },
+   "window": {
+    "cx": 0.55,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -0.1,
+    "sat": 0.0,
+    "temp": -0.1,
+    "contrast": 1.05
+   },
+   "licence": "Mixkit 100639 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "A4013",
+   "line": "v3b",
+   "src": "/home/user/film/journey/src/4013.mp4",
+   "in": 6.3,
+   "start": 16.0,
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.55
+   },
+   "blend": false,
+   "window": {
+    "cx": 0.7,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ],
+    "dx": [
+     0,
+     -0.63
+    ]
+   },
+   "grade": {
+    "ev": -0.15,
+    "sat": 0.85
+   },
+   "sharpen": 0.35,
+   "licence": "Mixkit 4013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "S1906",
+   "line": "v4a",
+   "src": "/home/user/film/journey/src/1906.mp4",
+   "in": 1.05,
+   "start": 19.65,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "blend": false,
+   "window": {
+    "cx": 0.255,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -0.2,
+    "sat": 0.45,
+    "temp": -0.25
+   },
+   "sharpen": 0.35,
+   "licence": "Mixkit 1906 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "B2",
+   "line": "v4b",
+   "src": "/home/user/film/journey/burnr/burn2.mp4",
+   "in": 0.0,
+   "start": 21.7,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "sat": 0.95,
+    "halation": 0.15,
+    "split": 0.3
+   },
+   "sharpen": 0,
+   "blend": false,
+   "licence": "Render (paper_burn7) on Mixkit 3443; flames Mixkit 52292; smoke Mixkit 50956 + 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "R2208",
+   "line": "v5a",
+   "src": "/home/user/film/journey/src/2208.mp4",
+   "in": 3.4,
+   "start": 24.95,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "window": {
+    "cx": 0.5,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -1.1,
+    "sat": 0.3,
+    "temp": -0.3,
+    "contrast": 1.15,
+    "black": 0.0
+   },
+   "sharpen": 0.3,
+   "licence": "Mixkit 2208 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "R3903",
+   "line": "v5a",
+   "src": "/home/user/film/journey/src/3903.mp4",
+   "in": 0.0,
+   "start": 25.6,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -1.0,
+    "sat": 0.3,
+    "temp": -0.3,
+    "contrast": 1.15,
+    "black": 0.0
+   },
+   "licence": "Mixkit 3903 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "R1751",
+   "line": "v5a",
+   "src": "/home/user/film/journey/src/1751.mp4",
+   "in": 4.0,
+   "start": 26.0,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "window": {
+    "cx": 0.5,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -1.0,
+    "sat": 0.4,
+    "temp": -0.3,
+    "contrast": 1.15,
+    "black": 0.0
+   },
+   "licence": "Mixkit 1751 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "K1890",
+   "line": "v5b",
+   "src": "/home/user/film/journey/src/1890.mp4",
+   "in": 0.3,
+   "start": 27.75,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "window": {
+    "cx": 0.45,
+    "cy": 0.5
+   },
+   "move": {
+    "z": [
+     1,
+     1
+    ]
+   },
+   "grade": {
+    "ev": -0.25,
+    "sat": 0.8,
+    "temp": 0.15
+   },
+   "licence": "Mixkit 1890 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "W51506",
+   "line": "v6a",
+   "src": "/home/user/film/journey/src/51506.mp4",
+   "in": 1.9,
+   "start": 30.7,
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.7
+   },
+   "move": {
+    "keys": [
+     [
+      30.0,
+      1.0,
+      0.5,
+      0.5
+     ],
+     [
+      32.7,
+      1.0,
+      0.5,
+      0.5
+     ],
+     [
+      33.15,
+      1.12,
+      0.5,
+      0.47
+     ]
+    ]
+   },
+   "grade": {
+    "ev": -0.7,
+    "sat": 0.55,
+    "temp": -0.35
+   },
+   "licence": "Mixkit 51506 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "B3",
+   "line": "v6b",
+   "src": "/home/user/film/journey/burnr/burn3.mp4",
+   "in": 0.0,
+   "start": 33.15,
+   "trans": {
+    "type": "cut",
+    "dur": 0
+   },
+   "sharpen": 0,
+   "blend": false,
+   "move": {
+    "keys": [
+     [
+      33.15,
+      1.0,
+      0.5,
+      0.5
+     ],
+     [
+      35.6,
+      1.0,
+      0.5,
+      0.5
+     ],
+     [
+      38.8,
+      1.8,
+      0.28,
+      0.42
+     ],
+     [
+      40.6,
+      1.8,
+      0.28,
+      0.42
+     ]
+    ]
+   },
+   "grade": {
+    "sat": 0.95,
+    "halation": 0.18,
+    "split": 0.3
+   },
+   "toBlack": 0.2,
+   "licence": "Render (paper_burn7) on Mixkit 2189; flames Mixkit 3764 + 52292; sparks 3463; smoke 50956 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  }
+ ],
+ "verses": {
+  "1": {
+   "mode": "light",
+   "exit": "dissolve",
+   "hide": [
+    "a"
+   ],
+   "recallHidden": true,
+   "lumRef": 0.16
+  },
+  "2": {
+   "mode": "light",
+   "exit": "dissolve",
+   "lumRef": 0.16,
+   "levels": [
+    [
+     10.15,
+     1.0
+    ],
+    [
+     11.8,
+     1.0
+    ],
+    [
+     12.05,
+     0.35
+    ],
+    [
+     12.56,
+     0.35
+    ],
+    [
+     12.95,
+     0.0
+    ]
+   ]
+  },
+  "3": {
+   "mode": "light",
+   "exit": "dissolve",
+   "lumRef": 0.16,
+   "clear": 18.21,
+   "lit": {
+    "word": 7,
+    "at": 17.4,
+    "glow": 1.0
+   }
+  },
+  "4": {
+   "mode": "light",
+   "exit": "ash",
+   "hide": [
+    "b"
+   ],
+   "lumRef": 0.18,
+   "clear": 24.3
+  },
+  "5": {
+   "mode": "light",
+   "exit": "dissolve",
+   "lumRef": 0.14
+  },
+  "6": {
+   "mode": "light",
+   "exit": "dissolve",
+   "hide": [
+    "b"
+   ],
+   "lumRef": 0.16,
+   "recallUntil": 35.85,
+   "clear": 35.5
+  }
+ },
+ "tints": [
+  [
+   0.0,
+   "#F2E9DA"
+  ],
+  [
+   4.75,
+   "#DDE3EA"
+  ],
+  [
+   7.65,
+   "#F3DDB0"
+  ],
+  [
+   10.15,
+   "#FFCF8E"
+  ],
+  [
+   12.95,
+   "#E4E6E8"
+  ],
+  [
+   15.45,
+   "#EEE6F4"
+  ],
+  [
+   19.65,
+   "#ECEFF2"
+  ],
+  [
+   21.7,
+   "#FFF0DE"
+  ],
+  [
+   24.95,
+   "#DCE3EA"
+  ],
+  [
+   27.75,
+   "#F6D9A6"
+  ],
+  [
+   30.0,
+   "#EEF2F6"
+  ],
+  [
+   33.15,
+   "#FFF0DE"
+  ]
+ ],
+ "overlays": [
+  {
+   "src": "journey/plates/smoke50956.mp4",
+   "start": 4.3,
+   "end": 5.7,
+   "in": 0.0,
+   "opacity": 0.75,
+   "fade": 0.35,
+   "blend": "screen"
+  }
+ ],
+ "endWord": {
+  "overlay": false,
+  "end": 40.4,
+  "y": 0.42
+ },
+ "credits": {
+  "lines": [
+   "شِعر: أبو الطيّب المتنبّي",
+   "إلقاء: عبدالله العنزي"
+  ],
+  "fine": [
+   "Footage & sound: Mixkit (free licence) · Textures: CC0",
+   "Score: original, from VSCO 2 CE samples (CC0)"
+  ],
+  "start": 40.9,
+  "end": 43.4
+ }
+}

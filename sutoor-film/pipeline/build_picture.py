@@ -89,7 +89,25 @@ class Shot:
             raise SystemExit(f"{d['id']}: needs source up to {need:.2f}s but {d['src']} is {self.dur_src:.2f}s")
 
     def window(self, t: float) -> tuple[float, float, float, float]:
-        """Source-pixel window (x0, y0, w, h) at film time t. The move runs over the whole visible span."""
+        """Source-pixel window (x0, y0, w, h) at film time t. The move runs over the whole visible span,
+        or follows "keys": [[film_t, zoom, cx, cy], ...] (absolute centre, eased between keys)."""
+        keys = self.d.get("move", {}).get("keys")
+        if keys:
+            ks = sorted(keys)
+            if t <= ks[0][0]:
+                z, kx, ky = ks[0][1:]
+            elif t >= ks[-1][0]:
+                z, kx, ky = ks[-1][1:]
+            else:
+                j = max(i for i in range(len(ks)) if ks[i][0] <= t)
+                a_, b_ = ks[j], ks[j + 1]
+                u = ease((t - a_[0]) / max(b_[0] - a_[0], 1e-6))
+                z, kx, ky = [a_[i] + (b_[i] - a_[i]) * u for i in (1, 2, 3)]
+            z *= self.fill
+            w, h = self.ww0 / z, self.wh0 / z
+            x0 = min(max(kx * self.W - w / 2, 0), self.W - w)
+            y0 = min(max(ky * self.H - h / 2, 0), self.H - h)
+            return x0, y0, w, h
         k = ease((t - self.t_on) / max(self.t_off - self.t_on, 1e-3)) if self.d.get("easeMove", True) else \
             min(1, max(0, (t - self.t_on) / max(self.t_off - self.t_on, 1e-3)))
         z = self.fill * lerp2(self.z, k)
