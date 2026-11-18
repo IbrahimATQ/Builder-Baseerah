@@ -24,7 +24,7 @@ def frame(film: str, t: float, w: int = 540, h: int = 960) -> np.ndarray:
 
 
 def luma_limited(film: str, t: float) -> np.ndarray:
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.3f}", "-i", film, "-frames:v", "1", "-vf", "scale=540:960,extractplanes=y",
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.3f}", "-i", film, "-frames:v", "1", "-vf", "scale=540:960,format=yuv420p,extractplanes=y",
                           "-f", "rawvideo", "-pix_fmt", "gray", "-"], capture_output=True, check=True).stdout
     return np.frombuffer(raw, np.uint8)  # the file is tagged limited range: gray keeps 16-235 codes
 

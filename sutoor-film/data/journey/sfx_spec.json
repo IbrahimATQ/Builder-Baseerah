@@ -87,7 +87,7 @@
    "src_in": 0.0,
    "start": 24.81,
    "end": 25.12,
-   "gain_db": -3,
+   "gain_db": -8,
    "fade_in": 0.003,
    "fade_out": 0.05
   },
@@ -96,7 +96,7 @@
    "src_in": 0.0,
    "start": 25.46,
    "end": 25.77,
-   "gain_db": -3,
+   "gain_db": -8,
    "fade_in": 0.003,
    "fade_out": 0.05
   },
@@ -105,7 +105,7 @@
    "src_in": 0.0,
    "start": 25.86,
    "end": 26.17,
-   "gain_db": -3,
+   "gain_db": -8,
    "fade_in": 0.003,
    "fade_out": 0.05
   },

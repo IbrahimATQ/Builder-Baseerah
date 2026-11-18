@@ -85,12 +85,12 @@ def main() -> None:
 
     # ---- QC views (qc_film.py's formats): hemistich text as shown, how long each verse stays, shot sources
     H = timing["hemistichs"]
-    qc_edl = {"duration": end, "endWord": edl["endWord"], "verses": []}
+    qc_edl = {"duration": edl["duration"], "endWord": edl["endWord"], "verses": []}
     for v in verses:
         n = v["n"]
         hs = {p: {"text": " ".join(w["text"] for w in v["words"] if w["part"] == ab), "start": H[f"v{n}{ab}"]["start"], "end": H[f"v{n}{ab}"]["end"]}
               for p, ab in (("sadr", "a"), ("ajuz", "b"))}
-        until = (edl["endWord"]["end"] if n == 6 else v["clear"] + 1.0)
+        until = (edl["endWord"]["end"] if n == 6 else v["clear"] + 0.70)  # the exit takes 0.25 s stagger + 0.45 s
         qc_edl["verses"].append({"n": n, **hs, "words": v["words"], "showUntil": round(until, 3)})
     json.dump(qc_edl, open(os.path.join(out_dir, "qc_edl.json"), "w"), ensure_ascii=False, indent=1)
     shots = plan["shots"]

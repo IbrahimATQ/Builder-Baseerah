@@ -132,7 +132,8 @@ def compose(timing: dict, out_dir: str) -> dict:
         t += beat
         cycle += 1
     # high violins: the night sky
-    mid.add(render_note(I["violin"], m("B4"), v_end(3) - v_mid(3) + 1.0, layer=1, attack=1.2, release=1.4), v_mid(3) - 0.4, 0.13, 0.3)
+    b4 = v_mid(3) - (1.1 if journey else 0.4)
+    mid.add(render_note(I["violin"], m("B4"), v_end(3) - b4 + 0.6, layer=1, attack=1.2, release=1.4), b4, 0.13, 0.3)
     mid.add(render_note(I["cello"], m("E3"), v_end(3) - v_start(3) + 0.6, layer=1, attack=0.6, release=1.2), v_start(3), 0.24, -0.2)
 
     # ---------------- ACT IV: indifference (withdrawal) ----------------
@@ -146,7 +147,7 @@ def compose(timing: dict, out_dir: str) -> dict:
     low.add(render_note(I["cbass"], m("E2"), v_end(4) - a4 + 0.5, layer=1, attack=1.5, release=1.0), a4, 0.22)
 
     # ---------------- ACT V: arrows of time (Hijaz, swelling) ----------------
-    a5 = v_start(5) - 0.2
+    a5 = v_start(5) - (0.9 if journey else 0.2)  # the Journey edition bridges the pause into each act
     e5 = v_end(5) + 0.15
     roll = timpani("roll", 4, 3)[: int((e5 - a5 + 0.4) * SR)]  # drum 4 roll sounds E (verified); drum 1 is F#
     env = np.linspace(0.0, 1.0, len(roll), dtype=np.float32) ** 1.8
@@ -162,7 +163,7 @@ def compose(timing: dict, out_dir: str) -> dict:
     mid.add(render_note(I["horn"], m("E3"), e5 - v_mid(5) + 0.2, layer=1, attack=1.0, release=0.6), v_mid(5) + 0.3, 0.13, -0.1)
 
     # ---------------- ACT VI: blades upon blades (arrival, resolution) ----------------
-    a6 = v_start(6) - 0.05
+    a6 = v_start(6) - (0.9 if journey else 0.05)
     end_all = T - 0.2
     if journey:  # the score drops out after «النِصالِ»; only ember and wind remain
         end_all = voice_end + 2.6

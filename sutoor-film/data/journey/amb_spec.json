@@ -60,17 +60,17 @@
    "src_in": 15.4,
    "start": 15.4,
    "end": 20.0,
-   "gain_db": 2,
+   "gain_db": 5,
    "fade_in": 0.5,
    "fade_out": 0.8
   },
   {
    "src": "/home/user/film/journey/sfx/82_far.wav",
    "src_in": 0.0,
-   "start": 16.0,
+   "start": 15.5,
    "end": 18.4,
-   "gain_db": -15,
-   "fade_in": 1.0,
+   "gain_db": -13,
+   "fade_in": 0.9,
    "fade_out": 0.8
   },
   {
@@ -87,7 +87,7 @@
    "src_in": 22.8,
    "start": 21.7,
    "end": 25.1,
-   "gain_db": -9,
+   "gain_db": -6,
    "fade_in": 0.25,
    "fade_out": 0.25
   },
@@ -114,17 +114,17 @@
    "src_in": 0.3,
    "start": 24.05,
    "end": 25.0,
-   "gain_db": -7,
+   "gain_db": -2,
    "fade_in": 0.15,
    "fade_out": 0.3
   },
   {
    "src": "/home/user/film/journey/sfx/2399.mp3",
    "src_in": 0.0,
-   "start": 24.5,
+   "start": 24.1,
    "end": 30.9,
    "gain_db": -2,
-   "fade_in": 0.45,
+   "fade_in": 0.85,
    "fade_out": 1.2
   },
   {
