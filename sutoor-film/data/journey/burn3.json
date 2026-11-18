@@ -201,7 +201,7 @@
  "sparks": {
   "src": "/home/user/film/journey/burn/3463-1080.mp4",
   "in": 1.0,
-  "gain": 0.4,
+  "gain": 0.2,
   "env": [
    [
     33.15,
@@ -268,14 +268,14 @@
    "src": "/home/user/film/journey/src/3452.mp4",
    "in": 0.5,
    "black": 0.35,
-   "gain": 0.9,
+   "gain": 0.5,
    "follow": false,
    "offset": [
-    -120,
-    -200
+    -100,
+    -170
    ],
-   "rx": 380,
-   "ry": 420,
+   "rx": 280,
+   "ry": 360,
    "tint": [
     0.92,
     0.95,
@@ -283,20 +283,20 @@
    ],
    "env": [
     [
-     38.8,
+     38.85,
      0.0
     ],
     [
-     39.1,
-     1.0
+     39.05,
+     0.9
     ],
     [
-     39.8,
-     0.8
+     39.6,
+     0.55
     ],
     [
-     40.6,
-     0.45
+     40.4,
+     0.15
     ]
    ]
   }
@@ -333,7 +333,7 @@
  "drift_px": 0.5,
  "fire_light_gain": 1.0,
  "glow_light": 0.15,
- "out": "/home/user/film/journey/burnr/burn3_v3.mp4",
+ "out": "/home/user/film/journey/burnr/burn3_v4.mp4",
  "rim_gain": 0.6,
  "bend": {
   "amp": 7,
@@ -342,7 +342,7 @@
   "shade": 0.12
  },
  "ember_bed": {
-  "ash": 0.07,
+  "ash": 0.045,
   "t0": 0.6,
   "t1": 1.8
  },
