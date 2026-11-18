@@ -343,7 +343,8 @@ def main() -> None:
                     lum = Pc @ LUMA
                 lit = cfg.get("lit")
                 if lit:
-                    a = a * smoothstep(big, float(lit.get("lo", 0.03)), float(lit.get("hi", 0.14)))
+                    src_l = float(P8[::8, ::8].mean()) / 255.0 if lit.get("global") else big  # the whole frame's light, or the light just there
+                    a = a * smoothstep(src_l, float(lit.get("lo", 0.03)), float(lit.get("hi", 0.14)))
                 a3 = a[..., None]
                 ref = float(cfg.get("shade_ref", 0.22))
                 shade = np.clip(1 + float(cfg["shade"]) * (big - ref) * 1.6, 0.72, 1.22)
