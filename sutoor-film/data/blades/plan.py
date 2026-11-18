@@ -57,8 +57,8 @@ shots = [
      "move": {"keys": [[6.34, 1.0, 0.6, 0.6], [6.96, 1.05, 0.6, 0.6], [7.08, 1.13, 0.6, 0.6], [7.4, 1.16, 0.6, 0.6]]},  # a push on the accent at 7.01
      "grade": {"ev": -1.3, "sat": 0.8, "contrast": 1.05}, "trans": {"type": "flash", "dur": 0.25, "gain": 0.5},
      "text": {"pool": 0.6, "glow": 0.4, "occlude": {"type": "luma", "lo": 0.6, "hi": 0.9, "gain": 0.8}}},
-    {"id": "forge", "src": clip(3459), "lic": 3459, "start": 7.4, "in": 4.4, "window": {"cx": 0.55},
-     "move": {"z": [1.0, 1.1]}, "grade": {"ev": -0.6, "sat": 0.85}, "trans": {"type": "zoom", "dur": 0.26, "factor": 2.2},
+    {"id": "forge", "src": clip(42768), "lic": 42768, "start": 7.4, "in": 3.55, "window": {"cx": 0.3},  # tall flames for the tall spears (a true 4K source)
+     "move": {"z": [1.0, 1.1]}, "grade": {"ev": -0.55, "sat": 0.9}, "trans": {"type": "zoom", "dur": 0.26, "factor": 2.2},
      "text": {"pool": 1.0, "glow": 0.35}},
     {"id": "glass", "src": clip(28894), "lic": 28894, "start": 8.13, "time": [[8.13, 4.2], [9.5, 5.9], [9.68, 10.9], [10.63, 12.75]],
      "window": {"cx": 0.44}, "move": {"z": [1.0, 1.07]}, "grade": {"ev": 0.2, "sat": 0.6, "temp": -0.2},
@@ -91,17 +91,17 @@ shots = [
     {"id": "train", "src": clip(1622), "lic": 1622, "start": 19.5, "time": [[19.5, 2.3], [20.17, 4.2]], "shutter": 0.9,
      "window": {"cx": 0.54, "cy": 0.58, "fill": 1.25}, "move": {"z": [1.0, 1.14]}, "grade": {"ev": -0.3, "sat": 0.6, "temp": -0.1},
      "trans": {"type": "whip", "dur": 0.22, "dir": "right"}, "text": {"pool": 0.8}},
-    {"id": "clock", "src": clip(28885), "lic": 28885, "start": 20.17, "time": [[20.17, 8.55], [20.45, 9.0], [20.64, 9.8]], "window": {"cx": 0.72},
+    {"id": "clock", "src": clip(28885), "lic": 28885, "start": 20.17, "time": [[20.17, 8.55], [20.45, 9.0], [20.6, 9.75]], "window": {"cx": 0.72},
      "move": {"z": [1.0, 1.08]}, "grade": {"ev": 0.3, "sat": 0.5, "temp": -0.2}, "trans": {"type": "flash", "dur": 0.2, "gain": 0.55, "rgb": [1.0, 0.95, 0.88]},
      "text": {"mode": "ink", "ink_rgb": [14, 14, 18], "texture": 0.3}},  # the word printed on the dial like its numerals
-    {"id": "volley", "src": clip(4426), "lic": 4426, "start": 20.64, "in": 1.4, "rotate": 90, "move": {"z": [1.0, 1.12]},
+    {"id": "volley", "src": clip(4426), "lic": 4426, "start": 20.6, "in": 1.4, "rotate": 90, "move": {"z": [1.0, 1.12]},
      "grade": {"ev": -0.1, "sat": 0.85}, "trans": {"type": "dissolve", "dur": 0.2},
      "text": {"pool": 0.6, "glow": 0.45, "occlude": {"type": "luma", "lo": 0.5, "hi": 0.85, "gain": 0.85}}},
-    {"id": "coal", "src": clip(3462), "lic": 3462, "start": 21.95, "in": 5.0, "window": {"cx": 0.62, "cy": 0.42, "fill": 1.6},
+    {"id": "coal", "src": clip(3462), "lic": 3462, "start": 21.56, "in": 4.6,  # arrives on «حَتّى»: "until..." and the heart is there "window": {"cx": 0.62, "cy": 0.42, "fill": 1.6},
      "move": {"z": [1.0, 1.1]}, "grade": {"ev": 0.1, "sat": 0.9}, "trans": {"type": "dissolve", "dur": 0.3}, "text": {"glow": 0.5, "pool": 0.4}},
-    {"id": "thorns", "src": clip(3969), "lic": 3969, "start": 22.6, "in": 10.0, "speed": 1.3, "window": {"cx": 0.45, "cy": 0.36, "fill": 1.4},
-     "move": {"z": [1.0, 1.1]}, "grade": {"ev": -2.6, "sat": 1.0, "temp": 0.5, "contrast": 1.15}, "trans": {"type": "dissolve", "dur": 0.4},
-     "text": {"glow": 0.5, "pool": 1.0, "occlude": {"type": "luma", "lo": 0.03, "hi": 0.09, "invert": True, "gain": 1.0}}},
+    {"id": "thorns", "src": clip(3969), "lic": 3969, "start": 22.46, "in": 10.0, "speed": 1.3, "window": {"cx": 0.45, "cy": 0.36, "fill": 1.4},
+     "move": {"z": [1.0, 1.1]}, "grade": {"ev": -2.6, "sat": 1.0, "temp": 0.5, "contrast": 1.15}, "trans": {"type": "dissolve", "dur": 0.36},
+     "text": {"glow": 0.5, "pool": 1.0, "occlude": {"type": "luma", "lo": 0.03, "hi": 0.09, "invert": True, "gain": 0.86}}},
     # ---------------------------------------------------------------- 6  now the blades break upon the blades
     {"id": "man2", "src": clip(948), "lic": 948, "start": 23.7, "in": 15.3, "speed": 0.6, "window": {"cx": 0.75, "cy": 0.56, "fill": 1.08},
      "move": {"z": [1.02, 1.12]}, "grade": {"ev": -0.2, "sat": 0.35, "contrast": 1.08},
@@ -118,23 +118,23 @@ shots = [
 ]
 
 # the hemistichs, block by block: (first word, one past the last word, y, size, extra)
+# A block leaves with its shot: on a hard cut it is gone on the cut frame; into a transition it fades over the
+# transition's first half. "clear"/"out" in extra override that (a line that dies with its candle, the last line).
 lines = {
     "v1a": {"em": [0], "parts": [(0, 1, 0.455, 200, {"clear": 3.55, "out": 0.3}), (1, 3, 0.55, 150, {"clear": 3.55, "out": 0.3}),
-                                 (3, 4, 0.765, 210, {"clear": 4.62})]},
-    "v1b": {"parts": [(0, 1, 0.745, 180, {"clear": 5.3}), (1, 4, 0.66, 150, {"clear": 6.3})]},
-    "v2a": {"em": [1], "parts": [(0, 1, 0.645, 180, {"clear": 7.36}), (1, 2, 0.76, 180, {"clear": 7.36}), (2, 3, 0.5, 210, {"clear": 8.09})]},
+                                 (3, 4, 0.765, 210, {})]},
+    "v1b": {"parts": [(0, 1, 0.745, 180, {}), (1, 4, 0.66, 150, {})]},
+    "v2a": {"em": [1], "parts": [(0, 1, 0.645, 180, {}), (1, 2, 0.76, 180, {}), (2, 3, 0.5, 210, {})]},
     "v2b": {"em": [1], "parts": [(0, 2, 0.41, 160, {"clear": 10.58, "out": 0.3}), (2, 4, 0.525, 160, {"clear": 10.58, "out": 0.3})]},
-    "v3a": {"em": [1], "parts": [(0, 1, 0.775, 180, {"clear": 11.38}), (1, 2, 0.775, 180, {"clear": 12.04}), (2, 3, 0.775, 180, {"clear": 12.78})]},
-    "v3b": {"em": [4], "parts": [(0, 2, 0.66, 175, {"clear": 14.34}), (2, 4, 0.77, 175, {"clear": 14.34}), (4, 5, 0.42, 230, {"clear": 14.95, "out": 0.14})]},
-    "v4a": {"em": [3], "parts": [(0, 1, 0.685, 220, {"clear": 16.66}), (1, 3, 0.785, 160, {"clear": 16.66}), (3, 4, 0.62, 220, {"clear": 17.4})]},
-    "v4b": {"parts": [(0, 3, 0.665, 140, {"clear": 19.42, "out": 0.25}), (3, 5, 0.765, 170, {"clear": 19.42, "out": 0.25})]},
-    "v5a": {"em": [1], "parts": [(0, 1, 0.74, 210, {"clear": 20.15}), (1, 2, 0.52, 230, {"clear": 20.57, "x": 0.37, "lead": 0.0}),
-                                 (2, 3, 0.675, 190, {"clear": 21.91, "out": 0.2}), (3, 4, 0.775, 160, {"clear": 21.91, "out": 0.2})]},
-    "v5b": {"em": [0, 4], "parts": [(0, 1, 0.43, 220, {"clear": 22.56, "out": 0.12}), (1, 3, 0.395, 190, {"clear": 23.66, "out": 0.1}),
-                                    (3, 5, 0.52, 200, {"clear": 23.66, "out": 0.1})]},
-    "v6a": {"em": [3], "parts": [(0, 2, 0.68, 160, {"clear": 25.48}), (2, 4, 0.78, 160, {"clear": 25.48})]},
-    "v6b": {"em": [1, 3], "parts": [(0, 1, 0.72, 200, {"clear": 26.18}), (1, 2, 0.72, 220, {"clear": 26.8}),
-                                    (2, 4, 0.735, 200, {"clear": 28.25, "out": 0.45})]},
+    "v3a": {"em": [1], "parts": [(0, 1, 0.775, 180, {}), (1, 2, 0.775, 180, {}), (2, 3, 0.775, 180, {})]},
+    "v3b": {"em": [4], "parts": [(0, 2, 0.66, 175, {}), (2, 4, 0.77, 175, {}), (4, 5, 0.42, 230, {})]},
+    "v4a": {"em": [3], "parts": [(0, 1, 0.685, 220, {}), (1, 3, 0.785, 160, {}), (3, 4, 0.62, 220, {})]},
+    "v4b": {"parts": [(0, 3, 0.665, 140, {"clear": 19.44, "out": 0.25}), (3, 5, 0.765, 170, {"clear": 19.44, "out": 0.25})]},
+    "v5a": {"em": [1], "parts": [(0, 1, 0.74, 210, {}), (1, 2, 0.52, 230, {"x": 0.37, "lead": 0.0}),  # «الدَهرُ» is printed on the dial: it cannot come before the dial
+                                 (2, 3, 0.7, 200, {"lead": 0.0}), (3, 4, 0.318, 150, {})]},
+    "v5b": {"em": [0, 4], "parts": [(0, 1, 0.44, 220, {}), (1, 3, 0.395, 190, {}), (3, 5, 0.52, 200, {})]},
+    "v6a": {"em": [3], "parts": [(0, 2, 0.68, 160, {}), (2, 4, 0.78, 160, {})]},
+    "v6b": {"em": [1, 3], "parts": [(0, 1, 0.72, 200, {}), (1, 2, 0.72, 220, {}), (2, 4, 0.735, 200, {"clear": 28.25, "out": 0.45})]},
 }
 
 extra_lines = [
@@ -160,9 +160,27 @@ def build() -> dict:
         d = {k: v for k, v in s.items() if k != "lic"}
         d["licence"] = MIXKIT.format(s["lic"])
         out_shots.append(d)
+    here = os.path.dirname(os.path.abspath(__file__))
+    words = json.load(open(os.path.join(here, "..", "timing.json"), encoding="utf-8"))["words"]
+    starts = [s["start"] for s in shots]
+
+    def leaves(onset: float) -> dict:
+        """When a block spoken from `onset` leaves: with its shot."""
+        i = max(k for k, t0 in enumerate(starts) if t0 <= onset + 1e-6)
+        if i + 1 >= len(shots):
+            return {}
+        nxt = shots[i + 1]
+        tr = nxt.get("trans", {})
+        if tr.get("type", "cut") == "cut":
+            return {"clear": nxt["start"], "out": 0.0}
+        d = float(tr.get("dur", 0.25))
+        return {"clear": round(nxt["start"] + min(0.02, d / 4), 3), "out": round(min(d / 2, 0.12), 3)}
+
     out_lines = {}
     for lid, spec in lines.items():
-        out_lines[lid] = {"em": spec.get("em", []), "parts": [{"words": [a, b], "y": y, "size": size, **extra} for a, b, y, size, extra in spec["parts"]]}
+        ws = [w for w in words if w["line"] == lid]
+        out_lines[lid] = {"em": spec.get("em", []),
+                          "parts": [{"words": [a, b], "y": y, "size": size, **leaves(ws[a]["start"]), **extra} for a, b, y, size, extra in spec["parts"]]}
     return {"fps": 24, "w": 2160, "h": 3840, "duration": 31.0, "audio": f"{ROOT}/v4/audio/original_mix_48k.wav", "timing": "data/timing.json",
             "look": {"pre": 0.8, "vignette": 0.3, "halation": 0.24, "split": 0.5, "sat": 0.86},
             "text_default": {"mode": "light", "soft": 0.8, "shade": 0.5, "texture": 0.45, "glow": 0.34, "wrap": 0.22, "pool": 0.5},

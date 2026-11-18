@@ -47,11 +47,11 @@
      "start": 4.063
     }
    ],
-   "clear": 4.62,
+   "clear": 4.7,
    "y": 0.765,
    "x": 0.5,
    "size": 210,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -63,11 +63,11 @@
      "start": 4.683
     }
    ],
-   "clear": 5.3,
+   "clear": 5.36,
    "y": 0.745,
    "x": 0.5,
    "size": 180,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -87,11 +87,11 @@
      "start": 5.904
     }
    ],
-   "clear": 6.3,
+   "clear": 6.36,
    "y": 0.66,
    "x": 0.5,
    "size": 150,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -103,11 +103,11 @@
      "start": 6.344
     }
    ],
-   "clear": 7.36,
+   "clear": 7.42,
    "y": 0.645,
    "x": 0.5,
    "size": 180,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -120,11 +120,11 @@
      "em": true
     }
    ],
-   "clear": 7.36,
+   "clear": 7.42,
    "y": 0.76,
    "x": 0.5,
    "size": 180,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -136,11 +136,11 @@
      "start": 7.465
     }
    ],
-   "clear": 8.09,
+   "clear": 8.13,
    "y": 0.5,
    "x": 0.5,
    "size": 210,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -193,11 +193,11 @@
      "start": 10.827
     }
    ],
-   "clear": 11.38,
+   "clear": 11.42,
    "y": 0.775,
    "x": 0.5,
    "size": 180,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -210,11 +210,11 @@
      "em": true
     }
    ],
-   "clear": 12.04,
+   "clear": 12.08,
    "y": 0.775,
    "x": 0.5,
    "size": 180,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -226,11 +226,11 @@
      "start": 12.128
     }
    ],
-   "clear": 12.78,
+   "clear": 12.84,
    "y": 0.775,
    "x": 0.5,
    "size": 180,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -246,11 +246,11 @@
      "start": 13.409
     }
    ],
-   "clear": 14.34,
+   "clear": 14.4,
    "y": 0.66,
    "x": 0.5,
    "size": 175,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -266,11 +266,11 @@
      "start": 14.07
     }
    ],
-   "clear": 14.34,
+   "clear": 14.4,
    "y": 0.77,
    "x": 0.5,
    "size": 175,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -283,11 +283,11 @@
      "em": true
     }
    ],
-   "clear": 14.95,
+   "clear": 14.97,
    "y": 0.42,
    "x": 0.5,
    "size": 230,
-   "out": 0.14,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -299,11 +299,11 @@
      "start": 15.25
     }
    ],
-   "clear": 16.66,
+   "clear": 16.7,
    "y": 0.685,
    "x": 0.5,
    "size": 220,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -319,11 +319,11 @@
      "start": 16.311
     }
    ],
-   "clear": 16.66,
+   "clear": 16.7,
    "y": 0.785,
    "x": 0.5,
    "size": 160,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -336,11 +336,11 @@
      "em": true
     }
    ],
-   "clear": 17.4,
+   "clear": 17.44,
    "y": 0.62,
    "x": 0.5,
    "size": 220,
-   "out": 0.06,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -360,7 +360,7 @@
      "start": 18.032
     }
    ],
-   "clear": 19.42,
+   "clear": 19.44,
    "y": 0.665,
    "x": 0.5,
    "size": 140,
@@ -380,7 +380,7 @@
      "start": 18.853
     }
    ],
-   "clear": 19.42,
+   "clear": 19.44,
    "y": 0.765,
    "x": 0.5,
    "size": 170,
@@ -396,11 +396,11 @@
      "start": 19.613
     }
    ],
-   "clear": 20.15,
+   "clear": 20.19,
    "y": 0.74,
    "x": 0.5,
    "size": 210,
-   "out": 0.06,
+   "out": 0.1,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -413,11 +413,11 @@
      "em": true
     }
    ],
-   "clear": 20.57,
+   "clear": 20.62,
    "y": 0.52,
    "x": 0.37,
    "size": 230,
-   "out": 0.06,
+   "out": 0.1,
    "color": "#F6EEDD",
    "emColor": "#FFD79A",
    "lead": 0.0
@@ -430,13 +430,14 @@
      "start": 20.614
     }
    ],
-   "clear": 21.91,
-   "y": 0.675,
+   "clear": 21.58,
+   "y": 0.7,
    "x": 0.5,
-   "size": 190,
-   "out": 0.2,
+   "size": 200,
+   "out": 0.12,
    "color": "#F6EEDD",
-   "emColor": "#FFD79A"
+   "emColor": "#FFD79A",
+   "lead": 0.0
   },
   {
    "id": "v5a.3",
@@ -446,11 +447,11 @@
      "start": 21.615
     }
    ],
-   "clear": 21.91,
-   "y": 0.775,
+   "clear": 22.48,
+   "y": 0.318,
    "x": 0.5,
-   "size": 160,
-   "out": 0.2,
+   "size": 150,
+   "out": 0.12,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -463,8 +464,8 @@
      "em": true
     }
    ],
-   "clear": 22.56,
-   "y": 0.43,
+   "clear": 22.48,
+   "y": 0.44,
    "x": 0.5,
    "size": 220,
    "out": 0.12,
@@ -483,11 +484,11 @@
      "start": 22.656
     }
    ],
-   "clear": 23.66,
+   "clear": 23.7,
    "y": 0.395,
    "x": 0.5,
    "size": 190,
-   "out": 0.1,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -504,11 +505,11 @@
      "em": true
     }
    ],
-   "clear": 23.66,
+   "clear": 23.7,
    "y": 0.52,
    "x": 0.5,
    "size": 200,
-   "out": 0.1,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -524,11 +525,11 @@
      "start": 24.137
     }
    ],
-   "clear": 25.48,
+   "clear": 25.52,
    "y": 0.68,
    "x": 0.5,
    "size": 160,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -545,11 +546,11 @@
      "em": true
     }
    ],
-   "clear": 25.48,
+   "clear": 25.52,
    "y": 0.78,
    "x": 0.5,
    "size": 160,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -561,11 +562,11 @@
      "start": 25.578
     }
    ],
-   "clear": 26.18,
+   "clear": 26.22,
    "y": 0.72,
    "x": 0.5,
    "size": 200,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -578,11 +579,11 @@
      "em": true
     }
    ],
-   "clear": 26.8,
+   "clear": 26.84,
    "y": 0.72,
    "x": 0.5,
    "size": 220,
-   "out": 0.06,
+   "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },

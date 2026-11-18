@@ -6,7 +6,7 @@
        -> depth for the shots whose letters stand behind something (depth_cache.py)
        -> the letters alone, transparent (Remotion BladesText)
        -> the letters set into the picture (comp_text.py)
-       -> finishing: one grain over picture and letters, legal range, the original soundtrack
+       -> finishing: one grain over picture and letters, levels clamped to 18..232 (room for the encoder), the soundtrack
 
 Usage: python render_blades.py PLAN.json WORK_DIR OUT.mp4 [--from T] [--to T] [--scale 1.0] [--audio WAV]
                                [--skip picture,depth,text] [--crf 17] [--grain 10] [--share OUT_1080.mp4]
@@ -77,7 +77,7 @@ def main() -> None:
     cmd = ["ffmpeg", "-v", "error", "-y", "-i", comp, "-f", "lavfi", "-i", grain]
     if audio:
         cmd += ["-ss", f"{t0:.5f}", "-t", f"{d:.5f}", "-i", audio]
-    cmd += ["-filter_complex", "[0:v]format=yuv420p[a];[a][1:v]blend=all_mode=overlay:all_opacity=0.55,format=yuv420p,lutyuv=y='clip(val,16,235)'[v]",
+    cmd += ["-filter_complex", "[0:v]format=yuv420p[a];[a][1:v]blend=all_mode=overlay:all_opacity=0.55,format=yuv420p,lutyuv=y='clip(val,18,232)'[v]",
             "-map", "[v]"]
     if audio:
         fade = f"afade=t=in:st=0:d=0.02,afade=t=out:st={max(0.0, d - 0.05):.3f}:d=0.05" if (t0 > 0 or t1 < plan["duration"]) else "anull"

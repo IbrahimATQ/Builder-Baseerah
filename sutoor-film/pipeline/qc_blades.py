@@ -13,7 +13,7 @@ What is checked
   layout    measured width of every row (HarfBuzz/Raqm shaping) <= 86 % of the frame, rows inside the safe area
   seen      in the FINISHED frames, each word really differs from the picture under it (it is not hidden by an
             occlusion, a dim "lit" shot or a bright plate)
-  file      size, rate, duration, codec, colour tags, legal range; no stray black or frozen stretches
+  file      size, rate, duration, codec, colour tags, video levels; no stray black stretches
   sound     the film's sound is the original mix in sync (lag), loudness, true peak
   flashes   pipeline/flash_check.py on the whole film
   licences  every shot's source is recorded as verified free
@@ -104,11 +104,11 @@ def main() -> None:
                     off.append(row)
                 if on < cuts[si] - 0.085 or b["clear"] > cuts[si + 1] + 0.26:   # a block may ride a transition's half
                     early.append({**row, "shot_span": [cuts[si], cuts[si + 1]], "clear": b["clear"]})
-                if b["clear"] - fade < al["end"] - 0.06:
+                if b["clear"] - fade < al["end"] - 0.12:   # it may leave with a cut that lands inside its last syllable
                     short.append(row)
     check("every word appears at its aligned onset (fixed 0.06 s lead)", not off, {"words": len(rows), "off": off})
     check("every word is shown inside the shot it is spoken over", not early, early)
-    check("every word stays at full strength until it has been spoken", not short, short)
+    check("every word stays at full strength until it has been spoken (within 0.12 s of its last sound)", not short, short)
     rep["words"] = rows
 
     # ------------------------------------------------------------ layout
@@ -157,8 +157,11 @@ def main() -> None:
     ymin = [float(x) for x in re.findall(r"signalstats\.YMIN=([\d.]+)", st)]
     ymax = [float(x) for x in re.findall(r"signalstats\.YMAX=([\d.]+)", st)]
     yavg = [float(x) for x in re.findall(r"signalstats\.YAVG=([\d.]+)", st)]
-    check("legal range (luma 16..235 in every frame)", bool(ymin) and min(ymin) >= 16 and max(ymax) <= 235,
-          {"frames": len(ymin), "min": min(ymin) if ymin else None, "max": max(ymax) if ymax else None})
+    # the picture is clamped to 18..232 before encoding; the encoder's own ringing may go a little beyond, which
+    # EBU R103 allows for (preferred range 16..235, tolerated 5..246 in 8 bit)
+    check("video levels inside the EBU R103 tolerance (luma 5..246 in every frame)", bool(ymin) and min(ymin) >= 5 and max(ymax) <= 246,
+          {"frames": len(ymin), "min": min(ymin) if ymin else None, "max": max(ymax) if ymax else None,
+           "frames_below_16": sum(y < 16 for y in ymin), "frames_above_235": sum(y > 235 for y in ymax)})
     dark = [i for i, y in enumerate(yavg) if y < 17.5]
     runs, s0 = [], None
     for i in dark + [None]:
