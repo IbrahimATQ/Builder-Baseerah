@@ -1,0 +1,693 @@
+{
+ "what": "Licence record of the sound effects used in the Blades edition (cue list: /home/user/Builder-Baseerah/sutoor-film/data/blades/sfx_cues.json)",
+ "source": "Mixkit free sound-effects library, https://mixkit.co/free-sound-effects/",
+ "how_checked": "Mixkit has no page per sound effect (https://mixkit.co/free-sound-effects/<slug>-<id>/ redirects to an empty search page). Each item appears as a card on one or more category pages; those pages state the licence for everything listed on them, in the sentence quoted in statement_on_page, whose link carries data-license=\"sfxFree\". For every recording used: the category page was fetched on the date in `checked`, the card with the item's id was found on it and its title read from the card, the page carried that sentence and no other licence code; the item's download page (download_page) names the asset that was downloaded (asset_url, sha256). The file used is that asset byte for byte, or, for four long sea recordings, a few seconds cut out of it with the samples unchanged (file_is).",
+ "licence": {
+  "name": "Mixkit Sound Effects Free License",
+  "code_on_site": "sfxFree",
+  "url": "https://mixkit.co/license/#sfxFree",
+  "text_url": "https://mixkit.co/license/modal/sfxFree/",
+  "text_fetched": "2026-11-18T16:07:30Z",
+  "text": [
+   "Sound Effects Free License",
+   "Sound Effects under the Free license can be used in",
+   "YouTube videos",
+   "Social Media video posts",
+   "Online marketing ads",
+   "Educational Purposes",
+   "Music videos",
+   "Commercial projects",
+   "Filmmaking",
+   "Video games",
+   "TV & Radio broadcasts",
+   "CDs & DVDs",
+   "Items under the Mixkit Sound Effects Free License can be used in your commercial and non-commercial projects for free.",
+   "You are licensed to use the Item to create an End Product that incorporates the Item as well as other things, so that it is larger in scope and different in nature than the Item. You’re permitted to download, copy, modify, distribute and publicly perform the Sound Effect Items on any web or social media platform, in podcasts and in video games, as well as in films and presentations distributed on CDs, DVDs, via TV or radio broadcast or internet based video on demand services.",
+   "You can’t redistribute the Item on its own, as stock, in a tool or template, or with source files. You’re also not allowed to claim them as your own or register them on any rights management service.",
+   "There are some important limits to these rights, described in our User Terms ."
+  ]
+ },
+ "items": [
+  {
+   "id": 77,
+   "title": "Horse fast gallop in the dirt",
+   "duration_on_page": "0:13",
+   "page": "https://mixkit.co/free-sound-effects/horse/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:58:53Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/77/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/77/77.wav",
+   "downloaded": "2026-11-18T16:40:09Z",
+   "sha256": "c66b61a7cb89065e5fe289efe078204d532d446ce95a61d05d55228af0ae9843",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/77.wav",
+   "file_bytes": 3485744,
+   "file_sha256": "c66b61a7cb89065e5fe289efe078204d532d446ce95a61d05d55228af0ae9843",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "hooves"
+   ]
+  },
+  {
+   "id": 490,
+   "title": "Human single heart beat",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/boom/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/heartbeat/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:24Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/490/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/490/490.wav",
+   "downloaded": "2026-11-18T16:39:55Z",
+   "sha256": "c7719e58bf79c3067f608b4859e54f66c0ebdd2f58b059290569fc597c380cac",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/490.wav",
+   "file_bytes": 194192,
+   "file_sha256": "c7719e58bf79c3067f608b4859e54f66c0ebdd2f58b059290569fc597c380cac",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "heartbeat"
+   ]
+  },
+  {
+   "id": 563,
+   "title": "Drum deep impact",
+   "duration_on_page": "0:05",
+   "page": "https://mixkit.co/free-sound-effects/cinematic/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:56Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/563/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/563/563.wav",
+   "downloaded": "2026-11-18T16:39:46Z",
+   "sha256": "a1e85c7ebe28188a4f1d4f909b9fd7aa09cb3a5a1563e39f072eff41c1550676",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/563.wav",
+   "file_bytes": 973846,
+   "file_sha256": "a1e85c7ebe28188a4f1d4f909b9fd7aa09cb3a5a1563e39f072eff41c1550676",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "tether_hit"
+   ]
+  },
+  {
+   "id": 1059,
+   "title": "Tick tock clock close up",
+   "duration_on_page": "0:11",
+   "page": "https://mixkit.co/free-sound-effects/clock/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:06Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1059/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1059/1059.wav",
+   "downloaded": "2026-11-18T16:40:45Z",
+   "sha256": "bbcda2007cd8c695acaea103a656ffccd9e8b6484232c9c00e4d1ada0c22c756",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1059.wav",
+   "file_bytes": 3095102,
+   "file_sha256": "bbcda2007cd8c695acaea103a656ffccd9e8b6484232c9c00e4d1ada0c22c756",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "tick_1",
+    "tick_2"
+   ]
+  },
+  {
+   "id": 1168,
+   "title": "Woosh wind",
+   "duration_on_page": "0:03",
+   "page": "https://mixkit.co/free-sound-effects/transition/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/wind/",
+    "https://mixkit.co/free-sound-effects/woosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:11:53Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1168/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1168/1168.wav",
+   "downloaded": "2026-11-18T16:39:33Z",
+   "sha256": "1fd988e660929c95ac4a57877208e23f48a538f3eccd7ae9343c4091e91a649a",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1168.wav",
+   "file_bytes": 1042904,
+   "file_sha256": "1fd988e660929c95ac4a57877208e23f48a538f3eccd7ae9343c4091e91a649a",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "gust_dust"
+   ]
+  },
+  {
+   "id": 1190,
+   "title": "Sea waves on a rocky shore",
+   "duration_on_page": "2:01",
+   "page": "https://mixkit.co/free-sound-effects/sea/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:38Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1190/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1190/1190.wav",
+   "downloaded": "2026-11-18T16:41:03Z",
+   "sha256": "e80054b74a6b781cdf37b6b31d8931b5cbb02f8835538c34ea9bdb344bd5a19b",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1190_66-73s.wav",
+   "file_bytes": 1234844,
+   "file_sha256": "fe5d432e01d3bd1b87c3fe440eca7efcc1beb66f25d18366260fbc4456e7f8fe",
+   "file_is": "seconds 66-73 of the downloaded asset, samples copied unchanged (compared sample by sample before the full file was removed)",
+   "used_by_cues": [
+    "sea_end"
+   ]
+  },
+  {
+   "id": 1196,
+   "title": "Sea waves loop",
+   "duration_on_page": "0:48",
+   "page": "https://mixkit.co/free-sound-effects/ocean/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/sea/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:43Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1196/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1196/1196.wav",
+   "downloaded": "2026-11-18T16:40:58Z",
+   "sha256": "909a17d834af3dcaf3d5bf65c10e3d399575b9b3053a83c61025598b395ecac2",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1196_41-45s.wav",
+   "file_bytes": 705644,
+   "file_sha256": "a760ffdae3debd60f67d4c5b77b6ecd1954efa73d2f2f80d51256e02189c772e",
+   "file_is": "seconds 41-45 of the downloaded asset, samples copied unchanged (compared sample by sample before the full file was removed)",
+   "used_by_cues": [
+    "surge_blade"
+   ]
+  },
+  {
+   "id": 1206,
+   "title": "Sea coast breaking waves",
+   "duration_on_page": "2:00",
+   "page": "https://mixkit.co/free-sound-effects/ocean/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/sea/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:43Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1206/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1206/1206.wav",
+   "downloaded": "2026-11-18T16:40:55Z",
+   "sha256": "985cdae6e5b6d153bfac87dcbeea4a8b42974d9ffc86023eeabcafb67e93d462",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1206_36-40s.wav",
+   "file_bytes": 1058444,
+   "file_sha256": "06fb01ef2b2fbed4a38ec6e4c0ae499fa2e82cf6d34c6a4588d92050e615c377",
+   "file_is": "seconds 36-40 of the downloaded asset, samples copied unchanged (compared sample by sample before the full file was removed)",
+   "used_by_cues": [
+    "crash"
+   ]
+  },
+  {
+   "id": 1208,
+   "title": "Small waves harbor rocks",
+   "duration_on_page": "1:17",
+   "page": "https://mixkit.co/free-sound-effects/beach/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/ocean/",
+    "https://mixkit.co/free-sound-effects/sea/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:33Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1208/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1208/1208.wav",
+   "downloaded": "2026-11-18T16:41:08Z",
+   "sha256": "cfd725ebf1702858eaae3eddd341a4fee60b20b4ec3043fb4b8d9daa5ea63d99",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1208_9-12s.wav",
+   "file_bytes": 793844,
+   "file_sha256": "2d0c78811d79803df48f0040156aa18c520b200a102a0e677a50314c5d45e590",
+   "file_is": "seconds 9-12 of the downloaded asset, samples copied unchanged (compared sample by sample before the full file was removed)",
+   "used_by_cues": [
+    "foam_wash"
+   ]
+  },
+  {
+   "id": 1292,
+   "title": "Distant thunder storm explosion",
+   "duration_on_page": "0:09",
+   "page": "https://mixkit.co/free-sound-effects/thunder/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:58:58Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1292/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1292/1292.wav",
+   "downloaded": "2026-11-18T16:40:13Z",
+   "sha256": "24578b0fcb31cfaa64b73c4622ed287cf17f7a1563a2bf45da46382d73680877",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1292.wav",
+   "file_bytes": 1642246,
+   "file_sha256": "24578b0fcb31cfaa64b73c4622ed287cf17f7a1563a2bf45da46382d73680877",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "thunder"
+   ]
+  },
+  {
+   "id": 1328,
+   "title": "Fire swoosh burning",
+   "duration_on_page": "0:03",
+   "page": "https://mixkit.co/free-sound-effects/fire/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/swoosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:58:49Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1328/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1328/1328.wav",
+   "downloaded": "2026-11-18T16:38:30Z",
+   "sha256": "bd8f1f083f552928695fca320fba1c649cb2982a13c849adf1baf2626701087a",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1328.wav",
+   "file_bytes": 961088,
+   "file_sha256": "bd8f1f083f552928695fca320fba1c649cb2982a13c849adf1baf2626701087a",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "forge_surge"
+   ]
+  },
+  {
+   "id": 1331,
+   "title": "Big fire flame burning",
+   "duration_on_page": "0:08",
+   "page": "https://mixkit.co/free-sound-effects/fire/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:58:49Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1331/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1331/1331.wav",
+   "downloaded": "2026-11-18T16:38:25Z",
+   "sha256": "379c7d98527c7761809d822ecceae71f986dc490be10fb590078a0c21a5645da",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1331.wav",
+   "file_bytes": 2188832,
+   "file_sha256": "379c7d98527c7761809d822ecceae71f986dc490be10fb590078a0c21a5645da",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "pour"
+   ]
+  },
+  {
+   "id": 1345,
+   "title": "Short fire whoosh",
+   "duration_on_page": "0:03",
+   "page": "https://mixkit.co/free-sound-effects/fire/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/swoosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:58:49Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1345/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1345/1345.wav",
+   "downloaded": "2026-11-18T16:38:16Z",
+   "sha256": "6fd2d1930fcbbe56f371b83248bddeb25ffec110fb28e943515b13f78dededfa",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1345.wav",
+   "file_bytes": 843032,
+   "file_sha256": "6fd2d1930fcbbe56f371b83248bddeb25ffec110fb28e943515b13f78dededfa",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "fire_open"
+   ]
+  },
+  {
+   "id": 1461,
+   "title": "Short wind swoosh",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/swoosh/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/wind/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:11:39Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1461/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1461/1461.wav",
+   "downloaded": "2026-11-18T16:38:57Z",
+   "sha256": "f73778bcf9804e48772ef4d4a026433ebac414b4746cd2b84f99f8c813e44ba3",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1461.wav",
+   "file_bytes": 245240,
+   "file_sha256": "f73778bcf9804e48772ef4d4a026433ebac414b4746cd2b84f99f8c813e44ba3",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "arrow_1"
+   ]
+  },
+  {
+   "id": 1471,
+   "title": "Cinematic wind swoosh",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/swoosh/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/wind/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:11:39Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1471/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1471/1471.wav",
+   "downloaded": "2026-11-18T16:38:43Z",
+   "sha256": "4b1372bb5caf024d854a657a23d6c55a0bf18b408785190acd937858cc3bd5bf",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1471.wav",
+   "file_bytes": 384278,
+   "file_sha256": "4b1372bb5caf024d854a657a23d6c55a0bf18b408785190acd937858cc3bd5bf",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "whip_foam",
+    "arrow_3"
+   ]
+  },
+  {
+   "id": 1474,
+   "title": "Transition windy swoosh",
+   "duration_on_page": "0:03",
+   "page": "https://mixkit.co/free-sound-effects/swoosh/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/transition/",
+    "https://mixkit.co/free-sound-effects/wind/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:11:39Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1474/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1474/1474.wav",
+   "downloaded": "2026-11-18T16:39:28Z",
+   "sha256": "ebd16aaf114f617c75888184f41ff469f3d6ba89156df680761519fed23c2415",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1474.wav",
+   "file_bytes": 847856,
+   "file_sha256": "ebd16aaf114f617c75888184f41ff469f3d6ba89156df680761519fed23c2415",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "swell_night"
+   ]
+  },
+  {
+   "id": 1489,
+   "title": "Air woosh",
+   "duration_on_page": "0:02",
+   "page": "https://mixkit.co/free-sound-effects/whoosh/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/woosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:11:35Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1489/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1489/1489.wav",
+   "downloaded": "2026-11-18T16:39:24Z",
+   "sha256": "fdc4f87eb2c6d29ec3567b299fdc3b2aeea2432afe27801db80c496bda084499",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1489.wav",
+   "file_bytes": 614126,
+   "file_sha256": "fdc4f87eb2c6d29ec3567b299fdc3b2aeea2432afe27801db80c496bda084499",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "arrow_4"
+   ]
+  },
+  {
+   "id": 1491,
+   "title": "Arrow whoosh",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/whoosh/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/woosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:11:35Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1491/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1491/1491.wav",
+   "downloaded": "2026-11-18T16:39:19Z",
+   "sha256": "c9aa08de97e5a1235f9b2b4eb7a1096f2fe09586995859e46aa83e9066badca2",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1491.wav",
+   "file_bytes": 193972,
+   "file_sha256": "c9aa08de97e5a1235f9b2b4eb7a1096f2fe09586995859e46aa83e9066badca2",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "arrow_5"
+   ]
+  },
+  {
+   "id": 1635,
+   "title": "Passenger train passing by",
+   "duration_on_page": "0:18",
+   "page": "https://mixkit.co/free-sound-effects/train/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:11:57Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/1635/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/1635/1635.wav",
+   "downloaded": "2026-11-18T16:40:40Z",
+   "sha256": "3b351f283392a477725f51b134d49f4ea5b2f3d36c48b8d3d65fc51d1f25b4bc",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/1635.wav",
+   "file_bytes": 4843850,
+   "file_sha256": "3b351f283392a477725f51b134d49f4ea5b2f3d36c48b8d3d65fc51d1f25b4bc",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "train_rush"
+   ]
+  },
+  {
+   "id": 2161,
+   "title": "Air in a hit",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/hit/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/swish/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:11Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/2161/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/2161/2161.wav",
+   "downloaded": "2026-11-18T16:39:01Z",
+   "sha256": "a521930bd9b102187894375ecd2132b33f911ff1b3f5a756bf14cd77a2bae92c",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/2161.wav",
+   "file_bytes": 225176,
+   "file_sha256": "a521930bd9b102187894375ecd2132b33f911ff1b3f5a756bf14cd77a2bae92c",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "arrow_2"
+   ]
+  },
+  {
+   "id": 2427,
+   "title": "Breeze through the trees",
+   "duration_on_page": "0:14",
+   "page": "https://mixkit.co/free-sound-effects/wind/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:59:03Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/2427/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/2427/2427.wav",
+   "downloaded": "2026-11-18T16:40:27Z",
+   "sha256": "6c296823df198334cb2e96cecefa7c2492590cbbbbc2baf69e4f22bcb183373f",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/2427.wav",
+   "file_bytes": 2528176,
+   "file_sha256": "6c296823df198334cb2e96cecefa7c2492590cbbbbc2baf69e4f22bcb183373f",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "wind_thorns"
+   ]
+  },
+  {
+   "id": 2494,
+   "title": "Sand in the desert",
+   "duration_on_page": "0:05",
+   "page": "https://mixkit.co/free-sound-effects/desert/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:51Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/2494/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/2494/2494.wav",
+   "downloaded": "2026-11-18T16:40:04Z",
+   "sha256": "17c2dab5a965e714fc21439d3cd1af6e57852f0c3e47dc5aa08122ff0cd529e1",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/2494.wav",
+   "file_bytes": 1464638,
+   "file_sha256": "17c2dab5a965e714fc21439d3cd1af6e57852f0c3e47dc5aa08122ff0cd529e1",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "sand_hiss",
+    "grit_dust"
+   ]
+  },
+  {
+   "id": 2604,
+   "title": "Deep air woosh",
+   "duration_on_page": "0:02",
+   "page": "https://mixkit.co/free-sound-effects/wind/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/woosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:59:03Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/2604/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/2604/2604.wav",
+   "downloaded": "2026-11-18T16:44:53Z",
+   "sha256": "975d3c0a3303ced7f0aa864771fc5aceba0c5b7fd73877c3e67aee0549d90195",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/2604.wav",
+   "file_bytes": 525120,
+   "file_sha256": "975d3c0a3303ced7f0aa864771fc5aceba0c5b7fd73877c3e67aee0549d90195",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "fall_air"
+   ]
+  },
+  {
+   "id": 2605,
+   "title": "Quick air woosh",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/wind/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/woosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:59:03Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/2605/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/2605/2605.wav",
+   "downloaded": "2026-11-18T16:38:48Z",
+   "sha256": "b8726a1f1026101b2b3982e067074c1d8dee9bd3516ff0e0ef5e674dc100ace5",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/2605.wav",
+   "file_bytes": 266548,
+   "file_sha256": "b8726a1f1026101b2b3982e067074c1d8dee9bd3516ff0e0ef5e674dc100ace5",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "whip_canter"
+   ]
+  },
+  {
+   "id": 2607,
+   "title": "Fast air woosh",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/wind/",
+   "also_listed_on": [
+    "https://mixkit.co/free-sound-effects/woosh/"
+   ],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:59:03Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/2607/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/2607/2607.wav",
+   "downloaded": "2026-11-18T16:38:39Z",
+   "sha256": "6a99dc51cadd967bd542f47a04ea9589665dffd06cb22e7b477940a21b2ed716",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/2607.wav",
+   "file_bytes": 304892,
+   "file_sha256": "6a99dc51cadd967bd542f47a04ea9589665dffd06cb22e7b477940a21b2ed716",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "whip_crowd",
+    "arrow_7"
+   ]
+  },
+  {
+   "id": 2792,
+   "title": "Fast sword whoosh",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/wind/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:59:03Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/2792/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/2792/2792.wav",
+   "downloaded": "2026-11-18T16:39:15Z",
+   "sha256": "e1de4e011ee6369aed772202a979590f03261e3607147bd2f04eda58ba5746eb",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/2792.wav",
+   "file_bytes": 196896,
+   "file_sha256": "e1de4e011ee6369aed772202a979590f03261e3607147bd2f04eda58ba5746eb",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "arrow_6"
+   ]
+  },
+  {
+   "id": 3049,
+   "title": "Quest game heavy stomp v",
+   "duration_on_page": "0:01",
+   "page": "https://mixkit.co/free-sound-effects/thud/",
+   "also_listed_on": [],
+   "licence": "Mixkit Sound Effects Free License",
+   "licence_code": "sfxFree",
+   "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License.",
+   "checked": "2026-11-18T16:12:20Z",
+   "download_page": "https://mixkit.co/free-sound-effects/download/3049/",
+   "asset_url": "https://assets.mixkit.co/active_storage/sfx/3049/3049.wav",
+   "downloaded": "2026-11-18T16:39:37Z",
+   "sha256": "8897e83bb70783cdfdd491d2b1b63deee7557e608d64c0fcfa835ea2cef6a254",
+   "sha256_matches_download": true,
+   "file": "/home/user/film/v4/sound/sfx/3049.wav",
+   "file_bytes": 305136,
+   "file_sha256": "8897e83bb70783cdfdd491d2b1b63deee7557e608d64c0fcfa835ea2cef6a254",
+   "file_is": "the downloaded asset, byte for byte",
+   "used_by_cues": [
+    "glass_drop"
+   ]
+  }
+ ],
+ "problems": []
+}

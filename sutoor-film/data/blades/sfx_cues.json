@@ -1,0 +1,634 @@
+{
+ "version": 1,
+ "about": "Sound-effect cues of the Blades edition, read by pipeline/mix_blades.py (its docstring explains every field). Every cue is anchored to a shot id of data/blades/plan.json: film time = anchor(shot) + offset, where anchor 'start' is the shot's start (the centre of a whip/zoom/flash/dissolve/matte) and anchor 'frame' is the first picture frame of the shot (where a hard cut is seen). All recordings are Mixkit sound effects, file name = Mixkit id; four long sea recordings are kept as excerpts named <id>_<from>-<to>s.wav, with src_in counted from the start of the excerpt. Licences: /home/user/film/v4/sound/sfx_licences.json. Gains were set by measurement so that the effects stay at least 15 dB under the original mix at every spoken word WITHOUT the automatic gain having to act; after a cut moves, read the warnings mix_blades.py prints.",
+ "sfx_dir": "/home/user/film/v4/sound/sfx",
+ "protect": {
+  "intro_end": 1.7,
+  "unlisted_lufs": -18.0,
+  "extra": []
+ },
+ "cues": [
+  {
+   "id": "fire_open",
+   "shot": "fire",
+   "offset": 0.0,
+   "dur": 1.25,
+   "shot_src": "52292.mp4",
+   "src": "1345.wav",
+   "src_in": 0.4,
+   "gain_db": -18.5,
+   "fade_in": 0.1,
+   "fade_out": 0.6,
+   "title": "Short fire whoosh",
+   "note": "flames rise on black: one soft fire whoosh that swells with the fade-in and is already falling when the first syllable comes (0.36 s); nothing else under the spoken intro"
+  },
+  {
+   "id": "whip_crowd",
+   "shot": "crowd",
+   "offset": -0.325,
+   "dur": 0.5,
+   "peak_on": "crowd",
+   "shot_src": "3433.mp4",
+   "src": "2607.wav",
+   "src_in": 0.15,
+   "gain_db": -17.8,
+   "fade_in": 0.08,
+   "fade_out": 0.06,
+   "title": "Fast air woosh",
+   "note": "air whoosh on the whip into the night crowd; rises 0.3 s and stops just after the centre of the whip"
+  },
+  {
+   "id": "whip_foam",
+   "shot": "foam",
+   "offset": -0.205,
+   "dur": 0.55,
+   "peak_on": "foam",
+   "shot_src": "1013.mp4",
+   "src": "1471.wav",
+   "src_in": 0.2,
+   "gain_db": -13.9,
+   "fade_in": 0.06,
+   "fade_out": 0.15,
+   "title": "Cinematic wind swoosh",
+   "note": "a different, rounder whoosh on the whip back to the feet"
+  },
+  {
+   "id": "foam_wash",
+   "shot": "foam",
+   "offset": 0.06,
+   "dur": 0.95,
+   "shot_src": "1013.mp4",
+   "src": "1208_9-12s.wav",
+   "src_in": 1.02,
+   "gain_db": -14.0,
+   "fade_in": 0.3,
+   "fade_out": 0.45,
+   "title": "Small waves harbor rocks",
+   "note": "one small real wave: its wash arrives with the foam on the feet (5.7-5.9) and is gone before the quiet word «الأَوالي»"
+  },
+  {
+   "id": "pour",
+   "shot": "pour",
+   "anchor": "frame",
+   "offset": -0.158,
+   "until_shot": "forge",
+   "until_offset": -0.02,
+   "peak_on": "pour",
+   "shot_src": "2861.mp4",
+   "src": "1331.wav",
+   "src_in": 0.36,
+   "gain_db": -17.5,
+   "fade_in": 0.06,
+   "fade_out": 0.12,
+   "highpass_hz": 120,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     0.22,
+     0
+    ],
+    [
+     0.45,
+     3.0
+    ],
+    [
+     1.2,
+     3.0
+    ]
+   ],
+   "title": "Big fire flame burning",
+   "note": "the pour: a real flame igniting on the flash, then its roar under the molten metal until the punch into the forge"
+  },
+  {
+   "id": "forge_surge",
+   "shot": "forge",
+   "offset": -0.177,
+   "until_shot": "glass",
+   "until_anchor": "frame",
+   "until_offset": -0.01,
+   "peak_on": "forge",
+   "shot_src": "42768.mp4",
+   "src": "1328.wav",
+   "src_in": 0.75,
+   "gain_db": -17.5,
+   "fade_in": 0.05,
+   "fade_out": 0.05,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     0.2,
+     0
+    ],
+    [
+     0.36,
+     -8
+    ],
+    [
+     0.9,
+     -16
+    ]
+   ],
+   "title": "Fire swoosh burning",
+   "note": "fire surge on the zoom punch; its burning tail is cut with the picture at the hourglass"
+  },
+  {
+   "id": "glass_drop",
+   "shot": "glass",
+   "anchor": "frame",
+   "offset": -0.039,
+   "dur": 0.55,
+   "peak_on": "glass",
+   "shot_src": "28894.mp4",
+   "src": "3049.wav",
+   "src_in": 0.0,
+   "gain_db": -19.6,
+   "fade_in": 0.002,
+   "fade_out": 0.3,
+   "title": "Quest game heavy stomp v",
+   "note": "a short low thump exactly on the hard cut to the hourglass; the voice is silent here, so this is one of the few places a hit can be heard plainly"
+  },
+  {
+   "id": "tether_hit",
+   "shot": "tether",
+   "anchor": "frame",
+   "offset": -0.054,
+   "dur": 0.55,
+   "peak_on": "tether",
+   "shot_src": "100663.mp4",
+   "src": "563.wav",
+   "src_in": 0.12,
+   "gain_db": -13.2,
+   "fade_in": 0.01,
+   "fade_out": 0.35,
+   "lowpass_hz": 320,
+   "title": "Drum deep impact",
+   "note": "low soft drum hit on the cut from black to the tethered horse (low-passed at 320 Hz: the body without the stick, and without the drum's 586 Hz overtone); no chain: metal is what was heard as a scream before"
+  },
+  {
+   "id": "whip_canter",
+   "shot": "canter",
+   "offset": -0.215,
+   "dur": 0.75,
+   "peak_on": "canter",
+   "shot_src": "1154.mp4",
+   "src": "2605.wav",
+   "src_in": 0.03,
+   "gain_db": -20.0,
+   "fade_in": 0.05,
+   "fade_out": 0.35,
+   "title": "Quick air woosh",
+   "note": "third whoosh, a soft one with a longer tail, on the whip into the canter"
+  },
+  {
+   "id": "hooves",
+   "shot": "canter",
+   "offset": 0.13,
+   "dur": 1.4,
+   "shot_src": "1154.mp4",
+   "src": "77.wav",
+   "src_in": 0.8,
+   "gain_db": -3.5,
+   "fade_in": 0.05,
+   "fade_out": 0.6,
+   "lowpass_hz": 500,
+   "title": "Horse fast gallop in the dirt",
+   "note": "muffled three-beat hoofbeats on dirt under «وَما يُنجينَ مِن خَبَبِ», fading; low-passed so only the thuds remain; the recording has no whinny or snort (checked)"
+  },
+  {
+   "id": "swell_night",
+   "shot": "man",
+   "offset": -0.62,
+   "dur": 1.6,
+   "peak_on": "man",
+   "shot_src": "948.mp4",
+   "src": "1474.wav",
+   "src_in": 0.582,
+   "gain_db": -26.9,
+   "fade_in": 0.25,
+   "fade_out": 0.6,
+   "title": "Transition windy swoosh",
+   "note": "airy swell that rises through the wheeling night sky, peaks on the dissolve into the man (the music accent) and falls away as quiet wind"
+  },
+  {
+   "id": "thunder",
+   "shot": "sky",
+   "anchor": "frame",
+   "offset": -0.01,
+   "dur": 1.25,
+   "shot_src": "118.mp4",
+   "src": "1292.wav",
+   "src_in": 0.83,
+   "gain_db": -21.0,
+   "fade_in": 0.04,
+   "fade_out": 0.5,
+   "lowpass_hz": 600,
+   "title": "Distant thunder storm explosion",
+   "note": "distant thunder: only the rolling rumble of the recording (its first clap is skipped, the top is filtered off), starting on the cut to the storm sky"
+  },
+  {
+   "id": "gust_dust",
+   "shot": "dust",
+   "offset": -0.617,
+   "dur": 1.6,
+   "peak_on": "dust",
+   "peak_win_ms": 200,
+   "peak_tol_ms": 80,
+   "shot_src": "417.mp4",
+   "src": "1168.wav",
+   "src_in": 1.15,
+   "gain_db": -21.5,
+   "fade_in": 0.15,
+   "fade_out": 0.7,
+   "lowpass_hz": 2200,
+   "title": "Woosh wind",
+   "note": "one gust of wind that peaks in the middle of the smoke-matte wipe into the dust storm and dies under the line (low-passed: the recording has two faint whistling lines at 4.3 and 6.2 kHz, removed)"
+  },
+  {
+   "id": "grit_dust",
+   "shot": "dust",
+   "offset": -0.32,
+   "dur": 1.1,
+   "shot_src": "417.mp4",
+   "src": "2494.wav",
+   "src_in": 0.45,
+   "gain_db": 4.0,
+   "fade_in": 0.3,
+   "fade_out": 0.6,
+   "title": "Sand in the desert",
+   "note": "grit: real sand hiss riding the gust (gives the low-passed gust its air back from a clean source)"
+  },
+  {
+   "id": "train_rush",
+   "shot": "train",
+   "offset": -0.25,
+   "until_shot": "clock",
+   "until_anchor": "frame",
+   "until_offset": -0.012,
+   "shot_src": "1622.mp4",
+   "src": "1635.wav",
+   "src_in": 4.2,
+   "gain_db": -14.5,
+   "fade_in": 0.2,
+   "fade_out": 0.02,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     0.36,
+     0
+    ],
+    [
+     0.5,
+     -5
+    ],
+    [
+     1.0,
+     -5
+    ]
+   ],
+   "title": "Passenger train passing by",
+   "note": "the rush of a real train arriving (no horn, no brake squeal in this stretch), cut off hard by the clock"
+  },
+  {
+   "id": "tick_1",
+   "shot": "clock",
+   "anchor": "frame",
+   "offset": -0.026,
+   "dur": 0.07,
+   "peak_on": "clock",
+   "shot_src": "28885.mp4",
+   "src": "1059.wav",
+   "src_in": 0.1,
+   "gain_db": -12.0,
+   "fade_in": 0.004,
+   "fade_out": 0.03,
+   "title": "Tick tock clock close up",
+   "note": "dry clock tick on the cut to the clock face"
+  },
+  {
+   "id": "tick_2",
+   "shot": "clock",
+   "anchor": "frame",
+   "offset": 0.224,
+   "dur": 0.07,
+   "shot_src": "28885.mp4",
+   "src": "1059.wav",
+   "src_in": 0.59,
+   "gain_db": -12.0,
+   "fade_in": 0.004,
+   "fade_out": 0.03,
+   "title": "Tick tock clock close up",
+   "note": "the tock of the same clock a quarter of a second later, as its light starts to go out; then nothing"
+  },
+  {
+   "id": "arrow_1",
+   "shot": "volley",
+   "offset": -0.1,
+   "dur": 0.4,
+   "shot_src": "4426.mp4",
+   "src": "1461.wav",
+   "src_in": 0.0,
+   "gain_db": -18.1,
+   "fade_in": 0.01,
+   "fade_out": 0.1,
+   "title": "Short wind swoosh",
+   "note": "first fly-by as the sparks start to streak"
+  },
+  {
+   "id": "arrow_2",
+   "shot": "volley",
+   "offset": 0.53,
+   "dur": 0.35,
+   "word": 35,
+   "word_offset": -0.485,
+   "shot_src": "4426.mp4",
+   "src": "2161.wav",
+   "src_in": 0.0,
+   "gain_db": -17.0,
+   "fade_in": 0.005,
+   "fade_out": 0.1,
+   "title": "Air in a hit",
+   "note": "second fly-by, a different recording, in the pause after «بِالأَرزاءِ»"
+  },
+  {
+   "id": "arrow_3",
+   "shot": "volley",
+   "offset": 0.65,
+   "dur": 0.3,
+   "word": 35,
+   "word_offset": -0.365,
+   "shot_src": "4426.mp4",
+   "src": "1471.wav",
+   "src_in": 0.27,
+   "gain_db": -17.2,
+   "fade_in": 0.03,
+   "fade_out": 0.05,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     0.14,
+     0
+    ],
+    [
+     0.22,
+     -8
+    ],
+    [
+     0.3,
+     -20
+    ]
+   ],
+   "title": "Cinematic wind swoosh",
+   "note": "third fly-by in the middle of the same pause: the heart of the wind swoosh used on the second whip, cut short (plain air, no ring)"
+  },
+  {
+   "id": "heartbeat",
+   "shot": "coal",
+   "offset": 0.407,
+   "dur": 0.62,
+   "word": 36,
+   "word_offset": -0.028,
+   "shot_src": "3462.mp4",
+   "src": "490.wav",
+   "src_in": 0.0,
+   "gain_db": -18.5,
+   "fade_in": 0.005,
+   "fade_out": 0.15,
+   "title": "Human single heart beat",
+   "note": "one slow double heartbeat, low and soft, whose first beat lands on «فُؤادي» over the glowing coal (the recording is a heart's lub-dub, nothing vocal)"
+  },
+  {
+   "id": "wind_thorns",
+   "shot": "thorns",
+   "offset": -0.14,
+   "dur": 0.95,
+   "shot_src": "3969.mp4",
+   "src": "2427.wav",
+   "src_in": 3.3,
+   "gain_db": -12.0,
+   "fade_in": 0.3,
+   "fade_out": 0.55,
+   "highpass_hz": 200,
+   "title": "Breeze through the trees",
+   "note": "wind in real branches over the thorns; out before the quiet words «مِن نِبالِ»"
+  },
+  {
+   "id": "arrow_4",
+   "shot": "man2",
+   "offset": 0.425,
+   "dur": 0.45,
+   "shot_src": "948.mp4",
+   "src": "1489.wav",
+   "src_in": 0.58,
+   "gain_db": -16.0,
+   "fade_in": 0.03,
+   "fade_out": 0.1,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     0.15,
+     0
+    ],
+    [
+     0.3,
+     -12
+    ],
+    [
+     0.45,
+     -24
+    ]
+   ],
+   "title": "Air woosh",
+   "note": "the arrows begin as the real sparks start to stream across the man (24.2): a soft rush of air, cut short"
+  },
+  {
+   "id": "arrow_5",
+   "shot": "man2",
+   "offset": 0.795,
+   "dur": 0.25,
+   "shot_src": "948.mp4",
+   "src": "1491.wav",
+   "src_in": 0.19,
+   "gain_db": -8.0,
+   "fade_in": 0.01,
+   "fade_out": 0.08,
+   "highpass_hz": 150,
+   "title": "Arrow whoosh",
+   "note": "a recorded arrow fly-by (its sub-bass thump filtered off)"
+  },
+  {
+   "id": "arrow_6",
+   "shot": "man2",
+   "offset": 1.145,
+   "dur": 0.2,
+   "shot_src": "948.mp4",
+   "src": "2792.wav",
+   "src_in": 0.0,
+   "gain_db": -13.0,
+   "fade_in": 0.003,
+   "fade_out": 0.08,
+   "title": "Fast sword whoosh",
+   "note": "short fast fly-by, another recording"
+  },
+  {
+   "id": "arrow_7",
+   "shot": "man2",
+   "offset": 1.235,
+   "dur": 0.3,
+   "shot_src": "948.mp4",
+   "src": "2607.wav",
+   "src_in": 0.3,
+   "gain_db": -21.0,
+   "fade_in": 0.05,
+   "fade_out": 0.03,
+   "title": "Fast air woosh",
+   "note": "last fly-by, 0.4 s before the wave so that the cut lands out of a breath of quiet (the tail end of the air whoosh used on the first whip)"
+  },
+  {
+   "id": "crash",
+   "shot": "shards",
+   "anchor": "frame",
+   "offset": -0.063,
+   "dur": 0.95,
+   "peak_on": "shards",
+   "word": 45,
+   "word_offset": -0.099,
+   "shot_src": "1956.mp4",
+   "src": "1206_36-40s.wav",
+   "src_in": 1.29,
+   "gain_db": -12.5,
+   "fade_in": 0.03,
+   "fade_out": 0.3,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     0.07,
+     0
+    ],
+    [
+     0.11,
+     -4
+    ],
+    [
+     0.2,
+     -10
+    ],
+    [
+     0.4,
+     -18
+    ],
+    [
+     0.95,
+     -28
+    ]
+   ],
+   "title": "Sea coast breaking waves",
+   "note": "THE wave: a real breaker whose attack (7 dB in 20 ms in the recording) lands on the smash cut, in the 0.2 s pause before «تَكَسَّرَتِ»; its body is pulled down quickly so the word is clear"
+  },
+  {
+   "id": "surge_blade",
+   "shot": "blade",
+   "anchor": "frame",
+   "offset": -0.015,
+   "until_shot": "rock",
+   "until_anchor": "frame",
+   "until_offset": 0.05,
+   "peak_on": "blade",
+   "shot_src": "51455.mp4",
+   "src": "1196_41-45s.wav",
+   "src_in": 1.63,
+   "gain_db": -15.0,
+   "fade_in": 0.012,
+   "fade_out": 0.12,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     0.02,
+     0
+    ],
+    [
+     0.07,
+     -2
+    ],
+    [
+     0.3,
+     -8
+    ],
+    [
+     0.62,
+     -17
+    ]
+   ],
+   "title": "Sea waves loop",
+   "note": "a second, different sea: the surge of another wave on the cut to the blade of rock"
+  },
+  {
+   "id": "fall_air",
+   "shot": "rock",
+   "anchor": "frame",
+   "offset": -0.02,
+   "dur": 1.1,
+   "shot_src": "44398.mp4",
+   "src": "2604.wav",
+   "src_in": 0.25,
+   "gain_db": -24.0,
+   "fade_in": 0.05,
+   "fade_out": 0.5,
+   "title": "Deep air woosh",
+   "note": "soft rush of air for the 0.9 s fall onto the lone rock, under «عَلى النِصالِ»"
+  },
+  {
+   "id": "sea_end",
+   "shot": "rock",
+   "offset": 0.16,
+   "until_shot": "@end",
+   "shot_src": "44398.mp4",
+   "src": "1190_66-73s.wav",
+   "src_in": 1.04,
+   "gain_db": -10.0,
+   "fade_in": 0.5,
+   "fade_out": 0.9,
+   "highpass_hz": 120,
+   "env": [
+    [
+     0,
+     0
+    ],
+    [
+     1.3,
+     0
+    ],
+    [
+     2.3,
+     6.5
+    ],
+    [
+     4.0,
+     6.5
+    ]
+   ],
+   "title": "Sea waves on a rocky shore",
+   "note": "open sea on a rocky shore: a wave arrives as the fall lands (27.8), then the sea sits low under the tail of the music, is left alone for a breath when the music has gone, and fades with the picture"
+  }
+ ]
+}

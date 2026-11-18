@@ -11,7 +11,7 @@ per time range, how the type lives in that shot:
                "mode": "light" | "ink",          # letters as light (dark plates) or as ink (bright surfaces)
                "depth": 0.45,                    # the plane the letters stand on (0 far .. 1 near)
                "occlude": {"type": "depth", "near": 0.55, "soft": 0.10, "gain": 1.0}
-                        | {"type": "luma", "lo": 0.35, "hi": 0.6, "invert": false},
+                        | {"type": "luma", "lo": 0.35, "hi": 0.6, "invert": false, "blur": 0 (px at 4K)},
                "track": {"layer": "far" | "all"},    # the letters ride the shot's own camera motion
                "dof": {"focus": [[t, depth], ...], "strength": 26, "zone": 0.05, "max": 22},
                "atmo": {"src": clip, "in": s, "depth": 0.5, "soft": 0.12, "gain": 0.8, "tint": [r, g, b]},
@@ -314,7 +314,10 @@ def main() -> None:
                         if D is None:
                             fg = np.clip(guided(lum, fg, max(2, int(10 * S)), 4e-4), 0, 1)
                 else:
-                    fg = smoothstep(lum, float(occ.get("lo", 0.35)), float(occ.get("hi", 0.6)))
+                    ol = lum
+                    if float(occ.get("blur", 0.0)) > 0:  # key a slightly smoothed picture, so codec noise in the shadows does not chew the letters' edges
+                        ol = cv2.GaussianBlur(lum, (0, 0), float(occ["blur"]) * S)
+                    fg = smoothstep(ol, float(occ.get("lo", 0.35)), float(occ.get("hi", 0.6)))
                     if occ.get("invert"):
                         fg = 1 - fg
                 if fg is not None:

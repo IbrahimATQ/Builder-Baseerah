@@ -4,8 +4,9 @@
 What it adds to build_picture.py (whose grade and look it reuses):
   * time remapping: "time": [[film_t, src_t], ...] keys with smooth interpolation, so a shot can ramp
     from slow motion into a rush and back (speed ramps)
-  * a real shutter: when a shot runs fast, every source frame that falls inside the output frame's
-    exposure is averaged in linear light, so speed-ups carry true motion blur instead of strobing
+  * a real shutter: when a shot runs fast (2.5x or more), every source frame that falls inside the output
+    frame's exposure is averaged in linear light, so a rush carries motion blur instead of strobing;
+    near real time the nearest source frame is shown whole (no doubled edges)
   * designed transitions centred on the cut: whip (a push with directional motion blur), zoom
     (continuous punch-through with radial blur, edges mirrored), flash (a soft warm exposure
     bloom), matte (the luma of a REAL clip, such as ink blooming in water, wipes one shot into the next),
@@ -22,7 +23,7 @@ Plan (JSON):
               "move": {"keys": [[film_t, zoom, cx, cy], ...]} | {"z": [a, b], "dx": [a, b], "dy": [a, b]},
               "shake": {"amp": 3.0, "rot": 0.15, "seed": 1},
               "flip": false, "rotate": 0 | 90 | 270, "grade": {overrides}, "sharpen": 0.2,
-              "shock": {"at": film_t, "dur": 0.3, "amount": 0.015, "gain": 0.2},
+              "shock": {"at": film_t, "dur": 0.3, "amount": 0.015, "gain": 0.2}, "soften": px,
               "trans": {"type": "cut|dissolve|dip|whip|zoom|flash|matte", "dur": 0.25, ...}}],
    "overlays": [{"src", "start", "end", "in": 0, "speed": 1.0, "mode": "screen", "gain": 1.0, "fade": 0.2,
                  "fade_in": s, "fade_out": s, "flip": false, "black": 0.02, "tint": [r, g, b]}]}
@@ -210,11 +211,19 @@ class Reader:
             return np.zeros((self.bh, self.bw, 3), np.uint8)
         return self.buf.get(min(k, self.k), self.buf[max(self.buf)])
 
-    def exposure(self, s_a: float, s_b: float) -> np.ndarray:
-        """The picture seen while the source runs from s_a to s_b (one output frame's open shutter)."""
+    def exposure(self, s_a: float, s_b: float, rate: float = 1.0) -> np.ndarray:
+        """The picture seen while the source runs from s_a to s_b (one output frame's open shutter).
+
+        rate = source frames per output frame. Near real time (0.8..2.5) the nearest source frame is shown
+        whole: mixing two neighbours doubles every moving edge. Only a real rush (>= 2.5) is integrated
+        into motion blur, and only real slow motion (< 0.8) is blended. "blend": true forces the mixing
+        (soft things: flames), "blend": false forbids it."""
         fa = (s_a - self.s0) * self.shot.fps_src
         fb = (s_b - self.s0) * self.shot.fps_src
         ka, kb = int(math.floor(fa + 1e-6)), int(math.floor(fb + 1e-6))
+        mix = self.shot.d.get("blend")
+        if mix is not True and (mix is False or 0.8 <= rate < 2.5):
+            return self._frame(int(round(fa)))
         if kb - ka >= 2:  # fast: integrate the frames in between, in linear light
             ks = list(range(ka, kb + 1))
             if len(ks) > 12:
@@ -228,7 +237,7 @@ class Reader:
             return (np.sqrt(acc / len(ks)) * 255.0 + 0.5).astype(np.uint8)
         frac = fa - ka
         a = self._frame(ka)
-        if self.shot.d.get("blend", True) is False or frac < 0.15:
+        if frac < 0.15:
             return a
         if frac > 0.85:
             return self._frame(ka + 1)
@@ -431,7 +440,8 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
             readers[i] = Reader(sh, max(t, vis[i][0]), min(vis[i][1], f1 / fps + 0.05))
         r = readers[i]
         shutter = float(sh.d.get("shutter", 0.6))
-        src = r.exposure(sh.src_time(t), sh.src_time(t + shutter / fps))
+        rate = (sh.src_time(t + 1.0 / fps) - sh.src_time(t)) * sh.fps_src
+        src = r.exposure(sh.src_time(t), sh.src_time(t + shutter / fps), rate)
         cx, cy, w, h, rot = sh.window(t)
         sx, sy = w / W, h / H
         k = 1.0
@@ -448,7 +458,10 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
         fr = cv2.warpAffine(src, M, (W, H), flags=cv2.INTER_LANCZOS4 | cv2.WARP_INVERSE_MAP, borderMode=cv2.BORDER_REFLECT)
         if sh.d.get("flip"):
             fr = fr[:, ::-1]
-        shp = float(sh.d.get("sharpen", 0.3 if sx < 0.4 else 0.12))
+        sof = float(sh.d.get("soften", 0.0))  # px at full size: a shot held slightly out of focus (and a compressed source's blocks with it)
+        if sof > 0:
+            fr = cv2.GaussianBlur(fr, (0, 0), sof * scale)
+        shp = 0.0 if sof > 0 else float(sh.d.get("sharpen", 0.3 if sx < 0.4 else 0.12))
         if shp > 0:
             bl = cv2.GaussianBlur(fr, (0, 0), 1.6 * scale + 0.4)
             fr = cv2.addWeighted(fr, 1 + shp, bl, -shp, 0)

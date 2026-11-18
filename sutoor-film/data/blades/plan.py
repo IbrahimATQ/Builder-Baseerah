@@ -34,12 +34,12 @@ def clip(i: int | str, folder: str = V4) -> str:
 
 shots = [
     # ---------------------------------------------------------------- the name, out of fire
-    {"id": "fire", "src": clip(52292, J), "lic": 52292, "start": 0.0, "time": [[0.0, 1.6], [1.78, 4.4]], "shutter": 0.9,
+    {"id": "fire", "src": clip(52292, J), "lic": 52292, "start": 0.0, "time": [[0.0, 1.6], [1.78, 4.4]], "shutter": 0.9, "blend": True,
      "move": {"z": [1.0, 1.08]}, "grade": {"ev": -0.2, "sat": 0.9}, "grade_keys": [[0.0, {"ev": -7.0}], [0.28, {"ev": -0.2}]],
      "text": {"lit": {"global": True, "lo": 0.012, "hi": 0.07}, "glow": 0.5, "pool": 0.0,
               "occlude": {"type": "luma", "lo": 0.42, "hi": 0.8, "gain": 0.85}}},
     # ---------------------------------------------------------------- 1  we bury one another
-    {"id": "lights", "src": clip(3438), "lic": 3438, "start": 1.78, "time": [[1.78, 4.55], [2.45, 5.45], [3.3, 7.72], [3.76, 8.0]],
+    {"id": "lights", "src": clip(3438), "lic": 3438, "start": 1.78, "time": [[1.78, 4.55], [2.45, 5.45], [3.3, 7.72], [3.76, 8.0]], "blend": True,
      "move": {"z": [1.0, 1.1]}, "grade": {"ev": 0.1, "sat": 0.85},
      "text": {"lit": {"global": True, "lo": 0.006, "hi": 0.05, "floor": 0.6}, "glow": 0.45, "pool": 0.5,
               "occlude": {"type": "luma", "lo": 0.62, "hi": 0.9, "gain": 0.85}}},
@@ -53,7 +53,7 @@ shots = [
      "move": {"z": [1.0, 1.06]}, "shake": {"amp": 3, "seed": 6}, "grade": {"ev": -0.35, "sat": 0.6, "temp": 0.05},
      "trans": {"type": "whip", "dur": 0.25, "dir": "left"}, "text": {"pool": 0.9}},
     # ---------------------------------------------------------------- 2  we ready the swords; death needs no fight
-    {"id": "pour", "src": clip(2861), "lic": 2861, "start": 6.34, "in": 0.55, "window": {"cx": 0.6, "cy": 0.6, "fill": 1.22},
+    {"id": "pour", "src": clip(2861), "lic": 2861, "start": 6.34, "in": 0.72, "speed": 0.8008, "window": {"cx": 0.6, "cy": 0.6, "fill": 1.22},
      "move": {"keys": [[6.34, 1.0, 0.6, 0.6], [6.96, 1.05, 0.6, 0.6], [7.08, 1.13, 0.6, 0.6], [7.4, 1.16, 0.6, 0.6]]},  # a push on the accent at 7.01
      "grade": {"ev": -1.3, "sat": 0.8, "contrast": 1.05}, "trans": {"type": "flash", "dur": 0.25, "gain": 0.5},
      "text": {"pool": 0.6, "glow": 0.4, "occlude": {"type": "luma", "lo": 0.6, "hi": 0.9, "gain": 0.8}}},
@@ -71,7 +71,7 @@ shots = [
      "shake": {"amp": 2, "seed": 10}, "grade": {"ev": -0.5, "sat": 0.55, "temp": -0.05}, "text": {"pool": 1.0}},
     {"id": "grey", "src": clip(100646), "lic": 100646, "start": 12.08, "in": 4.3, "window": {"cx": 0.48}, "move": {"z": [1.0, 1.07]},
      "shake": {"amp": 2, "seed": 11}, "grade": {"ev": -0.4, "sat": 0.4, "contrast": 1.05}, "text": {"pool": 1.0}},
-    {"id": "canter", "src": clip(1154), "lic": 1154, "start": 12.82, "in": 6.05, "speed": 1.5, "window": {"cx": 0.66},
+    {"id": "canter", "src": clip(1154), "lic": 1154, "start": 12.82, "in": 6.05, "speed": 2.0, "window": {"cx": 0.66},
      "move": {"z": [1.0, 1.05]}, "shake": {"amp": 3, "seed": 12}, "grade": {"ev": -0.55, "sat": 0.7, "temp": -0.1},
      "trans": {"type": "whip", "dur": 0.25, "dir": "left"},
      "text": {"pool": 1.0, "glow": 0.4}},
@@ -84,7 +84,7 @@ shots = [
      "text": {"glow": 0.45, "wrap": 0.35, "pool": 0.0}},
     {"id": "sky", "src": clip(118), "lic": 118, "start": 16.7, "time": [[16.7, 6.0], [17.42, 15.0]], "shutter": 1.0,  # the sky shuts
      "move": {"z": [1.0, 1.12]}, "grade": {"ev": -0.75, "sat": 0.45, "temp": -0.15, "contrast": 1.15}, "text": {"pool": 0.5, "glow": 0.4}},
-    {"id": "dust", "src": clip(417), "lic": 417, "start": 17.42, "in": 4.5, "speed": 0.85, "window": {"cx": 0.7},
+    {"id": "dust", "src": clip(417), "lic": 417, "start": 17.42, "in": 4.3, "speed": 1.0, "window": {"cx": 0.7},
      "move": {"z": [1.0, 1.08]}, "grade": {"ev": -0.15, "sat": 0.12, "temp": -0.2, "contrast": 1.28},
      "trans": {"type": "matte", "dur": 0.6, "src": clip(1961), "in": 5.2, "span": 2.6, "lo": 0.06, "hi": 0.36}, "text": {"pool": 0.7}},
     # ---------------------------------------------------------------- 5  time pelted me; my heart in a sheath of arrows
@@ -94,14 +94,15 @@ shots = [
     {"id": "clock", "src": clip(28885), "lic": 28885, "start": 20.17, "time": [[20.17, 8.55], [20.45, 9.0], [20.6, 9.75]], "window": {"cx": 0.72},
      "move": {"z": [1.0, 1.08]}, "grade": {"ev": 0.3, "sat": 0.5, "temp": -0.2}, "trans": {"type": "flash", "dur": 0.2, "gain": 0.55, "rgb": [1.0, 0.95, 0.88]},
      "text": {"mode": "ink", "ink_rgb": [14, 14, 18], "texture": 0.3}},  # the word printed on the dial like its numerals
-    {"id": "volley", "src": clip(4426), "lic": 4426, "start": 20.6, "in": 1.4, "rotate": 90, "move": {"z": [1.0, 1.12]},
+    {"id": "volley", "src": clip(4426), "lic": 4426, "start": 20.6, "in": 1.4, "speed": 0.8, "rotate": 90, "move": {"z": [1.0, 1.12]},
      "grade": {"ev": -0.1, "sat": 0.85}, "trans": {"type": "dissolve", "dur": 0.2},
      "text": {"pool": 0.6, "glow": 0.45, "occlude": {"type": "luma", "lo": 0.5, "hi": 0.85, "gain": 0.85}}},
     {"id": "coal", "src": clip(3462), "lic": 3462, "start": 21.56, "in": 4.6,  # arrives on «حَتّى»: "until..." and the heart is there "window": {"cx": 0.62, "cy": 0.42, "fill": 1.6},
      "move": {"z": [1.0, 1.1]}, "grade": {"ev": 0.1, "sat": 0.9}, "trans": {"type": "dissolve", "dur": 0.3}, "text": {"glow": 0.5, "pool": 0.4}},
-    {"id": "thorns", "src": clip(3969), "lic": 3969, "start": 22.46, "in": 10.0, "speed": 1.3, "window": {"cx": 0.45, "cy": 0.36, "fill": 1.4},
-     "move": {"z": [1.0, 1.1]}, "grade": {"ev": -2.6, "sat": 1.0, "temp": 0.5, "contrast": 1.15}, "trans": {"type": "dissolve", "dur": 0.36},
-     "text": {"glow": 0.5, "pool": 1.0, "occlude": {"type": "luma", "lo": 0.03, "hi": 0.09, "invert": True, "gain": 0.86}}},
+    {"id": "thorns", "src": clip(3969), "lic": 3969, "start": 22.46, "in": 10.0, "speed": 1.0, "window": {"cx": 0.45, "cy": 0.36, "fill": 1.4},
+     "move": {"z": [1.0, 1.1]}, "soften": 3.5,  # the branches are foreground, a little out of focus; the words behind them are sharp
+     "grade": {"ev": -2.6, "sat": 1.0, "temp": 0.5, "contrast": 1.15}, "trans": {"type": "dissolve", "dur": 0.36},
+     "text": {"glow": 0.5, "pool": 1.0, "occlude": {"type": "luma", "lo": 0.055, "hi": 0.14, "invert": True, "gain": 0.9, "blur": 2.5}}},
     # ---------------------------------------------------------------- 6  now the blades break upon the blades
     {"id": "man2", "src": clip(948), "lic": 948, "start": 23.7, "in": 15.3, "speed": 0.6, "window": {"cx": 0.75, "cy": 0.56, "fill": 1.08},
      "move": {"z": [1.02, 1.12]}, "grade": {"ev": -0.2, "sat": 0.35, "contrast": 1.08},
