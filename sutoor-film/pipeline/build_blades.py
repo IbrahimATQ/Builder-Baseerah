@@ -84,7 +84,9 @@ def main() -> None:
         tx = s.get("text")
         if tx:
             ranges.append({"from": t0, "to": t1, **tx})
-            if tx.get("occlude", {}).get("type", "depth") == "depth" and tx.get("occlude"):
+            needs_depth = (tx.get("occlude") and tx["occlude"].get("type", "depth") == "depth") or tx.get("dof") or tx.get("atmo") \
+                or tx.get("depth") is not None
+            if needs_depth:
                 depth_ranges.append([t0, t1])
     json.dump({"fps": fps, "default": plan.get("text_default", {}), "ranges": ranges}, open(os.path.join(out_dir, "comp.json"), "w"), ensure_ascii=False, indent=1)
     json.dump(depth_ranges, open(os.path.join(out_dir, "depth_ranges.json"), "w"))
