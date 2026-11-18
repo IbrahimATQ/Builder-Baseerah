@@ -57,12 +57,12 @@
   },
   {
    "src": "/home/user/film/journey/sfx/1346.mp3",
-   "src_in": 0.0,
-   "start": 10.95,
-   "end": 12.6,
-   "gain_db": -12,
-   "fade_in": 0.05,
-   "fade_out": 0.4
+   "src_in": 0.85,
+   "start": 12.16,
+   "end": 13.33,
+   "gain_db": -13.0,
+   "fade_in": 0.1,
+   "fade_out": 0.5
   },
   {
    "src": "/home/user/film/journey/sfx/2858.mp3",
@@ -92,22 +92,22 @@
    "fade_out": 0.05
   },
   {
-   "src": "/home/user/film/journey/sfx/1487.mp3",
-   "src_in": 0.0,
-   "start": 25.46,
-   "end": 25.77,
-   "gain_db": -8,
-   "fade_in": 0.003,
-   "fade_out": 0.05
+   "src": "/home/user/film/journey/sfx/1471.mp3",
+   "src_in": 0.18,
+   "start": 25.376,
+   "end": 25.796,
+   "gain_db": -9.3,
+   "fade_in": 0.01,
+   "fade_out": 0.15
   },
   {
-   "src": "/home/user/film/journey/sfx/1487.mp3",
+   "src": "/home/user/film/journey/sfx/1461.mp3",
    "src_in": 0.0,
-   "start": 25.86,
-   "end": 26.17,
-   "gain_db": -8,
+   "start": 25.833,
+   "end": 26.193,
+   "gain_db": -9.0,
    "fade_in": 0.003,
-   "fade_out": 0.05
+   "fade_out": 0.08
   },
   {
    "src": "/home/user/film/journey/sfx/781.mp3",
@@ -122,27 +122,54 @@
    "src": "/home/user/film/journey/sfx/2411.mp3",
    "src_in": 0.0,
    "start": 32.2,
-   "end": 33.45,
-   "gain_db": -4,
+   "end": 33.15,
+   "gain_db": -0.25,
+   "fade_in": 0.5,
+   "fade_out": 0.15
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1328.mp3",
+   "src_in": 0.55,
+   "start": 35.95,
+   "end": 37.9,
+   "gain_db": -11.0,
+   "fade_in": 0.05,
+   "fade_out": 0.8
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1736.mp3",
+   "src_in": 10.05,
+   "start": 35.95,
+   "end": 38.3,
+   "gain_db": -3.0,
    "fade_in": 0.2,
-   "fade_out": 0.3
+   "fade_out": 1.0
+  },
+  {
+   "src": "/home/user/film/journey/sfx/1206.mp3",
+   "src_in": 55.38,
+   "start": 38.2,
+   "end": 40.5,
+   "gain_db": -5.5,
+   "fade_in": 0.4,
+   "fade_out": 0.75
   },
   {
    "src": "/home/user/film/journey/sfx/1311.mp3",
    "src_in": 0.0,
-   "start": 38.2,
-   "end": 40.4,
-   "gain_db": -3,
-   "fade_in": 0.01,
-   "fade_out": 0.8
+   "start": 38.47,
+   "end": 39.95,
+   "gain_db": -6.5,
+   "fade_in": 0.005,
+   "fade_out": 0.4
   },
   {
    "src": "/home/user/film/journey/sfx/steam.wav",
    "src_in": 0.0,
-   "start": 38.75,
-   "end": 40.4,
-   "gain_db": -6,
-   "fade_in": 0.02,
+   "start": 38.85,
+   "end": 40.45,
+   "gain_db": -8.0,
+   "fade_in": 0.03,
    "fade_out": 0.4
   }
  ]
