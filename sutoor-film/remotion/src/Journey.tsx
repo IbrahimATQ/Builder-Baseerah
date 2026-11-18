@@ -30,7 +30,7 @@ await Promise.all([
 ]);
 
 type Word = { readonly text: string; readonly start: number; readonly end: number; readonly part: "a" | "b" };
-type Exit = "ash" | "wind" | "smoke" | "dissolve" | "burn";
+type Exit = "ash" | "wind" | "smoke" | "dissolve" | "burn" | "wash";
 type Mode = "light" | "ember" | "ink" | "moon";
 type Track = { readonly from: number; readonly to: number; readonly z: readonly [number, number]; readonly dx?: readonly [number, number]; readonly dy?: readonly [number, number] };
 type JVerse = {
@@ -46,6 +46,9 @@ type JVerse = {
     readonly shade?: number; // 0..1 soft shadow pooled behind the words (legibility on bright plates)
     readonly track?: Track; // the camera move the words share (parallax 0..1)
     readonly parallax?: number;
+    readonly hide?: readonly ("a" | "b")[]; // a hemistich that is written in the picture itself (burning paper)
+    readonly follow?: { readonly k: number; readonly ref: number; readonly from?: number; readonly to?: number }; // words dim with the scene light: (lum/ref)^k
+    readonly lit?: { readonly word: number; readonly at: number; readonly glow: number }; // one word lights up (e.g. floodlights on «اللَيالي»)
   };
 };
 type Overlay = {
@@ -69,7 +72,7 @@ type JEdl = {
   readonly light: { readonly lum: readonly number[]; readonly warm: readonly number[] };
   readonly overlays: readonly Overlay[];
   readonly verses: readonly JVerse[];
-  readonly endWord: { readonly text: string; readonly start: number; readonly end: number; readonly y?: number };
+  readonly endWord: { readonly text: string; readonly start: number; readonly end: number; readonly y?: number; readonly overlay?: boolean };
   readonly credits: { readonly lines: readonly string[]; readonly fine?: readonly string[]; readonly start: number; readonly end: number };
   readonly title?: { readonly text: string; readonly sub: string; readonly start: number; readonly end: number };
 };
@@ -128,6 +131,8 @@ const exitStyle = (exit: Exit, k: number, mode: Mode): React.CSSProperties => {
       return { filter: `blur(${3 * e}px) brightness(${1 + 1.4 * Math.sin(Math.PI * Math.min(1, e * 1.3))})`, opacity: 1 - e * e, color: interpolateColors(e, [0, 0.35, 0.7, 1], [mode === "ink" ? "#24160D" : IVORY, "#FFB060", "#C23A0A", "#120402"]) };
     case "wind":
       return { translate: `${-70 * e}px ${-6 * e}px`, filter: `blur(${9 * e}px)`, opacity: 1 - e, letterSpacing: `${6 * e}px` };
+    case "wash":
+      return { translate: `${-30 * e}px ${18 * e}px`, filter: `blur(${10 * e}px)`, opacity: 1 - e, color: interpolateColors(e, [0, 1], [IVORY, "#ffffff"]) };
     case "smoke":
       return { translate: `0 ${-24 * e}px`, scale: String(1 + 0.08 * e), filter: `blur(${12 * e}px)`, opacity: 1 - e, color: interpolateColors(e, [0, 1], [IVORY, "#9a9590"]) };
     default:
@@ -147,6 +152,11 @@ const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; dim
   const { lum, warm } = lightAt(t);
   const c = wordColor(v.style.mode, lum, warm);
   const ex = exitStyle(v.style.exit, k, v.style.mode);
+  const fo = v.style.follow;
+  const followOn = fo && t >= (fo.from ?? -1) && t <= (fo.to ?? 1e9);
+  const follow = followOn ? Math.max(0, Math.min(1.08, Math.pow(Math.max(0, lum) / fo.ref, fo.k))) : 1;
+  const lw = v.style.lit;
+  const litK = lw && lw.word === idx ? interpolate(t, [lw.at, lw.at + 0.5], [0, 1], { ...clamp, easing: SOFT }) : 0;
   const breathe = v.style.mode === "ember" ? 1 + 0.05 * Math.sin(frame * 0.5 + idx) : 1;
   return (
     <span
@@ -157,13 +167,15 @@ const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; dim
         textShadow:
           v.style.mode === "ink"
             ? "0 1px 1px rgba(255,240,220,0.18)"
-            : `0 0 ${Math.round(c.glowPx * breathe)}px ${c.glow}, 0 2px 10px rgba(0,0,0,0.55)`,
+            : litK > 0
+              ? `0 0 ${Math.round(10 + 30 * litK * (lw?.glow ?? 1))}px rgba(255,190,110,${(0.25 + 0.5 * litK).toFixed(3)}), 0 0 ${Math.round(c.glowPx * breathe)}px ${c.glow}, 0 2px 10px rgba(0,0,0,0.55)`
+              : `0 0 ${Math.round(c.glowPx * breathe)}px ${c.glow}, 0 2px 10px rgba(0,0,0,0.55)`,
         mixBlendMode: v.style.mode === "ink" ? "multiply" : "normal",
-        opacity: on * dim,
-        filter: `blur(${(1 - on) * 6}px)`,
+        opacity: on * dim * Math.max(follow, litK),
+        filter: `blur(${(1 - on) * 6}px)${litK > 0 ? ` brightness(${(1 + 0.25 * litK).toFixed(3)})` : ""}`,
         translate: `0 ${(1 - on) * 14}px`,
         ...ex,
-        ...(ex.opacity !== undefined ? { opacity: on * dim * (ex.opacity as number) } : {}),
+        ...(ex.opacity !== undefined ? { opacity: on * dim * Math.max(follow, litK) * (ex.opacity as number) } : {}),
       }}
     >
       {w.text}
@@ -175,10 +187,12 @@ const VerseBlock: React.FC<{ v: JVerse; isLast: boolean }> = ({ v, isLast }) => 
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
-  if (t < v.words[0].start - 0.3 || t > v.clear + 1.2) return null;
+  const shown = v.words.filter((w) => !(v.style.hide ?? []).includes(w.part));
+  if (!shown.length || t < shown[0].start - 0.3 || t > v.clear + 1.2) return null;
   const s = v.style;
   const held = (w: Word) => isLast && w.start >= edl.endWord.start - 0.01;
-  const line = (part: "a" | "b") => v.words.filter((w) => w.part === part && !held(w));
+  const hidden = (part: "a" | "b") => (v.style.hide ?? []).includes(part);
+  const line = (part: "a" | "b") => (hidden(part) ? [] : v.words.filter((w) => w.part === part && !held(w)));
   const la = line("a"), lb = line("b");
   const all = [...la, ...lb];
   // shared camera move: the words drift with the picture, a little less than it (they float in front)
@@ -192,7 +206,7 @@ const VerseBlock: React.FC<{ v: JVerse; isLast: boolean }> = ({ v, isLast }) => 
     ty = -((s.track.dy?.[0] ?? 0) + ((s.track.dy?.[1] ?? 0) - (s.track.dy?.[0] ?? 0)) * k) * 1920 * p;
   }
   const { lum } = lightAt(t);
-  const shadeOn = interpolate(t, inc([v.words[0].start - 0.4, v.words[0].start + 0.2, v.clear + 0.4, v.clear + 1.0]), [0, 1, 1, 0], clamp);
+  const shadeOn = interpolate(t, inc([shown[0].start - 0.4, shown[0].start + 0.2, v.clear + 0.4, v.clear + 1.0]), [0, 1, 1, 0], clamp);
   const shade = (s.shade ?? 0.35) * (0.5 + lum) * shadeOn;
   const lineStyle: React.CSSProperties = {
     fontFamily: "AmiriJ",
@@ -235,7 +249,7 @@ const EndWord: React.FC = () => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
   const { start, end, text } = edl.endWord;
-  if (t < start - 0.2 || t > end + 0.2) return null;
+  if (edl.endWord.overlay === false || t < start - 0.2 || t > end + 0.2) return null;
   const k = [start, start + 0.3, start + 1.8, end - 1.0, end - 0.35, end];
   const heat = interpolate(t, inc(k), [0, 1, 1, 0.4, 0.12, 0], { ...clamp, easing: SOFT });
   const core = interpolateColors(heat, [0, 0.25, 0.5, 0.8, 1], ["#2a0602", "#7a1606", "#d2410c", "#ff9a3c", "#fff1cf"]);

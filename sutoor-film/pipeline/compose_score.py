@@ -84,6 +84,7 @@ def compose(timing: dict, out_dir: str) -> dict:
     v_end = lambda n: h[f"v{n}b"][1]  # noqa: E731
     voice_end = v_end(6)
 
+    journey = os.environ.get("SCORE_EDITION", "") == "journey"
     I = load_instruments()
     low, mid, high, pulse, keys, perc = (Bus(T) for _ in range(6))
 
@@ -121,7 +122,7 @@ def compose(timing: dict, out_dir: str) -> dict:
     beat0, beat1 = 0.52, 0.36  # seconds per gait cycle, accelerating
     t = p0
     cycle = 0
-    while t < p1:
+    while t < p1 and not journey:  # the Journey edition uses real distant hooves instead
         frac = (t - p0) / max(p1 - p0, 0.1)
         beat = beat0 + (beat1 - beat0) * frac
         vel = 0.2 + 0.35 * frac
@@ -163,6 +164,8 @@ def compose(timing: dict, out_dir: str) -> dict:
     # ---------------- ACT VI: blades upon blades (arrival, resolution) ----------------
     a6 = v_start(6) - 0.05
     end_all = T - 0.2
+    if journey:  # the score drops out after «النِصالِ»; only ember and wind remain
+        end_all = voice_end + 2.6
     hold = end_all - a6
     low.add(render_note(I["cbass"], m("E2"), hold - 1.5, layer=3, attack=0.25, release=4.5), a6, 0.55)
     for n, inst, g, pan in (
@@ -177,11 +180,25 @@ def compose(timing: dict, out_dir: str) -> dict:
     perc.add(timpani("hit", 4, 3), strike, 0.5)
     keys.add(render_note(I["piano"], m("E1"), 7.0, attack=0.002, release=4.0), strike, 0.26)
     keys.add(render_note(I["piano"], m("E2"), 7.0, attack=0.002, release=4.0), strike, 0.18)
+    if journey:
+        q = float(os.environ.get("QUENCH_T", voice_end + 3.35))  # the seawater quench
+        from scipy.signal import resample_poly
+        anvil, asr = sf.read(os.path.join(VSCO, "Percussion/Anvil_Hit1_v2_Sum.wav"), dtype="float32", always_2d=True)
+        if asr != SR:
+            anvil = resample_poly(anvil, SR, asr, axis=0).astype(np.float32)
+        anvil = np.repeat(anvil[:, :1], 2, axis=1) if anvil.shape[1] == 1 else anvil[:, :2]
+        perc.add(highpass(anvil, 300), q, 0.16)
+        keys.add(render_note(I["piano"], m("E1"), 6.0, attack=0.002, release=4.0), q, 0.24)
+        low.add(render_note(I["cbass"], m("E2"), 3.5, layer=1, attack=0.05, release=3.0), q, 0.3)
+        c0 = float(os.environ.get("CREDITS_T", T - 3.4))
+        mid.add(render_note(I["cello"], m("E3"), T - c0 - 0.4, layer=1, attack=1.0, release=1.8), c0, 0.22, -0.25)
+        mid.add(render_note(I["viola"], m("B3"), T - c0 - 0.4, layer=1, attack=1.2, release=1.8), c0 + 0.15, 0.17, 0.25)
     # coda: the line rises and settles, then a last single high note
-    high.add(render_note(I["violin"], m("E5"), end_all - voice_end - 0.5, layer=1, attack=1.4, release=3.0), voice_end + 0.2, 0.09, 0.2)
-    keys.add(render_note(I["harp"], m("E4"), 6.0, attack=0.002, release=4.0), voice_end + 1.6, 0.2, 0.25)
-    keys.add(render_note(I["harp"], m("B4"), 6.0, attack=0.002, release=4.0), voice_end + 2.3, 0.14, -0.2)
-    keys.add(render_note(I["piano"], m("E5"), 5.0, attack=0.002, release=3.5), voice_end + 3.3, 0.11, 0.1)
+    if not journey:
+      high.add(render_note(I["violin"], m("E5"), end_all - voice_end - 0.5, layer=1, attack=1.4, release=3.0), voice_end + 0.2, 0.09, 0.2)
+      keys.add(render_note(I["harp"], m("E4"), 6.0, attack=0.002, release=4.0), voice_end + 1.6, 0.2, 0.25)
+      keys.add(render_note(I["harp"], m("B4"), 6.0, attack=0.002, release=4.0), voice_end + 2.3, 0.14, -0.2)
+      keys.add(render_note(I["piano"], m("E5"), 5.0, attack=0.002, release=3.5), voice_end + 3.3, 0.11, 0.1)
 
     # ---------------- AMBIENCE: wind that rises with the drama ----------------
     w = wind(T, seed=5)

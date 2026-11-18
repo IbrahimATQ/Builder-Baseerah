@@ -1,0 +1,741 @@
+{
+ "offset": 2.801,
+ "src_cut": 1.699,
+ "voice_film_start": 4.5,
+ "voice_film_end": 39.299,
+ "duration": 46.548,
+ "hemistichs": {
+  "v1a": {
+   "start": 4.5,
+   "end": 7.344,
+   "text": "يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي"
+  },
+  "v1b": {
+   "start": 8.064,
+   "end": 9.685,
+   "text": "أَواخِرُنا عَلى هامِ الأَوالي"
+  },
+  "v2a": {
+   "start": 11.035,
+   "end": 12.696,
+   "text": "نُعِدُّ المَشرَفِيَّةَ وَالعَوالي"
+  },
+  "v2b": {
+   "start": 13.416,
+   "end": 15.157,
+   "text": "وَتَقتُلُنا المَنونُ بِلا قِتالِ"
+  },
+  "v3a": {
+   "start": 16.507,
+   "end": 18.329,
+   "text": "وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ"
+  },
+  "v3b": {
+   "start": 19.049,
+   "end": 20.81,
+   "text": "وَما يُنجينَ مِن خَبَبِ اللَيالي"
+  },
+  "v4a": {
+   "start": 22.16,
+   "end": 24.262,
+   "text": "وَهانَ فَما أُبالي بِالرَزايا"
+  },
+  "v4b": {
+   "start": 24.982,
+   "end": 26.683,
+   "text": "لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي"
+  },
+  "v5a": {
+   "start": 28.033,
+   "end": 30.335,
+   "text": "رَماني الدَهرُ بِالأَرزاءِ حَتّى"
+  },
+  "v5b": {
+   "start": 31.075,
+   "end": 32.716,
+   "text": "فُؤادي في غِشاءٍ مِن نِبالِ"
+  },
+  "v6a": {
+   "start": 34.066,
+   "end": 35.707,
+   "text": "فَصِرتُ إِذا أَصابَتني سِهامٌ"
+  },
+  "v6b": {
+   "start": 36.427,
+   "end": 38.448,
+   "text": "تَكَسَّرَتِ النِصالُ عَلى النِصالِ"
+  }
+ },
+ "words": [
+  {
+   "word": "يُدَفِّنُ",
+   "roman": "ydfn",
+   "start": 1.841,
+   "end": 2.282,
+   "score": 0.743,
+   "line": "v1a",
+   "film_start": 4.642,
+   "film_end": 5.083
+  },
+  {
+   "word": "بَعضُنا",
+   "roman": "b'dna",
+   "start": 2.402,
+   "end": 2.802,
+   "score": 0.973,
+   "line": "v1a",
+   "film_start": 5.203,
+   "film_end": 5.603
+  },
+  {
+   "word": "بَعضاً",
+   "roman": "b'da",
+   "start": 2.902,
+   "end": 3.162,
+   "score": 0.962,
+   "line": "v1a",
+   "film_start": 5.703,
+   "film_end": 5.963
+  },
+  {
+   "word": "وَتَمشي",
+   "roman": "wtmshy",
+   "start": 4.063,
+   "end": 4.543,
+   "score": 0.78,
+   "line": "v1a",
+   "film_start": 6.864,
+   "film_end": 7.344
+  },
+  {
+   "word": "أَواخِرُنا",
+   "roman": "awakhrna",
+   "start": 4.683,
+   "end": 5.264,
+   "score": 0.937,
+   "line": "v1b",
+   "film_start": 8.064,
+   "film_end": 8.645
+  },
+  {
+   "word": "عَلى",
+   "roman": "'la",
+   "start": 5.344,
+   "end": 5.544,
+   "score": 0.95,
+   "line": "v1b",
+   "film_start": 8.725,
+   "film_end": 8.925
+  },
+  {
+   "word": "هامِ",
+   "roman": "ham",
+   "start": 5.624,
+   "end": 5.824,
+   "score": 0.936,
+   "line": "v1b",
+   "film_start": 9.005,
+   "film_end": 9.205
+  },
+  {
+   "word": "الأَوالي",
+   "roman": "alawaly",
+   "start": 5.904,
+   "end": 6.304,
+   "score": 0.828,
+   "line": "v1b",
+   "film_start": 9.285,
+   "film_end": 9.685
+  },
+  {
+   "word": "نُعِدُّ",
+   "roman": "n'd",
+   "start": 6.344,
+   "end": 6.625,
+   "score": 0.75,
+   "line": "v2a",
+   "film_start": 11.035,
+   "film_end": 11.316
+  },
+  {
+   "word": "المَشرَفِيَّةَ",
+   "roman": "almshrfya",
+   "start": 6.705,
+   "end": 7.325,
+   "score": 0.929,
+   "line": "v2a",
+   "film_start": 11.396,
+   "film_end": 12.016
+  },
+  {
+   "word": "وَالعَوالي",
+   "roman": "wal'waly",
+   "start": 7.465,
+   "end": 8.005,
+   "score": 0.906,
+   "line": "v2a",
+   "film_start": 12.156,
+   "film_end": 12.696
+  },
+  {
+   "word": "وَتَقتُلُنا",
+   "roman": "wtqtlna",
+   "start": 8.546,
+   "end": 9.126,
+   "score": 0.854,
+   "line": "v2b",
+   "film_start": 13.416,
+   "film_end": 13.996
+  },
+  {
+   "word": "المَنونُ",
+   "roman": "almnwn",
+   "start": 9.146,
+   "end": 9.547,
+   "score": 0.986,
+   "line": "v2b",
+   "film_start": 14.016,
+   "film_end": 14.417
+  },
+  {
+   "word": "بِلا",
+   "roman": "bla",
+   "start": 9.647,
+   "end": 9.847,
+   "score": 0.987,
+   "line": "v2b",
+   "film_start": 14.517,
+   "film_end": 14.717
+  },
+  {
+   "word": "قِتالِ",
+   "roman": "qtal",
+   "start": 9.947,
+   "end": 10.287,
+   "score": 0.985,
+   "line": "v2b",
+   "film_start": 14.817,
+   "film_end": 15.157
+  },
+  {
+   "word": "وَنَرتَبِطُ",
+   "roman": "wnrtbt",
+   "start": 10.827,
+   "end": 11.388,
+   "score": 0.982,
+   "line": "v3a",
+   "film_start": 16.507,
+   "film_end": 17.068
+  },
+  {
+   "word": "السَوابِقَ",
+   "roman": "alswabq",
+   "start": 11.468,
+   "end": 12.008,
+   "score": 0.946,
+   "line": "v3a",
+   "film_start": 17.148,
+   "film_end": 17.688
+  },
+  {
+   "word": "مُقرَباتٍ",
+   "roman": "mqrbat",
+   "start": 12.128,
+   "end": 12.649,
+   "score": 0.807,
+   "line": "v3a",
+   "film_start": 17.808,
+   "film_end": 18.329
+  },
+  {
+   "word": "وَما",
+   "roman": "wma",
+   "start": 13.149,
+   "end": 13.329,
+   "score": 0.995,
+   "line": "v3b",
+   "film_start": 19.049,
+   "film_end": 19.229
+  },
+  {
+   "word": "يُنجينَ",
+   "roman": "ynjyn",
+   "start": 13.409,
+   "end": 13.789,
+   "score": 0.964,
+   "line": "v3b",
+   "film_start": 19.309,
+   "film_end": 19.689
+  },
+  {
+   "word": "مِن",
+   "roman": "mn",
+   "start": 13.89,
+   "end": 13.99,
+   "score": 0.995,
+   "line": "v3b",
+   "film_start": 19.79,
+   "film_end": 19.89
+  },
+  {
+   "word": "خَبَبِ",
+   "roman": "khbb",
+   "start": 14.07,
+   "end": 14.35,
+   "score": 0.939,
+   "line": "v3b",
+   "film_start": 19.97,
+   "film_end": 20.25
+  },
+  {
+   "word": "اللَيالي",
+   "roman": "allyaly",
+   "start": 14.41,
+   "end": 14.91,
+   "score": 0.888,
+   "line": "v3b",
+   "film_start": 20.31,
+   "film_end": 20.81
+  },
+  {
+   "word": "وَهانَ",
+   "roman": "whan",
+   "start": 15.25,
+   "end": 15.611,
+   "score": 0.979,
+   "line": "v4a",
+   "film_start": 22.16,
+   "film_end": 22.521
+  },
+  {
+   "word": "فَما",
+   "roman": "fma",
+   "start": 15.971,
+   "end": 16.171,
+   "score": 0.993,
+   "line": "v4a",
+   "film_start": 22.881,
+   "film_end": 23.081
+  },
+  {
+   "word": "أُبالي",
+   "roman": "abaly",
+   "start": 16.311,
+   "end": 16.651,
+   "score": 0.942,
+   "line": "v4a",
+   "film_start": 23.221,
+   "film_end": 23.561
+  },
+  {
+   "word": "بِالرَزايا",
+   "roman": "balrzaya",
+   "start": 16.752,
+   "end": 17.352,
+   "score": 0.967,
+   "line": "v4a",
+   "film_start": 23.662,
+   "film_end": 24.262
+  },
+  {
+   "word": "لِأَنّي",
+   "roman": "lany",
+   "start": 17.452,
+   "end": 17.852,
+   "score": 0.891,
+   "line": "v4b",
+   "film_start": 24.982,
+   "film_end": 25.382
+  },
+  {
+   "word": "ما",
+   "roman": "ma",
+   "start": 17.952,
+   "end": 18.012,
+   "score": 0.498,
+   "line": "v4b",
+   "film_start": 25.482,
+   "film_end": 25.542
+  },
+  {
+   "word": "اِنتَفَعتُ",
+   "roman": "antf't",
+   "start": 18.032,
+   "end": 18.433,
+   "score": 0.684,
+   "line": "v4b",
+   "film_start": 25.562,
+   "film_end": 25.963
+  },
+  {
+   "word": "بِأَن",
+   "roman": "ban",
+   "start": 18.513,
+   "end": 18.753,
+   "score": 0.888,
+   "line": "v4b",
+   "film_start": 26.043,
+   "film_end": 26.283
+  },
+  {
+   "word": "أُبالي",
+   "roman": "abaly",
+   "start": 18.853,
+   "end": 19.153,
+   "score": 0.68,
+   "line": "v4b",
+   "film_start": 26.383,
+   "film_end": 26.683
+  },
+  {
+   "word": "رَماني",
+   "roman": "rmany",
+   "start": 19.613,
+   "end": 20.174,
+   "score": 0.808,
+   "line": "v5a",
+   "film_start": 28.033,
+   "film_end": 28.594
+  },
+  {
+   "word": "الدَهرُ",
+   "roman": "aldhr",
+   "start": 20.194,
+   "end": 20.534,
+   "score": 0.884,
+   "line": "v5a",
+   "film_start": 28.614,
+   "film_end": 28.954
+  },
+  {
+   "word": "بِالأَرزاءِ",
+   "roman": "balarza'",
+   "start": 20.614,
+   "end": 21.135,
+   "score": 0.806,
+   "line": "v5a",
+   "film_start": 29.034,
+   "film_end": 29.555
+  },
+  {
+   "word": "حَتّى",
+   "roman": "hta",
+   "start": 21.615,
+   "end": 21.915,
+   "score": 0.955,
+   "line": "v5a",
+   "film_start": 30.035,
+   "film_end": 30.335
+  },
+  {
+   "word": "فُؤادي",
+   "roman": "fwady",
+   "start": 21.995,
+   "end": 22.415,
+   "score": 0.787,
+   "line": "v5b",
+   "film_start": 31.075,
+   "film_end": 31.475
+  },
+  {
+   "word": "في",
+   "roman": "fy",
+   "start": 22.495,
+   "end": 22.575,
+   "score": 0.983,
+   "line": "v5b",
+   "film_start": 31.555,
+   "film_end": 31.635
+  },
+  {
+   "word": "غِشاءٍ",
+   "roman": "ghsha'",
+   "start": 22.656,
+   "end": 23.016,
+   "score": 0.947,
+   "line": "v5b",
+   "film_start": 31.716,
+   "film_end": 32.076
+  },
+  {
+   "word": "مِن",
+   "roman": "mn",
+   "start": 23.156,
+   "end": 23.296,
+   "score": 0.655,
+   "line": "v5b",
+   "film_start": 32.216,
+   "film_end": 32.356
+  },
+  {
+   "word": "نِبالِ",
+   "roman": "nbal",
+   "start": 23.336,
+   "end": 23.656,
+   "score": 0.976,
+   "line": "v5b",
+   "film_start": 32.396,
+   "film_end": 32.716
+  },
+  {
+   "word": "فَصِرتُ",
+   "roman": "fsrt",
+   "start": 23.736,
+   "end": 23.996,
+   "score": 0.593,
+   "line": "v6a",
+   "film_start": 34.066,
+   "film_end": 34.326
+  },
+  {
+   "word": "إِذا",
+   "roman": "itha",
+   "start": 24.137,
+   "end": 24.277,
+   "score": 0.98,
+   "line": "v6a",
+   "film_start": 34.467,
+   "film_end": 34.607
+  },
+  {
+   "word": "أَصابَتني",
+   "roman": "asabtny",
+   "start": 24.397,
+   "end": 24.957,
+   "score": 0.721,
+   "line": "v6a",
+   "film_start": 34.727,
+   "film_end": 35.287
+  },
+  {
+   "word": "سِهامٌ",
+   "roman": "sham",
+   "start": 25.017,
+   "end": 25.377,
+   "score": 0.985,
+   "line": "v6a",
+   "film_start": 35.347,
+   "film_end": 35.707
+  },
+  {
+   "word": "تَكَسَّرَتِ",
+   "roman": "tksrt",
+   "start": 25.578,
+   "end": 26.178,
+   "score": 0.769,
+   "line": "v6b",
+   "film_start": 36.427,
+   "film_end": 37.027
+  },
+  {
+   "word": "النِصالُ",
+   "roman": "alnsal",
+   "start": 26.258,
+   "end": 26.778,
+   "score": 0.891,
+   "line": "v6b",
+   "film_start": 37.107,
+   "film_end": 37.627
+  },
+  {
+   "word": "عَلى",
+   "roman": "'la",
+   "start": 26.878,
+   "end": 27.039,
+   "score": 0.993,
+   "line": "v6b",
+   "film_start": 37.727,
+   "film_end": 37.888
+  },
+  {
+   "word": "النِصالِ",
+   "roman": "alnsal",
+   "start": 27.099,
+   "end": 27.599,
+   "score": 0.982,
+   "line": "v6b",
+   "film_start": 37.948,
+   "film_end": 38.448
+  }
+ ],
+ "repace": {
+  "tempo": 1.0,
+  "gap_in": 0.72,
+  "gap_between": 1.35,
+  "inserted": [
+   {
+    "between": "v1a->v1b",
+    "gap_before_s": 0.14,
+    "target_s": 0.72,
+    "inserted_s": 0.58
+   },
+   {
+    "between": "v1b->v2a",
+    "gap_before_s": 0.04,
+    "target_s": 1.35,
+    "inserted_s": 1.31
+   },
+   {
+    "between": "v2a->v2b",
+    "gap_before_s": 0.541,
+    "target_s": 0.72,
+    "inserted_s": 0.179
+   },
+   {
+    "between": "v2b->v3a",
+    "gap_before_s": 0.54,
+    "target_s": 1.35,
+    "inserted_s": 0.81
+   },
+   {
+    "between": "v3a->v3b",
+    "gap_before_s": 0.5,
+    "target_s": 0.72,
+    "inserted_s": 0.22
+   },
+   {
+    "between": "v3b->v4a",
+    "gap_before_s": 0.34,
+    "target_s": 1.35,
+    "inserted_s": 1.01
+   },
+   {
+    "between": "v4a->v4b",
+    "gap_before_s": 0.1,
+    "target_s": 0.72,
+    "inserted_s": 0.62
+   },
+   {
+    "between": "v4b->v5a",
+    "gap_before_s": 0.46,
+    "target_s": 1.35,
+    "inserted_s": 0.89
+   },
+   {
+    "between": "v5a->v5b",
+    "gap_before_s": 0.08,
+    "target_s": 0.72,
+    "inserted_s": 0.64
+   },
+   {
+    "between": "v5b->v6a",
+    "gap_before_s": 0.08,
+    "target_s": 1.35,
+    "inserted_s": 1.27
+   },
+   {
+    "between": "v6a->v6b",
+    "gap_before_s": 0.201,
+    "target_s": 0.72,
+    "inserted_s": 0.519
+   }
+  ],
+  "note": "word 'start'/'end' remain source times of the ORIGINAL isolated voice; film times are re-paced"
+ },
+ "warp": [
+  [
+   0.0,
+   0.0
+  ],
+  [
+   4.5,
+   4.5
+  ],
+  [
+   7.434,
+   7.434
+  ],
+  [
+   7.434,
+   8.014
+  ],
+  [
+   9.105,
+   9.685
+  ],
+  [
+   9.105,
+   10.995
+  ],
+  [
+   11.326,
+   13.216
+  ],
+  [
+   11.326,
+   13.395
+  ],
+  [
+   13.298,
+   15.367
+  ],
+  [
+   13.298,
+   16.177
+  ],
+  [
+   15.67,
+   18.549
+  ],
+  [
+   15.67,
+   18.769
+  ],
+  [
+   17.996,
+   21.095
+  ],
+  [
+   17.996,
+   22.105
+  ],
+  [
+   20.243,
+   24.352
+  ],
+  [
+   20.243,
+   24.972
+  ],
+  [
+   22.329,
+   27.058
+  ],
+  [
+   22.329,
+   27.948
+  ],
+  [
+   24.816,
+   30.435
+  ],
+  [
+   24.816,
+   31.075
+  ],
+  [
+   26.507,
+   32.766
+  ],
+  [
+   26.507,
+   34.036
+  ],
+  [
+   28.363,
+   35.892
+  ],
+  [
+   28.363,
+   36.411
+  ],
+  [
+   31.251,
+   39.299
+  ],
+  [
+   38.5,
+   46.548
+  ]
+ ]
+}

@@ -74,7 +74,8 @@ def main() -> None:
         "overlays": plan.get("overlays", []),
         "verses": verses,
         "endWord": {"text": last_word["word"], "start": round(last_word["film_start"], 3),
-                    "end": round(ew.get("end", last_word["film_start"] + 3.3), 3), "y": ew.get("y", 0.45)},
+                    "end": round(ew.get("end", last_word["film_start"] + 3.3), 3), "y": ew.get("y", 0.45),
+                    "overlay": ew.get("overlay", True)},
         "credits": plan["credits"],
     }
     if plan.get("title"):
