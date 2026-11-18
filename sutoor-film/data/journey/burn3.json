@@ -187,7 +187,7 @@
     0.7,
     1.0
    ],
-   "scale": 1.0
+   "scale": 0.8
   },
   {
    "src": "/home/user/film/journey/src/52292.mp4",
@@ -195,7 +195,7 @@
     0.35,
     1.0
    ],
-   "scale": 0.8
+   "scale": 0.65
   }
  ],
  "sparks": {
@@ -361,5 +361,5 @@
  "frag_warp_px": 14,
  "rim_w_scale": 0.75,
  "bite_spread": 0.7,
- "flame_max_frames": 180
+ "flame_max_frames": 120
 }
