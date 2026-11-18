@@ -10,7 +10,7 @@ music accent (3.76 4.37 6.55 7.01 8.13 10.63 12.82 13.56 14.95 17.46 18.34 18.95
 21.78 22.64 23.96 24.78 25.36 26.12 26.8 27.47 28.19 28.61).
 
 The chain of images
-  1  sand falls and buries sand; bare feet walk on over wet sand; the sea runs over them
+  1  a tool breaks dark earth; bare feet walk on over wet sand; the sea runs over them
   2  metal is poured, embers rise among trunks as tall as spears; an hourglass runs out and the light with it
   3  a tethered horse, an eye, a horse behind bars; a horse runs; a night passes in half a second
   4  a man, a black profile against smoke, lifts his face; the sky shuts; he looks, and turns away
@@ -46,24 +46,24 @@ def clip(i: int | str, folder: str = V4) -> str:
 shots = [
     # ---------------------------------------------------------------- the name, behind a real fire
     {"id": "fire", "src": clip(42768), "lic": 42768, "start": 0.0, "in": 1.3, "window": {"cx": 0.36},  # real speed; this stretch and framing keep the fire's flicker inside the photosensitivity limit
-     "move": {"z": [1.0, 1.08]}, "grade": {"ev": -0.1, "sat": 0.95, "halation": 0.36},
+     "move": {"z": [1.0, 1.08]}, "grade": {"ev": -0.1, "sat": 0.88, "temp": 1.0, "halation": 0.36},  # the fire's violet wisps pulled back
      "grade_keys": [[0.0, {"ev": -2.2}], [0.13, {"ev": -0.1}]],  # two frames up from dark, never a black first frame
      "text": {"glow": 0.5, "pool": 1.2, "occlude": {"type": "luma", "lo": 0.7, "hi": 0.96, "gain": 0.75, "blur": 2.0}}},
     # ---------------------------------------------------------------- 1  we bury one another; the last walk on the first
-    {"id": "sand", "src": clip(28890), "lic": 28890, "start": 1.78, "in": 2.0, "move": {"z": [1.0, 1.07]},  # each grain buries the last
-     "grade": {"ev": -0.9, "sat": 0.5, "temp": -0.1},
-     "text": {"glow": 0.4, "pool": 0.0, "occlude": {"type": "luma", "lo": 0.45, "hi": 0.8, "gain": 0.8, "blur": 1.5}}},
-    {"id": "walk", "src": clip(1013), "lic": 1013, "start": 3.76, "in": 0.9, "window": {"cx": 0.33},
+    {"id": "earth", "src": clip(2851), "lic": 2851, "start": 1.78, "in": 1.15, "speed": 0.8008, "window": {"cx": 0.5, "cy": 0.7, "fill": 1.2},
+     # a tool breaks dark earth at dusk (a 29.97 fps clip played frame for frame); the hourglass stays the film's only falling sand
+     "move": {"z": [1.0, 1.06]}, "grade": {"ev": -1.0, "sat": 0.45, "temp": -0.3, "contrast": 1.1}, "text": {"glow": 0.4, "pool": 0.5}},
+    {"id": "walk", "src": clip("1013-11"), "lic": 1013, "start": 3.76, "in": 0.2, "window": {"cx": 0.33},  # 1013 from 0.7 s, its cadence evened (even_cadence.py)
      "move": {"z": [1.0, 1.07]}, "shake": {"amp": 3, "seed": 5}, "grade": {"ev": -0.35, "sat": 0.6, "temp": 0.05},
      "text": {"pool": 0.7, "glow": 0.3}},
-    {"id": "foam", "src": clip(1013), "lic": 1013, "start": 5.34, "in": 14.1, "window": {"cx": 0.58},
+    {"id": "foam", "src": clip("1013-12"), "lic": 1013, "start": 5.34, "in": 0.2, "window": {"cx": 0.58},  # 1013 from 13.9 s, evened
      "move": {"z": [1.0, 1.06]}, "shake": {"amp": 3, "seed": 6}, "grade": {"ev": -0.35, "sat": 0.6, "temp": 0.05},
      "text": {"pool": 0.9}},
     # ---------------------------------------------------------------- 2  we ready the swords; death needs no fight
-    {"id": "pour", "src": clip(2861), "lic": 2861, "start": 6.34, "in": 0.72, "speed": 0.8008, "window": {"cx": 0.6, "cy": 0.6, "fill": 1.22},
-     # a 29.97 fps clip played frame for frame: the stream starts on the cut, the sparks burst on «المَشرَفِيَّةَ»
+    {"id": "pour", "src": clip(2861), "lic": 2861, "start": 6.34, "in": 0.72, "speed": 0.961, "decimate": 6, "window": {"cx": 0.6, "cy": 0.6, "fill": 1.22},
+     # the file repeats every sixth frame (25 fps in a 30 fps file): dropped, then played frame for frame; the stream starts on the cut, the sparks burst on «المَشرَفِيَّةَ»
      "move": {"keys": [[6.34, 1.0, 0.6, 0.6], [6.96, 1.05, 0.6, 0.6], [7.08, 1.13, 0.6, 0.6], [7.4, 1.16, 0.6, 0.6]]},  # a push on the accent at 7.01
-     "grade": {"ev": -0.55, "sat": 0.95, "contrast": 1.05, "halation": 0.4}, "trans": {"type": "flash", "dur": 0.25, "gain": 0.5},
+     "grade": {"ev": -0.5, "sat": 1.0, "contrast": 1.05, "halation": 0.4, "temp": 0.6, "tint": -4.0}, "trans": {"type": "flash", "dur": 0.25, "gain": 0.5},  # orange, not lemon
      "text": {"pool": 0.8, "glow": 0.4, "occlude": {"type": "luma", "lo": 0.7, "hi": 0.95, "gain": 0.8, "blur": 1.5}}},
     {"id": "forge", "src": clip(51634), "lic": 51634, "start": 7.4, "in": 2.25, "window": {"cx": 0.46},  # embers rising among trunks as tall as spears
      "move": {"z": [1.0, 1.1]}, "grade": {"ev": 0.7, "sat": 1.0, "halation": 0.4}, "trans": {"type": "zoom", "dur": 0.26, "factor": 2.2},
@@ -76,7 +76,7 @@ shots = [
     {"id": "tether", "src": clip(100663), "lic": 100663, "start": 10.63, "in": 1.3, "move": {"z": [1.0, 1.08]},
      "shake": {"amp": 2, "seed": 9}, "grade": {"ev": -0.3, "sat": 0.5, "contrast": 1.06}, "text": {"pool": 0.9}},
     {"id": "eye", "src": clip(100645), "lic": 100645, "start": 11.42, "in": 0.8, "move": {"z": [1.05, 1.13]},
-     "shake": {"amp": 2, "seed": 10}, "grade": {"ev": -0.6, "sat": 0.14, "temp": -0.25, "contrast": 1.08}, "text": {"pool": 1.3}},  # in the cold of its neighbours
+     "shake": {"amp": 2, "seed": 10}, "grade": {"ev": -0.85, "sat": 0.14, "temp": -0.25, "contrast": 1.08}, "text": {"pool": 1.3}},  # in the cold of its neighbours
     {"id": "grey", "src": clip(100646), "lic": 100646, "start": 12.08, "in": 4.3, "window": {"cx": 0.48}, "move": {"z": [1.0, 1.07]},
      "shake": {"amp": 2, "seed": 11}, "grade": {"ev": -0.4, "sat": 0.4, "contrast": 1.05}, "text": {"pool": 1.0}},
     {"id": "canter", "src": clip(1154), "lic": 1154, "start": 12.82, "in": 6.05, "speed": 2.0, "window": {"cx": 0.66},
@@ -87,13 +87,13 @@ shots = [
      "window": {"cx": 0.47}, "move": {"z": [1.0, 1.1]}, "grade": {"ev": 0.9, "sat": 0.42, "temp": 0.2}, "trans": {"type": "dissolve", "dur": 0.3},
      "text": {"glow": 0.5, "pool": 0.3}},
     # ---------------------------------------------------------------- 4  it grew light; I no longer care
-    {"id": "man", "src": clip(948), "lic": 948, "start": 14.95, "in": 10.55, **MAN,  # real time: a still profile, then he lifts his face
+    {"id": "man", "src": clip("948-11"), "lic": 948, "start": 14.95, "in": 0.35, **MAN,  # 948 from 10.2 s, evened; real time: a still profile, then he lifts his face
      "move": {"z": [1.0, 1.09]}, "trans": {"type": "dissolve", "dur": 0.4},
      "text": {"glow": 0.45, "wrap": 0.35, "pool": 0.0}},
     {"id": "sky", "src": clip(118), "lic": 118, "start": 16.7, "time": [[16.7, 6.0], [17.42, 15.0]], "shutter": 1.0,  # what he looks up at: the sky shuts
      "move": {"z": [1.0, 1.12]}, "grade": {"ev": -0.75, "sat": 0.45, "temp": -0.15, "contrast": 1.15}, "text": {"pool": 0.5, "glow": 0.4}},
-    {"id": "man_b", "src": clip(948), "lic": 948, "start": 17.42, "in": 14.75, **MAN,  # his face to that sky; then he lowers it and turns away
-     "move": {"z": [1.03, 1.12]}, "trans": {"type": "dissolve", "dur": 0.4},
+    {"id": "man_b", "src": clip("948-12"), "lic": 948, "start": 17.42, "in": 0.35, **MAN,  # 948 from 14.4 s, evened: his face to that sky; then he lowers it and turns away
+     "move": {"z": [1.0, 1.16]}, "trans": {"type": "dissolve", "dur": 0.4},
      "text": {"glow": 0.45, "wrap": 0.35, "pool": 0.6}},
     # ---------------------------------------------------------------- 5  time pelted me; my heart in a sheath of arrows
     {"id": "train", "src": clip(1622), "lic": 1622, "start": 19.5, "time": [[19.5, 2.3], [20.17, 4.2]], "shutter": 0.9,
@@ -104,7 +104,7 @@ shots = [
      "move": {"z": [1.0, 1.08]}, "grade": {"ev": 0.8, "sat": 0.5, "temp": -0.2}, "trans": {"type": "flash", "dur": 0.2, "gain": 0.55, "rgb": [1.0, 0.95, 0.88]},
      "text": {"mode": "ink", "ink_rgb": [10, 10, 14], "texture": 0.3}},  # the word printed on the dial like its numerals
     {"id": "volley", "src": clip(4426), "lic": 4426, "start": 20.6, "in": 1.4, "speed": 0.8, "rotate": 90, "move": {"z": [1.0, 1.12]},
-     "soften": 2.2, "grade": {"ev": 0.45, "sat": 0.95, "r2g": 0.3, "halation": 0.5}, "trans": {"type": "dissolve", "dur": 0.2},  # embers, not red pixels
+     "soften": 3.5, "grade": {"ev": 0.45, "sat": 0.95, "r2g": 0.3, "halation": 0.5}, "trans": {"type": "dissolve", "dur": 0.2},  # embers, not red pixels
      "text": {"pool": 0.7, "glow": 0.45, "occlude": {"type": "luma", "lo": 0.6, "hi": 0.92, "gain": 0.8, "blur": 1.5}}},
     {"id": "coal", "src": clip(3462), "lic": 3462, "start": 21.56, "in": 4.6, "window": {"cx": 0.62, "cy": 0.42, "fill": 1.6},  # arrives on «حَتّى»: "until..." and the heart is there
      "move": {"z": [1.0, 1.1]}, "grade": {"ev": 0.55, "sat": 0.95, "r2g": 0.25, "halation": 0.4}, "trans": {"type": "dissolve", "dur": 0.3},
@@ -114,15 +114,16 @@ shots = [
      "grade": {"ev": -2.6, "sat": 1.0, "temp": 0.5, "contrast": 1.15}, "trans": {"type": "dissolve", "dur": 0.36},
      "text": {"glow": 0.5, "pool": 1.0, "occlude": {"type": "luma", "lo": 0.055, "hi": 0.14, "invert": True, "gain": 0.9, "blur": 2.5}}},
     # ---------------------------------------------------------------- 6  now the blades break upon the blades
-    {"id": "man2", "src": clip(948), "lic": 948, "start": 23.7, "in": 17.0, **{**MAN, "window": {"cx": 0.772, "cy": 0.56, "fill": 1.08}},
-     "move": {"z": [1.02, 1.12]},
+    {"id": "man2", "src": clip("948-13"), "lic": 948, "start": 23.7, "in": 0.2, **{**MAN, "window": {"cx": 0.765, "cy": 0.55, "fill": 1.18}}, "flip": True,
+     # 948 from 16.8 s, evened, seen from the other side and closer: not the frame the last line ended on
+     "move": {"z": [1.0, 1.1]},
      "text": {"glow": 0.45, "wrap": 0.35, "pool": 0.3, "occlude": {"type": "luma", "lo": 0.8, "hi": 1.0, "gain": 0.6, "blur": 1.5}}},
     {"id": "shards", "src": clip(1956), "lic": 1956, "start": 25.52, "in": 13.75, "speed": 1.1, "rotate": 90,  # splinters of rock in exploding water
      "move": {"z": [1.14, 1.02]}, "shake": {"amp": 9, "rot": 0.3, "seed": 22, "period": 0.3}, "shock": {"at": 25.52, "dur": 0.35, "amount": 0.02, "gain": 0.3},
      "grade": {"ev": -0.5, "sat": 0.4, "temp": -0.2, "contrast": 1.15}, "text": {"pool": 1.2, "glow": 0.4}},
     {"id": "blade", "src": clip(51455), "lic": 51455, "start": 26.22, "in": 17.1, "speed": 1.2, "rotate": 90,  # the long rock, stood up: a blade
      "move": {"z": [1.1, 1.0]}, "shake": {"amp": 5, "rot": 0.2, "seed": 21, "period": 0.4},
-     "grade": {"ev": -0.9, "sat": 0.3, "temp": -0.25, "contrast": 1.15}, "text": {"pool": 1.4, "glow": 0.4}},
+     "grade": {"ev": -1.35, "sat": 0.22, "temp": -0.3, "contrast": 1.15}, "text": {"pool": 1.4, "glow": 0.4}},  # foam kept grey so the gold word stands on it
     {"id": "rock", "src": clip(44398), "lic": 44398, "start": 26.84, "time": [[26.84, 1.0], [27.8, 13.0], [28.5, 14.8], [31.0, 18.0]], "shutter": 1.0,  # the fall onto the rock, then it stays
      "rotate": 90, "grade": {"ev": -0.35, "sat": 0.45, "temp": -0.15, "contrast": 1.12},
      "grade_keys": [[26.84, {"ev": -0.35}], [30.15, {"ev": -0.35}], [30.95, {"ev": -9.0}]], "text": {"pool": 1.2, "glow": 0.4}},
@@ -140,11 +141,11 @@ lines = {
     "v3a": {"em": [1], "parts": [(0, 1, 0.735, 180, {}), (1, 2, 0.735, 180, {}), (2, 3, 0.735, 180, {})]},
     "v3b": {"em": [4], "parts": [(0, 2, 0.31, 175, {}), (2, 4, 0.425, 175, {}), (4, 5, 0.42, 230, {})]},  # on the horse's dark flank; the hooves stay clear
     "v4a": {"em": [3], "parts": [(0, 1, 0.64, 220, {"x": 0.4}), (1, 3, 0.77, 160, {"x": 0.4, "at": {2: 15.971}}), (3, 4, 0.62, 220, {})]},  # inside his shoulders, wherever he leans
-    "v4b": {"parts": [(0, 3, 0.645, 130, {"x": 0.38}), (3, 5, 0.765, 165, {"x": 0.38})]},
+    "v4b": {"parts": [(0, 3, 0.63, 130, {"x": 0.38}), (3, 5, 0.775, 165, {"x": 0.38})]},
     "v5a": {"em": [1], "parts": [(0, 1, 0.71, 210, {}), (1, 2, 0.52, 230, {"x": 0.37, "lead": 0.0}),  # «الدَهرُ» is printed on the dial: it cannot come before the dial
                                  (2, 3, 0.7, 200, {"lead": 0.0}), (3, 4, 0.318, 150, {})]},
     "v5b": {"em": [0, 4], "parts": [(0, 1, 0.44, 220, {}), (1, 3, 0.43, 190, {}), (3, 5, 0.685, 200, {"at": {4: 23.156}})]},  # the sun (the heart) sits between the two rows
-    "v6a": {"em": [3], "parts": [(0, 2, 0.655, 160, {"x": 0.42}), (2, 4, 0.775, 160, {"x": 0.42})]},
+    "v6a": {"em": [3], "parts": [(0, 2, 0.655, 160, {"x": 0.6}), (2, 4, 0.775, 160, {"x": 0.6})]},
     "v6b": {"em": [1, 3], "parts": [(0, 1, 0.72, 200, {"breakAt": 25.95}),  # the word that means "shattered" cracks before the cut takes it
                                     (1, 2, 0.72, 220, {}), (2, 4, 0.735, 200, {"clear": 28.25, "out": 0.45})]},
 }
@@ -162,8 +163,8 @@ overlays = [
     # the music comes in and the walk begins: the light of a real prism leak (its rainbow taken out) washes over the cut
     {"src": clip(3987), "start": 3.72, "end": 4.5, "in": 0.6, "speed": 3.5, "gain": 0.3, "fade_in": 0.05, "fade_out": 0.5, "black": 0.03,
      "mono": True, "tint": [1.0, 0.84, 0.66]},
-    # the arrows reach him: real sparks cross the man's silhouette, and are gone with the cut
-    {"src": clip(4426), "rotate": 90, "start": 24.2, "end": 25.52, "in": 1.3, "gain": 1.25, "fade_in": 0.5, "fade_out": 0.0, "black": 0.3,
+    # the arrows reach him: real embers cross the man's silhouette from the cut on, and are gone with the next
+    {"src": clip(4426), "rotate": 90, "start": 23.72, "end": 25.52, "in": 1.0, "gain": 1.25, "fade_in": 0.55, "fade_out": 0.0, "black": 0.3,
      "r2g": 0.35, "soften": 1.8, "tint": [1.0, 0.92, 0.8]},
 ]
 
@@ -190,11 +191,20 @@ def build() -> dict:
         d = float(tr.get("dur", 0.25))
         return {"clear": round(nxt["start"] + min(0.02, d / 4), 3), "out": round(min(d / 2, 0.12), 3)}
 
+    def arrives(onset: float) -> dict:
+        """A word normally shows 0.06 s before its onset; never before a hard cut into its own shot."""
+        i = max(k for k, t0 in enumerate(starts) if t0 <= onset + 1e-6)
+        st = shots[i]
+        if i > 0 and st.get("trans", {}).get("type", "cut") == "cut" and onset - 0.06 < st["start"] + 1.0 / 24:
+            return {"lead": round(max(0.0, onset - st["start"] - 1.0 / 24), 3)}
+        return {}
+
     out_lines = {}
     for lid, spec in lines.items():
         ws = [w for w in words if w["line"] == lid]
         out_lines[lid] = {"em": spec.get("em", []),
-                          "parts": [{"words": [a, b], "y": y, "size": size, **leaves(ws[a]["start"]), **extra} for a, b, y, size, extra in spec["parts"]]}
+                          "parts": [{"words": [a, b], "y": y, "size": size, **leaves(ws[a]["start"]), **arrives(ws[a]["start"]), **extra}
+                                    for a, b, y, size, extra in spec["parts"]]}
     return {"fps": 24, "w": 2160, "h": 3840, "duration": 31.0, "audio": f"{ROOT}/v4/audio/original_mix_48k.wav", "timing": "data/timing.json",
             "look": {"pre": 0.8, "vignette": 0.3, "halation": 0.24, "split": 0.5, "sat": 0.86},
             "text_default": {"mode": "light", "soft": 0.8, "shade": 0.5, "texture": 0.45, "glow": 0.34, "wrap": 0.22, "pool": 0.5},

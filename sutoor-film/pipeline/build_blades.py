@@ -44,7 +44,7 @@ def main() -> None:
 
     # ---- picture
     shot_keys = ("id", "src", "start", "in", "speed", "time", "shutter", "blend", "window", "move", "shake", "flip", "rotate", "grade", "grade_keys",
-                 "sharpen", "soften", "shock", "trans")
+                 "sharpen", "soften", "decimate", "shock", "trans")
     shots = plan["shots"]
     for a, b in zip(shots, shots[1:]):
         if not b["start"] > a["start"]:

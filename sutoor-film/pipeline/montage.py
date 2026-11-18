@@ -23,7 +23,7 @@ Plan (JSON):
               "move": {"keys": [[film_t, zoom, cx, cy], ...]} | {"z": [a, b], "dx": [a, b], "dy": [a, b]},
               "shake": {"amp": 3.0, "rot": 0.15, "seed": 1},
               "flip": false, "rotate": 0 | 90 | 270, "grade": {overrides}, "sharpen": 0.2,
-              "shock": {"at": film_t, "dur": 0.3, "amount": 0.015, "gain": 0.2}, "soften": px,
+              "shock": {"at": film_t, "dur": 0.3, "amount": 0.015, "gain": 0.2}, "soften": px, "decimate": N,
               "trans": {"type": "cut|dissolve|dip|whip|zoom|flash|matte", "dur": 0.25, ...}}],
    "overlays": [{"src", "start", "end", "in": 0, "speed": 1.0, "mode": "screen", "gain": 1.0, "fade": 0.2,
                  "fade_in": s, "fade_out": s, "flip": false, "rotate": 0, "black": 0.02, "tint": [r, g, b],
@@ -86,6 +86,9 @@ class Shot:
         self.rot = int(d.get("rotate", 0)) % 360  # 90 or 270: a top-down shot has no "up", so a landscape one can fill a vertical frame uncropped
         if self.rot in (90, 270):
             self.W, self.H = self.H, self.W
+        self.decimate = int(d.get("decimate", 0))  # N: the source repeats a frame in every N (a 25 fps original in a 30 fps file); drop it
+        if self.decimate > 1:
+            self.fps_src *= (self.decimate - 1) / self.decimate
         self.out_w, self.out_h, self.fps, self.scale = out_w, out_h, fps, scale
         win = d.get("window", {})
         self.cx, self.cy, self.fill = win.get("cx", 0.5), win.get("cy", 0.5), win.get("fill", 1.0)
@@ -190,7 +193,8 @@ class Reader:
         s1 = min(shot.dur_src, shot.src_time(t1 + 1.0 / shot.fps) + 4.0 / shot.fps_src)
         self.proc = subprocess.Popen(
             ["ffmpeg", "-v", "error", "-ss", f"{self.s0:.4f}", "-i", shot.d["src"], "-t", f"{max(s1 - self.s0, 0.2):.4f}",
-             "-vf", {90: "transpose=1,", 270: "transpose=2,", 180: "hflip,vflip,"}.get(shot.rot, "") + f"crop={self.bw}:{self.bh}:{self.bx}:{self.by},format=rgb24",
+             "-vf", (f"decimate=cycle={shot.decimate}," if shot.decimate > 1 else "") + {90: "transpose=1,", 270: "transpose=2,", 180: "hflip,vflip,"}.get(shot.rot, "")
+             + f"crop={self.bw}:{self.bh}:{self.bx}:{self.by},format=rgb24",
              "-f", "rawvideo", "-"],
             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, bufsize=self.bw * self.bh * 3 * 2)
         self.k = -1
