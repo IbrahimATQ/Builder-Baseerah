@@ -227,6 +227,12 @@ def main(cfg_p: str) -> None:
             ti = T[int(p[1]), int(p[0])] - lead
             d = np.hypot(xx - p[0], yy - p[1])
             T = np.minimum(T, ti + d / (float(holes.get("spread_px_s", 160)) * S))
+    eig = cfg.get("edge_ignite")
+    if eig:
+        ed0 = cv2.distanceTransform((paper_a0 > 0.5).astype(np.uint8), cv2.DIST_L2, 3)
+        band = float(eig.get("band_px", 40)) * S * (0.5 + noise((ph, pw), rng, 30 * S, 2))
+        t_edge = float(eig["t"]) + float(eig.get("jitter", 0.35)) * noise((ph, pw), rng, 40 * S, 2) + ed0 / (float(eig.get("speed_px_s", 220)) * S)
+        T = np.where(ed0 < band, np.minimum(T, t_edge), T)
     T += 0.03 * (noise((ph, pw), rng, 5 * S, 2) - 0.5)
     T = T.astype(np.float32)
     scorch_pre = None
@@ -505,7 +511,10 @@ def main(cfg_p: str) -> None:
         # ---------- flame emitters on the burning edge ----------
         active = (st > 0.0) & (st < float(cfg.get("flame_window", 0.3))) & (paper_a0 > 0) & (~gone) & (wet < 0.3)
         if ew is not None and cfg.get("no_flames_on_word", True):
-            active &= ~keep_zone
+            if "word_guard" not in locals():
+                gpx = int(float(cfg.get("word_guard_px", 0)) * S)
+                word_guard = cv2.dilate(keep_zone.astype(np.uint8), np.ones((2 * gpx + 1, 2 * gpx + 1), np.uint8)) > 0 if gpx > 0 else keep_zone
+            active &= ~word_guard
         n_act = int(active.sum())
         want = int(np.clip(n_act / (spacing * 18 * S), 0, max_em))
         ys_, xs_ = np.nonzero(active[::3, ::3])
@@ -623,6 +632,9 @@ def main(cfg_p: str) -> None:
                 lumc = lum_all[ya - by:yb - by, xa - bx:xb - bx]
                 patch_f = patch_f * (smooth(lumc - 0.9 * (1 - f_), 0.0, 0.25) * np.power(np.clip(f_, 0, 1), 0.3))[..., None]
                 fl[ya:yb, xa:xb] += patch_f * env * float(sheet_fire.get("gain", 1.0))
+                if sheet_fire.get("occlude"):
+                    occ_map = np.zeros((H, W), np.float32)
+                    occ_map[ya:yb, xa:xb] = smooth(patch_f.max(axis=2) * env * float(sheet_fire.get("gain", 1.0)), 0.02, 0.30) * float(sheet_fire["occlude"])
                 lights.append((np.float32([cx, cy - 80 * S]), env * float(sheet_fire.get("light", 30.0))))
 
         # ---------- fire light (1/q resolution) ----------
@@ -718,6 +730,8 @@ def main(cfg_p: str) -> None:
             frame = ground * (1 - p_a[..., None]) + paper * p_a[..., None]
 
         # flames (light), smoke and sparks (real plates, screen)
+        if "occ_map" in locals() and sheet_fire and t >= sheet_fire["t"]:
+            frame = frame * (1 - occ_map[..., None])
         fl = fl * float(cfg.get("flame_gain", 4.0))
         fl = np.stack([fl[..., 0], fl[..., 1] * 0.95, fl[..., 2] * 0.85], axis=2)
         frame = frame + fl
@@ -753,6 +767,8 @@ def main(cfg_p: str) -> None:
                 gone_now = (st > t_drop) & (st < t_drop + 2.0 / FPS) & (paper_a0 > 0)
                 ys2, xs2 = np.nonzero(gone_now[::7, ::7])
                 for j in rng.permutation(len(xs2))[: int(flake_life.get("per_frame", 6))]:
+                    if ew is not None and "word_guard" in locals() and word_guard[min(ys2[j] * 7, ph - 1), min(xs2[j] * 7, pw - 1)]:
+                        continue
                     pp = cv2.perspectiveTransform(np.array([[[xs2[j] * 7, ys2[j] * 7]]], np.float32), M)[0, 0]
                     flakes.append([pp[0], pp[1], rng.normal(flake_life.get("vx", 3.0), 1.5) * S, rng.normal(flake_life.get("vy", -4.0), 1.5) * S, 1.0,
                                    rng.uniform(2, 7) * S, float(rng.random() < float(flake_life.get("glow_frac", 0.3))), rng.uniform(0, 180)])

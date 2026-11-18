@@ -13,7 +13,7 @@ mkdir -p "$WORK" "$OUT"
     --audio-codec=aac --audio-bitrate=320k --concurrency=${CONCURRENCY:-3} --browser-executable="$B" )
 D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WORK/journey_raw.mp4")
 ffmpeg -v error -y -i "$WORK/journey_raw.mp4" -f lavfi -i "color=c=0x808080:s=2160x3840:r=24:d=$D,format=yuv420p,noise=c0s=${GRAIN:-11}:c0f=t" \
-  -filter_complex "[0:v]scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p[a];[a][1:v]blend=all_mode=overlay:all_opacity=0.55,format=yuv420p,noise=c0s=5:c0f=t:enable='gte(t,${CREDITS_T:-40.45})',lutyuv=y='clip(val,16,235)'[v]" \
+  -filter_complex "[0:v]scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p[a];[a][1:v]blend=all_mode=overlay:all_opacity=0.55,format=yuv420p,noise=c0s=5:c0f=t:enable='gte(t,${CREDITS_T:-40.45})',lutyuv=y='clip(val,16,235)',lutyuv=y='clip(val,18,235)':enable='gte(t,${CREDITS_T:-40.45})'[v]" \
   -map "[v]" -map 0:a -c:v libx264 -preset slow -crf ${CRF:-18} -x264-params aq-mode=3 -profile:v high -level 5.1 -pix_fmt yuv420p -shortest \
   -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 -tag:v avc1 -c:a copy -movflags +faststart \
   -metadata title="النِصالُ عَلى النِصالِ — Journey" -metadata artist="Poetry: al-Mutanabbi; recitation: Abdullah Al-Anzi" \

@@ -63,7 +63,7 @@
    1
   ],
   "sat": 1.0,
-  "fire_relight": 2.2
+  "fire_relight": 3.0
  },
  "ambient": {
   "rgb": [
@@ -104,9 +104,9 @@
    "t0": 21.7,
    "t1": 24.1,
    "amount": 0.85,
-   "edge_bias": 0.65,
+   "edge_bias": 0.85,
    "grain_px": 40,
-   "grain_k": 0.5
+   "grain_k": 0.35
   }
  },
  "sheet_fire": {
@@ -117,13 +117,13 @@
   ],
   "in_frame": 115,
   "box": [
-   0,
+   -160,
    430,
-   1080,
+   1400,
    1100
   ],
   "gain": 1.0,
-  "light": 35,
+  "light": 80,
   "env": [
    [
     24.1,
@@ -151,7 +151,8 @@
   "fade_sides": 0.16,
   "follow_burn": true,
   "rise_px": 420,
-  "feather_px": 45
+  "feather_px": 45,
+  "occlude": 0.55
  },
  "max_flames": 6,
  "flame_window": 0.45,
@@ -269,7 +270,7 @@
  },
  "exposure": 1.0,
  "drift_px": 0.5,
- "out": "/home/user/film/journey/burnr/burn2_v3.mp4",
+ "out": "/home/user/film/journey/burnr/burn2_v5.mp4",
  "light_grad": [
   0.9,
   1.05,
@@ -304,10 +305,10 @@
   "relief": 0.6
  },
  "bend": {
-  "amp": 6,
-  "waves": 0.6,
+  "amp": 14,
+  "waves": 0.55,
   "phase": 0.3,
-  "shade": 0.1
+  "shade": 0.12
  },
  "flame_max_frames": 120
 }

@@ -86,7 +86,7 @@
    0.72,
    1.0
   ],
-  "level": 0.18
+  "level": 0.22
  },
  "key": {
   "dir": [
@@ -103,11 +103,11 @@
   "env": [
    [
     33.15,
-    0.2
+    0.0
    ],
    [
-    35.7,
-    0.25
+    35.8,
+    0.0
    ],
    [
     36.2,
@@ -171,8 +171,8 @@
   "blur": 4,
   "gain": 1.0,
   "water_gain": 1.0,
-  "near_px": 60,
-  "near_gain": 2.5
+  "near_px": 150,
+  "near_gain": 4.0
  },
  "max_flames": 14,
  "flame_window": 0.4,
@@ -198,33 +198,6 @@
    "scale": 0.65
   }
  ],
- "sparks": {
-  "src": "/home/user/film/journey/burn/3463-1080.mp4",
-  "in": 1.0,
-  "gain": 0.2,
-  "env": [
-   [
-    33.15,
-    0.05
-   ],
-   [
-    35.7,
-    0.1
-   ],
-   [
-    36.3,
-    0.8
-   ],
-   [
-    36.9,
-    0.3
-   ],
-   [
-    37.25,
-    0.0
-   ]
-  ]
- },
  "smokes": [
   {
    "src": "/home/user/film/journey/burn/50956-2160.mp4",
@@ -306,14 +279,14 @@
   "vx": 4.0,
   "vy": -3.0,
   "life_s": 1.2,
-  "glow_frac": 0.35
+  "glow_frac": 0.12
  },
  "drop_after": [
   0.45,
   1.3
  ],
  "char_keep": 0.08,
- "bite_after": 0.4,
+ "bite_after": 0.2,
  "frag_glow": 0.0,
  "afterglow": 0.5,
  "afterglow_s": 1.2,
@@ -322,7 +295,7 @@
   1
  ],
  "shadow_px": 6,
- "shadow_gain": 0.7,
+ "shadow_gain": 0.5,
  "dof": {
   "ends_px": 1.5,
   "all_px": 0.5,
@@ -333,7 +306,7 @@
  "drift_px": 0.5,
  "fire_light_gain": 1.0,
  "glow_light": 0.15,
- "out": "/home/user/film/journey/burnr/burn3_v4.mp4",
+ "out": "/home/user/film/journey/burnr/burn3_v5.mp4",
  "rim_gain": 0.6,
  "bend": {
   "amp": 7,
@@ -353,13 +326,26 @@
  "flame_win_w": 0.4,
  "flame_seed": 23,
  "shadow_soft": 10,
- "shadow_core": 0.25,
+ "shadow_core": 0.15,
  "bite_px": [
-  15,
-  60
+  20,
+  70
  ],
  "frag_warp_px": 14,
  "rim_w_scale": 0.75,
- "bite_spread": 0.7,
- "flame_max_frames": 120
+ "bite_spread": 0.4,
+ "flame_max_frames": 120,
+ "paper_tint": [
+  0.86,
+  0.9,
+  1.0
+ ],
+ "edge_ignite": {
+  "t": 36.15,
+  "speed_px_s": 220,
+  "band_px": 45,
+  "jitter": 0.35
+ },
+ "word_guard_px": 70,
+ "fade_in": 0.35
 }

@@ -60,7 +60,7 @@ The review measured the music between 12 and 33 dB under the voice from line to 
 - A 1.8 s fade to silence at the end.
 
 ## 4. The film
-One journey across two days. Cuts fall in the pauses, except the three strikes of the rain volley. The text stays in one place.
+One journey across two days. Cuts fall in the pauses, except the three strikes of the rain volley and the cut to the heron, which lands just after «وَهانَ». The text stays in one place.
 
 | # | Film time (s) | Line | Image | Source |
 |---|---|---|---|---|
@@ -116,7 +116,7 @@ Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7
 | Candle | The words hold until «قِتالِ» is spoken, then die with the flame |
 | Horse's eye | The words rack into focus with the shot |
 | Alhambra | The floodlights light «اللَيالي» |
-| Heron and rock | Where foam rises through the text zone it washes over the words; they come back when it clears. On the rock the wash waits until «سِهامٌ» has been spoken |
+| Rock | Once «سِهامٌ» has been spoken, the breaking wave's foam rises through the text zone and washes the words away |
 | Rain | Each arrow-drop strike ripples the line |
 | The three burns | The line is written on the paper itself |
 
@@ -180,11 +180,11 @@ The score: `cd $A && SCORE_EDITION=journey QUENCH_T=38.75 CREDITS_T=40.5 $V $R/p
 | Burns share a procedural look: uniform neon edge, polygon ash, straight char (major) | The burning edge varies in width and brightness; embers stay in fresh char; fragment-outline glow removed; each burn has its own fire grammar |
 | Burn I: a frozen still; flat strip; fire ate the first and last words as he spoke them; opened from black (major) | Live plate, stabilised on the leaf (real parallax); the strip bends over the leaf with a rim-lit edge; the front reaches each word only after it is spoken (first touches: 2.50, 3.49, 3.72 and 5.19 s, against word ends of 2.08, 2.60, 2.96 and 4.34 s); opens on a lit frame |
 | Text still read as subtitles (major) | The picture now acts on the words (section 5) |
-| Black levels differed from shot to shot; rain shot milky; night cut to the brightest shot (major) | Black floors matched (the rain shots pulled down 9–17 %); the heron graded as blue hour before dawn; the cactus back to green |
+| Black levels differed from shot to shot; rain shot milky; night cut to the brightest shot (major) | Black floors matched (the rain shots pulled down 9–17 %); the heron graded as blue hour before dawn; the cactus kept warm amber |
 | Smoke wipe was a 3-frame glitch; two muddy dissolves (major and minor) | A 14-frame smoke wipe; the dissolves replaced by cuts in the pauses |
 | Heron juddered (59.94 fps dropped to 24) (minor) | Played as 2.5× slow motion, every frame used |
 | Voice cut dead at several line edges; music margin swung 20 dB (major) | Sections 2 and 3 |
-| Too little grain; sub-legal black under the credits (minor) | Stronger grain matched to the footage; luma held to 16–235 |
+| Too little grain; sub-legal black under the credits (minor) | Stronger grain matched to the footage; luma clamped to 16–235 before encoding (the credits card to 18–235, so its grain survives the encoder) |
 | Credits: unreadable fine print, about 1.5 s readable (minor) | Names only, brighter, held about 2.5 s; licences moved to the post caption |
 
 ## 7b. The second review: verified findings and what was done
