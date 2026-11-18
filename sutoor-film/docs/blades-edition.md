@@ -10,7 +10,7 @@
 1. **The original soundtrack is back, untouched.** The film runs on the reel's own mix (the reciter's voice in the music it was mixed with), at its own pace. Film time is recording time: 31.0 s. No separation, no stretching, no re-scoring. Recorded effects sit under it (section 5).
 2. **No simulated burning paper.** The reference reel is real phone footage of real calligraphy burning; three rounds of simulation never passed as real. This edition has no burning-paper scene. If real strips are filmed (`docs/paper-shoot-guide.md`, `pipeline/make_burn_strips.cjs`), they cut straight in (section 8).
 3. **Real footage only, cut as a montage.** 24 shots in 31 s. Every cut falls on a spoken word's onset or on a music accent. Speed ramps, one whip, a zoom punch, flashes, dissolves that pass through a double exposure, an eyeline match, an impact jolt.
-4. **The words are set into the shots.** One or two words per row, large, arriving as they are spoken, inside the shot they are spoken over and in that picture's own dark space. Flames, sparks and falling sand pass in front of them; branches cross them; a clock dial carries one of them like a numeral; the word that means "shattered" cracks apart.
+4. **The words are set into the shots.** One or two words per row, large, arriving as they are spoken, inside the shot they are spoken over and in that picture's own dark space. The first word lies in the earth a hand is smoothing over; flames, sparks and falling sand pass in front of others; branches cross them; a clock dial carries one of them like a numeral; the word that means "shattered" cracks apart.
 
 ## 1. The cut
 `data/blades/plan.py` is the edit: every shot, cut, ramp, transition and word placement, with the reasons as comments. Running it writes `data/blades/plan.json`, which the pipeline builds from.
@@ -18,7 +18,7 @@
 | Start (s) | Shot | Picture (Mixkit item) | Words on it | Into the shot |
 |---|---|---|---|---|
 | 0.00 | fire | a log fire, flames and coals (42768) | «المُتَنَبّي», behind the flames | two frames up from dark |
-| 1.78 | sand | sand falling onto sand, close (28890) | «يُدَفِّنُ» / «بَعضُنا بَعضاً», the stream falling in front | cut |
+| 1.78 | earth | a hand smooths earth over at dusk, one whole gesture (2851); the voice is alone here | «يُدَفِّنُ» / «بَعضُنا بَعضاً», in the ground under the hand | cut |
 | 3.76 | walk | bare feet and a white robe on wet sand (1013); the music enters; the light of a real prism leak washes over the cut (3987) | «وَتَمشي», then «أَواخِرُنا» in its place | cut |
 | 5.34 | foam | the same feet, the sea running over them (1013) | «عَلى هامِ الأَوالي» | cut |
 | 6.34 | pour | molten metal poured (2861): the stream starts on the cut, the sparks burst on «المَشرَفِيَّةَ», a push-in on the accent at 7.01 | «نُعِدُّ» / «المَشرَفِيَّةَ» | warm flash |
@@ -37,12 +37,12 @@
 | 20.60 | volley | a storm of embers streaking like arrows (4426, turned 90°) | «بِالأَرزاءِ», embers passing in front | dissolve |
 | 21.56 | coal | one glowing coal (3462) | «حَتّى» / «فُؤادي» | dissolve |
 | 22.46 | thorns | black branches across a low sun (3969), a little out of focus | «في غِشاءٍ» above the sun, «مِن نِبالِ» below it, both behind the branches | dissolve (the coal becomes the sun) |
-| 23.70 | man2 | the man's back (948); from 24.2 s real embers stream across him (4426) | «فَصِرتُ إِذا» / «أَصابَتني سِهامٌ» | cut |
+| 23.70 | man2 | the same man, closer and from the other side (948, mirrored); from the cut real embers stream across him (4426) | «فَصِرتُ إِذا» / «أَصابَتني سِهامٌ», inside his shoulder | cut |
 | 25.52 | shards | splinters of rock in exploding water, from above (1956, turned 90°), with a lens jolt | «تَكَسَّرَتِ», which cracks into shards | smash cut |
 | 26.22 | blade | a long blade of rock, a wave sweeping over it (51455, turned 90°) | «النِصالُ» | cut |
 | 26.84 | rock | a 0.9 s fall onto a lone rock in a dark sea (44398, turned 90°, ×12 then real time); it stays | «عَلى النِصالِ», then the two credits | cut |
 
-**Why these images.** The verses are about burial and the living walking on; weapons made ready and a death that needs none; swift horses that cannot outrun the nights; a man who has stopped flinching; time as the archer; and a heart so full of arrows that new ones only break on the old. Sand carries verse 1 (grains burying grains, feet on sand, the sea over them) and returns as the hourglass. Fire runs through the first half (the name, the pour, the embers) and comes back as the arrows. The "I" of the poem is one man: a black profile who lifts his face to the storm, turns away from it, and stands while the embers cross him. The end is water on rock. The modern images the commissioner once asked for are the subway train and the clock.
+**Why these images.** The verses are about burial and the living walking on; weapons made ready and a death that needs none; swift horses that cannot outrun the nights; a man who has stopped flinching; time as the archer; and a heart so full of arrows that new ones only break on the old. Earth carries verse 1 (a hand covering it over, bare feet walking on it, the sea running over them); sand appears once, as the hourglass. Fire runs through the first half (the name, the pour, the embers) and comes back as the arrows. The "I" of the poem is one man: a black profile who lifts his face to the storm, turns away from it, and stands while the embers cross him. The end is water on rock. The modern images the commissioner once asked for are the subway train and the clock.
 
 **Top-down shots are turned 90°.** A drone shot looking straight down has no "up". Turned, a 3840×2160 source fills the 2160×3840 frame with no crop: full 4K, and a wide view a 9:16 window could never hold (the lone rock in its sea; the long rock that reads as a blade).
 
@@ -62,6 +62,7 @@
 - **Shake** (a small handheld drift; stronger on the impact shots), **shock** (colour fringes that close and a breath of overexposure on the smash cut), **soften** (a shot held slightly out of focus).
 - **Overlays** of real elements shot on black (the embers, the prism leak), screen-blended.
 - **Rotation** of top-down sources.
+- **Even motion.** Some stock files carry a stutter of their own: conformed to 24 fps by frame-picking, they advance in uneven steps (1, 2, 1, 2 … or 1, 2, 1, 1, 2 …), or they repeat every sixth frame. `pipeline/even_cadence.py` measures the motion per frame, gives the frames back their true spacing and rebuilds even ones by motion-compensated interpolation (used for the man and the walker; unevenness 1.5–1.95 before, 1.05–1.09 after, each result looked at in full size). A merely repeated frame is dropped instead (`"decimate": 6` on the pour) and the speed corrected.
 - One grade for all shots (`build_picture.py`), with fire allowed to reach warm white (red feeds green in the hottest shots); one grain pass over picture and letters together; levels clamped to 18–232 before encoding.
 
 ## 4. The independent review, and what it changed
@@ -71,7 +72,7 @@ A reviewer who had no part in the film looked at every frame of the first full c
 |---|---|
 | The opening flames on pure black read as a compositing element | The name now stands behind a real log fire (42768); the first frame is lit |
 | Doubled edges on five shots (frame-blended retiming) | The engine shows whole source frames near real time; the man's shots run at real speed |
-| Red glass tea-lights for "we bury one another" can read as church candles | Replaced by sand falling onto sand, which the hourglass later answers |
+| Red glass tea-lights for "we bury one another" can read as church candles | Replaced (first by falling sand; after the second review by a hand smoothing earth over) |
 | A night city square was "the first image from another world" | Dropped; the walker carries «وَتَمشي أَواخِرُنا» |
 | Lettering "behaves like a caption": always centred, always the same entrance, sometimes across the subject | Image-words land, blocks grow with the push-in, «تَكَسَّرَتِ» breaks; words moved into each picture's dark space (the horse's flank, the man's shoulders) |
 | "Fire has no heat": nothing above 85 % of white | Fire shots regraded so cores reach warm white; the red sparks softened and turned to embers |
@@ -83,13 +84,25 @@ A reviewer who had no part in the film looked at every frame of the first full c
 
 Kept against the review's advice: the subway train and the clock for «رَماني الدَهرُ» (the commissioner asked for exactly these), with the dial now lit for the whole word.
 
+**A second review** of the revised cut (a new reviewer, same brief) no longer expected the commissioner's earlier objections, and listed what still stood out:
+
+| Finding | Change |
+|---|---|
+| Motion stutters on the man and the walker; a ghost on the pour | Traced to the stock files themselves; repaired as described in section 3 |
+| Falling sand for the burial line is the hourglass twice, and reads as salt | A hand smoothing earth over, from a clip first passed by for its opening seconds (a tool breaking soil) |
+| The man's back twice in a row | The third moment is closer and mirrored, and the embers are on him from the cut |
+| The opening fire a little violet and soft | Warmer, with its violet wisps pulled back |
+| «عَلى» on screen before its shot; «النِصالُ» weak on white foam; marks touching between two rows | No word may show before a hard cut into its shot (`arrives()`); the foam held grey under the gold word; rows spread |
+| Words straddling the man's outline in the embers shot | Both rows sit inside his shoulder, the upper one smaller |
+| The pour lemon-green; the ember volley showing its pixels; the horse's eye the brightest frame of its run | Regraded to orange; held softer; darkened |
+
 ## 5. Sound (`pipeline/mix_blades.py`, `data/blades/sfx_cues.json`)
 - **The original mix is the soundtrack**: static gain 0.0 dB, no EQ, ducking, separation or re-timing. Outside 145 ms of limiter action at 11 voice peaks and the final fade, the master minus the effects is the original, sample for sample.
 - **27 cues from 26 Mixkit recordings**, each anchored to a shot id, so their times are resolved from the plan on every run. Among them: a fire whoosh under the name, one small wave as the foam reaches the feet, the roar of the pour, a low thump on the cut to the hourglass, muffled hooves, distant thunder under the sky, a gust as the man turns away, the rush of the train, two clock ticks, arrow fly-bys in the pauses, one heartbeat on «فُؤادي», a breaking wave on the smash cut, and open sea under the ending.
 - **The voice wins.** Wherever a word is spoken, the effects sit at least 14 dB under the original mix (K-weighted, 400 ms windows). Worst case: 15.04 dB at «بِالأَرزاءِ». The automatic safety gain never had to act.
 - **Nothing voice-like**: no human or animal voice, no metal ring, scrape or grind. A held-tone detector with planted controls finds none.
 - **Master**: −14.17 LUFS integrated, true peak −1.08 dBTP, 31.000 s, the last 0.6 s faded to silence.
-- Left out on purpose: anything under the spoken intro, a footfall on the walk, a chain clink (metal), the sand hiss under the hourglass words.
+- Left out on purpose: anything under the spoken intro, anything under the hand on the earth (the voice is alone until the music enters), a footfall on the walk, a chain clink (metal), the sand hiss under the hourglass words.
 
 ## 6. Checks (`pipeline/qc_blades.py`)
 What is checked on the finished file:
@@ -112,7 +125,7 @@ What is checked on the finished file:
 `pipeline/make_burn_strips.cjs` prints the twelve hemistichs as strips with a shooting guide. A filmed strip replaces a shot by its file path in `plan.py`; setting `"hide": true` for that hemistich in the plan's `lines` removes the overlaid words there (the line is then in the picture itself), and QC lists it as "in picture".
 
 ## Licences
-- Footage: 22 Mixkit items, each verified on its own page as `data-license="videoFree"` on 2026-11-18 (`data/blades/footage_licences.json`).
+- Footage: 22 Mixkit items, each verified on its own page as `data-license="videoFree"` on 2026-11-18 (`data/blades/footage_licences.json`, written from the plan by `pipeline/licence_record.py`, which stops if a source in the cut is not recorded as free).
 - Sound effects: 26 Mixkit recordings under the Mixkit Sound Effects Free License (`data/blades/sfx_licences.json`).
 - Fonts: Amiri and Aref Ruqaa (SIL Open Font License).
 - The voice and its music are the commissioner's own reel.
@@ -120,6 +133,12 @@ What is checked on the finished file:
 ## Rebuild
 ```
 V=/home/user/film/venv/bin/python; R=/home/user/Builder-Baseerah/sutoor-film
+# stretches of two stock clips with their motion evened (the plan plays these files); SRC holds the downloads
+$V $R/pipeline/even_cadence.py SRC/948.mp4 10.2 2.5 SRC/948-11.mp4
+$V $R/pipeline/even_cadence.py SRC/948.mp4 14.4 2.7 SRC/948-12.mp4
+$V $R/pipeline/even_cadence.py SRC/948.mp4 16.8 2.3 SRC/948-13.mp4 --pattern 1,2
+$V $R/pipeline/even_cadence.py SRC/1013.mp4 0.7 2.1 SRC/1013-11.mp4
+$V $R/pipeline/even_cadence.py SRC/1013.mp4 13.9 1.4 SRC/1013-12.mp4
 $V $R/data/blades/plan.py                                   # the edit -> data/blades/plan.json
 $V $R/pipeline/render_blades.py $R/data/blades/plan.json WORK WORK/picture_4k.mp4 --share WORK/picture_1080.mp4
 $V $R/pipeline/mix_blades.py --out SOUND                    # effects under the original mix -> SOUND/mix.wav
