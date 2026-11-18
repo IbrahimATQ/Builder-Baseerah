@@ -589,7 +589,11 @@
    "lumRef": 0.16,
    "recallUntil": 35.85,
    "clear": 35.5,
-   "wash": true
+   "wash": {
+    "lo": 0.3,
+    "hi": 0.6,
+    "band": "a"
+   }
   }
  },
  "tints": [
