@@ -44,3 +44,14 @@ Get fonts from `https://raw.githubusercontent.com/google/fonts/main/ofl/<family>
 1. Render a still at the midpoint of every hemistich; read each against the truth table.
 2. Programmatic: compare the displayed strings with the source strings (exact Unicode equality).
 3. Check no mark is clipped at line box edges, no fallback font appears (tofu, different shapes).
+
+## Full-screen 4K journey (text inside the picture)
+
+- One zone for every footage shot: sadr centred at 19 % of the frame height, ajuz at 27 %; nothing in
+  the bottom 20 % or top 10 %. Choose each crop so its calm, dark area falls there.
+- Cue shape: during the sadr only line 1; during the ajuz the sadr stays above it at 45 %; the verse
+  clears in the pause (>= 0.4 s after the hemistich ends), in reading order, over ~0.7 s.
+- Ink-bleed reveal: alpha up from a 1 px blur in 0.18 s at the aligned onset; no slide, no bounce.
+- Colour from each shot's key light (cold silver street, warm gold barn, amber candle, lilac dusk),
+  brightness modulated by the plate's measured luminance (+/-15 %); grain once over picture and text.
+- A line written on paper that burns is NOT also overlaid; it can return as the 45 % recall.

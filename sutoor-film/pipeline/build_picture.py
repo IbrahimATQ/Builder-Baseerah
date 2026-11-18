@@ -310,7 +310,8 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
     W, H = int(plan["w"] * scale) // 2 * 2, int(plan["h"] * scale) // 2 * 2
     look = {**LOOK_DEFAULT, **plan.get("look", {})}
     tl = timeline(plan)
-    shots = [Shot(d, a, b, W, H) for d, a, b in tl]
+    lo, hi = f0 / fps, (f1 - 1) / fps  # only shots seen in this frame range are opened (others may not exist yet)
+    shots = [Shot(d, a, b, W, H) if (b > lo and a <= hi) else None for d, a, b in tl]
     readers: dict[int, Reader] = {}
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
                             "-r", str(fps), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "14",
@@ -322,6 +323,8 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
         t = fi / fps
         layers = []
         for i, sh in enumerate(shots):
+            if sh is None:
+                continue
             if sh.t_on - 1e-6 <= t < sh.t_off + 1e-6 and (i == len(shots) - 1 or t < sh.t_off):
                 if i not in readers:
                     readers[i] = Reader(sh, max(t, sh.t_on), min(sh.t_off, f1 / fps + 0.05))

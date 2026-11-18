@@ -56,3 +56,17 @@ Pauses that are not lower than the original usually contain voice (breath, elong
 - Section automation: lift the bed where the voice is absent (prologue +6 dB, coda).
 - Two-pass `loudnorm` linear to −14 LUFS / −1 dBTP. Report: per-hemistich voice-minus-music dB
   (target 12-18 dB), integrated LUFS, true peak, LRA.
+
+## 6. Prove nothing screams (on the FINAL mix)
+
+- Effects and ambience are where a "scream" hides (a forge blower, a whistling wind, a horse whinny,
+  a gull). Ban whinnies, bird calls, whistling wind and any sample that may contain a voice.
+- `scripts/scream_check.py MIX_DIR OUT.json` (MIX_DIR = mix_master.py output):
+  1. pre-master minus voice bus -> vocal-separation model -> must be silent (< -42 LUFS short-term,
+     < 2 % pitched frames);
+  2. effects + ambience (pre-master minus voice minus music) -> no held pitched tone > 0.8 s
+     (calibrated: it flags the forge sound that was heard as a scream);
+  3. voice bus -> karaoke split -> backing part < -50 LUFS.
+- The "tunnel": never time-stretch the voice to slow it (open pauses instead); keep its long-term
+  spectrum within +/-2 dB of the original recording; one constant short room at most; a real
+  ambience bed under every word. Approve on earbuds and a phone speaker.

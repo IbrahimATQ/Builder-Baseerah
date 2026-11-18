@@ -42,8 +42,10 @@ def separate(wav: str, model: str, out_dir: str) -> dict[str, str]:
     return out
 
 
-def tonal_runs(y, sr=16000, fmin=150, fmax=4000, prom=4.0, tol=0.08, min_run=0.8):
-    """Runs of a stable, prominent narrowband component (a held pitched sound) in [fmin, fmax]."""
+def tonal_runs(y, sr=16000, fmin=150, fmax=4000, prom=3.0, tol=0.08, min_run=0.8, gap=3):
+    """Runs of a stable, prominent narrowband component (a held pitched sound) in [fmin, fmax], allowing
+    short dropouts (up to `gap` frames). Calibrated: it flags the forge sound that was heard as a scream
+    in the earlier reels (a 2.5 s held tone near 2.6 kHz) and passes noise beds and short impacts."""
     import librosa
     hop = 320
     S = np.abs(librosa.stft(y, n_fft=4096, hop_length=hop))
@@ -54,17 +56,21 @@ def tonal_runs(y, sr=16000, fmin=150, fmax=4000, prom=4.0, tol=0.08, min_run=0.8
     k, pk, med = Sb.argmax(0), Sb.max(0), np.median(Sb, 0) + 1e-9
     ok = (pk / med > prom) & (rms[: len(pk)] > rms.max() - 40)
     f = fb[k]
-    runs, start = [], None
-    for i in range(len(ok)):
-        cont = ok[i] and start is not None and abs(f[i] - f[i - 1]) / f[i - 1] < tol
-        if ok[i] and start is None:
-            start = i
-        elif start is not None and not cont:
-            runs.append((start, i)); start = i if ok[i] else None
-    if start is not None:
-        runs.append((start, len(ok)))
-    dt = hop / sr
-    return sorted([(a * dt, (b - a) * dt, float(np.median(f[a:b]))) for a, b in runs if (b - a) * dt >= min_run], key=lambda r: -r[1])
+    out, i, n = [], 0, len(ok)
+    while i < n:
+        if not ok[i]:
+            i += 1
+            continue
+        s0, last, f0 = i, i, f[i]
+        j = i + 1
+        while j < n and j - last <= gap:
+            if ok[j] and abs(f[j] - f0) / f0 < tol:
+                last, f0 = j, 0.8 * f0 + 0.2 * f[j]
+            j += 1
+        if (last - s0) * hop / sr >= min_run:
+            out.append((s0 * hop / sr, (last - s0) * hop / sr, float(np.median(f[s0:last + 1]))))
+        i = last + 1
+    return sorted(out, key=lambda r: -r[1])
 
 
 def short_term(y: np.ndarray, sr: int, win: float = 0.4) -> list[float]:

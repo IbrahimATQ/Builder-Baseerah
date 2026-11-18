@@ -211,7 +211,7 @@ def blackbody(h: np.ndarray) -> np.ndarray:
     c2 = np.array([1.0, 0.62, 0.20], np.float32)
     c3 = np.array([1.0, 0.93, 0.78], np.float32)
     out = np.where(h < 0.33, c0 + (c1 - c0) * (h / 0.33), np.where(h < 0.7, c1 + (c2 - c1) * ((h - 0.33) / 0.37), c2 + (c3 - c2) * ((h - 0.7) / 0.3)))
-    return out * (0.05 + 3.5 * h ** 2.2)
+    return out * (0.05 * np.minimum(h * 25, 1) + 3.5 * h ** 2.2)  # zero heat emits nothing
 
 
 def depth_of_field(img: np.ndarray, sig_rows: np.ndarray) -> np.ndarray:

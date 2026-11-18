@@ -303,7 +303,8 @@ def main(cfg_p: str) -> None:
         sp_cap.set(cv2.CAP_PROP_POS_MSEC, sparks.get("in", 0) * 1000)
 
     proc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                             "-c:v", "libx264", "-preset", "medium", "-crf", "14", "-pix_fmt", "yuv420p",
+                             "-c:v", "libx264", "-preset", "medium", "-crf", "13", "-pix_fmt", "yuv420p",
+                             "-movflags", "+frag_keyframe+empty_moov", "-g", "24",  # a killed render still leaves a playable file
                              "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", cfg["out"]], stdin=subprocess.PIPE)
     nlf = noise((1, n_out + 10), rng, 3, 3)[0]
     q = 4
