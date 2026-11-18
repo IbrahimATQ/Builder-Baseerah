@@ -202,9 +202,32 @@ The score: `cd $A && SCORE_EDITION=journey QUENCH_T=38.75 CREDITS_T=40.5 $V $R/p
 | The tunnel is in the source (HE-AAC 63 kb/s); the voice is dry against a hall; three line ends truncate (all refuted or downgraded to minor by the verifier) | No change: the film's voice matches the original recording's spectrum within about 1 dB up to 24 kHz, and the mix covers the codec texture more than the original did |
 | QC licence record named Mixkit 2189 for Burn III (minor) | Corrected to 1081 |
 
+## 7c. The third look: an independent check of the round-2 cut
+A third panel re-tested every round-2 finding on the files: a regression tester, a phone viewer, a cinematographer, and a calligrapher-mixer. It scored 6, 6, 5.5 and 8.5. The regression tester confirmed 22 round-2 findings fixed, among them:
+- every sound item;
+- the cloned flame sprites;
+- the text pop at the cut into Burn III, the stray dot and the missing kasras;
+- the ghost word;
+- the Alhambra stutter;
+- the milky rain and rock floors and the exposure jump at 33.15;
+- the firelight on the rock.
+
+The text and sound lens passed every item, letter for letter and word for word. The verified majors that remained, and what was done:
+
+| Finding (verified) | Done |
+|---|---|
+| Burn III still a warm-lit card on cold rock (paper b* +13 against rock b* −2); its rectangle survives the fire; spark "pills" (major, two verifiers) | Before ignition the paper is moonlit (cool tint, no warm key) and warms only from the first flame. The fire now also runs in along the rim from 36.15 s, so the outline is eaten within about half a second instead of surviving as straight sides. The spark plate is removed. No flame or glowing flake is drawn within 70 px of the surviving word (this was the source of the "slash" and the stray dot). The ember dims over the last 150 px before the foam reaches it. The shot fades up from the night. |
+| Burn II: a stiff card, its edge seen through the flame, the flame stopping short of the frame edge, no flare light on the coals (major) | The letter bows over the coals. The catch flame occludes what is behind its bright body, extends past both frame edges, and lights the coal bed (3× relight). The scorch browns from the hot edge |
+| Heron still a jump from the Alhambra night (major, unverified) | A further half stop darker and bluer |
+| The quench reads as a matte wipe (minor after verification) | The ember now dims ahead of the water (see above) |
+| Credits grain lost below Y16 in encoding (minor) | The credits card is clamped to 18–235 so its grain survives |
+
 **Not changed, and why:**
 - **Soft 1080p sources.** The Alhambra (4013), the heron (1906) and the first rain shot (2208) are 1080p sources scaled about 3.5×. They hold up on a phone but look soft at 100 % on a 4K screen. No free-licensed 4K replacement that keeps the same meaning was found.
 - **The rhinestone browband** on the show horse in shot 3 stays.
+- **The words over the live shots are still a fixed overlay band (verified major in rounds 2 and 3).** In the three burns, about 15 s of the 40.6 s poem, the line is written on the paper itself, and the live shots act on the words: ripples, focus, the candle, the floodlights, the wash. But all three panels asked for the words to be placed inside each live shot, tracked to a surface and occluded by real elements (foam, mane, spines). That is a different design for ten shots, so it is left as the commissioner's decision rather than done unasked.
+- **Burn I's plate** has three single-frame jumps from its stabilisation (2.54, 2.96, 3.13 s), and the strip's burning front is softer than a thin incandescent line (minor).
+- **Rhyme words** sit 7–9 dB over music and effects (target 12), because the mix holds the level per hemistich, not per word (minor).
 
 ## 8. Format and finishing
 - **Master.** 2160×3840 at 24 fps, H.264 High 5.1, BT.709, luma 16–235, with grain over picture and text. A 1080×1920 share copy is also provided.
