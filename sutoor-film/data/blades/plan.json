@@ -17,24 +17,39 @@
   "soft": 0.8,
   "shade": 0.5,
   "texture": 0.45,
-  "glow": 0.32,
-  "wrap": 0.22
+  "glow": 0.34,
+  "wrap": 0.22,
+  "pool": 0.5
  },
  "line_default": {
-  "y": 0.2,
-  "size": 88
+  "out": 0.06,
+  "color": "#F6EEDD",
+  "emColor": "#FFD79A"
  },
  "lines": {
   "v1a": {
+   "em": [
+    0
+   ],
    "parts": [
     {
      "words": [
       0,
+      1
+     ],
+     "y": 0.455,
+     "size": 200,
+     "clear": 3.55,
+     "out": 0.3
+    },
+    {
+     "words": [
+      1,
       3
      ],
-     "y": 0.535,
-     "size": 88,
-     "clear": 3.5,
+     "y": 0.55,
+     "size": 150,
+     "clear": 3.55,
      "out": 0.3
     },
     {
@@ -42,46 +57,369 @@
       3,
       4
      ],
-     "y": 0.585,
-     "size": 180,
-     "clear": 4.62,
-     "out": 0.08
+     "y": 0.765,
+     "size": 210,
+     "clear": 4.62
     }
-   ],
-   "em": 0
+   ]
   },
   "v1b": {
-   "y": 0.21,
-   "size": 88
-  },
-  "v2a": {
+   "em": [],
    "parts": [
     {
      "words": [
       0,
       1
      ],
-     "y": 0.7,
-     "size": 170,
-     "clear": 6.99,
-     "out": 0.0
+     "y": 0.745,
+     "size": 180,
+     "clear": 5.3
+    },
+    {
+     "words": [
+      1,
+      4
+     ],
+     "y": 0.66,
+     "size": 150,
+     "clear": 6.3
+    }
+   ]
+  },
+  "v2a": {
+   "em": [
+    1
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      1
+     ],
+     "y": 0.645,
+     "size": 180,
+     "clear": 7.36
+    },
+    {
+     "words": [
+      1,
+      2
+     ],
+     "y": 0.76,
+     "size": 180,
+     "clear": 7.36
+    },
+    {
+     "words": [
+      2,
+      3
+     ],
+     "y": 0.5,
+     "size": 210,
+     "clear": 8.09
+    }
+   ]
+  },
+  "v2b": {
+   "em": [
+    1
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      2
+     ],
+     "y": 0.41,
+     "size": 160,
+     "clear": 10.58,
+     "out": 0.3
+    },
+    {
+     "words": [
+      2,
+      4
+     ],
+     "y": 0.525,
+     "size": 160,
+     "clear": 10.58,
+     "out": 0.3
+    }
+   ]
+  },
+  "v3a": {
+   "em": [
+    1
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      1
+     ],
+     "y": 0.775,
+     "size": 180,
+     "clear": 11.38
+    },
+    {
+     "words": [
+      1,
+      2
+     ],
+     "y": 0.775,
+     "size": 180,
+     "clear": 12.04
+    },
+    {
+     "words": [
+      2,
+      3
+     ],
+     "y": 0.775,
+     "size": 180,
+     "clear": 12.78
+    }
+   ]
+  },
+  "v3b": {
+   "em": [
+    4
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      2
+     ],
+     "y": 0.66,
+     "size": 175,
+     "clear": 14.34
+    },
+    {
+     "words": [
+      2,
+      4
+     ],
+     "y": 0.77,
+     "size": 175,
+     "clear": 14.34
+    },
+    {
+     "words": [
+      4,
+      5
+     ],
+     "y": 0.42,
+     "size": 230,
+     "clear": 14.95,
+     "out": 0.14
+    }
+   ]
+  },
+  "v4a": {
+   "em": [
+    3
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      1
+     ],
+     "y": 0.685,
+     "size": 220,
+     "clear": 16.66
     },
     {
      "words": [
       1,
       3
      ],
-     "y": 0.22,
-     "size": 92
+     "y": 0.785,
+     "size": 160,
+     "clear": 16.66
+    },
+    {
+     "words": [
+      3,
+      4
+     ],
+     "y": 0.62,
+     "size": 220,
+     "clear": 17.4
     }
    ]
   },
-  "v2b": {
-   "y": 0.585,
-   "size": 86,
-   "em": 1,
-   "clear": 10.6,
-   "out": 0.25
+  "v4b": {
+   "em": [],
+   "parts": [
+    {
+     "words": [
+      0,
+      3
+     ],
+     "y": 0.665,
+     "size": 140,
+     "clear": 19.42,
+     "out": 0.25
+    },
+    {
+     "words": [
+      3,
+      5
+     ],
+     "y": 0.765,
+     "size": 170,
+     "clear": 19.42,
+     "out": 0.25
+    }
+   ]
+  },
+  "v5a": {
+   "em": [
+    1
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      1
+     ],
+     "y": 0.74,
+     "size": 210,
+     "clear": 20.15
+    },
+    {
+     "words": [
+      1,
+      2
+     ],
+     "y": 0.52,
+     "size": 230,
+     "clear": 20.57,
+     "x": 0.37,
+     "lead": 0.0
+    },
+    {
+     "words": [
+      2,
+      3
+     ],
+     "y": 0.675,
+     "size": 190,
+     "clear": 21.91,
+     "out": 0.2
+    },
+    {
+     "words": [
+      3,
+      4
+     ],
+     "y": 0.775,
+     "size": 160,
+     "clear": 21.91,
+     "out": 0.2
+    }
+   ]
+  },
+  "v5b": {
+   "em": [
+    0,
+    4
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      1
+     ],
+     "y": 0.43,
+     "size": 220,
+     "clear": 22.56,
+     "out": 0.12
+    },
+    {
+     "words": [
+      1,
+      3
+     ],
+     "y": 0.395,
+     "size": 190,
+     "clear": 23.66,
+     "out": 0.1
+    },
+    {
+     "words": [
+      3,
+      5
+     ],
+     "y": 0.52,
+     "size": 200,
+     "clear": 23.66,
+     "out": 0.1
+    }
+   ]
+  },
+  "v6a": {
+   "em": [
+    3
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      2
+     ],
+     "y": 0.68,
+     "size": 160,
+     "clear": 25.48
+    },
+    {
+     "words": [
+      2,
+      4
+     ],
+     "y": 0.78,
+     "size": 160,
+     "clear": 25.48
+    }
+   ]
+  },
+  "v6b": {
+   "em": [
+    1,
+    3
+   ],
+   "parts": [
+    {
+     "words": [
+      0,
+      1
+     ],
+     "y": 0.72,
+     "size": 200,
+     "clear": 26.18
+    },
+    {
+     "words": [
+      1,
+      2
+     ],
+     "y": 0.72,
+     "size": 220,
+     "clear": 26.8
+    },
+    {
+     "words": [
+      2,
+      4
+     ],
+     "y": 0.735,
+     "size": 200,
+     "clear": 28.25,
+     "out": 0.45
+    }
+   ]
   }
  },
  "extra_lines": [
@@ -102,6 +440,38 @@
    "family": "ArefRuqaaB",
    "weight": 700,
    "color": "#FFE2B0"
+  },
+  {
+   "id": "credit1",
+   "words": [
+    {
+     "text": "شِعر: أبو الطيّب المتنبّي",
+     "start": 28.45
+    }
+   ],
+   "allAt": 28.45,
+   "rise": 0.6,
+   "clear": 30.55,
+   "out": 0.5,
+   "y": 0.715,
+   "size": 80,
+   "color": "#F2E6CF"
+  },
+  {
+   "id": "credit2",
+   "words": [
+    {
+     "text": "إلقاء: عبدالله العنزي",
+     "start": 28.75
+    }
+   ],
+   "allAt": 28.75,
+   "rise": 0.6,
+   "clear": 30.55,
+   "out": 0.5,
+   "y": 0.785,
+   "size": 72,
+   "color": "#F2E6CF"
   }
  ],
  "shots": [
@@ -112,18 +482,14 @@
    "time": [
     [
      0.0,
-     1.0
-    ],
-    [
-     1.0,
-     3.0
+     1.6
     ],
     [
      1.78,
-     5.6
+     4.4
     ]
    ],
-   "shutter": 0.35,
+   "shutter": 0.9,
    "move": {
     "z": [
      1.0,
@@ -134,7 +500,20 @@
     "ev": -0.2,
     "sat": 0.9
    },
-   "licence": "Mixkit 52292 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
+   "grade_keys": [
+    [
+     0.0,
+     {
+      "ev": -7.0
+     }
+    ],
+    [
+     0.28,
+     {
+      "ev": -0.2
+     }
+    ]
+   ],
    "text": {
     "lit": {
      "global": true,
@@ -142,13 +521,15 @@
      "hi": 0.07
     },
     "glow": 0.5,
+    "pool": 0.0,
     "occlude": {
      "type": "luma",
      "lo": 0.42,
      "hi": 0.8,
      "gain": 0.85
     }
-   }
+   },
+   "licence": "Mixkit 52292 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "lights",
@@ -182,26 +563,31 @@
     "ev": 0.1,
     "sat": 0.85
    },
-   "licence": "Mixkit 3438 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
    "text": {
     "lit": {
      "global": true,
      "lo": 0.006,
-     "hi": 0.05
+     "hi": 0.05,
+     "floor": 0.6
     },
-    "glow": 0.4,
-    "pool": 0.6
-   }
+    "glow": 0.45,
+    "pool": 0.5,
+    "occlude": {
+     "type": "luma",
+     "lo": 0.62,
+     "hi": 0.9,
+     "gain": 0.85
+    }
+   },
+   "licence": "Mixkit 3438 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "walk",
    "src": "/home/user/film/v4/src/1013.mp4",
    "start": 3.76,
    "in": 0.9,
-   "speed": 1.0,
    "window": {
-    "cx": 0.33,
-    "cy": 0.5
+    "cx": 0.33
    },
    "move": {
     "z": [
@@ -218,24 +604,17 @@
     "sat": 0.6,
     "temp": 0.05
    },
-   "licence": "Mixkit 1013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
    "text": {
-    "occlude": {
-     "type": "depth",
-     "near": 0.62,
-     "soft": 0.14,
-     "gain": 0.9
-    },
-    "pool": 0.4,
+    "pool": 0.6,
     "glow": 0.3
-   }
+   },
+   "licence": "Mixkit 1013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "crowd",
    "src": "/home/user/film/v4/src/3433.mp4",
    "start": 4.68,
    "in": 4.75,
-   "speed": 1.0,
    "window": {
     "cx": 0.5,
     "cy": 0.66,
@@ -258,20 +637,18 @@
     "dur": 0.25,
     "dir": "left"
    },
-   "licence": "Mixkit 3433 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
    "text": {
-    "pool": 0.7
-   }
+    "pool": 0.8
+   },
+   "licence": "Mixkit 3433 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "foam",
    "src": "/home/user/film/v4/src/1013.mp4",
    "start": 5.34,
    "in": 14.1,
-   "speed": 1.0,
    "window": {
-    "cx": 0.58,
-    "cy": 0.5
+    "cx": 0.58
    },
    "move": {
     "z": [
@@ -293,26 +670,47 @@
     "dur": 0.25,
     "dir": "left"
    },
-   "licence": "Mixkit 1013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
    "text": {
-    "pool": 0.8
-   }
+    "pool": 0.9
+   },
+   "licence": "Mixkit 1013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "pour",
    "src": "/home/user/film/v4/src/2861.mp4",
    "start": 6.34,
    "in": 0.55,
-   "speed": 1.0,
    "window": {
     "cx": 0.6,
     "cy": 0.6,
     "fill": 1.22
    },
    "move": {
-    "z": [
-     1.0,
-     1.1
+    "keys": [
+     [
+      6.34,
+      1.0,
+      0.6,
+      0.6
+     ],
+     [
+      6.96,
+      1.05,
+      0.6,
+      0.6
+     ],
+     [
+      7.08,
+      1.13,
+      0.6,
+      0.6
+     ],
+     [
+      7.4,
+      1.16,
+      0.6,
+      0.6
+     ]
     ]
    },
    "grade": {
@@ -325,21 +723,25 @@
     "dur": 0.25,
     "gain": 0.5
    },
-   "licence": "Mixkit 2861 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
    "text": {
-    "pool": 0.5,
-    "glow": 0.4
-   }
+    "pool": 0.6,
+    "glow": 0.4,
+    "occlude": {
+     "type": "luma",
+     "lo": 0.6,
+     "hi": 0.9,
+     "gain": 0.8
+    }
+   },
+   "licence": "Mixkit 2861 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "forge",
    "src": "/home/user/film/v4/src/3459.mp4",
-   "start": 7.01,
-   "in": 4.2,
-   "speed": 1.0,
+   "start": 7.4,
+   "in": 4.4,
    "window": {
-    "cx": 0.55,
-    "cy": 0.5
+    "cx": 0.55
    },
    "move": {
     "z": [
@@ -353,14 +755,14 @@
    },
    "trans": {
     "type": "zoom",
-    "dur": 0.3,
-    "factor": 2.4
+    "dur": 0.26,
+    "factor": 2.2
    },
-   "licence": "Mixkit 3459 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
    "text": {
     "pool": 1.0,
     "glow": 0.35
-   }
+   },
+   "licence": "Mixkit 3459 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "glass",
@@ -385,8 +787,7 @@
     ]
    ],
    "window": {
-    "cx": 0.44,
-    "cy": 0.5
+    "cx": 0.44
    },
    "move": {
     "z": [
@@ -399,15 +800,668 @@
     "sat": 0.6,
     "temp": -0.2
    },
-   "licence": "Mixkit 28894 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
    "text": {
     "lit": {
      "global": true,
      "lo": 0.008,
-     "hi": 0.035
+     "hi": 0.035,
+     "floor": 0.62
     },
-    "glow": 0.3
-   }
+    "glow": 0.32,
+    "pool": 0.0,
+    "occlude": {
+     "type": "luma",
+     "lo": 0.5,
+     "hi": 0.8,
+     "gain": 0.7
+    }
+   },
+   "licence": "Mixkit 28894 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "tether",
+   "src": "/home/user/film/v4/src/100663.mp4",
+   "start": 10.63,
+   "in": 1.3,
+   "move": {
+    "z": [
+     1.0,
+     1.08
+    ]
+   },
+   "shake": {
+    "amp": 2,
+    "seed": 9
+   },
+   "grade": {
+    "ev": -0.3,
+    "sat": 0.5,
+    "contrast": 1.06
+   },
+   "text": {
+    "pool": 0.8
+   },
+   "licence": "Mixkit 100663 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "eye",
+   "src": "/home/user/film/v4/src/100645.mp4",
+   "start": 11.42,
+   "in": 0.8,
+   "move": {
+    "z": [
+     1.05,
+     1.13
+    ]
+   },
+   "shake": {
+    "amp": 2,
+    "seed": 10
+   },
+   "grade": {
+    "ev": -0.5,
+    "sat": 0.55,
+    "temp": -0.05
+   },
+   "text": {
+    "pool": 1.0
+   },
+   "licence": "Mixkit 100645 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "grey",
+   "src": "/home/user/film/v4/src/100646.mp4",
+   "start": 12.08,
+   "in": 4.3,
+   "window": {
+    "cx": 0.48
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.07
+    ]
+   },
+   "shake": {
+    "amp": 2,
+    "seed": 11
+   },
+   "grade": {
+    "ev": -0.4,
+    "sat": 0.4,
+    "contrast": 1.05
+   },
+   "text": {
+    "pool": 1.0
+   },
+   "licence": "Mixkit 100646 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "canter",
+   "src": "/home/user/film/v4/src/1154.mp4",
+   "start": 12.82,
+   "in": 6.05,
+   "speed": 1.5,
+   "window": {
+    "cx": 0.66
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.05
+    ]
+   },
+   "shake": {
+    "amp": 3,
+    "seed": 12
+   },
+   "grade": {
+    "ev": -0.55,
+    "sat": 0.7,
+    "temp": -0.1
+   },
+   "trans": {
+    "type": "whip",
+    "dur": 0.25,
+    "dir": "left"
+   },
+   "text": {
+    "pool": 1.0,
+    "glow": 0.4
+   },
+   "licence": "Mixkit 1154 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "night",
+   "src": "/home/user/film/v4/src/4357.mp4",
+   "start": 14.38,
+   "time": [
+    [
+     14.38,
+     1.2
+    ],
+    [
+     14.95,
+     3.9
+    ],
+    [
+     15.2,
+     4.8
+    ]
+   ],
+   "shutter": 1.0,
+   "window": {
+    "cx": 0.47
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.1
+    ]
+   },
+   "grade": {
+    "ev": 0.9,
+    "sat": 0.9
+   },
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.3
+   },
+   "text": {
+    "glow": 0.5,
+    "pool": 0.3
+   },
+   "licence": "Mixkit 4357 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "man",
+   "src": "/home/user/film/v4/src/948.mp4",
+   "start": 14.95,
+   "in": 10.45,
+   "speed": 0.62,
+   "window": {
+    "cx": 0.75,
+    "cy": 0.56,
+    "fill": 1.08
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.09
+    ]
+   },
+   "grade": {
+    "ev": -0.15,
+    "sat": 0.35,
+    "contrast": 1.08
+   },
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.4
+   },
+   "text": {
+    "glow": 0.45,
+    "wrap": 0.35,
+    "pool": 0.0
+   },
+   "licence": "Mixkit 948 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "sky",
+   "src": "/home/user/film/v4/src/118.mp4",
+   "start": 16.7,
+   "time": [
+    [
+     16.7,
+     6.0
+    ],
+    [
+     17.42,
+     15.0
+    ]
+   ],
+   "shutter": 1.0,
+   "move": {
+    "z": [
+     1.0,
+     1.12
+    ]
+   },
+   "grade": {
+    "ev": -0.75,
+    "sat": 0.45,
+    "temp": -0.15,
+    "contrast": 1.15
+   },
+   "text": {
+    "pool": 0.5,
+    "glow": 0.4
+   },
+   "licence": "Mixkit 118 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "dust",
+   "src": "/home/user/film/v4/src/417.mp4",
+   "start": 17.42,
+   "in": 4.5,
+   "speed": 0.85,
+   "window": {
+    "cx": 0.7
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.08
+    ]
+   },
+   "grade": {
+    "ev": -0.15,
+    "sat": 0.12,
+    "temp": -0.2,
+    "contrast": 1.28
+   },
+   "trans": {
+    "type": "matte",
+    "dur": 0.6,
+    "src": "/home/user/film/v4/src/1961.mp4",
+    "in": 5.2,
+    "span": 2.6,
+    "lo": 0.06,
+    "hi": 0.36
+   },
+   "text": {
+    "pool": 0.7
+   },
+   "licence": "Mixkit 417 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "train",
+   "src": "/home/user/film/v4/src/1622.mp4",
+   "start": 19.5,
+   "time": [
+    [
+     19.5,
+     2.3
+    ],
+    [
+     20.17,
+     4.2
+    ]
+   ],
+   "shutter": 0.9,
+   "window": {
+    "cx": 0.54,
+    "cy": 0.58,
+    "fill": 1.25
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.14
+    ]
+   },
+   "grade": {
+    "ev": -0.3,
+    "sat": 0.6,
+    "temp": -0.1
+   },
+   "trans": {
+    "type": "whip",
+    "dur": 0.22,
+    "dir": "right"
+   },
+   "text": {
+    "pool": 0.8
+   },
+   "licence": "Mixkit 1622 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "clock",
+   "src": "/home/user/film/v4/src/28885.mp4",
+   "start": 20.17,
+   "time": [
+    [
+     20.17,
+     8.55
+    ],
+    [
+     20.45,
+     9.0
+    ],
+    [
+     20.64,
+     9.8
+    ]
+   ],
+   "window": {
+    "cx": 0.72
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.08
+    ]
+   },
+   "grade": {
+    "ev": 0.3,
+    "sat": 0.5,
+    "temp": -0.2
+   },
+   "trans": {
+    "type": "flash",
+    "dur": 0.2,
+    "gain": 0.55,
+    "rgb": [
+     1.0,
+     0.95,
+     0.88
+    ]
+   },
+   "text": {
+    "mode": "ink",
+    "ink_rgb": [
+     14,
+     14,
+     18
+    ],
+    "texture": 0.3
+   },
+   "licence": "Mixkit 28885 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "volley",
+   "src": "/home/user/film/v4/src/4426.mp4",
+   "start": 20.64,
+   "in": 1.4,
+   "rotate": 90,
+   "move": {
+    "z": [
+     1.0,
+     1.12
+    ]
+   },
+   "grade": {
+    "ev": -0.1,
+    "sat": 0.85
+   },
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.2
+   },
+   "text": {
+    "pool": 0.6,
+    "glow": 0.45,
+    "occlude": {
+     "type": "luma",
+     "lo": 0.5,
+     "hi": 0.85,
+     "gain": 0.85
+    }
+   },
+   "licence": "Mixkit 4426 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "coal",
+   "src": "/home/user/film/v4/src/3462.mp4",
+   "start": 21.95,
+   "in": 5.0,
+   "window": {
+    "cx": 0.62,
+    "cy": 0.42,
+    "fill": 1.6
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.1
+    ]
+   },
+   "grade": {
+    "ev": 0.1,
+    "sat": 0.9
+   },
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.3
+   },
+   "text": {
+    "glow": 0.5,
+    "pool": 0.4
+   },
+   "licence": "Mixkit 3462 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "thorns",
+   "src": "/home/user/film/v4/src/3969.mp4",
+   "start": 22.6,
+   "in": 10.0,
+   "speed": 1.3,
+   "window": {
+    "cx": 0.45,
+    "cy": 0.36,
+    "fill": 1.4
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.1
+    ]
+   },
+   "grade": {
+    "ev": -2.6,
+    "sat": 1.0,
+    "temp": 0.5,
+    "contrast": 1.15
+   },
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.4
+   },
+   "text": {
+    "glow": 0.5,
+    "pool": 1.0,
+    "occlude": {
+     "type": "luma",
+     "lo": 0.03,
+     "hi": 0.09,
+     "invert": true,
+     "gain": 1.0
+    }
+   },
+   "licence": "Mixkit 3969 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "man2",
+   "src": "/home/user/film/v4/src/948.mp4",
+   "start": 23.7,
+   "in": 15.3,
+   "speed": 0.6,
+   "window": {
+    "cx": 0.75,
+    "cy": 0.56,
+    "fill": 1.08
+   },
+   "move": {
+    "z": [
+     1.02,
+     1.12
+    ]
+   },
+   "grade": {
+    "ev": -0.2,
+    "sat": 0.35,
+    "contrast": 1.08
+   },
+   "text": {
+    "glow": 0.45,
+    "wrap": 0.35,
+    "pool": 0.3,
+    "occlude": {
+     "type": "luma",
+     "lo": 0.78,
+     "hi": 1.0,
+     "gain": 0.6
+    }
+   },
+   "licence": "Mixkit 948 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "shards",
+   "src": "/home/user/film/v4/src/1956.mp4",
+   "start": 25.52,
+   "in": 13.75,
+   "speed": 1.1,
+   "rotate": 90,
+   "move": {
+    "z": [
+     1.14,
+     1.02
+    ]
+   },
+   "shake": {
+    "amp": 9,
+    "rot": 0.3,
+    "seed": 22,
+    "period": 0.3
+   },
+   "shock": {
+    "at": 25.52,
+    "dur": 0.35,
+    "amount": 0.02,
+    "gain": 0.3
+   },
+   "grade": {
+    "ev": -0.5,
+    "sat": 0.4,
+    "temp": -0.2,
+    "contrast": 1.15
+   },
+   "text": {
+    "pool": 1.0,
+    "glow": 0.4
+   },
+   "licence": "Mixkit 1956 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "blade",
+   "src": "/home/user/film/v4/src/51455.mp4",
+   "start": 26.22,
+   "in": 17.1,
+   "speed": 1.2,
+   "rotate": 90,
+   "move": {
+    "z": [
+     1.1,
+     1.0
+    ]
+   },
+   "shake": {
+    "amp": 5,
+    "rot": 0.2,
+    "seed": 21,
+    "period": 0.4
+   },
+   "grade": {
+    "ev": -0.6,
+    "sat": 0.3,
+    "temp": -0.25,
+    "contrast": 1.15
+   },
+   "text": {
+    "pool": 1.0,
+    "glow": 0.4
+   },
+   "licence": "Mixkit 51455 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  },
+  {
+   "id": "rock",
+   "src": "/home/user/film/v4/src/44398.mp4",
+   "start": 26.84,
+   "time": [
+    [
+     26.84,
+     1.0
+    ],
+    [
+     27.8,
+     20.0
+    ],
+    [
+     28.5,
+     22.6
+    ],
+    [
+     31.0,
+     26.0
+    ]
+   ],
+   "shutter": 1.0,
+   "rotate": 90,
+   "grade": {
+    "ev": -0.35,
+    "sat": 0.45,
+    "temp": -0.15,
+    "contrast": 1.12
+   },
+   "grade_keys": [
+    [
+     26.84,
+     {
+      "ev": -0.35
+     }
+    ],
+    [
+     30.15,
+     {
+      "ev": -0.35
+     }
+    ],
+    [
+     30.95,
+     {
+      "ev": -9.0
+     }
+    ]
+   ],
+   "text": {
+    "pool": 1.0,
+    "glow": 0.4
+   },
+   "licence": "Mixkit 44398 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+  }
+ ],
+ "overlays": [
+  {
+   "src": "/home/user/film/v4/src/3987.mp4",
+   "start": 3.72,
+   "end": 4.5,
+   "in": 0.6,
+   "speed": 3.5,
+   "gain": 0.32,
+   "fade_in": 0.05,
+   "fade_out": 0.5,
+   "black": 0.03,
+   "tint": [
+    1.0,
+    0.86,
+    0.7
+   ]
+  },
+  {
+   "src": "/home/user/film/v4/src/4426.mp4",
+   "rotate": 90,
+   "start": 24.2,
+   "end": 25.52,
+   "in": 1.3,
+   "gain": 1.25,
+   "fade_in": 0.5,
+   "fade_out": 0.0,
+   "black": 0.3,
+   "tint": [
+    1.0,
+    0.85,
+    0.66
+   ]
   }
  ]
 }

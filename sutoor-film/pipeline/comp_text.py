@@ -16,7 +16,7 @@ per time range, how the type lives in that shot:
                "dof": {"focus": [[t, depth], ...], "strength": 26, "zone": 0.05, "max": 22},
                "atmo": {"src": clip, "in": s, "depth": 0.5, "soft": 0.12, "gain": 0.8, "tint": [r, g, b]},
                "soft": px blur at 4K, "shade": 0..1, "texture": 0..1, "glow": 0..1, "wrap": 0..1, "pool": 0..1,
-               "lit": {"lo": .03, "hi": .14}, "level": 1.0, "ink_rgb": [20, 14, 10],
+               "lit": {"lo": .03, "hi": .14, "floor": 0.0, "global": false}, "level": 1.0, "ink_rgb": [20, 14, 10],
                "reveal": {"src": clip, "in": s, "at": film_t, "dur": s, "lo": .1, "hi": .5, "invert": false}}]}
 
   occlude: what is nearer than the letters hides them (depth 1 = nearest), so a line can stand behind a
@@ -31,7 +31,7 @@ per time range, how the type lives in that shot:
   pool:    a soft darkening pooled under the line ONLY where the plate there is bright (measured),
            so the line stays readable over a white blaze or a sky without a caption box.
   lit:     the letters are only as visible as the light around them (a match, a candle, a fire brings
-           the line out of the dark and takes it back).
+           the line out of the dark and takes it back). "floor" is what they keep when the light has gone.
   reveal:  the luma of a REAL clip (ink blooming in water) lets the line appear.
 
 Usage: python comp_text.py PICTURE.mp4 TEXT_DIR COMP.json OUT.mp4 [--from T] [--to T] [--depth DIR] [--pic-start T]
@@ -349,7 +349,9 @@ def main() -> None:
                 lit = cfg.get("lit")
                 if lit:
                     src_l = float(P8[::8, ::8].mean()) / 255.0 if lit.get("global") else big  # the whole frame's light, or the light just there
-                    a = a * smoothstep(src_l, float(lit.get("lo", 0.03)), float(lit.get("hi", 0.14)))
+                    vis = smoothstep(src_l, float(lit.get("lo", 0.03)), float(lit.get("hi", 0.14)))
+                    fl = float(lit.get("floor", 0.0))  # the least the letters keep when the light has gone (they stay readable in the dark)
+                    a = a * (fl + (1 - fl) * vis)
                 a3 = a[..., None]
                 ref = float(cfg.get("shade_ref", 0.22))
                 shade = np.clip(1 + float(cfg["shade"]) * (big - ref) * 1.6, 0.72, 1.22)

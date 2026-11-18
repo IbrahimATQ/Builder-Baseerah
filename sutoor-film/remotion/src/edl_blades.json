@@ -9,7 +9,19 @@
      "text": "يُدَفِّنُ",
      "start": 1.841,
      "em": true
-    },
+    }
+   ],
+   "clear": 3.55,
+   "y": 0.455,
+   "x": 0.5,
+   "size": 200,
+   "out": 0.3,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v1a.1",
+   "words": [
     {
      "text": "بَعضُنا",
      "start": 2.402
@@ -19,16 +31,16 @@
      "start": 2.902
     }
    ],
-   "clear": 3.5,
-   "y": 0.535,
+   "clear": 3.55,
+   "y": 0.55,
    "x": 0.5,
-   "size": 88,
+   "size": 150,
    "out": 0.3,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v1a.1",
+   "id": "v1a.2",
    "words": [
     {
      "text": "وَتَمشي",
@@ -36,20 +48,32 @@
     }
    ],
    "clear": 4.62,
-   "y": 0.585,
+   "y": 0.765,
    "x": 0.5,
-   "size": 180,
-   "out": 0.08,
+   "size": 210,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v1b",
+   "id": "v1b.0",
    "words": [
     {
      "text": "أَواخِرُنا",
      "start": 4.683
-    },
+    }
+   ],
+   "clear": 5.3,
+   "y": 0.745,
+   "x": 0.5,
+   "size": 180,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v1b.1",
+   "words": [
     {
      "text": "عَلى",
      "start": 5.344
@@ -63,11 +87,11 @@
      "start": 5.904
     }
    ],
-   "clear": 6.284,
-   "y": 0.21,
+   "clear": 6.3,
+   "y": 0.66,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 150,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -79,11 +103,11 @@
      "start": 6.344
     }
    ],
-   "clear": 6.99,
-   "y": 0.7,
+   "clear": 7.36,
+   "y": 0.645,
    "x": 0.5,
-   "size": 170,
-   "out": 0.0,
+   "size": 180,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -92,23 +116,36 @@
    "words": [
     {
      "text": "المَشرَفِيَّةَ",
-     "start": 6.705
-    },
+     "start": 6.705,
+     "em": true
+    }
+   ],
+   "clear": 7.36,
+   "y": 0.76,
+   "x": 0.5,
+   "size": 180,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v2a.2",
+   "words": [
     {
      "text": "وَالعَوالي",
      "start": 7.465
     }
    ],
-   "clear": 8.486,
-   "y": 0.22,
+   "clear": 8.09,
+   "y": 0.5,
    "x": 0.5,
-   "size": 92,
-   "out": 0.1,
+   "size": 210,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v2b",
+   "id": "v2b.0",
    "words": [
     {
      "text": "وَتَقتُلُنا",
@@ -118,7 +155,19 @@
      "text": "المَنونُ",
      "start": 9.146,
      "em": true
-    },
+    }
+   ],
+   "clear": 10.58,
+   "y": 0.41,
+   "x": 0.5,
+   "size": 160,
+   "out": 0.3,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v2b.1",
+   "words": [
     {
      "text": "بِلا",
      "start": 9.647
@@ -128,40 +177,65 @@
      "start": 9.947
     }
    ],
-   "clear": 10.6,
-   "y": 0.585,
+   "clear": 10.58,
+   "y": 0.525,
    "x": 0.5,
-   "size": 86,
-   "out": 0.25,
+   "size": 160,
+   "out": 0.3,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v3a",
+   "id": "v3a.0",
    "words": [
     {
      "text": "وَنَرتَبِطُ",
      "start": 10.827
-    },
+    }
+   ],
+   "clear": 11.38,
+   "y": 0.775,
+   "x": 0.5,
+   "size": 180,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v3a.1",
+   "words": [
     {
      "text": "السَوابِقَ",
-     "start": 11.468
-    },
+     "start": 11.468,
+     "em": true
+    }
+   ],
+   "clear": 12.04,
+   "y": 0.775,
+   "x": 0.5,
+   "size": 180,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v3a.2",
+   "words": [
     {
      "text": "مُقرَباتٍ",
      "start": 12.128
     }
    ],
-   "clear": 13.089,
-   "y": 0.2,
+   "clear": 12.78,
+   "y": 0.775,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 180,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v3b",
+   "id": "v3b.0",
    "words": [
     {
      "text": "وَما",
@@ -170,7 +244,19 @@
     {
      "text": "يُنجينَ",
      "start": 13.409
-    },
+    }
+   ],
+   "clear": 14.34,
+   "y": 0.66,
+   "x": 0.5,
+   "size": 175,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v3b.1",
+   "words": [
     {
      "text": "مِن",
      "start": 13.89
@@ -178,27 +264,52 @@
     {
      "text": "خَبَبِ",
      "start": 14.07
-    },
-    {
-     "text": "اللَيالي",
-     "start": 14.41
     }
    ],
-   "clear": 15.19,
-   "y": 0.2,
+   "clear": 14.34,
+   "y": 0.77,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 175,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v4a",
+   "id": "v3b.2",
+   "words": [
+    {
+     "text": "اللَيالي",
+     "start": 14.41,
+     "em": true
+    }
+   ],
+   "clear": 14.95,
+   "y": 0.42,
+   "x": 0.5,
+   "size": 230,
+   "out": 0.14,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v4a.0",
    "words": [
     {
      "text": "وَهانَ",
      "start": 15.25
-    },
+    }
+   ],
+   "clear": 16.66,
+   "y": 0.685,
+   "x": 0.5,
+   "size": 220,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v4a.1",
+   "words": [
     {
      "text": "فَما",
      "start": 15.971
@@ -206,22 +317,35 @@
     {
      "text": "أُبالي",
      "start": 16.311
-    },
-    {
-     "text": "بِالرَزايا",
-     "start": 16.752
     }
    ],
-   "clear": 17.392,
-   "y": 0.2,
+   "clear": 16.66,
+   "y": 0.785,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 160,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v4b",
+   "id": "v4a.2",
+   "words": [
+    {
+     "text": "بِالرَزايا",
+     "start": 16.752,
+     "em": true
+    }
+   ],
+   "clear": 17.4,
+   "y": 0.62,
+   "x": 0.5,
+   "size": 220,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v4b.0",
    "words": [
     {
      "text": "لِأَنّي",
@@ -234,7 +358,19 @@
     {
      "text": "اِنتَفَعتُ",
      "start": 18.032
-    },
+    }
+   ],
+   "clear": 19.42,
+   "y": 0.665,
+   "x": 0.5,
+   "size": 140,
+   "out": 0.25,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v4b.1",
+   "words": [
     {
      "text": "بِأَن",
      "start": 18.513
@@ -244,49 +380,100 @@
      "start": 18.853
     }
    ],
-   "clear": 19.553,
-   "y": 0.2,
+   "clear": 19.42,
+   "y": 0.765,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 170,
+   "out": 0.25,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v5a",
+   "id": "v5a.0",
    "words": [
     {
      "text": "رَماني",
      "start": 19.613
-    },
+    }
+   ],
+   "clear": 20.15,
+   "y": 0.74,
+   "x": 0.5,
+   "size": 210,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v5a.1",
+   "words": [
     {
      "text": "الدَهرُ",
-     "start": 20.194
-    },
+     "start": 20.194,
+     "em": true
+    }
+   ],
+   "clear": 20.57,
+   "y": 0.52,
+   "x": 0.37,
+   "size": 230,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A",
+   "lead": 0.0
+  },
+  {
+   "id": "v5a.2",
+   "words": [
     {
      "text": "بِالأَرزاءِ",
      "start": 20.614
-    },
+    }
+   ],
+   "clear": 21.91,
+   "y": 0.675,
+   "x": 0.5,
+   "size": 190,
+   "out": 0.2,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v5a.3",
+   "words": [
     {
      "text": "حَتّى",
      "start": 21.615
     }
    ],
-   "clear": 21.935,
-   "y": 0.2,
+   "clear": 21.91,
+   "y": 0.775,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 160,
+   "out": 0.2,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v5b",
+   "id": "v5b.0",
    "words": [
     {
      "text": "فُؤادي",
-     "start": 21.995
-    },
+     "start": 21.995,
+     "em": true
+    }
+   ],
+   "clear": 22.56,
+   "y": 0.43,
+   "x": 0.5,
+   "size": 220,
+   "out": 0.12,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v5b.1",
+   "words": [
     {
      "text": "في",
      "start": 22.495
@@ -294,26 +481,39 @@
     {
      "text": "غِشاءٍ",
      "start": 22.656
-    },
+    }
+   ],
+   "clear": 23.66,
+   "y": 0.395,
+   "x": 0.5,
+   "size": 190,
+   "out": 0.1,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v5b.2",
+   "words": [
     {
      "text": "مِن",
      "start": 23.156
     },
     {
      "text": "نِبالِ",
-     "start": 23.336
+     "start": 23.336,
+     "em": true
     }
    ],
-   "clear": 23.676,
-   "y": 0.2,
+   "clear": 23.66,
+   "y": 0.52,
    "x": 0.5,
-   "size": 88,
+   "size": 200,
    "out": 0.1,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v6a",
+   "id": "v6a.0",
    "words": [
     {
      "text": "فَصِرتُ",
@@ -322,49 +522,88 @@
     {
      "text": "إِذا",
      "start": 24.137
-    },
+    }
+   ],
+   "clear": 25.48,
+   "y": 0.68,
+   "x": 0.5,
+   "size": 160,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v6a.1",
+   "words": [
     {
      "text": "أَصابَتني",
      "start": 24.397
     },
     {
      "text": "سِهامٌ",
-     "start": 25.017
+     "start": 25.017,
+     "em": true
     }
    ],
-   "clear": 25.518,
-   "y": 0.2,
+   "clear": 25.48,
+   "y": 0.78,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 160,
+   "out": 0.06,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
   {
-   "id": "v6b",
+   "id": "v6b.0",
    "words": [
     {
      "text": "تَكَسَّرَتِ",
      "start": 25.578
-    },
+    }
+   ],
+   "clear": 26.18,
+   "y": 0.72,
+   "x": 0.5,
+   "size": 200,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v6b.1",
+   "words": [
     {
      "text": "النِصالُ",
-     "start": 26.258
-    },
+     "start": 26.258,
+     "em": true
+    }
+   ],
+   "clear": 26.8,
+   "y": 0.72,
+   "x": 0.5,
+   "size": 220,
+   "out": 0.06,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v6b.2",
+   "words": [
     {
      "text": "عَلى",
      "start": 26.878
     },
     {
      "text": "النِصالِ",
-     "start": 27.099
+     "start": 27.099,
+     "em": true
     }
    ],
-   "clear": 28.799,
-   "y": 0.2,
+   "clear": 28.25,
+   "y": 0.735,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 200,
+   "out": 0.45,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -385,6 +624,38 @@
    "family": "ArefRuqaaB",
    "weight": 700,
    "color": "#FFE2B0"
+  },
+  {
+   "id": "credit1",
+   "words": [
+    {
+     "text": "شِعر: أبو الطيّب المتنبّي",
+     "start": 28.45
+    }
+   ],
+   "allAt": 28.45,
+   "rise": 0.6,
+   "clear": 30.55,
+   "out": 0.5,
+   "y": 0.715,
+   "size": 80,
+   "color": "#F2E6CF"
+  },
+  {
+   "id": "credit2",
+   "words": [
+    {
+     "text": "إلقاء: عبدالله العنزي",
+     "start": 28.75
+    }
+   ],
+   "allAt": 28.75,
+   "rise": 0.6,
+   "clear": 30.55,
+   "out": 0.5,
+   "y": 0.785,
+   "size": 72,
+   "color": "#F2E6CF"
   }
  ]
 }

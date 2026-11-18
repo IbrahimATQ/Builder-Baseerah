@@ -21,10 +21,11 @@ Plan (JSON):
               "window": {"cx": .5, "cy": .5, "fill": 1.0},
               "move": {"keys": [[film_t, zoom, cx, cy], ...]} | {"z": [a, b], "dx": [a, b], "dy": [a, b]},
               "shake": {"amp": 3.0, "rot": 0.15, "seed": 1},
-              "flip": false, "grade": {overrides}, "sharpen": 0.2,
+              "flip": false, "rotate": 0 | 90 | 270, "grade": {overrides}, "sharpen": 0.2,
+              "shock": {"at": film_t, "dur": 0.3, "amount": 0.015, "gain": 0.2},
               "trans": {"type": "cut|dissolve|dip|whip|zoom|flash|matte", "dur": 0.25, ...}}],
-   "overlays": [{"src", "start", "end", "in": 0, "mode": "screen", "gain": 1.0, "fade": 0.2, "flip": false,
-                 "black": 0.02}]}
+   "overlays": [{"src", "start", "end", "in": 0, "speed": 1.0, "mode": "screen", "gain": 1.0, "fade": 0.2,
+                 "fade_in": s, "fade_out": s, "flip": false, "black": 0.02, "tint": [r, g, b]}]}
 A transition belongs to the incoming shot and spans [start - dur/2, start + dur/2].
   whip : "dir": "left|right|up|down" (the way the picture travels), "ease": 3.0
   zoom : "factor": 3.0, "centre": [0.5, 0.5]
@@ -80,6 +81,9 @@ class Shot:
         self.d = d
         self.start, self.end = start, end
         self.W, self.H, self.fps_src, self.dur_src = probe(d["src"])
+        self.rot = int(d.get("rotate", 0)) % 360  # 90 or 270: a top-down shot has no "up", so a landscape one can fill a vertical frame uncropped
+        if self.rot in (90, 270):
+            self.W, self.H = self.H, self.W
         self.out_w, self.out_h, self.fps, self.scale = out_w, out_h, fps, scale
         win = d.get("window", {})
         self.cx, self.cy, self.fill = win.get("cx", 0.5), win.get("cy", 0.5), win.get("fill", 1.0)
@@ -184,7 +188,8 @@ class Reader:
         s1 = min(shot.dur_src, shot.src_time(t1 + 1.0 / shot.fps) + 4.0 / shot.fps_src)
         self.proc = subprocess.Popen(
             ["ffmpeg", "-v", "error", "-ss", f"{self.s0:.4f}", "-i", shot.d["src"], "-t", f"{max(s1 - self.s0, 0.2):.4f}",
-             "-vf", f"crop={self.bw}:{self.bh}:{self.bx}:{self.by},format=rgb24", "-f", "rawvideo", "-"],
+             "-vf", {90: "transpose=1,", 270: "transpose=2,", 180: "hflip,vflip,"}.get(shot.rot, "") + f"crop={self.bw}:{self.bh}:{self.bx}:{self.by},format=rgb24",
+             "-f", "rawvideo", "-"],
             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, bufsize=self.bw * self.bh * 3 * 2)
         self.k = -1
         self.buf: dict[int, np.ndarray] = {}
@@ -240,11 +245,14 @@ class Reader:
 class Clip:
     """A whole-frame helper clip (matte or overlay), decoded sequentially and fitted to the output frame."""
 
-    def __init__(self, src: str, s0: float, W: int, H: int, flip: bool = False, gray: bool = False):
+    def __init__(self, src: str, s0: float, W: int, H: int, flip: bool = False, gray: bool = False, rotate: int = 0):
         w, h, self.fps, self.dur = probe(src)
         self.W, self.H, self.s0 = W, H, s0
         aspect = W / H
         vf = []
+        if rotate % 360 in (90, 270):
+            vf.append("transpose=1" if rotate % 360 == 90 else "transpose=2")
+            w, h = h, w
         if w / h > aspect:
             cw = int(h * aspect) // 2 * 2
             vf.append(f"crop={cw}:{h}:{(w - cw) // 2}:0")
@@ -457,7 +465,18 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
                 u = ease((t - ks[j][0]) / max(ks[j + 1][0] - ks[j][0], 1e-6))
                 g = {**g, **{key: ks[j][1].get(key, g.get(key, 0)) + (ks[j + 1][1].get(key, g.get(key, 0)) - ks[j][1].get(key, g.get(key, 0))) * u
                             for key in set(ks[j][1]) | set(ks[j + 1][1])}}
-        return grade(np.ascontiguousarray(fr), g)
+        out = grade(np.ascontiguousarray(fr), g)
+        sk = sh.d.get("shock")  # a hit: the lens jolts (colour fringes that close, a breath of overexposure), then settles
+        if sk:
+            u = (t - float(sk.get("at", sh.start))) / max(float(sk.get("dur", 0.3)), 1e-3)
+            if 0 <= u < 1:
+                k = (1 - u) ** 2
+                am = float(sk.get("amount", 0.015)) * k
+                for c, sc in ((0, 1 + am), (2, 1 - am)):
+                    M = np.array([[sc, 0, W / 2 * (1 - sc)], [0, sc, H / 2 * (1 - sc)]], np.float32)
+                    out[..., c] = cv2.warpAffine(np.ascontiguousarray(out[..., c]), M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+                out = np.clip(out * (1 + float(sk.get("gain", 0.2)) * k), 0, 1)
+        return out
 
     light = []
     for fi in range(f0, f1):
@@ -472,7 +491,7 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
                 m = None
                 if tr.get("type") == "matte":
                     if j not in mattes:
-                        mattes[j] = Clip(tr["src"], float(tr.get("in", 0.0)), W, H, bool(tr.get("flip")), gray=True)
+                        mattes[j] = Clip(tr["src"], float(tr.get("in", 0.0)), W, H, bool(tr.get("flip")), gray=True, rotate=int(tr.get("rotate", 0)))
                     m = mattes[j].at(float(tr.get("in", 0.0)) + p * float(tr.get("span", dur)))
                     m = m[..., :1]
                 img = composite(image(j - 1, t), image(j, t), p, tr, 1.0 / (dur * fps), m)
@@ -485,12 +504,13 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
         for oi, ov in enumerate(overlays):
             if ov["start"] <= t < ov["end"]:
                 if oi not in ov_clips:
-                    ov_clips[oi] = Clip(ov["src"], float(ov.get("in", 0.0)) + (t - ov["start"]) * float(ov.get("speed", 1.0)), W, H, bool(ov.get("flip")))
+                    ov_clips[oi] = Clip(ov["src"], float(ov.get("in", 0.0)) + (t - ov["start"]) * float(ov.get("speed", 1.0)), W, H, bool(ov.get("flip")),
+                                        rotate=int(ov.get("rotate", 0)))
                 o = ov_clips[oi].at(float(ov.get("in", 0.0)) + (t - ov["start"]) * float(ov.get("speed", 1.0))).astype(np.float32) * (1 / 255.0)
                 blk = float(ov.get("black", 0.02))
                 o = np.clip((o - blk) / (1 - blk), 0, 1)
-                fd = float(ov.get("fade", 0.2))
-                env = min(1.0, (t - ov["start"]) / max(fd, 1e-3), (ov["end"] - t) / max(fd, 1e-3))
+                fd = float(ov.get("fade", 0.2))  # "fade_in" / "fade_out" override it (0 = the layer is cut with the picture)
+                env = min(1.0, (t - ov["start"] + 1e-6) / max(float(ov.get("fade_in", fd)), 1e-3), (ov["end"] - t) / max(float(ov.get("fade_out", fd)), 1e-3))
                 o = o * (float(ov.get("gain", 1.0)) * max(0.0, env))
                 if ov.get("tint"):
                     o = o * np.array(ov["tint"], np.float32)
