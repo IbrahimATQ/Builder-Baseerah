@@ -62,7 +62,7 @@
    0.8,
    0.62
   ],
-  "level": 0.3
+  "level": 0.4
  },
  "key": {
   "dir": [
@@ -104,7 +104,7 @@
     0.7,
     1.0
    ],
-   "scale": 0.6
+   "scale": 0.8
   }
  ],
  "flakes": {
@@ -129,10 +129,10 @@
   1.2,
   2.6
  ],
- "char_keep": 0.6,
+ "char_keep": 0.8,
  "exposure": 1.0,
  "drift_px": 1.0,
- "out": "/home/user/film/journey/burnr/burn1.mp4",
+ "out": "/home/user/film/journey/burnr/burn1_v3.mp4",
  "light_grad": [
   0.75,
   1.15,
@@ -220,5 +220,8 @@
  },
  "frag_glow": 0.0,
  "afterglow": 0.45,
- "rim_w_scale": 2.6
+ "rim_w_scale": 2.6,
+ "frag_n_scale": 0.45,
+ "char_level": 0.016,
+ "flame_win_w": 0.45
 }

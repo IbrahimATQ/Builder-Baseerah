@@ -6,7 +6,7 @@
 - "Do not use the same scene … different burning stuff … as cinematic as possible."
 - "I did not like the cinematic appearance of each footage … just like a video with a text in front of it. We need to feel like a cinematic 4K journey of this poem … make it related, make it sensible."
 
-The first cut of this edition went to an independent four-critic review: a first-time viewer, a cinematographer, an Arabic calligrapher and a sound mixer. Each major finding was then re-checked by adversarial verifiers. The scores were 5, 5, 6 and 7 out of 10. This document describes the revised film, and section 7 lists every verified finding and what was done about it.
+The first cut of this edition went to an independent four-critic review: a first-time viewer, a cinematographer, an Arabic calligrapher and a sound mixer. Each major finding was then re-checked by adversarial verifiers. The scores were 5, 5, 6 and 7 out of 10. The revised cut went to a second, fresh panel (the same four lenses plus a regression check of every round-1 row). It scored 5, 5, 8.5 and 6.5, with 6 for the regression check. Its verified findings were again about the burns and the look. This document describes the film after both rounds: section 7 lists the round-1 findings and section 7b the round-2 findings, with what was done about each.
 
 ## 1. The scream: found, removed, and checked with a control
 **What it was.** It was not a second voice in the recitation. It was the forge clip's own audio (Smithy: steel forging, used as hammer sound in the Ember and Paper reels). That audio holds a pitched, pulsing tone near 2.6 kHz for about 2.5 s, which is heard as a scream under the words. The clip's audio is gone from this edition. Every effect is a licensed Mixkit sound with one job: a footstep, a buckle, a blade, a spear-shaft knock, rain, surf, fire, wind, a splash, steam. Whinnies, bird calls, whistling wind and anything that could hold a human voice are banned.
@@ -68,34 +68,35 @@ One journey across two days. Cuts fall in the pauses, except the three strikes o
 | 2 | 4.45–7.65 | أَواخِرُنا عَلى هامِ الأَوالي | Through the smoke: the living reflected upside down beneath wet paving. A foot lands in the puddle on «هامِ» and the words ripple. | Mixkit 1324 |
 | 3 | 7.65–9.10 | نُعِدُّ المَشرَفِيَّةَ | A man readies the horse; a blade is heard being drawn | Mixkit 100653 |
 | 4 | 9.10–10.15 | وَالعَوالي | The same horse, saddled; a spear-shaft knock lands on the cut | Mixkit 100655 |
-| 5 | 10.15–12.55 | وَتَقتُلُنا المَنونُ بِلا قِتالِ | The stable's candle shrinks and dies just after «قِتالِ»; the letters die with it | Mixkit 3458 |
-| 6 | 12.55–15.70 | وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ | The same horse's eye behind the stall bars, in black and white; the words rack into focus with it | Mixkit 100639 |
-| 7 | 15.70–19.65 | وَما يُنجينَ مِن خَبَبِ اللَيالي | Night overtakes the Alhambra; the floodlights come on under «اللَيالي», which lights up warm; distant hooves | Mixkit 4013 |
+| 5 | 10.15–12.95 | وَتَقتُلُنا المَنونُ بِلا قِتالِ | The stable's candle, framed close, shrinks and dies just after «قِتالِ»; the letters die with it | Mixkit 3458 |
+| 6 | 12.95–15.70 | وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ | The same horse's eye behind the stall bars, in black and white; the words rack into focus with it | Mixkit 100639 |
+| 7 | 15.70–19.65 | وَما يُنجينَ مِن خَبَبِ اللَيالي | Night overtakes the Alhambra; the floodlights come on under «اللَيالي», which lights up warm; distant hooves. The 30 fps timelapse plays at 0.8×, one source frame per film frame (no dropped-frame stutter) | Mixkit 4013 |
 | 8 | 19.65–21.70 | وَهانَ فَما أُبالي بِالرَزايا | Blue hour before dawn: a heron unmoved as the sea breaks behind it, in true slow motion. Where the foam rises through the words it washes over them, and they come back. | Mixkit 1906 |
 | 9 | 21.70–24.95 | لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي | **Burn II**: a letter laid on a shore fire's coals. It browns from the edge nearest the coals while he speaks, then catches from that edge in slow real flames. | Mixkit 3443; flames 52292; smoke 50956, 3452 |
 | 10–12 | 24.95–27.75 | رَماني الدَهرُ بِالأَرزاءِ حَتّى | Three cuts on three words, each a strike: drops landing like arrows; each strike ripples the line | Mixkit 2208, 3903, 1751 |
-| 13 | 27.75–30.40 | فُؤادي في غِشاءٍ مِن نِبالِ | A green heart caged in a sheath of spines, still beaded with rain | Mixkit 1890 |
-| 14 | 30.40–33.15 | فَصِرتُ إِذا أَصابَتني سِهامٌ | A lone rock vanishes under a breaking wave and is still there. The wave washes over the words. The camera then descends. | Mixkit 51506 |
-| 15 | 33.15–40.60 | تَكَسَّرَتِ النِصالُ عَلى النِصالِ | **Burn III**: a thick handmade sheet, pierced by arrows, on a sea boulder at night (sequence below). | Mixkit 1081 (re-timed); flames 3764, 52292; sparks 3463; smoke and steam 50956 |
-| 16 | 40.60–44.00 | credits | The names in Aref Ruqaa, in the red of cooled iron | — |
+| 13 | 27.75–30.40 | فُؤادي في غِشاءٍ مِن نِبالِ | A cactus heart caged in a sheath of amber-lit spines, still beaded with rain | Mixkit 1890 |
+| 14 | 30.40–33.15 | فَصِرتُ إِذا أَصابَتني سِهامٌ | A lone rock vanishes under a breaking wave and is still there. Once «سِهامٌ» is spoken the wave washes the words away, and the camera pushes in as the day sinks to night | Mixkit 51506 |
+| 15 | 33.15–40.60 | تَكَسَّرَتِ النِصالُ عَلى النِصالِ | **Burn III**: a thick handmade sheet, pierced by arrows, lying on the sea rocks at night with the surf in frame (sequence below). | Mixkit 1081 (4K, re-timed); flames 3764, 52292; sparks 3463; smoke 50956; steam 3452 |
+| 16 | 40.60–44.00 | credits | The names in Aref Ruqaa, in ember orange, on a grained black | — |
 
 Burn III, step by step:
-- The whole line stays readable on the firelit sheet until 0.4 s after he finishes it.
-- Then every arrow hole catches at once, and the fire grows outward from the wounds.
-- Only «النِصالِ» survives, as glowing ember strokes on a ragged piece of char, and it breathes with three gusts.
-- The sea's own surge, real water from the plate, then sweeps in and puts it out. Steam rises.
+- The sheet lies slightly turned and bowed on the rock, lit by the same cool moonlight as the rocks around it, with the surf moving at the foot of the frame.
+- The whole line stays readable on the sheet until he finishes it and 0.3 s more.
+- Then every arrow hole catches at once and the fire eats outward from the wounds along ragged fronts. Each flame is its own piece of real fire, and the firelight falls on the rock.
+- Only «النِصالِ» survives, as glowing ember strokes on a pale ash flake, and it breathes with three gusts.
+- The sea's own surge, real water from the plate, sweeps in. The ember dims as the spray reaches it, and the water puts it out. Steam rises over the dark rock.
 
 **Three burns, three different scenes:**
 
 | | Burn I | Burn II | Burn III |
 |---|---|---|---|
-| Object | Manuscript strip, bent over a leaf | Folded letter, in perspective on the coal bed | Pierced handmade sheet |
-| Ground | Leaves (real dolly, stabilised on the leaf) | Coals | Sea boulder at night |
-| Light | Low sun, rim-lit torn edge | Coal glow from beneath | Moon and firelight |
+| Object | Manuscript strip, bent over a leaf | Folded letter, sagging in perspective on the coal bed | Pierced handmade sheet, turned and bowed on the rock |
+| Ground | Leaves (real dolly, stabilised on the leaf) | Coals (red, all warm) | Sea rocks at night, surf in frame (cold blue) |
+| Light | Low sun, rim-lit torn edge | Coal glow from below and along the edge nearest the coals | Moonlight on sheet and rock alike, then firelight |
 | Fire | Ragged smoulder line, front reads the line | Scorch from the coal side, then a catch | All arrow holes ignite at once, burning outward |
 | Ending | «وَتَمشي» survives into the walkers | Flames take the letter | One word survives; the real surge quenches it |
 
-Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7.py`). The ground, flames, smoke, sparks and water are real footage.
+Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7.py`). The ground, flames, smoke, sparks and water are real footage. Each flame on a burning edge is its own window of a real flame clip, with its own start frame, mirror, scale and lean, and an alpha taken from its own light and feathered on every side. Burn II's big catch flame rises only from the part of the letter that is burning, and its edges are drawn by the flames' own tongues.
 
 **Fire timing.** For every word, the renderer logs when the fire first touches its ink (`word_first_burn_s`), and QC checks it against when the word is spoken.
 
@@ -103,7 +104,8 @@ Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7
 **One system, one place.**
 - The sadr (first half of the verse) is centred at 19 % of the frame height and the ajuz (second half) at 27 %.
 - Each word appears at its aligned onset with a 0.18 s ink-bleed.
-- During the ajuz the sadr stays above it at 45 %. Over a bright plate it rises to 57 %, measured under that line.
+- During the ajuz the sadr stays above it at 45 %. Over a bright plate it rises to 57 %, and over a near-black plate to 62 %, measured under that line.
+- Where a half-line is written on burning paper, only one kind of lettering is on screen at a time. Burn I's line, once burnt, does not come back as a recall. Over Burns II and III the overlay half-line fades out as the burn shot begins.
 - A soft shade appears only where the plate under the lines is bright, measured per line rather than as the frame average.
 
 **The picture acts on the words**, driven by measurement. `build_picture.py` records, per frame, the brightness under each line and the share of foam-white pixels in the text zone.
@@ -114,7 +116,7 @@ Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7
 | Candle | The words hold until «قِتالِ» is spoken, then die with the flame |
 | Horse's eye | The words rack into focus with the shot |
 | Alhambra | The floodlights light «اللَيالي» |
-| Heron and rock | Where foam rises through the text zone it washes over the words; they come back when it clears |
+| Heron and rock | Where foam rises through the text zone it washes over the words; they come back when it clears. On the rock the wash waits until «سِهامٌ» has been spoken |
 | Rain | Each arrow-drop strike ripples the line |
 | The three burns | The line is written on the paper itself |
 
@@ -160,8 +162,8 @@ _(picture QC: filled in from the final QC run)_
 - **Footage resolution:**
   - 4K sources are cropped to 9:16.
   - The 1080p sources (4013, 1906, 2208) are scaled about 3.5×.
-  - The burns are rendered at 1620×2880.
-- **Camera moves.** Digital moves only for the descent onto the rock and the push onto the last word.
+  - Burns I and II are rendered at 1620×2880. Burn III, the closing scene, is rendered at full 2160×3840 on the native 4K plate.
+- **Camera moves.** Digital moves only for the push onto the rock and the push onto the last word (at most 1.4× on the 4K Burn III).
 - **Grade.** One filmic curve, halation and vignette for the whole film, with a common black floor.
 - **Post caption.** The full licence list is in `output/Nisal-ala-Nisal_Journey_post-caption.txt`.
 

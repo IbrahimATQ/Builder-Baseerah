@@ -8,6 +8,10 @@
    12.9
   ],
   [
+   32.8,
+   33.6
+  ],
+  [
    40.4,
    44.0
   ]
@@ -42,7 +46,7 @@
    },
    "sharpen": 0,
    "blend": false,
-   "licence": "Render (paper_burn7) on Mixkit 1692 still; flames Mixkit 3764; smoke Mixkit 50956 + 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+   "licence": "Render (paper_burn7) on Mixkit 1692 (live plate); flames Mixkit 3764; smoke Mixkit 50956 + 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "P1324",
@@ -102,7 +106,7 @@
     ]
    },
    "grade": {
-    "ev": -0.35,
+    "ev": -0.55,
     "sat": 0.72,
     "temp": 0.35
    },
@@ -129,7 +133,7 @@
     ]
    },
    "grade": {
-    "ev": -0.35,
+    "ev": -0.55,
     "sat": 0.72,
     "temp": 0.35
    },
@@ -197,7 +201,7 @@
    "id": "A4013",
    "line": "v3b",
    "src": "/home/user/film/journey/src/4013.mp4",
-   "in": 6.55,
+   "in": 6.89,
    "start": 15.7,
    "trans": {
     "type": "cut",
@@ -223,7 +227,8 @@
     "sat": 0.85
    },
    "sharpen": 0.15,
-   "licence": "Mixkit 4013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+   "licence": "Mixkit 4013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
+   "speed": 0.8
   },
   {
    "id": "S1906",
@@ -247,9 +252,9 @@
     ]
    },
    "grade": {
-    "ev": -1.25,
-    "sat": 0.4,
-    "temp": -0.5,
+    "ev": -1.7,
+    "sat": 0.55,
+    "temp": -0.7,
     "floor": 0.05,
     "contrast": 1.08
    },
@@ -280,7 +285,7 @@
    },
    "sharpen": 0,
    "blend": false,
-   "licence": "Render (paper_burn7) on Mixkit 3443; flames Mixkit 52292; smoke Mixkit 50956 + 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+   "licence": "Render (paper_burn7) on Mixkit 3443; flames Mixkit 52292 + 3764; smoke Mixkit 50956 + 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
   {
    "id": "R2208",
@@ -364,7 +369,7 @@
     "temp": -0.3,
     "contrast": 1.3,
     "black": 0.0,
-    "floor": 0.17
+    "floor": 0.24
    },
    "licence": "Mixkit 1751 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   },
@@ -428,11 +433,13 @@
     ]
    },
    "grade": {
-    "ev": -0.7,
+    "ev": -0.9,
     "sat": 0.55,
-    "temp": -0.35
+    "temp": -0.35,
+    "floor": 0.12
    },
-   "licence": "Mixkit 51506 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+   "licence": "Mixkit 51506 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)",
+   "toBlack": 0.3
   },
   {
    "id": "B3",
@@ -456,21 +463,21 @@
      ],
      [
       36.3,
-      1.0,
+      1.05,
       0.5,
-      0.5
+      0.47
      ],
      [
       38.5,
-      1.55,
-      0.3,
-      0.4
+      1.35,
+      0.32,
+      0.45
      ],
      [
       40.6,
-      1.6,
-      0.3,
-      0.4
+      1.4,
+      0.32,
+      0.45
      ]
     ]
    },
@@ -480,7 +487,7 @@
     "split": 0.3
    },
    "toBlack": 0.3,
-   "licence": "Render (paper_burn7) on Mixkit 2189; flames Mixkit 3764 + 52292; sparks 3463; smoke 50956 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
+   "licence": "Render (paper_burn7) on Mixkit 1081; flames Mixkit 3764 + 52292; sparks 3463; smoke 50956; steam 3452 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
   }
  ],
  "verses": {
@@ -490,13 +497,13 @@
    "hide": [
     "a"
    ],
-   "recallHidden": true,
+   "recallHidden": false,
    "lumRef": 0.16,
    "ripples": [
     {
      "t": 6.0,
-     "amp": 9,
-     "dur": 0.9
+     "amp": 16,
+     "dur": 1.1
     }
    ]
   },
@@ -557,10 +564,11 @@
    "lumRef": 0.18,
    "clear": 24.3,
    "wash": {
-    "lo": 0.24,
-    "hi": 0.4,
+    "lo": 0.22,
+    "hi": 0.36,
     "band": "a"
-   }
+   },
+   "recallUntil": 22.0
   },
   "5": {
    "mode": "light",
@@ -569,17 +577,17 @@
    "ripples": [
     {
      "t": 24.96,
-     "amp": 12,
+     "amp": 18,
      "dur": 0.5
     },
     {
      "t": 25.62,
-     "amp": 12,
+     "amp": 18,
      "dur": 0.5
     },
     {
      "t": 26.01,
-     "amp": 12,
+     "amp": 18,
      "dur": 0.65
     }
    ]
@@ -591,13 +599,14 @@
     "b"
    ],
    "lumRef": 0.16,
-   "recallUntil": 35.85,
+   "recallUntil": 33.15,
    "clear": 35.5,
    "wash": {
     "lo": 0.3,
     "hi": 0.6,
     "band": "a"
-   }
+   },
+   "washFrom": 32.72
   }
  },
  "tints": [

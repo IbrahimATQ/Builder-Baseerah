@@ -1,8 +1,8 @@
 {
  "line": "تَكَسَّرَتِ النِصالُ عَلى النِصالِ",
  "size": [
-  1620,
-  2880
+  2160,
+  3840
  ],
  "fps": 24,
  "duration": 7.45,
@@ -10,10 +10,10 @@
  "seed": 31,
  "paper": "deckle",
  "paper_wh": [
-  940,
+  840,
   400
  ],
- "font_size": 92,
+ "font_size": 84,
  "ink_rgb": [
   10,
   8,
@@ -22,20 +22,20 @@
  "ink_density": 1.0,
  "quad": [
   [
-   72,
-   560
+   105.6,
+   595.0
   ],
   [
-   1010,
-   541
+   910.0,
+   545.8
   ],
   [
-   1019,
-   939
+   951.4,
+   944.0
   ],
   [
-   81,
-   958
+   113.0,
+   995.2
   ]
  ],
  "lift_dir": [
@@ -45,14 +45,15 @@
  "lift_k": 0.3,
  "curl_gain": 1.0,
  "wounds": {
-  "n": 14,
+  "n": 7,
   "seed": 7,
   "r": [
-   10,
-   16
+   14,
+   22
   ],
   "keepout_px": 14,
-  "min_gap_px": 70
+  "min_gap_px": 120,
+  "ring_glow": 0.5
  },
  "wound_ignite": {
   "t": 35.72,
@@ -60,23 +61,24 @@
   "spread_px_s": 120,
   "seed": 5,
   "pre": {
-   "n": 3,
+   "n": 2,
    "t": 33.0,
    "speed_px_s": 10,
    "max_r": 55
-  }
+  },
+  "jitter_fine": 0.12
  },
  "plate": {
-  "src": "/home/user/film/journey/plates/b3_rock.mp4",
+  "src": "/home/user/film/journey/plates/b3_rock4k.mp4",
   "in": 0.0,
-  "gain": 0.25,
+  "gain": 0.55,
   "tint": [
    0.62,
    0.78,
    1.0
   ],
-  "sat": 0.45,
-  "fire_relight": 1.4
+  "sat": 0.55,
+  "fire_relight": 3.0
  },
  "ambient": {
   "rgb": [
@@ -84,7 +86,7 @@
    0.72,
    1.0
   ],
-  "level": 0.1
+  "level": 0.18
  },
  "key": {
   "dir": [
@@ -101,15 +103,15 @@
   "env": [
    [
     33.15,
-    0.8
+    0.2
    ],
    [
     35.7,
-    0.9
+    0.25
    ],
    [
     36.2,
-    1.0
+    0.9
    ],
    [
     37.2,
@@ -117,11 +119,11 @@
    ],
    [
     38.6,
-    0.22
+    0.2
    ],
    [
     40.6,
-    0.15
+    0.12
    ]
   ]
  },
@@ -140,12 +142,12 @@
     0.0
    ],
    [
-    36.3,
-    0.5
+    36.15,
+    0.55
    ],
    [
     36.8,
-    0.6
+    0.62
    ],
    [
     38.6,
@@ -164,10 +166,13 @@
  },
  "water_over": {
   "t0": 37.9,
-  "lo": 0.42,
-  "hi": 0.72,
+  "lo": 0.4,
+  "hi": 0.74,
+  "blur": 4,
   "gain": 1.0,
-  "water_gain": 1.0
+  "water_gain": 1.0,
+  "near_px": 60,
+  "near_gain": 2.5
  },
  "max_flames": 14,
  "flame_window": 0.4,
@@ -182,7 +187,7 @@
     0.7,
     1.0
    ],
-   "scale": 0.6
+   "scale": 1.0
   },
   {
    "src": "/home/user/film/journey/src/52292.mp4",
@@ -190,13 +195,13 @@
     0.35,
     1.0
    ],
-   "scale": 0.6
+   "scale": 0.8
   }
  ],
  "sparks": {
   "src": "/home/user/film/journey/burn/3463-1080.mp4",
   "in": 1.0,
-  "gain": 0.8,
+  "gain": 0.4,
   "env": [
    [
     33.15,
@@ -204,18 +209,18 @@
    ],
    [
     35.7,
-    0.12
+    0.1
    ],
    [
     36.3,
-    0.9
+    0.8
    ],
    [
-    37.1,
-    0.35
+    36.9,
+    0.3
    ],
    [
-    37.7,
+    37.25,
     0.0
    ]
   ]
@@ -260,37 +265,38 @@
    ]
   },
   {
-   "src": "/home/user/film/journey/burn/50956-2160.mp4",
-   "in": 9.0,
-   "gain": 1.4,
+   "src": "/home/user/film/journey/src/3452.mp4",
+   "in": 0.5,
+   "black": 0.35,
+   "gain": 0.9,
+   "follow": false,
+   "offset": [
+    -120,
+    -200
+   ],
+   "rx": 380,
+   "ry": 420,
    "tint": [
-    0.9,
+    0.92,
     0.95,
     1.0
    ],
-   "follow": false,
-   "offset": [
-    -250,
-    -230
-   ],
-   "rx": 420,
-   "ry": 700,
    "env": [
     [
-     38.5,
+     38.8,
      0.0
     ],
     [
-     38.8,
-     1.3
+     39.1,
+     1.0
     ],
     [
-     39.6,
-     0.7
+     39.8,
+     0.8
     ],
     [
      40.6,
-     0.25
+     0.45
     ]
    ]
   }
@@ -307,7 +313,7 @@
   1.3
  ],
  "char_keep": 0.08,
- "bite_after": 1.2,
+ "bite_after": 0.4,
  "frag_glow": 0.0,
  "afterglow": 0.5,
  "afterglow_s": 1.2,
@@ -315,8 +321,8 @@
   0.2,
   1
  ],
- "shadow_px": 5,
- "shadow_gain": 0.9,
+ "shadow_px": 6,
+ "shadow_gain": 0.7,
  "dof": {
   "ends_px": 1.5,
   "all_px": 0.5,
@@ -325,8 +331,35 @@
  "light_height": 90,
  "exposure": 1.0,
  "drift_px": 0.5,
- "fire_light_gain": 0.5,
- "glow_light": 0.05,
- "out": "/home/user/film/journey/burnr/burn3.mp4",
- "rim_gain": 0.75
+ "fire_light_gain": 1.0,
+ "glow_light": 0.15,
+ "out": "/home/user/film/journey/burnr/burn3_v3.mp4",
+ "rim_gain": 0.6,
+ "bend": {
+  "amp": 7,
+  "waves": 0.7,
+  "phase": 0.5,
+  "shade": 0.12
+ },
+ "ember_bed": {
+  "ash": 0.07,
+  "t0": 0.6,
+  "t1": 1.8
+ },
+ "flame_scale_range": [
+  0.55,
+  1.45
+ ],
+ "flame_win_w": 0.4,
+ "flame_seed": 23,
+ "shadow_soft": 10,
+ "shadow_core": 0.25,
+ "bite_px": [
+  15,
+  60
+ ],
+ "frag_warp_px": 14,
+ "rim_w_scale": 0.75,
+ "bite_spread": 0.7,
+ "flame_max_frames": 180
 }

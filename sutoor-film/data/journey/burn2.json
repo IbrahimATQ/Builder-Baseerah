@@ -63,7 +63,7 @@
    1
   ],
   "sat": 1.0,
-  "fire_relight": 1.0
+  "fire_relight": 2.2
  },
  "ambient": {
   "rgb": [
@@ -71,10 +71,10 @@
    0.8,
    0.92
   ],
-  "level": 0.14
+  "level": 0.08
  },
  "underlight": {
-  "gain": 0.8,
+  "gain": 0.7,
   "env": [
    [
     21.7,
@@ -88,6 +88,13 @@
     24.4,
     0.0
    ]
+  ],
+  "edge_mix": 0.65,
+  "edge_px": 45,
+  "rgb": [
+   1.0,
+   0.25,
+   0.05
   ]
  },
  "catch": {
@@ -97,7 +104,9 @@
    "t0": 21.7,
    "t1": 24.1,
    "amount": 0.85,
-   "edge_bias": 0.65
+   "edge_bias": 0.65,
+   "grain_px": 40,
+   "grain_k": 0.5
   }
  },
  "sheet_fire": {
@@ -139,7 +148,10 @@
   ],
   "t": 24.1,
   "fade_bottom": 0.3,
-  "fade_sides": 0.16
+  "fade_sides": 0.16,
+  "follow_burn": true,
+  "rise_px": 420,
+  "feather_px": 45
  },
  "max_flames": 6,
  "flame_window": 0.45,
@@ -154,7 +166,15 @@
     0.35,
     1.0
    ],
-   "scale": 0.6
+   "scale": 0.8
+  },
+  {
+   "src": "/home/user/film/journey/src/3764.mp4",
+   "crop": [
+    0.7,
+    1.0
+   ],
+   "scale": 1.0
   }
  ],
  "smokes": [
@@ -170,26 +190,26 @@
    "follow": false,
    "offset": [
     0,
-    -750
+    -950
    ],
    "rx": 700,
-   "ry": 700,
+   "ry": 600,
    "env": [
     [
      21.7,
-     0.5
+     0.3
     ],
     [
      24.1,
-     0.8
+     0.5
     ],
     [
      24.5,
-     1.4
+     1.2
     ],
     [
      24.95,
-     1.2
+     1.1
     ]
    ]
   },
@@ -197,7 +217,7 @@
    "src": "/home/user/film/journey/src/3452.mp4",
    "in": 2.0,
    "black": 0.2,
-   "gain": 0.35,
+   "gain": 0.25,
    "tint": [
     0.95,
     0.92,
@@ -206,10 +226,10 @@
    "follow": false,
    "offset": [
     0,
-    -650
+    -900
    ],
    "rx": 700,
-   "ry": 600,
+   "ry": 550,
    "env": [
     [
      21.7,
@@ -233,7 +253,7 @@
   0.55,
   1.1
  ],
- "char_keep": 0.55,
+ "char_keep": 0.3,
  "bite_after": 0.25,
  "ash_ink_gloss": 0.014,
  "shadow_dir": [
@@ -249,12 +269,12 @@
  },
  "exposure": 1.0,
  "drift_px": 0.5,
- "out": "/home/user/film/journey/burnr/burn2.mp4",
+ "out": "/home/user/film/journey/burnr/burn2_v3.mp4",
  "light_grad": [
-  0.85,
+  0.9,
   1.05,
-  0.2,
-  0.0
+  0.06,
+  -0.35
  ],
  "origin": [
   0.5,
@@ -262,5 +282,31 @@
  ],
  "fire_light_gain": 1.0,
  "frag_glow": 0.0,
- "afterglow": 0.6
+ "afterglow": 0.6,
+ "bite_px": [
+  15,
+  55
+ ],
+ "bite_spread": 0.5,
+ "flame_win_w": 0.45,
+ "frag_warp_px": 12,
+ "key": {
+  "dir": [
+   0.0,
+   1.0
+  ],
+  "rgb": [
+   1.0,
+   0.5,
+   0.24
+  ],
+  "level": 0.42,
+  "relief": 0.6
+ },
+ "bend": {
+  "amp": 6,
+  "waves": 0.6,
+  "phase": 0.3,
+  "shade": 0.1
+ }
 }

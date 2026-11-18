@@ -57,7 +57,8 @@ type JVerse = {
     readonly recallUntil?: number; // the recall fades out by this time
     readonly focus?: readonly (readonly [number, number])[]; // keyframed lens blur (px): the words rack into focus with the shot
     readonly ripples?: readonly { readonly t: number; readonly amp: number; readonly dur: number }[]; // a drop or a step ripples the letters
-    readonly wash?: boolean | { readonly lo: number; readonly hi: number; readonly band?: "a" | "b" }; // the sea washes over the words (they come back): true = foam share in the text zone; {lo, hi, band} = brightness under that line rising from lo to hi
+    readonly wash?: boolean | { readonly lo: number; readonly hi: number; readonly band?: "a" | "b" };
+    readonly washFrom?: number; // the wash may not touch the words before this time (a key word is still being spoken) // the sea washes over the words (they come back): true = foam share in the text zone; {lo, hi, band} = brightness under that line rising from lo to hi
   };
 };
 type Overlay = {
@@ -192,12 +193,15 @@ const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; rec
   const on = interpolate(t, [a, a + 0.18], [0, 1], { ...clamp, easing: SOFT });
   // during the ajuz the sadr stays above it as a recall at 45 %
   const band = bandAt(t);
-  const recallLvl = 0.45 + 0.12 * Math.max(0, Math.min(1, (band.a - 0.35) / 0.25)); // a brighter plate keeps the recall readable
+  // a brighter plate keeps the recall readable; over a near-black plate it may stay a little brighter too
+  const recallLvl = 0.45 + 0.12 * Math.max(0, Math.min(1, (band.a - 0.35) / 0.25)) + 0.17 * Math.max(0, Math.min(1, (0.3 - band.a) / 0.2));
   const recall = recallFrom === null ? 1 : interpolate(t, [recallFrom, recallFrom + 0.4], [1, recallLvl], { ...clamp, easing: SOFT });
   const wsh = v.style.wash;
-  const washK = !wsh ? 0 : wsh === true
+  const washRaw = !wsh ? 0 : wsh === true
     ? Math.max(0, Math.min(1, (band.foam - 0.04) / 0.22))
     : Math.max(0, Math.min(1, ((wsh.band === "b" ? band.b : band.a) - wsh.lo) / Math.max(1e-3, wsh.hi - wsh.lo)));
+  const washGate = v.style.washFrom === undefined ? 1 : interpolate(t, [v.style.washFrom, v.style.washFrom + 0.2], [0, 1], clamp);
+  const washK = washRaw * washGate;
   const lens = keyed(v.style.focus, t, 0) + 5 * washK;
   // the verse leaves in the pause, in reading order, over ~0.7 s
   const k = (t - (v.clear + (idx / Math.max(1, count)) * 0.25)) / 0.45;
@@ -374,7 +378,7 @@ const Credits: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", flexDirection: "column", gap: 16 }}>
       {lines.map((l, i) => (
-        <div key={l} style={{ fontFamily: "ArefRuqaaJ", fontSize: 66, color: "#C0654A", direction: "rtl", opacity: 0.97 * o(i * 0.3), textShadow: "0 0 22px rgba(170,60,20,0.40)" }}>
+        <div key={l} style={{ fontFamily: "ArefRuqaaJ", fontSize: 72, color: "#E0895C", direction: "rtl", opacity: 0.97 * o(i * 0.3), textShadow: "0 0 24px rgba(200,80,25,0.45)" }}>
           {l}
         </div>
       ))}
