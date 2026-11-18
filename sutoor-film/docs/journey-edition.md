@@ -81,7 +81,7 @@ One journey across two days. Cuts fall in the pauses, except the three strikes o
 
 Burn III, step by step:
 - The sheet lies slightly turned and bowed on the rock, lit by the same cool moonlight as the rocks around it, with the surf moving at the foot of the frame.
-- The whole line stays readable on the sheet until he finishes it and 0.3 s more.
+- The whole line stays readable on the sheet until 0.6 s after he finishes it.
 - Then every arrow hole catches at once and the fire eats outward from the wounds along ragged fronts. Each flame is its own piece of real fire, and the firelight falls on the rock.
 - Only «النِصالِ» survives, as glowing ember strokes on a pale ash flake, and it breathes with three gusts.
 - The sea's own surge, real water from the plate, sweeps in. The ember dims as the spray reaches it, and the water puts it out. Steam rises over the dark rock.
@@ -152,17 +152,33 @@ $V $R/pipeline/scream_check.py $A/mix3 /home/user/film/journey/scream_check3.jso
 ```
 The score: `cd $A && SCORE_EDITION=journey QUENCH_T=38.75 CREDITS_T=40.5 $V $R/pipeline/compose_score.py $R/data/timing_journey.json score`.
 
-_(picture QC: filled in from the final QC run)_
+**Picture QC** (`/home/user/film/journey/qc/qc_journey.json`): **20 of 20 checks pass**
+- **Text:** every verse matches the supplied text in Unicode with its harakat. Each word appears at its aligned onset, and verses never overlap.
+- **Picture:** no unintended black (the candle's death at 12.0–12.7 and the credits are the only black), no frozen picture, and no photosensitive flash failure.
+- **Audio:** −14.45 LUFS, −1.5 dBTP, no clipping. The film's audio carries the original voice (correlation 0.957, lag 3 ms).
+- **Licences:** every shot has a licence record, and no source footage is reused.
+- **Master:** 2160×3840 H.264 High, 44.0 s, 475 MB. A 1080×1920 share copy of 50 MB is also provided.
+
+**Fire never touches a word before it is spoken** (`journey_qc_extra.json`; the renderer logs each word's first-burn time):
+- **Burn I:** the margins are 0.41, 0.89, 0.76 and 0.85 s.
+- **Burn II:** 0.85–2.03 s.
+- **Burn III:** the title line is held whole until 0.61 s after he finishes it. The margins are 2.02, 1.49, 1.17 and 0.61 s.
+- In Burn III every wound clears all ink by at least 56 px at render size.
+
+**Black levels by shot** (share of pixels at video black; mean luma):
+- **Burn III:** 18 %, mean 34.6. It was 41 % before, mean 31.9.
+- **Candle:** 65 %, by design: it is a flame in the dark.
+- **Every other shot:** 12 % or less, apart from the rock shot's planned sink to black at its end.
 
 ## 7. The review: verified findings and what was done
 | Finding (severity) | Done |
 |---|---|
 | Burn III: composited look; no visible water; dark box around the surviving word; quench was a fade; climax nearly black (blocker) | Rebuilt on a real moving plate of sea boulders (1081), re-timed so the sea's own surge arrives at the quench. Lit sheet; the char breaks into irregular pieces with no box; the real water quenches it; steam |
-| The poem's title line never readable in full (blocker) | Held whole and clean until 0.4 s after it is spoken (fire first touches it at 35.97 s; the line ends at 35.45 s) |
+| The poem's title line never readable in full (blocker) | Held whole and clean until 0.6 s after it is spoken (fire first touches it at 36.05 s; the line ends at 35.45 s) |
 | The last word lost the dot of its nun to an arrow hole (blocker) | Wounds are kept clear of all ink, dots and harakat by their radius plus a margin (closest clearance 40 px at render size); the dot glows |
 | Burn II looked pasted on: flat card, round scorch discs, rectangle catch, hollow-polygon ash (major) | Perspective on the coal plane, curl, coal underlight. Scorch spreads irregularly from the coal edge. The catch spreads from that edge over 0.85 s. No outline shapes; ash is grey, tumbling flakes; embers cluster |
 | Burns share a procedural look: uniform neon edge, polygon ash, straight char (major) | The burning edge varies in width and brightness; embers stay in fresh char; fragment-outline glow removed; each burn has its own fire grammar |
-| Burn I: a frozen still; flat strip; fire ate the first and last words as he spoke them; opened from black (major) | Live plate, stabilised on the leaf (real parallax); the strip bends over the leaf with a rim-lit edge; the front reaches each word only after it is spoken (first touches: 2.68, 2.98, 3.74 s, last word not before the cut); opens on a lit frame |
+| Burn I: a frozen still; flat strip; fire ate the first and last words as he spoke them; opened from black (major) | Live plate, stabilised on the leaf (real parallax); the strip bends over the leaf with a rim-lit edge; the front reaches each word only after it is spoken (first touches: 2.50, 3.49, 3.72 and 5.19 s, against word ends of 2.08, 2.60, 2.96 and 4.34 s); opens on a lit frame |
 | Text still read as subtitles (major) | The picture now acts on the words (section 5) |
 | Black levels differed from shot to shot; rain shot milky; night cut to the brightest shot (major) | Black floors matched (the rain shots pulled down 9–17 %); the heron graded as blue hour before dawn; the cactus back to green |
 | Smoke wipe was a 3-frame glitch; two muddy dissolves (major and minor) | A 14-frame smoke wipe; the dissolves replaced by cuts in the pauses |
