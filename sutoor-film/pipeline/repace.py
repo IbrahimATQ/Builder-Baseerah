@@ -27,6 +27,9 @@ SR = 48000
 
 
 def stretch(src: str, dst: str, tempo: float) -> None:
+    if abs(tempo - 1.0) < 1e-6:  # pauses only: the voice is not processed at all
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-af", f"aresample={SR}", "-c:a", "pcm_f32le", dst], check=True)
+        return
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-af",
                     f"aresample={SR},rubberband=tempo={tempo}:transients=mixed:detector=compound:phase=laminar"
                     ":window=standard:pitchq=quality:channels=together",
