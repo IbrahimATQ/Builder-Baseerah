@@ -1,0 +1,341 @@
+{
+ "fps": 24,
+ "duration": 31.0,
+ "lines": [
+  {
+   "id": "v1a",
+   "words": [
+    {
+     "text": "يُدَفِّنُ",
+     "start": 1.841,
+     "em": true
+    },
+    {
+     "text": "بَعضُنا",
+     "start": 2.402
+    },
+    {
+     "text": "بَعضاً",
+     "start": 2.902
+    },
+    {
+     "text": "وَتَمشي",
+     "start": 4.063
+    }
+   ],
+   "clear": 4.623,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v1b",
+   "words": [
+    {
+     "text": "أَواخِرُنا",
+     "start": 4.683
+    },
+    {
+     "text": "عَلى",
+     "start": 5.344
+    },
+    {
+     "text": "هامِ",
+     "start": 5.624
+    },
+    {
+     "text": "الأَوالي",
+     "start": 5.904
+    }
+   ],
+   "clear": 6.284,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v2a",
+   "words": [
+    {
+     "text": "نُعِدُّ",
+     "start": 6.344
+    },
+    {
+     "text": "المَشرَفِيَّةَ",
+     "start": 6.705
+    },
+    {
+     "text": "وَالعَوالي",
+     "start": 7.465
+    }
+   ],
+   "clear": 8.486,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v2b",
+   "words": [
+    {
+     "text": "وَتَقتُلُنا",
+     "start": 8.546
+    },
+    {
+     "text": "المَنونُ",
+     "start": 9.146,
+     "em": true
+    },
+    {
+     "text": "بِلا",
+     "start": 9.647
+    },
+    {
+     "text": "قِتالِ",
+     "start": 9.947
+    }
+   ],
+   "clear": 10.767,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v3a",
+   "words": [
+    {
+     "text": "وَنَرتَبِطُ",
+     "start": 10.827
+    },
+    {
+     "text": "السَوابِقَ",
+     "start": 11.468
+    },
+    {
+     "text": "مُقرَباتٍ",
+     "start": 12.128
+    }
+   ],
+   "clear": 13.089,
+   "out": 0.1,
+   "y": 0.105,
+   "size": 92,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v3b",
+   "words": [
+    {
+     "text": "وَما",
+     "start": 13.149
+    },
+    {
+     "text": "يُنجينَ",
+     "start": 13.409
+    },
+    {
+     "text": "مِن",
+     "start": 13.89
+    },
+    {
+     "text": "خَبَبِ",
+     "start": 14.07
+    },
+    {
+     "text": "اللَيالي",
+     "start": 14.41,
+     "em": true
+    }
+   ],
+   "clear": 15.19,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v4a",
+   "words": [
+    {
+     "text": "وَهانَ",
+     "start": 15.25
+    },
+    {
+     "text": "فَما",
+     "start": 15.971
+    },
+    {
+     "text": "أُبالي",
+     "start": 16.311,
+     "em": true
+    },
+    {
+     "text": "بِالرَزايا",
+     "start": 16.752
+    }
+   ],
+   "clear": 17.392,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v4b",
+   "words": [
+    {
+     "text": "لِأَنّي",
+     "start": 17.452
+    },
+    {
+     "text": "ما",
+     "start": 17.952
+    },
+    {
+     "text": "اِنتَفَعتُ",
+     "start": 18.032
+    },
+    {
+     "text": "بِأَن",
+     "start": 18.513
+    },
+    {
+     "text": "أُبالي",
+     "start": 18.853
+    }
+   ],
+   "clear": 19.553,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v5a",
+   "words": [
+    {
+     "text": "رَماني",
+     "start": 19.613
+    },
+    {
+     "text": "الدَهرُ",
+     "start": 20.194,
+     "em": true
+    },
+    {
+     "text": "بِالأَرزاءِ",
+     "start": 20.614
+    },
+    {
+     "text": "حَتّى",
+     "start": 21.615
+    }
+   ],
+   "clear": 21.935,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v5b",
+   "words": [
+    {
+     "text": "فُؤادي",
+     "start": 21.995
+    },
+    {
+     "text": "في",
+     "start": 22.495
+    },
+    {
+     "text": "غِشاءٍ",
+     "start": 22.656
+    },
+    {
+     "text": "مِن",
+     "start": 23.156
+    },
+    {
+     "text": "نِبالِ",
+     "start": 23.336,
+     "em": true
+    }
+   ],
+   "clear": 23.676,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v6a",
+   "words": [
+    {
+     "text": "فَصِرتُ",
+     "start": 23.736
+    },
+    {
+     "text": "إِذا",
+     "start": 24.137
+    },
+    {
+     "text": "أَصابَتني",
+     "start": 24.397
+    },
+    {
+     "text": "سِهامٌ",
+     "start": 25.017
+    }
+   ],
+   "clear": 25.518,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v6b",
+   "words": [
+    {
+     "text": "تَكَسَّرَتِ",
+     "start": 25.578
+    },
+    {
+     "text": "النِصالُ",
+     "start": 26.258
+    },
+    {
+     "text": "عَلى",
+     "start": 26.878
+    },
+    {
+     "text": "النِصالِ",
+     "start": 27.099,
+     "em": true
+    }
+   ],
+   "clear": 29.139,
+   "out": 0.1,
+   "y": 0.22,
+   "size": 88,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  }
+ ]
+}

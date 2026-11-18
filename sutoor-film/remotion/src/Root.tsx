@@ -3,6 +3,7 @@ import { edl } from "./edl";
 import { Film } from "./Film";
 import { Ember, reelDurationInFrames, reelFps } from "./Ember";
 import { Journey, journeyDurationInFrames, journeyFps } from "./Journey";
+import { BladesText, bladesDurationInFrames, bladesFps } from "./BladesText";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -48,6 +49,14 @@ export const RemotionRoot: React.FC = () => {
         component={Journey}
         durationInFrames={journeyDurationInFrames}
         fps={journeyFps}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="BladesText"
+        component={BladesText}
+        durationInFrames={bladesDurationInFrames}
+        fps={bladesFps}
         width={1080}
         height={1920}
       />
