@@ -50,9 +50,10 @@ shots = [
      "grade_keys": [[0.0, {"ev": -2.2}], [0.13, {"ev": -0.1}]],  # two frames up from dark, never a black first frame
      "text": {"glow": 0.5, "pool": 1.2, "occlude": {"type": "luma", "lo": 0.7, "hi": 0.96, "gain": 0.75, "blur": 2.0}}},
     # ---------------------------------------------------------------- 1  we bury one another; the last walk on the first
-    {"id": "earth", "src": clip(2851), "lic": 2851, "start": 1.78, "in": 1.15, "speed": 0.8008, "window": {"cx": 0.5, "cy": 0.7, "fill": 1.2},
-     # a tool breaks dark earth at dusk (a 29.97 fps clip played frame for frame); the hourglass stays the film's only falling sand
-     "move": {"z": [1.0, 1.06]}, "grade": {"ev": -1.0, "sat": 0.45, "temp": -0.3, "contrast": 1.1}, "text": {"glow": 0.4, "pool": 0.5}},
+    {"id": "earth", "src": clip(2851), "lic": 2851, "start": 1.78, "in": 17.05, "speed": 0.8008, "window": {"cx": 0.64, "cy": 0.615, "fill": 1.3},
+     # a hand smooths earth over at dusk: one whole gesture, in and out (a 29.97 fps clip played frame for frame, so 0.8 speed);
+     # the words lie in the ground under the hand. The hourglass stays the film's only falling sand
+     "move": {"z": [1.0, 1.05]}, "grade": {"ev": -1.15, "sat": 0.5, "temp": 1.2, "tint": 3.5, "contrast": 1.1}, "text": {"glow": 0.4, "pool": 0.6}},
     {"id": "walk", "src": clip("1013-11"), "lic": 1013, "start": 3.76, "in": 0.2, "window": {"cx": 0.33},  # 1013 from 0.7 s, its cadence evened (even_cadence.py)
      "move": {"z": [1.0, 1.07]}, "shake": {"amp": 3, "seed": 5}, "grade": {"ev": -0.35, "sat": 0.6, "temp": 0.05},
      "text": {"pool": 0.7, "glow": 0.3}},
@@ -134,7 +135,7 @@ shots = [
 # transition's first half. "clear"/"out" in extra override that. "at": {word: time} shows a word before it is
 # spoken (a rhyme word brought on with the word before it).
 lines = {
-    "v1a": {"em": [0], "parts": [(0, 1, 0.265, 200, {}), (1, 3, 0.385, 150, {}), (3, 4, 0.73, 210, {"clear": 4.62, "out": 0.1})]},
+    "v1a": {"em": [0], "parts": [(0, 1, 0.668, 190, {}), (1, 3, 0.782, 150, {}), (3, 4, 0.73, 210, {"clear": 4.62, "out": 0.1})]},
     "v1b": {"parts": [(0, 1, 0.73, 190, {}), (1, 4, 0.66, 150, {"at": {3: 5.624}})]},
     "v2a": {"em": [1], "parts": [(0, 1, 0.645, 180, {}), (1, 2, 0.76, 180, {}), (2, 3, 0.5, 210, {})]},
     "v2b": {"em": [1], "parts": [(0, 2, 0.41, 160, {"clear": 10.58, "out": 0.3}), (2, 4, 0.525, 160, {"clear": 10.58, "out": 0.3})]},
@@ -145,7 +146,7 @@ lines = {
     "v5a": {"em": [1], "parts": [(0, 1, 0.71, 210, {}), (1, 2, 0.52, 230, {"x": 0.37, "lead": 0.0}),  # «الدَهرُ» is printed on the dial: it cannot come before the dial
                                  (2, 3, 0.7, 200, {"lead": 0.0}), (3, 4, 0.318, 150, {})]},
     "v5b": {"em": [0, 4], "parts": [(0, 1, 0.44, 220, {}), (1, 3, 0.43, 190, {}), (3, 5, 0.685, 200, {"at": {4: 23.156}})]},  # the sun (the heart) sits between the two rows
-    "v6a": {"em": [3], "parts": [(0, 2, 0.655, 160, {"x": 0.6}), (2, 4, 0.775, 160, {"x": 0.6})]},
+    "v6a": {"em": [3], "parts": [(0, 2, 0.655, 130, {"x": 0.72}), (2, 4, 0.775, 145, {"x": 0.655})]},  # both rows inside his shoulder, clear of the smoke (the tall ٌ of «سِهامٌ» included)
     "v6b": {"em": [1, 3], "parts": [(0, 1, 0.72, 200, {"breakAt": 25.95}),  # the word that means "shattered" cracks before the cut takes it
                                     (1, 2, 0.72, 220, {}), (2, 4, 0.735, 200, {"clear": 28.25, "out": 0.45})]},
 }
