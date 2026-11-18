@@ -589,8 +589,11 @@ def main(cfg_p: str) -> None:
             if t >= qa - 0.2:
                 prog = np.clip((t - qa) / float(quench.get("slide", 0.6)), 0, 1)
                 d_ = (gx * quench.get("dir", [1, 0])[0] + gy * quench.get("dir", [1, 0])[1]) / (W * abs(quench.get("dir", [1, 0])[0]) + H * abs(quench.get("dir", [1, 0])[1]))
-                wf = np.clip((prog * 1.3 - d_) / 0.05, 0, 1)[..., None]
-                edge_ = np.exp(-((prog * 1.3 - d_) / 0.012) ** 2)[..., None]
+                if "q_wave" not in locals():  # a ragged water edge, not a ruler line
+                    q_wave = (cv2.resize(noise((H // 16, W // 16), np.random.default_rng(77), 5, 3), (W, H)) - 0.5) * 0.16
+                d_ = d_ + q_wave + 0.02 * np.sin(gy / H * 2 * np.pi * 4 + t * 3)
+                wf = np.clip((prog * 1.3 - d_) / 0.08, 0, 1)[..., None]
+                edge_ = 0.6 * np.exp(-((prog * 1.3 - d_) / 0.03) ** 2)[..., None]
                 region = (patch_mask[..., None] if patch_mask is not None else 1.0)
                 frame = frame * (1 - 0.18 * wf * region) + edge_ * region * (0.05 + 0.3 * fire)
         bq = cv2.resize(fl + p_em * p_a[..., None], (W // q, H // q), interpolation=cv2.INTER_AREA)

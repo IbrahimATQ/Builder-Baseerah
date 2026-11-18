@@ -226,8 +226,19 @@ const VerseBlock: React.FC<{ v: JVerse; isLast: boolean }> = ({ v, isLast }) => 
   const fs = s.size ?? 86;
   const sadrOp = hidden("a") ? interpolate(t, [sadrFrom, sadrFrom + 0.4], [0, 1], clamp) : 1;
   const recallEnd = s.recallUntil !== undefined ? interpolate(t, [s.recallUntil - 0.4, s.recallUntil], [1, 0], clamp) : 1;
+  // a soft, lens-like darkening of the text zone that appears only over bright plates (wet street, surf)
+  const { lum: zl } = lightAt(t);
+  const on0 = interpolate(t, inc([shown[0].start - 0.5, shown[0].start + 0.1, v.clear + 0.5, v.clear + 1.0]), [0, 1, 1, 0], clamp);
+  const shadeA = Math.max(0, Math.min(0.42, (zl - 0.11) * 2.4)) * on0 * (s.shade ?? 1);
   return (
     <AbsoluteFill>
+      {shadeA > 0.01 ? (
+        <AbsoluteFill
+          style={{
+            background: `radial-gradient(ellipse 78% 11% at 50% ${(((ya + yb) / 2 / 1920) * 100).toFixed(2)}%, rgba(0,0,0,${shadeA.toFixed(3)}) 0%, rgba(0,0,0,${(shadeA * 0.55).toFixed(3)}) 50%, rgba(0,0,0,0) 100%)`,
+          }}
+        />
+      ) : null}
       <div style={{ ...lineStyle, top: ya - fs * 0.62, opacity: sadrOp * recallEnd, height: fs * 1.5, paddingTop: fs * 0.12 }}>
         {la.map((w, i) => (
           <SpokenWord key={`a${i}`} w={hidden("a") ? { ...w, start: Math.max(w.start, sadrFrom) } : w} v={v} idx={i} count={all.length} recallFrom={recallAt} />
