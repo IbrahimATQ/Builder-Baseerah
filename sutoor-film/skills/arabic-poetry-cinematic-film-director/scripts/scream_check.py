@@ -42,35 +42,36 @@ def separate(wav: str, model: str, out_dir: str) -> dict[str, str]:
     return out
 
 
-def tonal_runs(y, sr=16000, fmin=150, fmax=4000, prom=3.0, tol=0.08, min_run=0.8, gap=3):
-    """Runs of a stable, prominent narrowband component (a held pitched sound) in [fmin, fmax], allowing
-    short dropouts (up to `gap` frames). Calibrated: it flags the forge sound that was heard as a scream
-    in the earlier reels (a 2.5 s held tone near 2.6 kHz) and passes noise beds and short impacts."""
+def tonal_runs(y, sr=16000, fmin=150, fmax=4000, prom=6.0, frac=0.30, win_s=1.0, local_bins=25):
+    """Held or pulsing pitched tones: within any `win_s` window, a frequency bin (+/-1 bin) that stands
+    > `prom` x above its local spectral neighbourhood (~1/3 octave, so sloping noise never counts) in
+    more than `frac` of the frames. Calibrated on this production: the forge sound heard as a scream in
+    the earlier reels is a pulsing cluster near 2.4-3.8 kHz present in 30-40 % of frames at > 8x;
+    surf, wind, rain, fire and the effects used here stay below."""
     import librosa
+    from scipy.ndimage import maximum_filter, median_filter, uniform_filter1d
     hop = 320
     S = np.abs(librosa.stft(y, n_fft=4096, hop_length=hop))
     fr = librosa.fft_frequencies(sr=sr, n_fft=4096)
     band = (fr >= fmin) & (fr <= fmax)
     rms = 20 * np.log10(librosa.feature.rms(y=y, frame_length=4096, hop_length=hop)[0] + 1e-9)
     Sb, fb = S[band], fr[band]
-    k, pk, med = Sb.argmax(0), Sb.max(0), np.median(Sb, 0) + 1e-9
-    ok = (pk / med > prom) & (rms[: len(pk)] > rms.max() - 40)
-    f = fb[k]
-    out, i, n = [], 0, len(ok)
-    while i < n:
-        if not ok[i]:
-            i += 1
-            continue
-        s0, last, f0 = i, i, f[i]
-        j = i + 1
-        while j < n and j - last <= gap:
-            if ok[j] and abs(f[j] - f0) / f0 < tol:
-                last, f0 = j, 0.8 * f0 + 0.2 * f[j]
-            j += 1
-        if (last - s0) * hop / sr >= min_run:
-            out.append((s0 * hop / sr, (last - s0) * hop / sr, float(np.median(f[s0:last + 1]))))
-        i = last + 1
-    return sorted(out, key=lambda r: -r[1])
+    ratio = Sb / (median_filter(Sb, size=(int(local_bins), 1), mode="nearest") + 1e-9)
+    act = rms[: ratio.shape[1]] > rms.max() - 40
+    hot = maximum_filter((ratio > prom) & act[None, :], size=(3, 1)).astype(np.float32)
+    w = max(3, int(win_s * sr / hop))
+    dens = uniform_filter1d(hot, size=w, axis=1, mode="constant")
+    out = []
+    flagged = dens > frac
+    for b in np.flatnonzero(flagged.any(axis=1)):
+        ts = np.flatnonzero(flagged[b])
+        out.append((float(ts[0] * hop / sr - win_s / 2), float((ts[-1] - ts[0]) * hop / sr + win_s), float(fb[b]), float(dens[b].max())))
+    out.sort(key=lambda r: -r[3])
+    merged = []
+    for r in out:
+        if not any(abs(r[0] - m[0]) < 1.0 and abs(r[2] - m[2]) / m[2] < 0.15 for m in merged):
+            merged.append(r)
+    return [(a, d, f) for a, d, f, _ in merged]
 
 
 def short_term(y: np.ndarray, sr: int, win: float = 0.4) -> list[float]:
