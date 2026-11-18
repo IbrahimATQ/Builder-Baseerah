@@ -121,7 +121,18 @@ Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7
 **Colour.** The words take each shot's key light. One grain pass covers picture and text together.
 
 ## 6. Results
-_(filled in from the final QC run)_
+**Scream check** (`/home/user/film/journey/scream_check2.json`): **PASS**
+- **Remainder of the mix (no voice bus):** music, ambience and effects measure −27.9 LUFS. Its vocal stem never reaches the loudness gate at any point, and peaks at −68.7 dBFS. 0 % of frames are pitched.
+- **Positive control:** a voice planted at −30 LUFS at 16.0 s was found at −27.7 LUFS. The detector can hear a voice in this bed.
+- **Effects and ambience:** no held pitched tone.
+- **Voice bus:** its backing stem is −64.1 LUFS integrated, peak −46.6 dBFS.
+
+**Mix** (`audio/mix2/mix_report.json`):
+- The voice sits 14.0 dB over the music in all 12 hemistichs.
+- It sits 12.0–13.8 dB over everything else.
+- The master is −14.4 LUFS integrated, −1.6 dBTP.
+
+_(picture QC: filled in from the final QC run)_
 
 ## 7. The review: verified findings and what was done
 | Finding (severity) | Done |
