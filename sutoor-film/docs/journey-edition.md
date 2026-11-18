@@ -123,16 +123,34 @@ Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7
 **Colour.** The words take each shot's key light. One grain pass covers picture and text together.
 
 ## 6. Results
-**Scream check** (`/home/user/film/journey/scream_check2.json`): **PASS**
-- **Remainder of the mix (no voice bus):** music, ambience and effects measure −27.9 LUFS. Its vocal stem never reaches the loudness gate at any point, and peaks at −68.7 dBFS. 0 % of frames are pitched.
-- **Positive control:** a voice planted at −30 LUFS at 16.0 s was found at −27.7 LUFS. The detector can hear a voice in this bed.
+**Scream check** (`/home/user/film/journey/scream_check3.json`, on the final mix3): **PASS**
+- **Remainder of the mix (no voice bus):** music, ambience and effects. Its vocal stem stays 12 dB under the loudness gate at its highest point (−54.3 LUFS short-term at 25.6 s, a sliver of the second arrow whip) and has 0 % pitched frames.
+- **Positive control:** a voice planted at −30 LUFS was found at −27.7 LUFS. The detector can hear a voice in this bed.
 - **Effects and ambience:** no held pitched tone.
-- **Voice bus:** its backing stem is −64.1 LUFS integrated, peak −46.6 dBFS.
+- **Voice bus:** its backing stem is −64.1 LUFS integrated.
 
-**Mix** (`audio/mix2/mix_report.json`):
+**Mix** (`audio/mix3/mix_report.json`):
 - The voice sits 14.0 dB over the music in all 12 hemistichs.
 - It sits 12.0–13.8 dB over everything else.
 - The master is −14.4 LUFS integrated, −1.6 dBTP.
+
+**Round-2 sound changes** (`data/journey/sfx_spec.json`; the effects track keeps its overall loudness, so every untouched effect sits at exactly its previous level):
+- **The wave before the title line** (2411, the storm swell into the cut) now fades in over 0.5 s and ends at the cut, 33.15 s. Beds in 32.9–33.45 s peak at −22.0 LUFS momentary, 10 dB under «تَكَسَّرَتِ» (was 6.5 dB). Nothing of it runs into the line.
+- **The ignition** (35.95 s) has its own sound: a fire swoosh catching (1328) and a crackle swell (1736) peaking at 36.46 s. The master reaches −19.0 LUFS momentary there, against a flat −22 before.
+- **The surge** hits as the water reaches the word: the splash (1311) lands at 38.88 s (was 38.60), steam at 38.85 s. A breaking wave (1206) crests at 39.70 s with the whitewater, so the climax sustains at about −19.6 LUFS instead of dying away.
+- **The candle whoosh** now starts at 12.16 s, after «قِتالِ», and peaks at 12.37 s as the flame dies. The voice is 11.1 dB over everything else on the word (was 7.2).
+- **The three arrow whips** are three different sounds (1487, 1471, 1461), correlation 0.07–0.16 (was 1.00), each on exactly the same frame as before.
+
+Rebuild:
+```
+V=/home/user/film/venv/bin/python; R=/home/user/Builder-Baseerah/sutoor-film; A=/home/user/film/journey/audio
+$V $R/pipeline/build_sfx.py $R/data/journey/sfx_spec.json $A/sfx_raw3.wav
+$V $R/pipeline/build_sfx.py $R/data/journey/amb_spec.json $A/ambience_raw.wav
+ffmpeg -v error -y -i $A/ambience_raw.wav -af "acompressor=threshold=-34dB:ratio=3:attack=20:release=400:makeup=1" -c:a pcm_f32le $A/ambience_bed.wav
+$V $R/pipeline/mix_journey.py $R/data/timing_journey.json /home/user/film/journey/voice/voice_edges.wav $A/score/score.wav $A/ambience_bed.wav $A/sfx_raw3.wav $A/mix3
+$V $R/pipeline/scream_check.py $A/mix3 /home/user/film/journey/scream_check3.json
+```
+The score: `cd $A && SCORE_EDITION=journey QUENCH_T=38.75 CREDITS_T=40.5 $V $R/pipeline/compose_score.py $R/data/timing_journey.json score`.
 
 _(picture QC: filled in from the final QC run)_
 
