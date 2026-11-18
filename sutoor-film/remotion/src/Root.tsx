@@ -2,6 +2,7 @@ import { Composition } from "remotion";
 import { edl } from "./edl";
 import { Film } from "./Film";
 import { Ember, reelDurationInFrames, reelFps } from "./Ember";
+import { Journey, journeyDurationInFrames, journeyFps } from "./Journey";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -41,6 +42,14 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={{ which: "paper" as const }}
+      />
+      <Composition
+        id="NisalJourney"
+        component={Journey}
+        durationInFrames={journeyDurationInFrames}
+        fps={journeyFps}
+        width={1080}
+        height={1920}
       />
     </>
   );
