@@ -3,11 +3,12 @@
  "duration": 31.0,
  "lines": [
   {
-   "id": "v1a",
+   "id": "v1a.0",
    "words": [
     {
      "text": "يُدَفِّنُ",
-     "start": 1.841
+     "start": 1.841,
+     "em": true
     },
     {
      "text": "بَعضُنا",
@@ -16,17 +17,29 @@
     {
      "text": "بَعضاً",
      "start": 2.902
-    },
+    }
+   ],
+   "clear": 3.5,
+   "y": 0.535,
+   "x": 0.5,
+   "size": 88,
+   "out": 0.3,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v1a.1",
+   "words": [
     {
      "text": "وَتَمشي",
      "start": 4.063
     }
    ],
-   "clear": 4.623,
-   "y": 0.2,
+   "clear": 4.62,
+   "y": 0.585,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 180,
+   "out": 0.08,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -51,7 +64,7 @@
     }
    ],
    "clear": 6.284,
-   "y": 0.2,
+   "y": 0.21,
    "x": 0.5,
    "size": 88,
    "out": 0.1,
@@ -59,12 +72,24 @@
    "emColor": "#FFD79A"
   },
   {
-   "id": "v2a",
+   "id": "v2a.0",
    "words": [
     {
      "text": "نُعِدُّ",
      "start": 6.344
-    },
+    }
+   ],
+   "clear": 6.99,
+   "y": 0.7,
+   "x": 0.5,
+   "size": 170,
+   "out": 0.0,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
+  },
+  {
+   "id": "v2a.1",
+   "words": [
     {
      "text": "المَشرَفِيَّةَ",
      "start": 6.705
@@ -75,9 +100,9 @@
     }
    ],
    "clear": 8.486,
-   "y": 0.2,
+   "y": 0.22,
    "x": 0.5,
-   "size": 88,
+   "size": 92,
    "out": 0.1,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
@@ -91,7 +116,8 @@
     },
     {
      "text": "المَنونُ",
-     "start": 9.146
+     "start": 9.146,
+     "em": true
     },
     {
      "text": "بِلا",
@@ -102,11 +128,11 @@
      "start": 9.947
     }
    ],
-   "clear": 10.767,
-   "y": 0.2,
+   "clear": 10.6,
+   "y": 0.585,
    "x": 0.5,
-   "size": 88,
-   "out": 0.1,
+   "size": 86,
+   "out": 0.25,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
   },
@@ -352,8 +378,8 @@
    ],
    "allAt": 0.3,
    "rise": 0.5,
-   "clear": 1.78,
-   "out": 0.12,
+   "clear": 1.76,
+   "out": 0.1,
    "y": 0.4,
    "size": 210,
    "family": "ArefRuqaaB",

@@ -69,10 +69,22 @@ def main() -> None:
             clear = (nxt - 0.06) if nxt is not None else ws[-1]["end"] + 1.2
         em = cfg.pop("em", None)
         em = [em] if isinstance(em, int) else (em or [])
-        line = {"id": lid, "words": [{"text": w["word"], "start": round(w["start"], 3), **({"em": True} if k in em else {})} for k, w in enumerate(ws)],
-                "clear": round(clear, 3), **{k: v for k, v in cfg.items() if k != "hide"}}
-        lines.append(line)
-        qc_lines.append({"id": lid, "words": [{"text": w["word"], "start": w["start"], "end": w["end"]} for w in ws], "clear": line["clear"]})
+        parts = cfg.pop("parts", None)  # [{"words": [a, b], ...layout}]: the hemistich set as several blocks (a word alone on its own shot)
+        base = {k: v for k, v in cfg.items() if k != "hide"}
+        if parts:
+            for pi, part in enumerate(parts):
+                a, b = part["words"]
+                pc = {**base, **{k: v for k, v in part.items() if k != "words"}}
+                p_clear = pc.pop("clear", None)
+                if p_clear is None:
+                    p_clear = (ws[b]["start"] - 0.06) if b < len(ws) else clear
+                lines.append({"id": f"{lid}.{pi}", "words": [{"text": w["word"], "start": round(w["start"], 3), **({"em": True} if k in em else {})}
+                                                              for k, w in enumerate(ws) if a <= k < b],
+                              "clear": round(p_clear, 3), **pc})
+        else:
+            lines.append({"id": lid, "words": [{"text": w["word"], "start": round(w["start"], 3), **({"em": True} if k in em else {})} for k, w in enumerate(ws)],
+                          "clear": round(clear, 3), **base})
+        qc_lines.append({"id": lid, "words": [{"text": w["word"], "start": w["start"], "end": w["end"]} for w in ws], "clear": round(clear, 3)})
     lines += plan.get("extra_lines", [])
     json.dump({"fps": fps, "duration": dur, "lines": lines}, open(edl_p, "w"), ensure_ascii=False, indent=1)
 

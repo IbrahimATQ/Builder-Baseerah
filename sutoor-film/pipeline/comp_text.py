@@ -199,6 +199,11 @@ def main() -> None:
                             "-vf", "scale=in_range=pc:out_range=tv:out_color_matrix=bt709",
                             "-c:v", "libx264", "-preset", "medium", "-crf", "12", "-pix_fmt", "yuv420p", "-color_range", "tv",
                             "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-movflags", "+faststart", out_p], stdin=subprocess.PIPE)
+    text_index: dict[int, str] = {}  # film frame -> PNG (Remotion zero-pads the frame number to the sequence's width)
+    for f in glob.glob(os.path.join(text_dir, "element-*.png")):
+        m = re.search(r"element-(\d+)\.png$", f)
+        if m:
+            text_index[int(m.group(1))] = f
     trackers: dict[int, Tracker] = {}
     clips: dict[tuple[int, str], object] = {}
     stats = {"frames": 0, "with_text": 0, "occluded_frames": 0, "tracked_frames": 0, "lens_frames": 0, "atmo_frames": 0}
@@ -271,8 +276,8 @@ def main() -> None:
         atmo_first = bool(atmo) and (text_depth is None or float(atmo.get("depth", 0.5)) <= float(text_depth))
         if atmo and atmo_first:
             P8 = atmosphere(P8, cfg, ri, t, D)
-        tp = os.path.join(text_dir, f"element-{fi}.png")
-        T = cv2.imread(tp, cv2.IMREAD_UNCHANGED) if os.path.exists(tp) else None
+        tp = text_index.get(fi)
+        T = cv2.imread(tp, cv2.IMREAD_UNCHANGED) if tp else None
         if T is not None and T.ndim == 3 and T.shape[2] == 4 and T[..., 3].any():
             if T.shape[0] != H or T.shape[1] != W:
                 T = cv2.resize(T, (W, H), interpolation=cv2.INTER_AREA)
