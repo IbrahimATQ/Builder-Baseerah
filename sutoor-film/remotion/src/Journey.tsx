@@ -55,6 +55,9 @@ type JVerse = {
     readonly lumRef?: number; // scene light at which the letters sit at their nominal brightness
     readonly recallHidden?: boolean; // a sadr burnt on paper still returns as the recall above the ajuz
     readonly recallUntil?: number; // the recall fades out by this time
+    readonly focus?: readonly (readonly [number, number])[]; // keyframed lens blur (px): the words rack into focus with the shot
+    readonly ripples?: readonly { readonly t: number; readonly amp: number; readonly dur: number }[]; // a drop or a step ripples the letters
+    readonly wash?: boolean; // foam passing through the text zone washes over the words (they come back)
   };
 };
 type Overlay = {
@@ -75,7 +78,13 @@ type JEdl = {
   readonly duration: number;
   readonly picture: string;
   readonly audio: string;
-  readonly light: { readonly lum: readonly number[]; readonly warm: readonly number[] };
+  readonly light: {
+    readonly lum: readonly number[];
+    readonly warm: readonly number[];
+    readonly band_a?: readonly number[]; // brightest tenth under the sadr line, per frame
+    readonly band_b?: readonly number[]; // ... under the ajuz line
+    readonly foam?: readonly number[]; // share of foam-white pixels in the text zone
+  };
   readonly overlays: readonly Overlay[];
   readonly verses: readonly JVerse[];
   readonly endWord: { readonly text: string; readonly start: number; readonly end: number; readonly y?: number; readonly overlay?: boolean };
@@ -106,6 +115,29 @@ const lightAt = (t: number): { lum: number; warm: number } => {
     }
   }
   return n ? { lum: a / n, warm: b / n } : { lum: 0.15, warm: 0 };
+};
+
+/** Picture under the words at time t (smoothed over ~0.2 s): line-band brightness and foam. */
+const bandAt = (t: number): { a: number; b: number; foam: number } => {
+  const L = edl.light;
+  const i = Math.round(t * edl.fps);
+  let a = 0, b = 0, f = 0, n = 0;
+  for (let k = i - 2; k <= i + 2; k++) {
+    if (L.band_a && k >= 0 && k < L.band_a.length) {
+      a += L.band_a[k]; b += (L.band_b ?? L.band_a)[k]; f += (L.foam ?? [])[k] ?? 0; n++;
+    }
+  }
+  return n ? { a: a / n, b: b / n, foam: f / n } : { a: 0.3, b: 0.3, foam: 0 };
+};
+
+const keyed = (ks: readonly (readonly [number, number])[] | undefined, t: number, dflt: number): number => {
+  if (!ks || !ks.length) return dflt;
+  if (t <= ks[0][0]) return ks[0][1];
+  if (t >= ks[ks.length - 1][0]) return ks[ks.length - 1][1];
+  let i = 0;
+  while (ks[i + 1][0] <= t) i++;
+  const u = (t - ks[i][0]) / Math.max(1e-6, ks[i + 1][0] - ks[i][0]);
+  return ks[i][1] + (ks[i + 1][1] - ks[i][1]) * SOFT(u);
 };
 
 /** Word exit by scene: ash rises and reddens, wind carries it left, smoke lifts it grey, burn chars it. */
@@ -159,7 +191,11 @@ const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; rec
   const a = w.start - 0.06;
   const on = interpolate(t, [a, a + 0.18], [0, 1], { ...clamp, easing: SOFT });
   // during the ajuz the sadr stays above it as a recall at 45 %
-  const recall = recallFrom === null ? 1 : interpolate(t, [recallFrom, recallFrom + 0.4], [1, 0.45], { ...clamp, easing: SOFT });
+  const band = bandAt(t);
+  const recallLvl = 0.45 + 0.12 * Math.max(0, Math.min(1, (band.a - 0.35) / 0.25)); // a brighter plate keeps the recall readable
+  const recall = recallFrom === null ? 1 : interpolate(t, [recallFrom, recallFrom + 0.4], [1, recallLvl], { ...clamp, easing: SOFT });
+  const washK = v.style.wash ? Math.max(0, Math.min(1, (band.foam - 0.04) / 0.22)) : 0;
+  const lens = keyed(v.style.focus, t, 0) + 5 * washK;
   // the verse leaves in the pause, in reading order, over ~0.7 s
   const k = (t - (v.clear + (idx / Math.max(1, count)) * 0.25)) / 0.45;
   const { lum } = lightAt(t);
@@ -170,7 +206,7 @@ const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; rec
   const litK = lw && lw.word === idx ? interpolate(t, [lw.at, lw.at + 0.4], [0, 1], { ...clamp, easing: SOFT }) : 0;
   const col = litK > 0 ? interpolateColors(litK, [0, 1], [tintAt(t), "#FFD9A0"]) : tintAt(t);
   const level = levelAt(v, t);
-  const op = on * recall * Math.max(level, litK * 0.9);
+  const op = on * recall * Math.max(level, litK * 0.9) * (1 - 0.7 * washK);
   return (
     <span
       style={{
@@ -182,7 +218,7 @@ const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; rec
             ? `0 ${Math.round(6 * litK)}px ${Math.round(18 + 22 * litK)}px rgba(255,170,80,${(0.25 + 0.45 * litK).toFixed(3)}), 0 0 14px rgba(255,220,180,0.25), 0 2px 8px rgba(0,0,0,0.5)`
             : `0 0 16px rgba(255,240,225,${(0.10 + 0.18 * mod - 0.15).toFixed(3)}), 0 2px 8px rgba(0,0,0,0.5)`,
         opacity: op,
-        filter: `blur(${(1 - on) * 1.2}px) brightness(${mod.toFixed(3)})`,
+        filter: `blur(${((1 - on) * 1.2 + lens).toFixed(2)}px) brightness(${mod.toFixed(3)})`,
         ...ex,
         ...(ex.opacity !== undefined ? { opacity: op * (ex.opacity as number) } : {}),
       }}
@@ -227,11 +263,26 @@ const VerseBlock: React.FC<{ v: JVerse; isLast: boolean }> = ({ v, isLast }) => 
   const sadrOp = hidden("a") ? interpolate(t, [sadrFrom, sadrFrom + 0.4], [0, 1], clamp) : 1;
   const recallEnd = s.recallUntil !== undefined ? interpolate(t, [s.recallUntil - 0.4, s.recallUntil], [1, 0], clamp) : 1;
   // a soft, lens-like darkening of the text zone that appears only over bright plates (wet street, surf)
-  const { lum: zl } = lightAt(t);
+  const bnd = bandAt(t);
   const on0 = interpolate(t, inc([shown[0].start - 0.5, shown[0].start + 0.1, v.clear + 0.5, v.clear + 1.0]), [0, 1, 1, 0], clamp);
-  const shadeA = Math.max(0, Math.min(0.42, (zl - 0.11) * 2.4)) * on0 * (s.shade ?? 1);
+  const shadeA = Math.max(0, Math.min(0.5, (Math.max(bnd.a, bnd.b) - 0.32) * 1.3)) * on0 * (s.shade ?? 1);
+  // ripples: a drop, a step or an arrow strike passes through the letters and settles
+  let rip = 0;
+  for (const r of s.ripples ?? []) {
+    if (t >= r.t && t < r.t + r.dur) rip += r.amp * Math.exp((-3 * (t - r.t)) / r.dur) * (0.6 + 0.4 * Math.cos(2 * Math.PI * 6 * (t - r.t)));
+  }
+  const ripId = `rip${v.n}`;
+  const ripFilter = rip > 0.2 ? { filter: `url(#${ripId})` } : {};
   return (
     <AbsoluteFill>
+      {rip > 0.2 ? (
+        <svg width="0" height="0" style={{ position: "absolute" }}>
+          <filter id={ripId} x="-10%" y="-40%" width="120%" height="180%">
+            <feTurbulence type="turbulence" baseFrequency="0.010 0.035" numOctaves={2} seed={(frame % 97) + 1} />
+            <feDisplacementMap in="SourceGraphic" scale={rip.toFixed(2)} xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </svg>
+      ) : null}
       {shadeA > 0.01 ? (
         <AbsoluteFill
           style={{
@@ -239,12 +290,12 @@ const VerseBlock: React.FC<{ v: JVerse; isLast: boolean }> = ({ v, isLast }) => 
           }}
         />
       ) : null}
-      <div style={{ ...lineStyle, top: ya - fs * 0.62, opacity: sadrOp * recallEnd, height: fs * 1.5, paddingTop: fs * 0.12 }}>
+      <div style={{ ...lineStyle, top: ya - fs * 0.62, opacity: sadrOp * recallEnd, height: fs * 1.5, paddingTop: fs * 0.12, ...ripFilter }}>
         {la.map((w, i) => (
           <SpokenWord key={`a${i}`} w={hidden("a") ? { ...w, start: Math.max(w.start, sadrFrom) } : w} v={v} idx={i} count={all.length} recallFrom={recallAt} />
         ))}
       </div>
-      <div style={{ ...lineStyle, top: yb - fs * 0.62, height: fs * 1.5, paddingTop: fs * 0.12 }}>
+      <div style={{ ...lineStyle, top: yb - fs * 0.62, height: fs * 1.5, paddingTop: fs * 0.12, ...ripFilter }}>
         {lb.map((w, i) => (
           <SpokenWord key={`b${i}`} w={w} v={v} idx={la.length + i} count={all.length} recallFrom={null} />
         ))}
@@ -320,13 +371,13 @@ const Credits: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", flexDirection: "column", gap: 16 }}>
       {lines.map((l, i) => (
-        <div key={l} style={{ fontFamily: "ArefRuqaaJ", fontSize: 60, color: "#9A4026", direction: "rtl", opacity: 0.95 * o(i * 0.3), textShadow: "0 0 18px rgba(150,40,10,0.35)" }}>
+        <div key={l} style={{ fontFamily: "ArefRuqaaJ", fontSize: 66, color: "#C0654A", direction: "rtl", opacity: 0.97 * o(i * 0.3), textShadow: "0 0 22px rgba(170,60,20,0.40)" }}>
           {l}
         </div>
       ))}
       <div style={{ marginTop: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, opacity: 0.85 * o(0.5), maxWidth: 820 }}>
         {fine.map((f) => (
-          <div key={f} style={{ fontFamily: "AmiriJ", fontSize: 25, color: "#7A4A3A", textAlign: "center", lineHeight: 1.35 }}>
+          <div key={f} style={{ fontFamily: "AmiriJ", fontSize: 30, color: "#9A6A5A", textAlign: "center", lineHeight: 1.35 }}>
             {f}
           </div>
         ))}

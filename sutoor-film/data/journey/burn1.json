@@ -13,13 +13,13 @@
   930,
   220
  ],
- "font_size": 74,
+ "font_size": 92,
  "ink_rgb": [
-  58,
-  34,
-  20
+  40,
+  24,
+  14
  ],
- "ink_density": 0.9,
+ "ink_density": 1.0,
  "quad": [
   [
    95,
@@ -42,18 +42,11 @@
   0,
   -1
  ],
- "lift_k": 0.55,
+ "lift_k": 0.4,
  "curl_gain": 1.4,
  "plate": {
-  "src": "/home/user/film/journey/src/1692.mp4",
-  "in": 1.0,
-  "still": true,
-  "crop": [
-   1150,
-   0,
-   1215,
-   2160
-  ],
+  "src": "/home/user/film/journey/plates/b1_leaf.mp4",
+  "in": 0.0,
   "gain": 0.55,
   "tint": [
    1.0,
@@ -89,15 +82,15 @@
   0.45
  ],
  "word_times": [
-  2.55,
-  3.05,
-  3.4,
-  4.8
+  3.3,
+  3.85,
+  4.1,
+  6.3
  ],
- "t_ignite": -0.4,
- "t_end_left": 5.8,
- "ragged_s": 0.3,
- "rim_gain": 1.7,
+ "t_ignite": 1.7,
+ "t_end_left": 7.0,
+ "ragged_s": 0.55,
+ "rim_gain": 1.4,
  "flame_window": 0.12,
  "max_flames": 3,
  "flame_scale": 0.45,
@@ -118,7 +111,8 @@
   "per_frame": 5,
   "vx": 3.5,
   "vy": -3.0,
-  "life_s": 1.4
+  "life_s": 1.4,
+  "glow_frac": 0.25
  },
  "dof": {
   "ends_px": 7,
@@ -136,7 +130,6 @@
   2.6
  ],
  "char_keep": 0.6,
- "fade_in": 0.6,
  "exposure": 1.0,
  "drift_px": 1.0,
  "out": "/home/user/film/journey/burnr/burn1.mp4",
@@ -157,11 +150,11 @@
     0.72
    ],
    "offset": [
-    150,
-    -560
+    60,
+    -520
    ],
-   "rx": 700,
-   "ry": 950,
+   "rx": 420,
+   "ry": 560,
    "env": [
     [
      0,
@@ -188,11 +181,11 @@
     0.85
    ],
    "offset": [
-    250,
-    -700
+    60,
+    -520
    ],
-   "rx": 600,
-   "ry": 600,
+   "rx": 420,
+   "ry": 560,
    "env": [
     [
      0,
@@ -209,5 +202,23 @@
    ],
    "flip": true
   }
- ]
+ ],
+ "bend": {
+  "amp": 7,
+  "waves": 0.9,
+  "phase": 0.6,
+  "shade": 0.18
+ },
+ "rim_light": {
+  "level": 0.55,
+  "width": 2.5,
+  "rgb": [
+   1.0,
+   0.72,
+   0.42
+  ]
+ },
+ "frag_glow": 0.0,
+ "afterglow": 0.45,
+ "rim_w_scale": 2.6
 }

@@ -5,7 +5,9 @@
   * per shot: mean luma (catches a shot graded too dark to read)
   * a still at every hemistich onset + 0.6 s and at its end + 0.3 s, tiled into one review sheet
     (text placement, harakat not clipped, nothing in the bottom 20 %)
-Usage: python journey_qc_extra.py FILM.mp4 picture_plan.json timing.json OUT_DIR
+  * burns (optional): the fire may not touch a word's ink before that word's end + 0.3 s
+    (from each burn's render meta, `word_first_burn_s`, against the aligned word times)
+Usage: python journey_qc_extra.py FILM.mp4 picture_plan.json timing.json OUT_DIR [BURN.meta.json:LINE ...]
 """
 from __future__ import annotations
 
@@ -29,7 +31,7 @@ def luma_limited(film: str, t: float) -> np.ndarray:
     return np.frombuffer(raw, np.uint8)  # the file is tagged limited range: gray keeps 16-235 codes
 
 
-def main(film: str, plan_p: str, timing_p: str, out_dir: str) -> None:
+def main(film: str, plan_p: str, timing_p: str, out_dir: str, *burns: str) -> None:
     os.makedirs(out_dir, exist_ok=True)
     plan = json.load(open(plan_p, encoding="utf-8"))
     timing = json.load(open(timing_p, encoding="utf-8"))
@@ -44,6 +46,16 @@ def main(film: str, plan_p: str, timing_p: str, out_dir: str) -> None:
         rep["shots"].append({"id": s["id"], "from": a, "to": b, "crushed_pct": round(100 * crushed, 1),
                              "mean_Y": round(float(np.mean([y.mean() for y in ys])), 1)})
     rep["crushed_max_pct"] = max(x["crushed_pct"] for x in rep["shots"])
+    rep["burns"] = []
+    for arg in burns:
+        mp, line = arg.rsplit(":", 1)
+        meta = json.load(open(mp))
+        ws = [w for w in timing["words"] if w["line"] == line]
+        for w, fb in zip(ws, meta.get("word_first_burn_s", [])):
+            margin = None if fb is None else round(fb - w["film_end"], 3)
+            rep["burns"].append({"burn": os.path.basename(mp), "word": w["word"], "spoken_end": w["film_end"], "first_burn": fb,
+                                 "margin_s": margin, "ok": margin is None or margin >= 0.3})
+    rep["burns_ok"] = all(b["ok"] for b in rep["burns"])
     # stills at every hemistich
     tiles = []
     for k, h in timing["hemistichs"].items():
@@ -60,4 +72,4 @@ def main(film: str, plan_p: str, timing_p: str, out_dir: str) -> None:
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:5])
+    main(*sys.argv[1:])

@@ -6,97 +6,153 @@
 - "Do not use the same scene … different burning stuff … as cinematic as possible."
 - "I did not like the cinematic appearance of each footage … just like a video with a text in front of it. We need to feel like a cinematic 4K journey of this poem … make it related, make it sensible."
 
-## 1. The scream: found and removed
-**What it was.** It was not a second voice in the recitation. It was the forge clip's own audio (Smithy: steel forging, used as hammer sound at 7.3–10.3 s in the Ember and Paper reels). That audio holds a pitched, pulsing tone for about 2.5 s, which `scream_check.py` measures at around 2.6 kHz. Under the words it is heard as a scream.
+The first cut of this edition went to an independent four-critic review: a first-time viewer, a cinematographer, an Arabic calligrapher and a sound mixer. Each major finding was then re-checked by adversarial verifiers. The scores were 5, 5, 6 and 7 out of 10. This document describes the revised film, and section 7 lists every verified finding and what was done about it.
 
-**What changed.**
-- The forge clip's audio is gone from this edition.
-- Every effect is a licensed Mixkit sound (free licence) chosen for one purpose: a footstep, a snort, a buckle, a blade drawn, a spear-shaft knock, rain, thunder, surf, fire, wind, a splash.
-- Horse whinnies, bird calls and whistling wind are banned. Two wind tracks that measured as whistling were replaced with noise-based wind.
-- Any sample that could contain a human voice is also banned.
+## 1. The scream: found, removed, and checked with a control
+**What it was.** It was not a second voice in the recitation. It was the forge clip's own audio (Smithy: steel forging, used as hammer sound in the Ember and Paper reels). That audio holds a pitched, pulsing tone near 2.6 kHz for about 2.5 s, which is heard as a scream under the words. The clip's audio is gone from this edition. Every effect is a licensed Mixkit sound with one job: a footstep, a buckle, a blade, a spear-shaft knock, rain, surf, fire, wind, a splash, steam. Whinnies, bird calls, whistling wind and anything that could hold a human voice are banned.
 
-**How it is checked.** `pipeline/scream_check.py` runs on the final mix, not just on the voice stem:
-1. It subtracts the voice bus from the pre-master mix and runs a vocal-separation model on what is left (music, ambience and effects). The result must be silent: under −42 LUFS short-term, with under 2 % pitched frames.
-2. It scans the effects and ambience for any held, pitched tone longer than 0.8 s. This detector is calibrated: it flags the old forge sound in both earlier reels and passes every sound used here.
-3. It splits the voice bus into a lead voice and any backing voice. The backing part must stay under −50 LUFS. It measures −64.
+**How it is checked** (`pipeline/scream_check.py`, run on the final mix):
+1. It subtracts the voice bus from the pre-master mix and runs a vocal-separation model on what is left (music, ambience and effects). That remainder must carry no voice: under −42 LUFS short-term, with under 2 % pitched frames.
+2. **Positive control (new).** It plants 2 s of a real voice at −30 LUFS in the quietest stretch of the same remainder and re-runs the separator. The check is trusted only if the planted voice is found above −42 LUFS. A silent result therefore means "nothing there", not "the detector heard nothing".
+3. It scans the effects and ambience for any held, pitched tone longer than 0.8 s. The detector flags the old forge sound in both earlier reels.
+4. It splits the voice bus into a lead voice and any backing voice. The backing part must stay under −50 LUFS.
 
-## 2. The "tunnel": two causes, both removed
-**Measured, not guessed.**
-- **The 0.92× time-stretch.** It added a phasey, hollow colour. The voice is no longer stretched; only the pauses between lines are lengthened.
-- **My earlier corrective EQ.** It cut the top of the voice by 9.5 dB at 8 kHz, which dulled it further.
+Every stem's peak level is now reported alongside its loudness. Results: section 6.
 
-**The new voice.** It is the lead-voice stem of the original recording, almost untouched:
-- 60 Hz high-pass;
-- a light de-esser;
-- a −1.5 dB shelf above 6.5 kHz.
+## 2. The voice: no tunnel, no dead stops, one room
+**Measured causes of the "tunnel":**
+- an earlier 0.92× time-stretch, which added a phasey, hollow colour;
+- an earlier corrective EQ that cut 9.5 dB at 8 kHz.
 
-Its octave-band balance matches the original recording within about 1 dB in every band from 125 Hz to 8 kHz. The 63 Hz band is the exception, about 3 dB lower: that is the high-pass removing rumble.
+Both are gone. The voice is the lead stem of the original recording, with no stretch. Only the pauses between lines are longer.
 
-**Never over silence.** The voice now sits on a quiet bed of the scene's real ambience under every word, so it never floats over silence.
+**What the review found next, and what changed** (`pipeline/voice_edges.py`; every word stays at exactly the same time):
+- **Dead stops at line ends.** Where the reciter ran one line into the next, the inserted pause cut him off mid-sound (v1a, v1b, v4a, v5, v6). Each such line now fades out over 80 ms (30 ms where it was already quiet), and the next line fades in over 25 ms.
+- **Digital silence between lines.** The whole voice now sits in one small, diffuse room: RT60 0.6 s, 20 dB under the dry voice, band-limited, with no slap. Every line decays into a space instead of into digital zero. A room tone at −70 dBFS runs underneath.
+- **Air removed by EQ.** The −1.5 dB shelf above 6.5 kHz is undone.
 
-**Timing.** Word timings were re-verified by forced alignment: every word is within ±0.03 s. The first word is the exception, a known aligner artefact that also appears on the earlier file.
+**Result:**
+- The long-term spectrum matches the original separated vocal within ±0.2 dB from 250 Hz to 16 kHz. Before, the voice was 1.5–1.7 dB down from 8 kHz up.
+- 63–125 Hz is 1 dB lower: the rumble filter.
 
-## 3. The film
-One journey across two days. Most cuts fall in the pauses; three fall on words (the rain volley). The text stays in one place throughout.
+## 3. The mix: the voice in one steady place (`pipeline/mix_journey.py`)
+The review measured the music between 12 and 33 dB under the voice from line to line. Verse 4 was left alone over the sea bed, and the closing verse was buried at 8–9 dB over everything else. Now:
+
+**Ducking**
+- The voice's own level drives it, not a list of word times.
+- 5 dB of ducking, 150 ms look-ahead.
+- It holds through any pause shorter than 1.5 s and releases over 1.3 s, so the music no longer swells in every gap.
+
+**Level per hemistich (half-verse)**
+- Automation holds the music **14.0 dB under the voice in all 12 hemistichs**.
+- It holds everything else (music, ambience and effects) **at least 12.0 dB under the voice**. The beds are lowered only in the lines that need it.
+
+**Score and effects**
+- A quiet cello and viola pad now carries verse 4.
+- The wave under the rock shot fades out at the cut.
+- The horse's snort ends before «نُعِدُّ» and is 5 dB lower.
+- The footstep in the puddle is now audible.
+- The blade sits 3 dB lower.
+
+**Master**
+- Static gain, then a 4×-oversampled peak limiter. No moving loudness normalisation, which had lifted the coda by 5 dB.
+- −14.4 LUFS integrated, −1.6 dBTP.
+- A 1.8 s fade to silence at the end.
+
+## 4. The film
+One journey across two days. Cuts fall in the pauses, except the three strikes of the rain volley. The text stays in one place.
 
 | # | Film time (s) | Line | Image | Source |
 |---|---|---|---|---|
-| 1 | 0.00–5.05 | يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي | **Burn I**: a strip torn from an old manuscript among autumn leaves in low sun. A smouldering ember line reads the line right to left, each word just after it is spoken, under backlit smoke. | Render on a still of Mixkit 1692; flames 3764; smoke 50956, 3452 |
-| 2 | 4.75–7.65 | أَواخِرُنا عَلى هامِ الأَوالي | The living reflected upside down beneath wet paving; ripples break them | Mixkit 1324 |
+| 1 | 0.00–5.05 | يُدَفِّنُ بَعضُنا بَعضاً وَتَمشي | **Burn I**: a strip torn from an old manuscript lies on autumn leaves in low sun. A smouldering ember reads the line right to left and reaches each word only after it is spoken. «وَتَمشي» ("and walks on") survives into the next shot, which is of walkers. | Mixkit 1692 (live, stabilised); flames 3764; smoke 50956, 3452 |
+| 2 | 4.45–7.65 | أَواخِرُنا عَلى هامِ الأَوالي | Through the smoke: the living reflected upside down beneath wet paving. A foot lands in the puddle on «هامِ» and the words ripple. | Mixkit 1324 |
 | 3 | 7.65–9.10 | نُعِدُّ المَشرَفِيَّةَ | A man readies the horse; a blade is heard being drawn | Mixkit 100653 |
 | 4 | 9.10–10.15 | وَالعَوالي | The same horse, saddled; a spear-shaft knock lands on the cut | Mixkit 100655 |
-| 5 | 10.15–12.95 | وَتَقتُلُنا المَنونُ بِلا قِتالِ | The stable's candle shrinks and dies on «قِتالِ»; the letters die with it | Mixkit 3458 |
-| 6 | 12.95–16.00 | وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ | The same horse's eye behind the stall bars, in black and white | Mixkit 100639 |
-| 7 | 15.45–19.65 | وَما يُنجينَ مِن خَبَبِ اللَيالي | Night overtakes the Alhambra; the floodlights come on under «اللَيالي», which lights up warm; distant hooves | Mixkit 4013 |
-| 8 | 19.65–21.70 | وَهانَ فَما أُبالي بِالرَزايا | A heron unmoved as the sea breaks behind it and washes round its feet | Mixkit 1906 |
-| 9 | 21.70–24.95 | لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي | **Burn II**: a letter laid on a shore fire's coals. It only scorches while he speaks, then catches all at once in slow real flames and becomes an ash leaf. | Render on Mixkit 3443; flames 52292; smoke 50956, 3452 |
-| 10–12 | 24.95–27.75 | رَماني الدَهرُ بِالأَرزاءِ حَتّى | Three cuts on three words, each a strike: rain drops landing like arrows; thunder, no lightning | Mixkit 2208, 3903, 1751 |
-| 13 | 27.75–30.70 | فُؤادي في غِشاءٍ مِن نِبالِ | A green heart caged in a sheath of spines, still beaded with rain | Mixkit 1890 |
-| 14 | 30.00–33.15 | فَصِرتُ إِذا أَصابَتني سِهامٌ | A lone rock vanishes under a breaking wave and is still there; the camera starts to descend | Mixkit 51506 |
-| 15 | 33.15–40.60 | تَكَسَّرَتِ النِصالُ عَلى النِصالِ | **Burn III**: a thick handmade sheet pierced by about 20 arrow holes, on a stone in a tide pool at night. Open wind-whipped flames break out of the holes ahead of the front. Only «النِصالِ» survives, as glowing ember strokes that breathe with three gusts. Seawater then quenches it to black: thin strokes and dots first, the alif and lam last. | Render on Mixkit 2189; flames 3764, 52292; sparks 3463; smoke 50956 |
-| 16 | 40.60–44.00 | credits | Black, with the credits in Aref Ruqaa in the dull red of cooled iron | — |
+| 5 | 10.15–12.55 | وَتَقتُلُنا المَنونُ بِلا قِتالِ | The stable's candle shrinks and dies just after «قِتالِ»; the letters die with it | Mixkit 3458 |
+| 6 | 12.55–15.70 | وَنَرتَبِطُ السَوابِقَ مُقرَباتٍ | The same horse's eye behind the stall bars, in black and white; the words rack into focus with it | Mixkit 100639 |
+| 7 | 15.70–19.65 | وَما يُنجينَ مِن خَبَبِ اللَيالي | Night overtakes the Alhambra; the floodlights come on under «اللَيالي», which lights up warm; distant hooves | Mixkit 4013 |
+| 8 | 19.65–21.70 | وَهانَ فَما أُبالي بِالرَزايا | Blue hour before dawn: a heron unmoved as the sea breaks behind it, in true slow motion. Where the foam rises through the words it washes over them, and they come back. | Mixkit 1906 |
+| 9 | 21.70–24.95 | لِأَنّي ما اِنتَفَعتُ بِأَن أُبالي | **Burn II**: a letter laid on a shore fire's coals. It browns from the edge nearest the coals while he speaks, then catches from that edge in slow real flames. | Mixkit 3443; flames 52292; smoke 50956, 3452 |
+| 10–12 | 24.95–27.75 | رَماني الدَهرُ بِالأَرزاءِ حَتّى | Three cuts on three words, each a strike: drops landing like arrows; each strike ripples the line | Mixkit 2208, 3903, 1751 |
+| 13 | 27.75–30.40 | فُؤادي في غِشاءٍ مِن نِبالِ | A green heart caged in a sheath of spines, still beaded with rain | Mixkit 1890 |
+| 14 | 30.40–33.15 | فَصِرتُ إِذا أَصابَتني سِهامٌ | A lone rock vanishes under a breaking wave and is still there. The wave washes over the words. The camera then descends. | Mixkit 51506 |
+| 15 | 33.15–40.60 | تَكَسَّرَتِ النِصالُ عَلى النِصالِ | **Burn III**: a thick handmade sheet, pierced by arrows, on a sea boulder at night (sequence below). | Mixkit 1081 (re-timed); flames 3764, 52292; sparks 3463; smoke and steam 50956 |
+| 16 | 40.60–44.00 | credits | The names in Aref Ruqaa, in the red of cooled iron | — |
+
+Burn III, step by step:
+- The whole line stays readable on the firelit sheet until 0.4 s after he finishes it.
+- Then every arrow hole catches at once, and the fire grows outward from the wounds.
+- Only «النِصالِ» survives, as glowing ember strokes on a ragged piece of char, and it breathes with three gusts.
+- The sea's own surge, real water from the plate, then sweeps in and puts it out. Steam rises.
 
 **Three burns, three different scenes:**
 
 | | Burn I | Burn II | Burn III |
 |---|---|---|---|
-| Object | Manuscript strip | Folded letter | Pierced handmade sheet |
-| Ground | Leaves | Coals | Wet stone |
-| Light | Low sun | Dawn | Night |
-| Camera | Low, raking | Three-quarter top-down | Top-down, pushing in onto the last word |
-| Fire | Flameless smoulder | Slow scorch, then a sudden catch | Open flames out of many wounds |
-| Ending | The char settles among the leaves | Ash flakes lift away | One word survives, then is quenched |
+| Object | Manuscript strip, bent over a leaf | Folded letter, in perspective on the coal bed | Pierced handmade sheet |
+| Ground | Leaves (real dolly, stabilised on the leaf) | Coals | Sea boulder at night |
+| Light | Low sun, rim-lit torn edge | Coal glow from beneath | Moon and firelight |
+| Fire | Ragged smoulder line, front reads the line | Scorch from the coal side, then a catch | All arrow holes ignite at once, burning outward |
+| Ending | «وَتَمشي» survives into the walkers | Flames take the letter | One word survives; the real surge quenches it |
 
-Only the paper, ink and char are simulated (`pipeline/paper_burn7.py`). The ground, flames, smoke, sparks and water are real footage.
+Only the paper, ink, char and ember strokes are simulated (`pipeline/paper_burn7.py`). The ground, flames, smoke, sparks and water are real footage.
 
-## 4. Text that belongs to the picture
+**Fire timing.** For every word, the renderer logs when the fire first touches its ink (`word_first_burn_s`), and QC checks it against when the word is spoken.
+
+## 5. Text that belongs to the picture
 **One system, one place.**
-- The sadr is centred at 19 % of the frame height and the ajuz at 27 %, in every footage shot. The eye never hunts for the text.
-- Each word appears at its aligned onset with a 0.18 s ink-bleed: no slide, no bounce.
-- During the ajuz the sadr stays above it at 45 %, so the whole verse is on screen.
-- Every line stays clean until at least 0.4 s after it is spoken.
-- In Burns I–III the burning line is written on the paper itself, with no overlay.
+- The sadr (first half of the verse) is centred at 19 % of the frame height and the ajuz (second half) at 27 %.
+- Each word appears at its aligned onset with a 0.18 s ink-bleed.
+- During the ajuz the sadr stays above it at 45 %. Over a bright plate it rises to 57 %, measured under that line.
+- A soft shade appears only where the plate under the lines is bright, measured per line rather than as the frame average.
 
-**The words take the scene's light:**
-- Their colour follows each shot's key light: cold silver on the wet street, warm gold in the barn, amber from the candle, lilac over the Alhambra, pearl at the shore.
-- Their brightness rides the measured light of the picture by about ±15 %.
-- One grain pass covers picture and text together.
+**The picture acts on the words**, driven by measurement. `build_picture.py` records, per frame, the brightness under each line and the share of foam-white pixels in the text zone.
 
-**Four moments where the picture acts on the words:**
-- The candle's words die with its flame.
-- «اللَيالي» is lit by the palace floodlights.
-- The heron and the rock hold still under the sea, and so do the words.
-- The burns.
+| Where | What happens |
+|---|---|
+| Wet street | The foot lands in the puddle and the lines ripple |
+| Candle | The words hold until «قِتالِ» is spoken, then die with the flame |
+| Horse's eye | The words rack into focus with the shot |
+| Alhambra | The floodlights light «اللَيالي» |
+| Heron and rock | Where foam rises through the text zone it washes over the words; they come back when it clears |
+| Rain | Each arrow-drop strike ripples the line |
+| The three burns | The line is written on the paper itself |
 
-## 5. Format and finishing
-- **Master.** 2160×3840 at 24 fps, H.264 High 5.1, BT.709. A 1080×1920 share copy is also provided.
+**Colour.** The words take each shot's key light. One grain pass covers picture and text together.
+
+## 6. Results
+_(filled in from the final QC run)_
+
+## 7. The review: verified findings and what was done
+| Finding (severity) | Done |
+|---|---|
+| Burn III: composited look; no visible water; dark box around the surviving word; quench was a fade; climax nearly black (blocker) | Rebuilt on a real moving plate of sea boulders (1081), re-timed so the sea's own surge arrives at the quench. Lit sheet; the char breaks into irregular pieces with no box; the real water quenches it; steam |
+| The poem's title line never readable in full (blocker) | Held whole and clean until 0.4 s after it is spoken (fire first touches it at 35.97 s; the line ends at 35.45 s) |
+| The last word lost the dot of its nun to an arrow hole (blocker) | Wounds are kept clear of all ink, dots and harakat by their radius plus a margin (closest clearance 40 px at render size); the dot glows |
+| Burn II looked pasted on: flat card, round scorch discs, rectangle catch, hollow-polygon ash (major) | Perspective on the coal plane, curl, coal underlight. Scorch spreads irregularly from the coal edge. The catch spreads from that edge over 0.85 s. No outline shapes; ash is grey, tumbling flakes; embers cluster |
+| Burns share a procedural look: uniform neon edge, polygon ash, straight char (major) | The burning edge varies in width and brightness; embers stay in fresh char; fragment-outline glow removed; each burn has its own fire grammar |
+| Burn I: a frozen still; flat strip; fire ate the first and last words as he spoke them; opened from black (major) | Live plate, stabilised on the leaf (real parallax); the strip bends over the leaf with a rim-lit edge; the front reaches each word only after it is spoken (first touches: 2.68, 2.98, 3.74 s, last word not before the cut); opens on a lit frame |
+| Text still read as subtitles (major) | The picture now acts on the words (section 5) |
+| Black levels differed from shot to shot; rain shot milky; night cut to the brightest shot (major) | Black floors matched (the rain shots pulled down 9–17 %); the heron graded as blue hour before dawn; the cactus back to green |
+| Smoke wipe was a 3-frame glitch; two muddy dissolves (major and minor) | A 14-frame smoke wipe; the dissolves replaced by cuts in the pauses |
+| Heron juddered (59.94 fps dropped to 24) (minor) | Played as 2.5× slow motion, every frame used |
+| Voice cut dead at several line edges; music margin swung 20 dB (major) | Sections 2 and 3 |
+| Too little grain; sub-legal black under the credits (minor) | Stronger grain matched to the footage; luma held to 16–235 |
+| Credits: unreadable fine print, about 1.5 s readable (minor) | Names only, brighter, held about 2.5 s; licences moved to the post caption |
+
+**Not changed, and why:**
+- **Soft 1080p sources.** The Alhambra (4013), the heron (1906) and the first rain shot (2208) are 1080p sources scaled about 3.5×. They hold up on a phone but look soft at 100 % on a 4K screen. No free-licensed 4K replacement that keeps the same meaning was found.
+- **The rhinestone browband** on the show horse in shot 3 stays.
+
+## 8. Format and finishing
+- **Master.** 2160×3840 at 24 fps, H.264 High 5.1, BT.709, luma 16–235, with grain over picture and text. A 1080×1920 share copy is also provided.
 - **Footage resolution:**
-  - 4K sources are cropped to 9:16 and scaled 1.78×.
-  - The 1080p sources (4013, 1906, 2208) are scaled about 3.5×. Their softness reads as distance.
-  - The burns are rendered at 1620×2880 and scaled 1.33×. That is no sharper than the plates they sit on, as the brief asked.
-- **Camera moves.** No digital push-ins except the descent onto the rock and the push onto the last word.
-- **Grade.** One filmic curve, halation and vignette for the whole film, grading the light each plate already has.
-- **Audio.** Voice 12–18 dB over the music during words; master −14 LUFS integrated, −1 dBTP.
+  - 4K sources are cropped to 9:16.
+  - The 1080p sources (4013, 1906, 2208) are scaled about 3.5×.
+  - The burns are rendered at 1620×2880.
+- **Camera moves.** Digital moves only for the descent onto the rock and the push onto the last word.
+- **Grade.** One filmic curve, halation and vignette for the whole film, with a common black floor.
+- **Post caption.** The full licence list is in `output/Nisal-ala-Nisal_Journey_post-caption.txt`.
 
-## 6. Note on the text
-The supplied text writes «النِصالُ» without a shadda. Classical vocalisation has «النِّصالُ». The film shows exactly the supplied text; it can be changed on request.
+## 9. Note on the text
+The supplied text writes the sun letters without shadda, for example «النِصالُ» where classical vocalisation has «النِّصالُ». The film shows exactly the supplied text. It can be changed on request.

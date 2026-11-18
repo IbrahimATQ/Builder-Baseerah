@@ -11,7 +11,9 @@ backing voice: the backing part must be near silence.
 
 Usage: python scream_check.py MIX_DIR OUT.json   (MIX_DIR holds mix_premaster.wav and voice_bus.wav)
 PASS when: residual vocal stem max short-term < -42 LUFS and voiced frames < 2 %, the voice bus's
-backing stem integrated < -50 LUFS, and the effects + ambience carry no held pitched tone > 0.8 s.
+backing stem integrated < -50 LUFS, the effects + ambience carry no held pitched tone > 0.8 s, AND the
+positive control passes (a voice planted in the same bed at -30 LUFS is found above -42 LUFS), so a
+silent result means "nothing there", not "the detector heard nothing".
 """
 from __future__ import annotations
 
@@ -108,7 +110,31 @@ def main(mix_dir: str, out_p: str) -> None:
     audible = loud > 10 ** (-50 / 20)
     voiced_frac = float(np.mean(vflag[: len(audible)] & audible)) if len(vflag) else 0.0
     rep["residual_vocal_stem"] = {"max_short_term_lufs": round(max(st), 1), "at_s": round(worst * 0.4, 1),
+                                  "peak_dbfs": round(float(20 * np.log10(np.abs(voc).max() + 1e-12)), 1),
                                   "voiced_audible_fraction": round(voiced_frac, 4)}
+    rep["residual_input"] = {"peak_dbfs": round(float(20 * np.log10(np.abs(residual).max() + 1e-12)), 1),
+                             "integrated_lufs": round(float(pyln.Meter(sr).integrated_loudness(residual)), 1)}
+
+    # positive control: the same separator must FIND a voice planted in the same bed. 2 s of the
+    # reciter's own voice (a stand-in for any intruding voice) is mixed into the residual at -30 LUFS
+    # short-term, in its quietest stretch; the check is only trusted if that shows above -42 LUFS.
+    if os.environ.get("SCREAM_CONTROL", "1") == "1":
+        meter_c = pyln.Meter(sr)
+        act = np.flatnonzero(np.abs(vb).max(axis=1) > 1e-3)
+        src = vb[act[0] + int(0.3 * sr): act[0] + int(2.3 * sr)]
+        src = src * 10 ** ((-30.0 - meter_c.integrated_loudness(src)) / 20)
+        res_st = short_term(residual.mean(axis=1), sr, 2.0)
+        at = int(np.argmin(res_st[1:-1]) + 1) * 2 * sr
+        planted = residual.copy()
+        planted[at:at + len(src)] += src[: len(planted) - at]
+        pl_p = os.path.join(tmp, "planted.wav")
+        sf.write(pl_p, planted, sr, subtype="FLOAT")
+        cst = separate(pl_p, "vocals_mel_band_roformer.ckpt", tmp)
+        cv, csr = sf.read(cst.get("vocals") or next(v for k, v in cst.items() if "vocal" in k), always_2d=True)
+        cvals = short_term(cv.mean(axis=1), csr)
+        seg = cvals[int(at / sr / 0.4): int((at / sr + 2.0) / 0.4) + 1]
+        rep["positive_control"] = {"planted_at_s": round(at / sr, 1), "planted_lufs": -30.0,
+                                   "detected_max_short_term_lufs": round(max(seg), 1), "detected": bool(max(seg) > -42)}
 
     # 4. held, pitched tones in the sound effects and ambience (the music is excluded: it is our own
     #    score, built from instrument samples with no voices). A cry or a pitched metallic scream shows
@@ -130,8 +156,10 @@ def main(mix_dir: str, out_p: str) -> None:
     meter = pyln.Meter(bsr)
     bl = meter.integrated_loudness(back)
     rep["voice_bus_backing_stem"] = {"integrated_lufs": round(float(bl), 1) if np.isfinite(bl) else -90.0,
-                                     "max_short_term_lufs": round(max(short_term(back.mean(axis=1), bsr)), 1)}
+                                     "max_short_term_lufs": round(max(short_term(back.mean(axis=1), bsr)), 1),
+                                     "peak_dbfs": round(float(20 * np.log10(np.abs(back).max() + 1e-12)), 1)}
     ok = (rep["residual_vocal_stem"]["max_short_term_lufs"] < -42 and voiced_frac < 0.02
+          and rep.get("positive_control", {"detected": True})["detected"]
           and rep["voice_bus_backing_stem"]["integrated_lufs"] < -50
           and not rep.get("effects_held_pitch_runs"))
     rep["verdict"] = "PASS" if ok else "FAIL"

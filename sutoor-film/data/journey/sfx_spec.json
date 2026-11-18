@@ -6,7 +6,7 @@
    "src_in": 0.65,
    "start": 5.96,
    "end": 6.4,
-   "gain_db": 0,
+   "gain_db": 8,
    "fade_in": 0.01,
    "fade_out": 0.1
   },
@@ -14,10 +14,10 @@
    "src": "/home/user/film/journey/sfx/80.mp3",
    "src_in": 0.0,
    "start": 7.25,
-   "end": 8.7,
-   "gain_db": -2,
+   "end": 7.95,
+   "gain_db": -7,
    "fade_in": 0.02,
-   "fade_out": 0.3
+   "fade_out": 0.25
   },
   {
    "src": "/home/user/film/journey/sfx/2857.mp3",
@@ -33,7 +33,7 @@
    "src_in": 0.0,
    "start": 8.25,
    "end": 9.05,
-   "gain_db": -5,
+   "gain_db": -8,
    "fade_in": 0.02,
    "fade_out": 0.25
   },
@@ -122,51 +122,24 @@
    "src": "/home/user/film/journey/sfx/2411.mp3",
    "src_in": 0.0,
    "start": 32.2,
-   "end": 34.6,
+   "end": 33.45,
    "gain_db": -4,
    "fade_in": 0.2,
-   "fade_out": 0.6
-  },
-  {
-   "src": "/home/user/film/journey/sfx/2411.mp3",
-   "src_in": 0.0,
-   "start": 35.88,
-   "end": 37.3,
-   "gain_db": -8,
-   "fade_in": 0.15,
-   "fade_out": 0.5
-  },
-  {
-   "src": "/home/user/film/journey/sfx/2411.mp3",
-   "src_in": 0.0,
-   "start": 36.58,
-   "end": 38.0,
-   "gain_db": -8,
-   "fade_in": 0.15,
-   "fade_out": 0.5
-  },
-  {
-   "src": "/home/user/film/journey/sfx/2411.mp3",
-   "src_in": 0.0,
-   "start": 37.28,
-   "end": 38.7,
-   "gain_db": -8,
-   "fade_in": 0.15,
-   "fade_out": 0.5
+   "fade_out": 0.3
   },
   {
    "src": "/home/user/film/journey/sfx/1311.mp3",
    "src_in": 0.0,
-   "start": 38.36,
-   "end": 39.8,
-   "gain_db": -4,
+   "start": 38.2,
+   "end": 40.4,
+   "gain_db": -3,
    "fade_in": 0.01,
-   "fade_out": 0.4
+   "fade_out": 0.8
   },
   {
    "src": "/home/user/film/journey/sfx/steam.wav",
    "src_in": 0.0,
-   "start": 38.8,
+   "start": 38.75,
    "end": 40.4,
    "gain_db": -6,
    "fade_in": 0.02,

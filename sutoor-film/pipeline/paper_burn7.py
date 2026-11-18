@@ -139,28 +139,38 @@ def main(cfg_p: str) -> None:
     hole_pts = []
     if holes:
         hr = np.random.default_rng(holes.get("seed", 7))
-        ink_d = cv2.dilate((ink > 0.2).astype(np.uint8), np.ones((int(6 * S), int(6 * S)), np.uint8))
+        r_lo, r_hi = holes.get("r", [5, 9])
+        # keep-out: no wound may touch a letter, a dot or a haraka (a stray hole reads as a dot and
+        # changes the word; a hole on a dot deletes it). Distance from the hole's edge to any ink.
+        dist_ink = cv2.distanceTransform((ink < 0.08).astype(np.uint8), cv2.DIST_L2, 5)
+        need = (r_hi * 1.2 + float(holes.get("keepout_px", 12))) * S
         tries = 0
-        while len(hole_pts) < holes.get("n", 20) and tries < 5000:
+        while len(hole_pts) < holes.get("n", 20) and tries < 20000:
             tries += 1
-            p = np.float32([hr.uniform(0.06, 0.94) * pw, hr.uniform(0.12, 0.88) * ph])
-            if ink_d[int(p[1]), int(p[0])]:
-                continue  # never through a letter: the line stays readable
-            if any(np.hypot(*(p - q)) < 40 * S for q in hole_pts):
+            p = np.float32([hr.uniform(0.05, 0.95) * pw, hr.uniform(0.10, 0.90) * ph])
+            if dist_ink[int(p[1]), int(p[0])] < need:
+                continue
+            if any(np.hypot(*(p - q)) < float(holes.get("min_gap_px", 40)) * S for q in hole_pts):
                 continue
             hole_pts.append(p)
+        hole_r = []
         for p in hole_pts:
-            r = hr.uniform(5, 9) * S
+            r = hr.uniform(r_lo, r_hi) * S
+            hole_r.append(r)
             ang = hr.uniform(0, np.pi)
             pts = []
-            for k in range(14):  # a torn, star-ish puncture
-                a = ang + 2 * np.pi * k / 14
-                rr = r * (0.55 + 0.6 * hr.random()) if k % 2 else r
+            nk = 18
+            for k in range(nk):  # a torn puncture: ragged, star-ish, never a round dot
+                a = ang + 2 * np.pi * k / nk
+                rr = r * (0.45 + 0.75 * hr.random()) if k % 2 else r * (0.85 + 0.3 * hr.random())
                 pts.append([p[0] + rr * math.cos(a), p[1] + rr * math.sin(a)])
             cv2.fillPoly(hole_mask, [np.int32(pts)], 1.0, cv2.LINE_AA)
         dist_h = cv2.distanceTransform((1 - (hole_mask > 0.5)).astype(np.uint8), cv2.DIST_L2, 3)
-        hole_rim = np.exp(-dist_h / (4 * S)) * (1 - hole_mask)
+        rim_n = noise((ph, pw), rng, 6 * S, 2)
+        hole_rim = np.exp(-dist_h / ((3 + 5 * rim_n) * S)) * (1 - hole_mask)  # irregular scorched rim
         paper_a0 = paper_a0 * (1 - hole_mask)
+        ink = ink * (1 - hole_mask)
+        meta_holes = {"min_dist_to_ink_px": float(min([dist_ink[int(p[1]), int(p[0])] - r for p, r in zip(hole_pts, hole_r)] or [0]))}
 
     # ---------- burn arrival time T (film seconds) ----------
     u0, v0 = cfg.get("origin", [1.0, 0.55])
@@ -188,7 +198,23 @@ def main(cfg_p: str) -> None:
         T = D[None, :] + float(cfg.get("ragged_s", 0.35)) * dev
     else:
         T = Te / float(cfg.get("speed_px", 55) * S) + float(cfg.get("t_ignite", t0))
-    if holes and hole_pts:  # wounds catch just ahead of the front: fire breaks out of each arrow hole
+    wig = cfg.get("wound_ignite")
+    if wig and hole_pts:  # every arrow hole catches at once and the fire grows outward from each
+        # one organic front from all wounds at once: travel time through the paper's own uneven
+        # fibre (the same streaky speed field as the line burns), so the fronts merge and finger
+        phi_h = np.where(hole_mask > 0.5, -1.0, 1.0)
+        Th = np.ma.filled(skfmm.travel_time(phi_h, sp.astype(np.float64), dx=1.0), 0).astype(np.float32)
+        T = float(wig["t"]) + Th / (float(wig.get("spread_px_s", 160)) * S) + float(wig.get("jitter", 0.3)) * noise((ph, pw), rng, 70 * S, 2)
+        pre = wig.get("pre")  # a few wounds far from the script already smoulder when the shot opens
+        if pre:
+            far = sorted(range(len(hole_pts)), key=lambda i: -dist_ink[int(hole_pts[i][1]), int(hole_pts[i][0])])[: int(pre.get("n", 3))]
+            for i in far:
+                p = hole_pts[i]
+                d = np.hypot(xx - p[0], yy - p[1])
+                tp = float(pre["t"]) + d / (float(pre.get("speed_px_s", 14)) * S * (0.6 + 0.8 * noise((ph, pw), rng, 12 * S, 2)))
+                T = np.where(d < float(pre.get("max_r", 60)) * S, np.minimum(T, tp), T)
+        meta_pre = True
+    elif holes and hole_pts:  # wounds catch just ahead of the front: fire breaks out of each arrow hole
         lead = float(holes.get("lead_s", 0.35))
         for p in hole_pts:
             ti = T[int(p[1]), int(p[0])] - lead
@@ -210,9 +236,10 @@ def main(cfg_p: str) -> None:
         xa, xb = boxes[k]
         ew_mask[:, xa:xb] = ink[:, xa:xb]
         ew_mask = np.clip(cv2.GaussianBlur(ew_mask, (0, 0), 0.5 * S) * 1.2, 0, 1)
-        kz = np.zeros((ph, pw), np.float32)
-        kz[:, max(0, xa - int(50 * S)):min(pw, xb + int(50 * S))] = 1
-        keep_zone = cv2.GaussianBlur(kz, (0, 0), 18 * S) > 0.5
+        kp = float(ew.get("keep_px", 34)) * S
+        dw = cv2.distanceTransform((ew_mask < 0.3).astype(np.uint8), cv2.DIST_L2, 5)
+        ragged = kp * (0.55 + 0.9 * noise((ph, pw), rng, 26 * S, 3))
+        keep_zone = (dw < ragged) & (paper_a0 > 0.5)
         # stroke thickness: thin strokes and dots cool first
         dt = cv2.distanceTransform((ew_mask > 0.3).astype(np.uint8), cv2.DIST_L2, 5)
         local = cv2.dilate(dt, np.ones((int(9 * S), int(9 * S)), np.uint8))
@@ -239,11 +266,36 @@ def main(cfg_p: str) -> None:
     bite = (edge_d < (10 + 30 * noise((ph, pw), rng, 25 * S, 2)) * S) & ~keep_zone
     t_bite = float(cfg.get("bite_after", 3.0)) + 2.0 * noise((ph, pw), rng, 20 * S, 2)
     flake_life = cfg.get("flakes")  # ash flakes that lift off and drift away
+    rim_l = None
+    if cfg.get("rim_light"):
+        er = cv2.erode((paper_a0 > 0.5).astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, int(float(cfg["rim_light"].get("width", 3)) * S)))
+        band = np.clip((paper_a0 > 0.5).astype(np.float32) - er, 0, 1)
+        rim_l = (cv2.GaussianBlur(band, (0, 0), 1.0 * S) * smooth(1 - yy / ph, 0.55, 0.85) * (0.6 + 0.8 * noise((ph, pw), rng, 15 * S, 2))).astype(np.float32)
+    rim_w = ((0.015 + 0.06 * noise((ph, pw), rng, 30 * S, 2)) * float(cfg.get("rim_w_scale", 1.0))).astype(np.float32)  # the glowing edge varies in width
+    rim_b = (0.30 + 1.15 * noise((ph, pw), rng, 18 * S, 3)).astype(np.float32)   # ... and in brightness
+    speck = (smooth(noise((ph, pw), rng, 3 * S, 2), 0.72, 0.9) * smooth(noise((ph, pw), rng, 28 * S, 2), 0.55, 0.8)).astype(np.float32)  # clustered embers in fresh char
+    wo = cfg.get("water_over")  # real water from the plate itself washing over the sheet (a luma matte)
+    wet = np.zeros((ph, pw), np.float32)
 
     # ---------- placement: the sheet's corners in the output frame (1080-scale units) ----------
     quad = np.float32(cfg["quad"]) * S  # TL, TR, BR, BL of the sheet as seen
     M = cv2.getPerspectiveTransform(np.float32([[0, 0], [pw, 0], [pw, ph], [0, ph]]), quad)
-    warp = lambda a: cv2.warpPerspective(a, M, (W, H), flags=cv2.INTER_LINEAR, borderValue=0)  # noqa: E731
+    warp0 = lambda a: cv2.warpPerspective(a, M, (W, H), flags=cv2.INTER_LINEAR, borderValue=0)  # noqa: E731
+    bend = cfg.get("bend")  # {"amp": px, "waves": n, "phase": rad, "shade": k}: the strip lies over a curved leaf
+    bend_shade = None
+    if bend:
+        sgy, sgx = np.mgrid[0:H, 0:W].astype(np.float32)
+        Mi = np.linalg.inv(M)
+        den = Mi[2, 0] * sgx + Mi[2, 1] * sgy + Mi[2, 2]
+        pu = np.clip((Mi[0, 0] * sgx + Mi[0, 1] * sgy + Mi[0, 2]) / den / pw, -0.2, 1.2)
+        ph_ = 2 * np.pi * float(bend.get("waves", 1.0)) * pu + float(bend.get("phase", 0.0))
+        dyb = (float(bend["amp"]) * S * np.sin(ph_)).astype(np.float32)
+        bmx, bmy = sgx, (sgy - dyb).astype(np.float32)
+        bend_shade = (1 + float(bend.get("shade", 0.2)) * np.cos(ph_)).astype(np.float32)[..., None]
+        warp = lambda a: cv2.remap(warp0(a), bmx, bmy, cv2.INTER_LINEAR, borderValue=0)  # noqa: E731
+        del sgy, sgx, den, pu, ph_
+    else:
+        warp = warp0
     cx, cy = quad.mean(axis=0)
     lift_dir = np.float32(cfg.get("lift_dir", [0, -1]))  # screen direction a raised point moves
     lift_k = float(cfg.get("lift_k", 0.30))
@@ -314,9 +366,20 @@ def main(cfg_p: str) -> None:
     dof = cfg.get("dof")  # {"ends_px": blur at the sheet's ends, "all_px": overall softness}
     if dof:
         u_out = cv2.warpPerspective(np.repeat((np.abs(np.arange(pw, dtype=np.float32) / (pw - 1) - float(dof.get("focus_u", 0.5))) * 2)[None, :], ph, 0), M, (W, H))
-    meta = {"word_boxes": boxes, "fps": FPS}
+    meta = {"word_boxes": boxes, "fps": FPS,
+            # film time the fire first touches each word's ink (reading order): QC checks it is after the word is spoken
+            "word_first_burn_s": [round(float(T[:, xa:xb][ink[:, xa:xb] > 0.3].min()), 3) if (ink[:, xa:xb] > 0.3).any() else None for xa, xb in boxes]}
+    if holes:
+        meta.update(meta_holes)
     for fo in range(n_out):
         t = t0 + fo / FPS
+        raw = plate.next()
+        m_scr = None
+        if wo and t >= float(wo.get("t0", 0)):
+            lum_ = raw @ np.array([0.2126, 0.7152, 0.0722], np.float32)
+            m_scr = smooth(cv2.GaussianBlur(lum_, (0, 0), 1.2 * S), float(wo.get("lo", 0.45)), float(wo.get("hi", 0.75))).astype(np.float32)
+            m_scr *= float(wo.get("gain", 1.0))
+            wet = np.maximum(wet, cv2.GaussianBlur(cv2.warpPerspective(m_scr, np.linalg.inv(M), (pw, ph)), (0, 0), 3 * S))
         st = t - T
         scorch = smooth(st, -0.3, 0.0)
         if scorch_pre is not None:  # brown blooms where the coals beneath are hottest
@@ -324,10 +387,14 @@ def main(cfg_p: str) -> None:
             uh_map = under_heat_paper if fo > 0 else None
             if uh_map is not None:
                 grow = smooth(np.float32(t), a0, a1)
-                scorch = np.maximum(scorch, float(catch["underheat"].get("amount", 0.8)) * smooth(uh_map, 0.85 - 0.75 * grow, 1.0 - 0.6 * grow))
-        rim = np.exp(-((st - 0.03) / 0.03) ** 2) * (st > -0.02)
+                if "uh_eff" not in locals():
+                    eb = float(catch["underheat"].get("edge_bias", 0.45))
+                    uh_eff = np.clip((1 - eb) * uh_map + eb * (yy / ph) ** 1.6, 0, 1) * (0.55 + 0.9 * noise((ph, pw), np.random.default_rng(57), 9 * S, 3))
+                    uh_eff = (uh_eff / (uh_eff.max() + 1e-6)).astype(np.float32)
+                scorch = np.maximum(scorch, float(catch["underheat"].get("amount", 0.8)) * smooth(uh_eff, 0.85 - 0.75 * grow, 1.2 - 0.6 * grow))
+        rim = np.exp(-((st - rim_w) / rim_w) ** 2) * (st > -0.02) * (1 - wet)
         flick = cv2.resize(noise((ph // 6, pw // 6), np.random.default_rng(1000 + int(t * 12)), 6, 2), (pw, ph))
-        rim_vis = rim * smooth(flick, 0.3, 0.7) * float(cfg.get("rim_gain", 1.0))
+        rim_vis = rim * rim_b * smooth(flick, 0.25, 0.75) * float(cfg.get("rim_gain", 1.0))
         char = smooth(st, 0.05, 0.14)
         old = smooth(st, 1.2, 2.5)
         dropping = (st > t_drop - 0.2) & (st <= t_drop)
@@ -362,12 +429,14 @@ def main(cfg_p: str) -> None:
         nzy, nzx = np.gradient(cv2.GaussianBlur(z, (0, 0), 4 * S))
 
         em = rim_vis[..., None] * lin(np.array([230, 60, 30], np.float32) / 255) * 6.0
-        em += ((1 - frag_edge) * dropping * drop_glow)[..., None] * lin(np.array([220, 70, 25], np.float32) / 255) * 1.2
+        em += ((1 - frag_edge) * dropping * drop_glow)[..., None] * lin(np.array([220, 70, 25], np.float32) / 255) * float(cfg.get("frag_glow", 0.0))
+        afterglow = smooth(st, 0.0, 0.06) * (1 - smooth(st, 0.25, float(cfg.get("afterglow_s", 1.4)))) * (1 - wet)
+        em += (speck * afterglow * smooth(flick, 0.2, 0.8))[..., None] * np.array([0.9, 0.18, 0.03], np.float32) * float(cfg.get("afterglow", 0.8))
         spk = (rng.random((ph, pw)) > 1 - 0.0006 / (S * S)) & (st > 0.08) & (st < 0.45)
         em += cv2.GaussianBlur(spk.astype(np.float32), (0, 0), 0.8 * S)[..., None] * np.array([4.0, 1.4, 0.3], np.float32)
         if holes:  # a glowing ring round each wound while the fire is near it
             near = smooth(st, -0.45, -0.05) * (1 - smooth(st, 0.1, 0.4))
-            em += (hole_rim ** 2 * near)[..., None] * np.array([1.6, 0.35, 0.05], np.float32)
+            em += (hole_rim ** 2 * near * rim_b * speck * (1 - wet))[..., None] * np.array([1.1, 0.24, 0.04], np.float32) * float(holes.get("ring_glow", 0.6))
         if ew is not None:
             heat = float(np.interp(t, heat_k[:, 0], heat_k[:, 1]))
             for g in gusts:  # wind gusts make the ember breathe
@@ -378,9 +447,15 @@ def main(cfg_p: str) -> None:
                 qd = float(quench.get("dur", 1.6))
                 ql = np.clip((t - qa) / qd, 0, 1)
                 cool_map = np.clip(1 - ql * (1.0 + 1.6 * thin), 0, 1) ** 1.5
+            if wo:  # the sea puts it out: where the water has been, the strokes die (thin ones at once)
+                cool_map = cool_map * np.clip(1 - wet * (1.3 + 1.5 * thin), 0, 1) ** 1.5
             if heat > 0.001:
                 charred_here = smooth(st, 0.0, 0.25)
                 core = cv2.GaussianBlur(ew_mask, (0, 0), 0.6 * S)
+                if "ew_tex" not in locals():
+                    ew_tex = (0.45 + 0.75 * noise((ph, pw), np.random.default_rng(91), 4 * S, 3)) * (1 - 0.6 * np.clip(1 - np.abs(noise((ph, pw), np.random.default_rng(92), 9 * S, 2) - 0.5) / 0.04, 0, 1))
+                    ew_tex = ew_tex.astype(np.float32)
+                core = core * ew_tex
                 halo = cv2.GaussianBlur(ew_mask, (0, 0), 5 * S)
                 fl_n = 0.88 + 0.12 * smooth(flick, 0.2, 0.8)
                 gain = float(ew.get("gain", 0.8))
@@ -388,7 +463,7 @@ def main(cfg_p: str) -> None:
                 em += (v6.blackbody(hmap) * gain + v6.blackbody(heat * 0.45 * halo * cool_map) * 0.25 * gain) * charred_here[..., None]
 
         # ---------- flame emitters on the burning edge ----------
-        active = (st > 0.0) & (st < float(cfg.get("flame_window", 0.3))) & (paper_a0 > 0) & (~gone)
+        active = (st > 0.0) & (st < float(cfg.get("flame_window", 0.3))) & (paper_a0 > 0) & (~gone) & (wet < 0.3)
         if ew is not None and cfg.get("no_flames_on_word", True):
             active &= ~keep_zone
         n_act = int(active.sum())
@@ -477,7 +552,6 @@ def main(cfg_p: str) -> None:
         fire = E * np.array([1.0, 0.32, 0.10], np.float32) * float(cfg.get("fire_light_gain", 1.0))
 
         # ---------- the world: plate, relit by the fire ----------
-        raw = plate.next()
         bg_alb = lin(raw)
         if p_sat != 1.0:
             l_ = bg_alb @ np.array([0.2126, 0.7152, 0.0722], np.float32)
@@ -517,8 +591,13 @@ def main(cfg_p: str) -> None:
         if key:
             kd = np.float32(key["dir"])
             kshade = np.clip(1 + key.get("relief", 0.6) * (p_nx * kd[0] + p_ny * kd[1]) / (S * 2), 0.3, 1.8)[..., None]
-            illum = illum + np.array(key["rgb"], np.float32) * float(key["level"]) * kshade
+            k_env = float(np.interp(t, *zip(*key["env"]))) if "env" in key else 1.0
+            illum = illum + np.array(key["rgb"], np.float32) * float(key["level"]) * k_env * kshade
+        if bend_shade is not None:
+            illum = illum * bend_shade
         paper = p_alb * illum * warp(sheet_light)[..., None] + spec * fire + p_em
+        if rim_l is not None:  # the low sun behind catches the torn top edge
+            paper += warp(rim_l)[..., None] * np.array(cfg["rim_light"].get("rgb", [1.0, 0.75, 0.45]), np.float32) * float(cfg["rim_light"]["level"])
         if under:  # light from the coals shows through the thin sheet (strongest where unburnt)
             uh_o = warp(under_heat_paper)[..., None]
             u_env = float(np.interp(t, *zip(*under["env"]))) if "env" in under else 1.0
@@ -576,14 +655,19 @@ def main(cfg_p: str) -> None:
                 ys2, xs2 = np.nonzero(gone_now[::7, ::7])
                 for j in rng.permutation(len(xs2))[: int(flake_life.get("per_frame", 6))]:
                     pp = cv2.perspectiveTransform(np.array([[[xs2[j] * 7, ys2[j] * 7]]], np.float32), M)[0, 0]
-                    flakes.append([pp[0], pp[1], rng.normal(flake_life.get("vx", 3.0), 1.5) * S, rng.normal(flake_life.get("vy", -4.0), 1.5) * S, 1.0, rng.uniform(3, 9) * S])
+                    flakes.append([pp[0], pp[1], rng.normal(flake_life.get("vx", 3.0), 1.5) * S, rng.normal(flake_life.get("vy", -4.0), 1.5) * S, 1.0,
+                                   rng.uniform(2, 7) * S, float(rng.random() < float(flake_life.get("glow_frac", 0.3))), rng.uniform(0, 180)])
             fk = np.zeros((H, W), np.float32)
+            fg = np.zeros((H, W), np.float32)
             for f_ in flakes:
-                f_[0] += f_[2]; f_[1] += f_[3]; f_[3] -= 0.05 * S; f_[4] -= 1.0 / (FPS * flake_life.get("life_s", 1.6))
+                f_[0] += f_[2]; f_[1] += f_[3]; f_[3] -= 0.05 * S; f_[4] -= 1.0 / (FPS * flake_life.get("life_s", 1.6)); f_[7] += 9
                 if f_[4] > 0 and 0 <= f_[0] < W and 0 <= f_[1] < H:
-                    cv2.ellipse(fk, (int(f_[0]), int(f_[1])), (int(f_[5]), int(f_[5] * 0.5)), float(rng.uniform(0, 180)), 0, 360, float(f_[4]), -1, cv2.LINE_AA)
+                    ax = (max(1, int(f_[5])), max(1, int(f_[5] * (0.25 + 0.5 * abs(math.sin(math.radians(f_[7])))))))  # tumbling
+                    cv2.ellipse(fg if f_[6] else fk, (int(f_[0]), int(f_[1])), ax, f_[7], 0, 360, float(f_[4]), -1, cv2.LINE_AA)
             flakes = [f_ for f_ in flakes if f_[4] > 0]
-            frame = frame * (1 - 0.85 * cv2.GaussianBlur(fk, (0, 0), 0.8 * S)[..., None])
+            fkb = cv2.GaussianBlur(fk, (0, 0), 1.6 * S)[..., None]
+            frame = frame * (1 - 0.55 * fkb) + fkb * 0.012 * np.array([1, 0.97, 0.95], np.float32)
+            frame = frame + cv2.GaussianBlur(fg, (0, 0), 1.2 * S)[..., None] * np.array([1.4, 0.35, 0.06], np.float32) * (fg.max() > 0)
         if quench:  # seawater slides over the stone: a moving wet front with a bright edge, then steam
             qa = float(quench["t"])
             if t >= qa - 0.2:
@@ -596,6 +680,12 @@ def main(cfg_p: str) -> None:
                 edge_ = 0.6 * np.exp(-((prog * 1.3 - d_) / 0.03) ** 2)[..., None]
                 region = (patch_mask[..., None] if patch_mask is not None else 1.0)
                 frame = frame * (1 - 0.18 * wf * region) + edge_ * region * (0.05 + 0.3 * fire)
+        if m_scr is not None:
+            water = bg_alb * p_gain * p_tint * float(wo.get("water_gain", 1.0)) + bg_alb * fire * fire_on_plate * 0.5
+            mm = m_scr[..., None]
+            frame = frame * (1 - mm) + water * mm
+            p_em = p_em * (1 - mm)
+            fl = fl * (1 - mm)
         bq = cv2.resize(fl + p_em * p_a[..., None], (W // q, H // q), interpolation=cv2.INTER_AREA)
         frame += cv2.resize(cv2.GaussianBlur(bq, (0, 0), 6 * S / 2) * 0.25 + cv2.GaussianBlur(bq, (0, 0), 28 * S / 2) * 0.12, (W, H))
 

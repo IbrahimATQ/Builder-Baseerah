@@ -20,7 +20,7 @@ Plan (JSON):
               "trans": {"type": "burn", "dur": 0.9, "seed": 1, "origin": [0.5, 1.0]},
               "toBlack": 0}],
    "end": t (last shot's end)}
-Grade keys: ev (stops), temp (-1..1, warm +), tint, sat, bw (0..1), contrast, black, halation,
+Grade keys: ev (stops), temp (-1..1, warm +), tint, sat, bw (0..1), contrast, floor (black point pulled down), black, halation,
             split (0..1 warm-highlight / cool-shadow amount), vignette.
 
 Writes OUT.mp4 (H.264, BT.709, CRF 14) and OUT.light.json: per-frame scene light (mean
@@ -219,6 +219,8 @@ def grade(img: np.ndarray, g: dict) -> np.ndarray:
         hl = np.clip((l - 0.5) / 0.5, 0, 1)[..., None]
         s = g["split"]
         out = out + s * (sh * np.array([-0.012, 0.004, 0.022], np.float32) + hl * np.array([0.03, 0.008, -0.03], np.float32))
+    if g.get("floor", 0.0) > 0:  # pull a milky shot's black point down to the film's common floor
+        out = np.clip((out - g["floor"]) / (1 - g["floor"]), 0, 1)
     out = g["black"] + (1 - g["black"]) * out
     if g["vignette"] > 0:
         out *= vignette(out.shape[1], out.shape[0], g["vignette"])
@@ -377,7 +379,14 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
         mid = img[int(H * 0.25):int(H * 0.75):8, ::8]
         lum = float((mid @ np.array([0.2126, 0.7152, 0.0722], np.float32)).mean())
         warm = float(mid[..., 0].mean() - mid[..., 2].mean())
-        light.append((round(lum, 4), round(warm, 4)))
+        # under the text: the brightest tenth of each line's band (does a bright plate wash out the words?)
+        # and the share of foam-white pixels across the text zone (the sea washing over the words)
+        lw = [0.2126, 0.7152, 0.0722]
+        ba = img[int(H * 0.15):int(H * 0.23):6, ::6] @ np.array(lw, np.float32)
+        bb = img[int(H * 0.23):int(H * 0.31):6, ::6] @ np.array(lw, np.float32)
+        zone = img[int(H * 0.14):int(H * 0.32):6, ::6] @ np.array(lw, np.float32)
+        light.append((round(lum, 4), round(warm, 4), round(float(np.percentile(ba, 90)), 4), round(float(np.percentile(bb, 90)), 4),
+                      round(float((zone > 0.62).mean()), 4)))
     for r in readers.values():
         r.close()
     enc.stdin.close()
@@ -412,7 +421,8 @@ def main() -> None:
             os.remove(p)
     os.remove(lst); os.rmdir(tmp)
     light = [x for part in lights for x in part]
-    json.dump({"fps": fps, "from_frame": f0, "lum": [a for a, _ in light], "warm": [b for _, b in light]},
+    json.dump({"fps": fps, "from_frame": f0, "lum": [x[0] for x in light], "warm": [x[1] for x in light],
+               "band_a": [x[2] for x in light], "band_b": [x[3] for x in light], "foam": [x[4] for x in light]},
               open(os.path.splitext(out_p)[0] + ".light.json", "w"))
     print(json.dumps({"out": out_p, "frames": f1 - f0, "size_px": [int(plan["w"] * opts["--scale"]), int(plan["h"] * opts["--scale"])]}))
 

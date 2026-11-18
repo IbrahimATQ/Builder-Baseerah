@@ -63,7 +63,7 @@ def main() -> None:
     light = {"lum": [], "warm": []}
     if light_p and os.path.exists(light_p):
         lj = json.load(open(light_p))
-        light = {"lum": lj["lum"], "warm": lj["warm"]}
+        light = {k: lj[k] for k in ("lum", "warm", "band_a", "band_b", "foam") if k in lj}
     ew = plan["endWord"]
     edl = {
         "fps": fps,

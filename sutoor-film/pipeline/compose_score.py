@@ -145,6 +145,9 @@ def compose(timing: dict, out_dir: str) -> dict:
     keys.add(render_note(I["piano"], m("F4"), 2.0, attack=0.002, release=1.5), v_end(4) - 0.25, 0.14, 0.15)
     keys.add(render_note(I["piano"], m("E4"), 4.0, attack=0.002, release=2.5), v_end(4) + 0.25, 0.13, 0.15)
     low.add(render_note(I["cbass"], m("E2"), v_end(4) - a4 + 0.5, layer=1, attack=1.5, release=1.0), a4, 0.22)
+    if journey:  # a quiet string pad under verse 4, so the voice is never left alone over the sea bed
+        mid.add(render_note(I["cello"], m("E3"), v_end(4) - a4 + 1.4, layer=1, attack=1.2, release=1.4), a4 - 0.6, 0.24, -0.25)
+        mid.add(render_note(I["viola"], m("B3"), v_end(4) - a4 + 1.0, layer=1, attack=1.4, release=1.4), a4 - 0.3, 0.15, 0.3)
 
     # ---------------- ACT V: arrows of time (Hijaz, swelling) ----------------
     a5 = v_start(5) - (0.9 if journey else 0.2)  # the Journey edition bridges the pause into each act

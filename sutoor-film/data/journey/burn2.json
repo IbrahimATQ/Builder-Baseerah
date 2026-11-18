@@ -31,28 +31,28 @@
  },
  "quad": [
   [
-   110,
-   1000
+   165,
+   1030
   ],
   [
-   975,
-   992
+   925,
+   1019
   ],
   [
-   1008,
-   1400
+   1010,
+   1402
   ],
   [
-   78,
-   1412
+   72,
+   1415
   ]
  ],
  "lift_dir": [
   0,
   -1
  ],
- "lift_k": 0.35,
- "curl_gain": 1.2,
+ "lift_k": 0.45,
+ "curl_gain": 1.6,
  "plate": {
   "src": "/home/user/film/journey/src/3443.mp4",
   "in": 2.0,
@@ -63,7 +63,7 @@
    1
   ],
   "sat": 1.0,
-  "fire_relight": 0.5
+  "fire_relight": 1.0
  },
  "ambient": {
   "rgb": [
@@ -74,7 +74,7 @@
   "level": 0.14
  },
  "underlight": {
-  "gain": 0.4,
+  "gain": 0.8,
   "env": [
    [
     21.7,
@@ -92,11 +92,12 @@
  },
  "catch": {
   "t": 24.1,
-  "spread": 0.3,
+  "spread": 0.85,
   "underheat": {
    "t0": 21.7,
    "t1": 24.1,
-   "amount": 0.85
+   "amount": 0.85,
+   "edge_bias": 0.65
   }
  },
  "sheet_fire": {
@@ -113,7 +114,7 @@
    1100
   ],
   "gain": 1.0,
-  "light": 40,
+  "light": 35,
   "env": [
    [
     24.1,
@@ -225,14 +226,15 @@
   "per_frame": 8,
   "vx": 1.5,
   "vy": -6.0,
-  "life_s": 1.2
+  "life_s": 1.2,
+  "glow_frac": 0.35
  },
  "drop_after": [
   0.55,
   1.1
  ],
  "char_keep": 0.55,
- "bite_after": 0.7,
+ "bite_after": 0.25,
  "ash_ink_gloss": 0.014,
  "shadow_dir": [
   0,
@@ -253,5 +255,12 @@
   1.05,
   0.2,
   0.0
- ]
+ ],
+ "origin": [
+  0.5,
+  1.0
+ ],
+ "fire_light_gain": 1.0,
+ "frag_glow": 0.0,
+ "afterglow": 0.6
 }
