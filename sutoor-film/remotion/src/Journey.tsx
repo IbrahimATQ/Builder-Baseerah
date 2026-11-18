@@ -57,7 +57,7 @@ type JVerse = {
     readonly recallUntil?: number; // the recall fades out by this time
     readonly focus?: readonly (readonly [number, number])[]; // keyframed lens blur (px): the words rack into focus with the shot
     readonly ripples?: readonly { readonly t: number; readonly amp: number; readonly dur: number }[]; // a drop or a step ripples the letters
-    readonly wash?: boolean; // foam passing through the text zone washes over the words (they come back)
+    readonly wash?: boolean | { readonly lo: number; readonly hi: number; readonly band?: "a" | "b" }; // the sea washes over the words (they come back): true = foam share in the text zone; {lo, hi, band} = brightness under that line rising from lo to hi
   };
 };
 type Overlay = {
@@ -194,7 +194,10 @@ const SpokenWord: React.FC<{ w: Word; v: JVerse; idx: number; count: number; rec
   const band = bandAt(t);
   const recallLvl = 0.45 + 0.12 * Math.max(0, Math.min(1, (band.a - 0.35) / 0.25)); // a brighter plate keeps the recall readable
   const recall = recallFrom === null ? 1 : interpolate(t, [recallFrom, recallFrom + 0.4], [1, recallLvl], { ...clamp, easing: SOFT });
-  const washK = v.style.wash ? Math.max(0, Math.min(1, (band.foam - 0.04) / 0.22)) : 0;
+  const wsh = v.style.wash;
+  const washK = !wsh ? 0 : wsh === true
+    ? Math.max(0, Math.min(1, (band.foam - 0.04) / 0.22))
+    : Math.max(0, Math.min(1, ((wsh.band === "b" ? band.b : band.a) - wsh.lo) / Math.max(1e-3, wsh.hi - wsh.lo)));
   const lens = keyed(v.style.focus, t, 0) + 5 * washK;
   // the verse leaves in the pause, in reading order, over ~0.7 s
   const k = (t - (v.clear + (idx / Math.max(1, count)) * 0.25)) / 0.45;

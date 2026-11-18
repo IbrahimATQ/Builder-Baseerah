@@ -552,7 +552,11 @@
    ],
    "lumRef": 0.18,
    "clear": 24.3,
-   "wash": true
+   "wash": {
+    "lo": 0.24,
+    "hi": 0.4,
+    "band": "a"
+   }
   },
   "5": {
    "mode": "light",
