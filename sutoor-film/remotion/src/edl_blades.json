@@ -12,8 +12,8 @@
     }
    ],
    "clear": 3.76,
-   "y": 0.668,
-   "x": 0.5,
+   "y": 0.645,
+   "x": 0.68,
    "size": 190,
    "out": 0.0,
    "color": "#F6EEDD",
@@ -34,7 +34,7 @@
    ],
    "clear": 3.76,
    "y": 0.782,
-   "x": 0.5,
+   "x": 0.59,
    "size": 150,
    "out": 0.0,
    "color": "#F6EEDD",
@@ -49,9 +49,9 @@
     }
    ],
    "clear": 4.62,
-   "y": 0.73,
+   "y": 0.785,
    "x": 0.5,
-   "size": 210,
+   "size": 170,
    "out": 0.1,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
@@ -65,9 +65,9 @@
     }
    ],
    "clear": 5.34,
-   "y": 0.73,
-   "x": 0.5,
-   "size": 190,
+   "y": 0.785,
+   "x": 0.6,
+   "size": 170,
    "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
@@ -82,21 +82,34 @@
     {
      "text": "هامِ",
      "start": 5.624
-    },
-    {
-     "text": "الأَوالي",
-     "start": 5.904,
-     "show": 5.624
     }
    ],
-   "clear": 6.36,
-   "y": 0.66,
-   "x": 0.5,
-   "size": 150,
-   "out": 0.12,
+   "clear": 6.31,
+   "y": 0.52,
+   "x": 0.21,
+   "size": 132,
+   "out": 0.08,
    "color": "#F6EEDD",
    "emColor": "#FFD79A",
    "lead": 0.0
+  },
+  {
+   "id": "v1b.2",
+   "words": [
+    {
+     "text": "الأَوالي",
+     "start": 5.904,
+     "show": 5.78,
+     "em": true
+    }
+   ],
+   "clear": 6.31,
+   "y": 0.64,
+   "x": 0.42,
+   "size": 200,
+   "out": 0.08,
+   "color": "#F6EEDD",
+   "emColor": "#FFD79A"
   },
   {
    "id": "v2a.0",
@@ -112,7 +125,8 @@
    "size": 180,
    "out": 0.12,
    "color": "#F6EEDD",
-   "emColor": "#FFD79A"
+   "emColor": "#FFD79A",
+   "lead": 0.0
   },
   {
    "id": "v2a.1",
@@ -535,7 +549,7 @@
    ],
    "clear": 25.52,
    "y": 0.655,
-   "x": 0.72,
+   "x": 0.58,
    "size": 130,
    "out": 0.0,
    "color": "#F6EEDD",
@@ -557,8 +571,8 @@
    ],
    "clear": 25.52,
    "y": 0.775,
-   "x": 0.655,
-   "size": 145,
+   "x": 0.53,
+   "size": 160,
    "out": 0.0,
    "color": "#F6EEDD",
    "emColor": "#FFD79A"
@@ -626,14 +640,15 @@
    "words": [
     {
      "text": "المُتَنَبّي",
-     "start": 0.3
+     "start": 0.0
     }
    ],
-   "allAt": 0.3,
-   "rise": 0.5,
+   "allAt": -0.3,
+   "rise": 0.3,
    "clear": 1.76,
    "out": 0.1,
-   "y": 0.4,
+   "y": 0.535,
+   "x": 0.42,
    "size": 210,
    "family": "ArefRuqaaB",
    "weight": 700,

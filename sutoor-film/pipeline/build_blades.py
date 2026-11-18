@@ -98,7 +98,9 @@ def main() -> None:
         tx = s.get("text")
         if tx:
             ranges.append({"from": t0, "to": t1, **tx})
-            needs_depth = (tx.get("occlude") and tx["occlude"].get("type", "depth") == "depth") or tx.get("dof") or tx.get("atmo") \
+            occs = tx.get("occlude") or []
+            occs = occs if isinstance(occs, list) else [occs]
+            needs_depth = any(o.get("type", "depth") == "depth" for o in occs) or tx.get("dof") or tx.get("atmo") \
                 or tx.get("depth") is not None
             if needs_depth:
                 depth_ranges.append([t0, t1])

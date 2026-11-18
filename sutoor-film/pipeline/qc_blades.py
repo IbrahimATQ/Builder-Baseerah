@@ -10,7 +10,8 @@ What is checked
             aligned words (data/timing.json): nothing added, dropped, reordered or re-spelt
   sync      each word appears at its aligned onset (minus the fixed lead), inside the shot it is spoken over,
             and stays at least until it has been spoken
-  layout    measured width of every row (HarfBuzz/Raqm shaping) <= 86 % of the frame, rows inside the safe area
+  layout    measured width of every row (HarfBuzz/Raqm shaping) <= 86 % of the frame, rows inside the safe area,
+            and no row under the button column the platforms draw at the right edge of the lower half
   seen      in the FINISHED frames, each word really differs from the picture under it (it is not hidden by an
             occlusion, a dim "lit" shot or a bright plate)
   file      size, rate, duration, codec, colour tags, video levels; no stray black stretches
@@ -119,7 +120,7 @@ def main() -> None:
         from PIL import ImageFont
         fonts = {("AmiriB", 700): "amiri-Amiri-Bold.ttf", ("AmiriB", 400): "amiri-Amiri-Regular.ttf",
                  ("ArefRuqaaB", 700): "arefruqaa-ArefRuqaa-Bold.ttf", ("ArefRuqaaB", 400): "arefruqaa-ArefRuqaa-Regular.ttf"}
-        wide, unsafe, lay = [], [], []
+        wide, unsafe, column, lay = [], [], [], []
         for l in edl["lines"]:
             fam, wt, size = l.get("family", "AmiriB"), int(l.get("weight", 700)), float(l["size"])
             f = ImageFont.truetype(os.path.join(ROOT, "remotion", "public", "fonts", fonts[(fam, wt)]), 200, layout_engine=ImageFont.Layout.RAQM)
@@ -137,8 +138,11 @@ def main() -> None:
                     wide.append(item)
                 if top < 0.08 or bot > 0.84:
                     unsafe.append(item)
+                if item["right"] > 0.86 and bot > 0.50 and top < 0.90:  # Arabic rows START at the right: the like/comment/share buttons would cover the first letters
+                    column.append(item)
         check("no row is wider than 86 % of the frame or closer than 4 % to an edge", not wide, wide)
         check("every row sits inside the safe area (8 %..84 % of the height)", not unsafe, unsafe)
+        check("no row reaches under the button column of Reels and TikTok (right of 86 % of the width, in the lower half)", not column, column)
         rep["layout"] = lay
     except Exception as e:  # noqa: BLE001
         check("layout measured", False, f"could not measure: {e}")

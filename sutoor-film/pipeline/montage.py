@@ -27,7 +27,7 @@ Plan (JSON):
               "trans": {"type": "cut|dissolve|dip|whip|zoom|flash|matte", "dur": 0.25, ...}}],
    "overlays": [{"src", "start", "end", "in": 0, "speed": 1.0, "mode": "screen", "gain": 1.0, "fade": 0.2,
                  "fade_in": s, "fade_out": s, "flip": false, "rotate": 0, "black": 0.02, "tint": [r, g, b],
-                 "mono": false, "r2g": 0.0, "soften": px}]}
+                 "mono": false, "r2g": 0.0, "soften": px, "glow": {"sigma": px at 4K, "gain": 0.6}}]}
 A transition belongs to the incoming shot and spans [start - dur/2, start + dur/2].
   whip : "dir": "left|right|up|down" (the way the picture travels), "ease": 3.0
   zoom : "factor": 3.0, "centre": [0.5, 0.5]
@@ -538,6 +538,11 @@ def render_range(plan_p: str, out_p: str, f0: int, f1: int, scale: float) -> lis
                     o = cv2.GaussianBlur(o, (0, 0), float(ov["soften"]) * scale)
                 if ov.get("tint"):
                     o = o * np.array(ov["tint"], np.float32)
+                if ov.get("glow"):  # the light a bright element throws around itself: a wide soft copy, so embers light what they cross
+                    g = ov["glow"]
+                    small = cv2.resize(o, (max(W // 8, 2), max(H // 8, 2)), interpolation=cv2.INTER_AREA)
+                    halo = cv2.GaussianBlur(small, (0, 0), max(float(g.get("sigma", 40.0)) * scale / 8, 0.5))
+                    o = o + float(g.get("gain", 0.6)) * cv2.resize(halo, (W, H), interpolation=cv2.INTER_LINEAR)
                 img = (1 - (1 - np.clip(img, 0, 1)) * (1 - np.clip(o, 0, 1))) if ov.get("mode", "screen") == "screen" else img + o
         img = np.clip(img, 0, 1)
         enc.stdin.write((img * 255 + 0.5).astype(np.uint8).tobytes())

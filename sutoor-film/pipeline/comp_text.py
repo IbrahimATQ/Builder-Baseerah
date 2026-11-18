@@ -11,7 +11,9 @@ per time range, how the type lives in that shot:
                "mode": "light" | "ink",          # letters as light (dark plates) or as ink (bright surfaces)
                "depth": 0.45,                    # the plane the letters stand on (0 far .. 1 near)
                "occlude": {"type": "depth", "near": 0.55, "soft": 0.10, "gain": 1.0}
-                        | {"type": "luma", "lo": 0.35, "hi": 0.6, "invert": false, "blur": 0 (px at 4K)},
+                        | {"type": "luma", "lo": 0.35, "hi": 0.6, "invert": false, "blur": 0 (px at 4K)}
+                        | {"type": "warm", "lo": 0.10, "hi": 0.25, "blur": 2}    # (red - blue) / brightness: skin in front of letters on cool ground
+                        | [several of these],                               # whichever hides more wins
                "track": {"layer": "far" | "all"},    # the letters ride the shot's own camera motion
                "dof": {"focus": [[t, depth], ...], "strength": 26, "zone": 0.05, "max": 22},
                "atmo": {"src": clip, "in": s, "depth": 0.5, "soft": 0.12, "gain": 0.8, "tint": [r, g, b]},
@@ -253,8 +255,9 @@ def main() -> None:
         if ri is not None and cfg.get("track"):
             small = cv2.cvtColor(cv2.resize(P8, (W // 4, H // 4), interpolation=cv2.INTER_AREA), cv2.COLOR_RGB2GRAY)
             mask = None
-            if isinstance(cfg["track"], dict) and cfg["track"].get("layer", "far") == "far" and d_small is not None and occ:
-                mask = (cv2.resize(d_small, (W // 4, H // 4)) < float(occ.get("near", 0.5))).astype(np.uint8) * 255
+            occ_d = next((o for o in (occ if isinstance(occ, list) else [occ] if occ else []) if o.get("type", "depth") == "depth"), None)
+            if isinstance(cfg["track"], dict) and cfg["track"].get("layer", "far") == "far" and d_small is not None and occ_d:
+                mask = (cv2.resize(d_small, (W // 4, H // 4)) < float(occ_d.get("near", 0.5))).astype(np.uint8) * 255
             if ri not in trackers:
                 trackers = {ri: Tracker()}
             A = trackers[ri].update(small, mask)
@@ -303,25 +306,31 @@ def main() -> None:
                 C = cv2.GaussianBlur(C * a[..., None], (0, 0), soft) / np.maximum(a_s[..., None], 1e-4)
                 a = a_s
             lum = Pc @ LUMA
-            # ---- what is nearer than the letters hides them
+            # ---- what is nearer than the letters hides them (one key, or several: whichever hides more wins)
             if occ:
-                fg = None
-                if occ.get("type", "depth") == "depth":
-                    if d_small is not None:
-                        dc = (D[y0:y1, x0:x1] if D is not None else cv2.resize(d_small, (W, H), interpolation=cv2.INTER_LINEAR)[y0:y1, x0:x1])
-                        near, sf = float(occ.get("near", 0.55)), float(occ.get("soft", 0.10))
-                        fg = smoothstep(dc, near - sf / 2, near + sf / 2).astype(np.float32)
-                        if D is None:
-                            fg = np.clip(guided(lum, fg, max(2, int(10 * S)), 4e-4), 0, 1)
-                else:
-                    ol = lum
-                    if float(occ.get("blur", 0.0)) > 0:  # key a slightly smoothed picture, so codec noise in the shadows does not chew the letters' edges
-                        ol = cv2.GaussianBlur(lum, (0, 0), float(occ["blur"]) * S)
-                    fg = smoothstep(ol, float(occ.get("lo", 0.35)), float(occ.get("hi", 0.6)))
-                    if occ.get("invert"):
-                        fg = 1 - fg
-                if fg is not None:
-                    a = a * (1 - float(occ.get("gain", 1.0)) * fg)
+                hide = None
+                for oc in (occ if isinstance(occ, list) else [occ]):
+                    fg = None
+                    if oc.get("type", "depth") == "depth":
+                        if d_small is not None:
+                            dc = (D[y0:y1, x0:x1] if D is not None else cv2.resize(d_small, (W, H), interpolation=cv2.INTER_LINEAR)[y0:y1, x0:x1])
+                            near, sf = float(oc.get("near", 0.55)), float(oc.get("soft", 0.10))
+                            fg = smoothstep(dc, near - sf / 2, near + sf / 2).astype(np.float32)
+                            if D is None:
+                                fg = np.clip(guided(lum, fg, max(2, int(10 * S)), 4e-4), 0, 1)
+                    else:
+                        # "luma": bright things stand in front; "warm": warm things do (skin against cool sand)
+                        ol = ((Pc[..., 0] - Pc[..., 2]) / (lum + 0.08)) if oc.get("type") == "warm" else lum  # relative warmth, so dark skin keys like fair skin
+                        if float(oc.get("blur", 0.0)) > 0:  # key a slightly smoothed picture, so codec noise in the shadows does not chew the letters' edges
+                            ol = cv2.GaussianBlur(ol, (0, 0), float(oc["blur"]) * S)
+                        fg = smoothstep(ol, float(oc.get("lo", 0.35)), float(oc.get("hi", 0.6)))
+                        if oc.get("invert"):
+                            fg = 1 - fg
+                    if fg is not None:
+                        fg = float(oc.get("gain", 1.0)) * fg
+                        hide = fg if hide is None else np.maximum(hide, fg)
+                if hide is not None:
+                    a = a * (1 - hide)
                     stats["occluded_frames"] += 1
             # ---- a real clip lets the line appear (ink in water)
             rv = cfg.get("reveal")
