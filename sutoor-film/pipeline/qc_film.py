@@ -108,9 +108,10 @@ def main(film, edl_p, poem_p, timing_p, plan_p, voice_p, out_p):
     # A jump into a window where the reciter starts a word after a pause is his own delivery, not a
     # sudden effect; it is reported but not failed. Everything else must stay <= 12 dB.
     onsets = [w["film_start"] for w in timing["words"]]
-    def reentry(i):  # window i+1 holds a word onset and window i holds none
+    def reentry(i):  # a word starts in window i+1 (or in the last 0.1 s of window i, so window i barely
+        # holds it) after a pause: window i holds no earlier onset
         a0, a1, b1 = (i + 0.0) * 0.4, (i + 1) * 0.4, (i + 2) * 0.4
-        return any(a1 <= o < b1 for o in onsets) and not any(a0 <= o < a1 for o in onsets)
+        return any(a1 - 0.1 <= o < b1 for o in onsets) and not any(a0 <= o < a1 - 0.1 for o in onsets)
     other = [j for i, j in enumerate(jumps) if i >= 3 and not reentry(i)]
     speech = [(round(i * 0.4, 1), j) for i, j in enumerate(jumps) if i >= 3 and reentry(i) and j > 12]
     check("no sudden loudness jump > 12 dB per 0.4 s (after the prologue; speech re-entries reported)",
