@@ -45,7 +45,7 @@ def clip(i: int | str, folder: str = V4) -> str:
 
 shots = [
     # ---------------------------------------------------------------- the name, behind a real fire
-    {"id": "fire", "src": clip(42768), "lic": 42768, "start": 0.0, "time": [[0.0, 0.3], [1.78, 2.9]], "window": {"cx": 0.3},
+    {"id": "fire", "src": clip(42768), "lic": 42768, "start": 0.0, "in": 1.3, "window": {"cx": 0.36},  # real speed; this stretch and framing keep the fire's flicker inside the photosensitivity limit
      "move": {"z": [1.0, 1.08]}, "grade": {"ev": -0.1, "sat": 0.95, "halation": 0.36},
      "grade_keys": [[0.0, {"ev": -2.2}], [0.13, {"ev": -0.1}]],  # two frames up from dark, never a black first frame
      "text": {"glow": 0.5, "pool": 1.2, "occlude": {"type": "luma", "lo": 0.7, "hi": 0.96, "gain": 0.75, "blur": 2.0}}},
