@@ -89,13 +89,13 @@ shots = [
      # 1013 from 0.4 s at its true cadence (true_cadence.py: every real frame, the dropped ones rebuilt), so 0.71 speed:
      # the foot comes down on «وَتَمشي»; white cloth, skin and sand kept apart by the grade
      "move": {"z": [1.0, 1.04]}, "shake": {"amp": 2, "seed": 5}, "grade": {"ev": 0.95, "sat": 0.78, "temp": -2.0, "tint": 1.6, "contrast": 1.18},
-     "text": {"pool": 0.9, "glow": 0.3, "occlude": {"type": "warm", "lo": 0.10, "hi": 0.25, "gain": 0.95, "blur": 2.0}}},  # the foot steps in front of the word
+     "text": {"pool": 0.9, "glow": 0.3, "occlude": {"type": "warm", "lo": 0.15, "hi": 0.3, "gain": 0.95, "blur": 8.0}}},  # the foot steps in front of the word (keyed broadly: single warm grains of sand must not eat the letters)
     {"id": "foam", "src": clip("1013-21"), "lic": 1013, "start": 5.34, "in": in_at_frame(56, 5.34), "window": {"fill": 1.25},
      # 1013 from 9.3 s at its true cadence, and the frame held on the sand (ground_lock.py): the walker leaves, the footprint
      # stays, the edge of the sea comes for it. The foot lifts off the print as «الأَوالي» lands
      "move": {"keys": lock_keys("footprint_lock.json", 56, 5.34, 1.25, 0.40, 0.76)},
      "grade": {"ev": 0.55, "sat": 0.8, "temp": -2.0, "tint": 1.6, "contrast": 1.12},
-     "text": {"pool": 0.8, "glow": 0.35, "occlude": [{"type": "warm", "lo": 0.10, "hi": 0.25, "gain": 0.95, "blur": 2.0},      # the lifting foot,
+     "text": {"pool": 0.8, "glow": 0.35, "occlude": [{"type": "warm", "lo": 0.15, "hi": 0.3, "gain": 0.95, "blur": 8.0},       # the lifting foot,
                                                       {"type": "luma", "lo": 0.5, "hi": 0.78, "gain": 0.85, "blur": 2.0}]}},   # and the foam, pass in front
     # ---------------------------------------------------------------- 2  we ready the swords; death needs no fight
     {"id": "pour", "src": clip(2861), "lic": 2861, "start": 6.34, "in": 0.72, "speed": 0.961, "decimate": 6, "window": {"cx": 0.6, "cy": 0.6, "fill": 1.22},

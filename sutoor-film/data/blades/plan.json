@@ -645,10 +645,10 @@
     "glow": 0.3,
     "occlude": {
      "type": "warm",
-     "lo": 0.1,
-     "hi": 0.25,
+     "lo": 0.15,
+     "hi": 0.3,
      "gain": 0.95,
-     "blur": 2.0
+     "blur": 8.0
     }
    },
    "licence": "Mixkit 1013 — Mixkit Stock Video Free License (item page data-license=videoFree, verified)"
@@ -864,10 +864,10 @@
     "occlude": [
      {
       "type": "warm",
-      "lo": 0.1,
-      "hi": 0.25,
+      "lo": 0.15,
+      "hi": 0.3,
       "gain": 0.95,
-      "blur": 2.0
+      "blur": 8.0
      },
      {
       "type": "luma",

@@ -69,7 +69,7 @@
   - *A repeated frame* (the pour): dropped (`"decimate": 6`) and the speed corrected.
   Measuring this needs care: frame differences and coarse optical flow lock onto the ripples of wet sand and report "even" when it is not. The tools track large patches of bare ground to a fraction of a pixel.
 - **A frame held on the ground.** `pipeline/ground_lock.py` measures how the ground slides through a tracking shot and writes the window positions that keep one point of it still (`data/blades/footprint_lock.json`): the camera travels on, the picture stays with the footprint.
-- One grade for all shots (`build_picture.py`), with fire allowed to reach warm white (red feeds green in the hottest shots); one grain pass over picture and letters together; levels clamped to 18–232 before encoding.
+- One grade for all shots (`build_picture.py`), with fire allowed to reach warm white (red feeds green in the hottest shots); one grain pass over picture and letters together; levels clamped to 18–226 before encoding, which leaves the encoder room: its ringing on white cloth and surf then stays inside the tolerated 5–246 (measured 5–245 on the 4K master).
 
 ## 4. The independent review, and what it changed
 A reviewer who had no part in the film looked at every frame of the first full cut and judged it against the commissioner's own words. Verdict: strong from the hourglass on, with a real ending; the first six seconds still at risk. What changed because of it:

@@ -1,0 +1,1624 @@
+{
+ "film": "output/Nisal-ala-Nisal_Blades_1080x1920_share.mp4",
+ "checks": [
+  {
+   "check": "all 12 hemistichs on screen equal the poem record and the aligned words, character for character",
+   "pass": true,
+   "detail": {
+    "hemistichs": 12,
+    "words": 49,
+    "mismatches": []
+   }
+  },
+  {
+   "check": "no lettering other than the verses, the poet's name and the two credits",
+   "pass": true,
+   "detail": [
+    {
+     "id": "title",
+     "text": "المُتَنَبّي"
+    },
+    {
+     "id": "credit1",
+     "text": "شِعر: أبو الطيّب المتنبّي"
+    },
+    {
+     "id": "credit2",
+     "text": "إلقاء: عبدالله العنزي"
+    }
+   ]
+  },
+  {
+   "check": "every word appears at its aligned onset (0.06 s lead; a rhyme word may come on with the word before it, at most 0.36 s early)",
+   "pass": true,
+   "detail": {
+    "words": 49,
+    "off": [],
+    "shown_with_the_word_before": [
+     {
+      "line": "v1b.2",
+      "word": "الأَوالي",
+      "shown": 5.78,
+      "spoken": 5.904,
+      "ahead_s": 0.124
+     },
+     {
+      "line": "v4a.1",
+      "word": "أُبالي",
+      "shown": 15.971,
+      "spoken": 16.311,
+      "ahead_s": 0.34
+     },
+     {
+      "line": "v5b.2",
+      "word": "نِبالِ",
+      "shown": 23.156,
+      "spoken": 23.336,
+      "ahead_s": 0.18
+     }
+    ]
+   }
+  },
+  {
+   "check": "every word is shown inside the shot it is spoken over",
+   "pass": true,
+   "detail": []
+  },
+  {
+   "check": "every word stays at full strength until it has been spoken (within 0.12 s of its last sound)",
+   "pass": true,
+   "detail": []
+  },
+  {
+   "check": "no row is wider than 86 % of the frame or closer than 4 % to an edge",
+   "pass": true,
+   "detail": []
+  },
+  {
+   "check": "every row sits inside the safe area (8 %..84 % of the height)",
+   "pass": true,
+   "detail": []
+  },
+  {
+   "check": "no row reaches under the button column of Reels and TikTok (right of 86 % of the width, in the lower half)",
+   "pass": true,
+   "detail": []
+  },
+  {
+   "check": "the lettering as rendered stays inside 8 %..84 % of the height and left of the button column (ink measured in the text frames; a landing word's first quarter second excepted)",
+   "pass": true,
+   "detail": {
+    "frames_measured": 372,
+    "highest_ink": 0.224,
+    "lowest_ink": 0.837,
+    "rightmost_ink_in_lower_half": 0.847,
+    "out_of_bounds": []
+   }
+  },
+  {
+   "check": "picture format",
+   "pass": true,
+   "detail": {
+    "size": [
+     1080,
+     1920
+    ],
+    "fps": "24/1",
+    "codec": "h264",
+    "profile": "High",
+    "pix_fmt": "yuv420p",
+    "colour": [
+     "bt709",
+     "bt709",
+     "bt709",
+     "tv"
+    ],
+    "bit_rate": "19036764"
+   }
+  },
+  {
+   "check": "duration is the plan's",
+   "pass": true,
+   "detail": {
+    "file_s": 31.0,
+    "plan_s": 31.0
+   }
+  },
+  {
+   "check": "sound stream",
+   "pass": true,
+   "detail": {
+    "codec": "aac",
+    "rate": "48000",
+    "channels": 2,
+    "bit_rate": "313855"
+   }
+  },
+  {
+   "check": "video levels inside the EBU R103 tolerance (luma 5..246 in every frame)",
+   "pass": true,
+   "detail": {
+    "frames": 744,
+    "min": 7.0,
+    "max": 242.0,
+    "frames_below_16": 200,
+    "frames_above_235": 91
+   }
+  },
+  {
+   "check": "no stray black stretch",
+   "pass": true,
+   "detail": {
+    "dark_runs": [],
+    "allowed": [
+     [
+      0.0,
+      0.15
+     ],
+     [
+      9.9,
+      10.7
+     ],
+     [
+      20.5,
+      20.7
+     ],
+     [
+      30.4,
+      31.1
+     ]
+    ],
+    "stray": []
+   }
+  },
+  {
+   "check": "every word stands out from the picture under it in the finished frames",
+   "pass": true,
+   "detail": {
+    "measured": 49,
+    "weak": []
+   }
+  },
+  {
+   "check": "loudness and true peak",
+   "pass": true,
+   "detail": {
+    "integrated_lufs": -14.18,
+    "true_peak_dbtp": -1.06
+   }
+  },
+  {
+   "check": "the sound is the original mix, in sync",
+   "pass": true,
+   "detail": {
+    "lag_samples": 0,
+    "lag_ms": 0.0,
+    "correlation": 0.9956
+   }
+  },
+  {
+   "check": "photosensitivity screen",
+   "pass": true,
+   "detail": {
+    "file": "output/Nisal-ala-Nisal_Blades_1080x1920_share.mp4",
+    "range": [
+     null,
+     null
+    ],
+    "grid": "32x18",
+    "max_flashing_area_fraction": 0.0781,
+    "worst_window_start_s": 0.03,
+    "threshold_area_fraction": 0.11,
+    "verdict": "PASS",
+    "whole_frame_transitions": 10
+   }
+  },
+  {
+   "check": "every source is recorded as verified free (Mixkit item page data-license=videoFree)",
+   "pass": true,
+   "detail": {
+    "sources": [
+     {
+      "use": "fire",
+      "item": "3468",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/fire-burns-a-piece-of-wood-3468/"
+     },
+     {
+      "use": "earth",
+      "item": "2851",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/a-person-sowing-a-seed-2851/"
+     },
+     {
+      "use": "walk",
+      "item": "1013",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/feet-walking-on-the-beach-1013/"
+     },
+     {
+      "use": "foam",
+      "item": "1013",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/feet-walking-on-the-beach-1013/"
+     },
+     {
+      "use": "pour",
+      "item": "2861",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/producing-gold-bullion-2861/"
+     },
+     {
+      "use": "forge",
+      "item": "51634",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/smoke-from-the-campfire-elevates-with-the-woods-in-the-51634/"
+     },
+     {
+      "use": "glass",
+      "item": "28894",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/hourglass-in-the-dark-finishes-its-count-28894/"
+     },
+     {
+      "use": "tether",
+      "item": "100663",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/black-and-white-horses-in-stable-100663/"
+     },
+     {
+      "use": "eye",
+      "item": "100645",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-close-up-100645/"
+     },
+     {
+      "use": "grey",
+      "item": "100646",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/horse-in-a-stable-100646/"
+     },
+     {
+      "use": "canter",
+      "item": "1154",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/a-horse-being-trained-by-its-owner-1154/"
+     },
+     {
+      "use": "night",
+      "item": "4357",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/mountain-during-the-night-until-dawn-4357/"
+     },
+     {
+      "use": "man",
+      "item": "948",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/man-stretching-in-the-dark-and-smoke-948/"
+     },
+     {
+      "use": "sky",
+      "item": "118",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/cloudy-sky-118/"
+     },
+     {
+      "use": "man_b",
+      "item": "948",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/man-stretching-in-the-dark-and-smoke-948/"
+     },
+     {
+      "use": "train",
+      "item": "1622",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/train-arriving-to-a-subway-station-1622/"
+     },
+     {
+      "use": "clock",
+      "item": "28885",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/circular-clock-a-very-close-shot-illuminated-in-the-dark-28885/"
+     },
+     {
+      "use": "volley",
+      "item": "4426",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/burning-lava-particles-leaping-through-the-air-4426/"
+     },
+     {
+      "use": "coal",
+      "item": "3462",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/flame-burning-coal-in-detail-3462/"
+     },
+     {
+      "use": "thorns",
+      "item": "3969",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/sunlight-through-the-branches-being-moved-by-the-wind-3969/"
+     },
+     {
+      "use": "man2",
+      "item": "948",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/man-stretching-in-the-dark-and-smoke-948/"
+     },
+     {
+      "use": "shards",
+      "item": "1956",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/beach-rocks-top-shot-1956/"
+     },
+     {
+      "use": "blade",
+      "item": "51455",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/aerial-view-of-waves-hitting-a-small-cliff-51455/"
+     },
+     {
+      "use": "rock",
+      "item": "44398",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/rock-formation-of-an-archipelago-shot-from-above-44398/"
+     },
+     {
+      "use": "overlay0",
+      "item": "4426",
+      "licence": "videoFree",
+      "page": "https://mixkit.co/free-stock-video/burning-lava-particles-leaping-through-the-air-4426/"
+     }
+    ],
+    "not_verified": []
+   }
+  }
+ ],
+ "words": [
+  {
+   "line": "v1a.0",
+   "word": "يُدَفِّنُ",
+   "aligned_onset": 1.841,
+   "appears": 1.822,
+   "shot": "earth",
+   "full_until": 3.76,
+   "spoken_end": 2.282
+  },
+  {
+   "line": "v1a.1",
+   "word": "بَعضُنا",
+   "aligned_onset": 2.402,
+   "appears": 2.342,
+   "shot": "earth",
+   "full_until": 3.76,
+   "spoken_end": 2.802
+  },
+  {
+   "line": "v1a.1",
+   "word": "بَعضاً",
+   "aligned_onset": 2.902,
+   "appears": 2.842,
+   "shot": "earth",
+   "full_until": 3.76,
+   "spoken_end": 3.162
+  },
+  {
+   "line": "v1a.2",
+   "word": "وَتَمشي",
+   "aligned_onset": 4.063,
+   "appears": 4.003,
+   "shot": "walk",
+   "full_until": 4.52,
+   "spoken_end": 4.543
+  },
+  {
+   "line": "v1b.0",
+   "word": "أَواخِرُنا",
+   "aligned_onset": 4.683,
+   "appears": 4.623,
+   "shot": "walk",
+   "full_until": 5.34,
+   "spoken_end": 5.264
+  },
+  {
+   "line": "v1b.1",
+   "word": "عَلى",
+   "aligned_onset": 5.344,
+   "appears": 5.344,
+   "shot": "foam",
+   "full_until": 6.23,
+   "spoken_end": 5.544
+  },
+  {
+   "line": "v1b.1",
+   "word": "هامِ",
+   "aligned_onset": 5.624,
+   "appears": 5.624,
+   "shot": "foam",
+   "full_until": 6.23,
+   "spoken_end": 5.824
+  },
+  {
+   "line": "v1b.2",
+   "word": "الأَوالي",
+   "aligned_onset": 5.904,
+   "appears": 5.72,
+   "shot": "foam",
+   "full_until": 6.23,
+   "spoken_end": 6.304
+  },
+  {
+   "line": "v2a.0",
+   "word": "نُعِدُّ",
+   "aligned_onset": 6.344,
+   "appears": 6.344,
+   "shot": "pour",
+   "full_until": 7.3,
+   "spoken_end": 6.625
+  },
+  {
+   "line": "v2a.1",
+   "word": "المَشرَفِيَّةَ",
+   "aligned_onset": 6.705,
+   "appears": 6.645,
+   "shot": "pour",
+   "full_until": 7.3,
+   "spoken_end": 7.325
+  },
+  {
+   "line": "v2a.2",
+   "word": "وَالعَوالي",
+   "aligned_onset": 7.465,
+   "appears": 7.405,
+   "shot": "forge",
+   "full_until": 8.13,
+   "spoken_end": 8.005
+  },
+  {
+   "line": "v2b.0",
+   "word": "وَتَقتُلُنا",
+   "aligned_onset": 8.546,
+   "appears": 8.486,
+   "shot": "glass",
+   "full_until": 10.28,
+   "spoken_end": 9.126
+  },
+  {
+   "line": "v2b.0",
+   "word": "المَنونُ",
+   "aligned_onset": 9.146,
+   "appears": 9.086,
+   "shot": "glass",
+   "full_until": 10.28,
+   "spoken_end": 9.547
+  },
+  {
+   "line": "v2b.1",
+   "word": "بِلا",
+   "aligned_onset": 9.647,
+   "appears": 9.587,
+   "shot": "glass",
+   "full_until": 10.28,
+   "spoken_end": 9.847
+  },
+  {
+   "line": "v2b.1",
+   "word": "قِتالِ",
+   "aligned_onset": 9.947,
+   "appears": 9.887,
+   "shot": "glass",
+   "full_until": 10.28,
+   "spoken_end": 10.287
+  },
+  {
+   "line": "v3a.0",
+   "word": "وَنَرتَبِطُ",
+   "aligned_onset": 10.827,
+   "appears": 10.767,
+   "shot": "tether",
+   "full_until": 11.42,
+   "spoken_end": 11.388
+  },
+  {
+   "line": "v3a.1",
+   "word": "السَوابِقَ",
+   "aligned_onset": 11.468,
+   "appears": 11.462,
+   "shot": "eye",
+   "full_until": 12.08,
+   "spoken_end": 12.008
+  },
+  {
+   "line": "v3a.2",
+   "word": "مُقرَباتٍ",
+   "aligned_onset": 12.128,
+   "appears": 12.122,
+   "shot": "grey",
+   "full_until": 12.72,
+   "spoken_end": 12.649
+  },
+  {
+   "line": "v3b.0",
+   "word": "وَما",
+   "aligned_onset": 13.149,
+   "appears": 13.089,
+   "shot": "canter",
+   "full_until": 14.28,
+   "spoken_end": 13.329
+  },
+  {
+   "line": "v3b.0",
+   "word": "يُنجينَ",
+   "aligned_onset": 13.409,
+   "appears": 13.349,
+   "shot": "canter",
+   "full_until": 14.28,
+   "spoken_end": 13.789
+  },
+  {
+   "line": "v3b.1",
+   "word": "مِن",
+   "aligned_onset": 13.89,
+   "appears": 13.83,
+   "shot": "canter",
+   "full_until": 14.28,
+   "spoken_end": 13.99
+  },
+  {
+   "line": "v3b.1",
+   "word": "خَبَبِ",
+   "aligned_onset": 14.07,
+   "appears": 14.01,
+   "shot": "canter",
+   "full_until": 14.28,
+   "spoken_end": 14.35
+  },
+  {
+   "line": "v3b.2",
+   "word": "اللَيالي",
+   "aligned_onset": 14.41,
+   "appears": 14.35,
+   "shot": "night",
+   "full_until": 14.85,
+   "spoken_end": 14.91
+  },
+  {
+   "line": "v4a.0",
+   "word": "وَهانَ",
+   "aligned_onset": 15.25,
+   "appears": 15.19,
+   "shot": "man",
+   "full_until": 16.7,
+   "spoken_end": 15.611
+  },
+  {
+   "line": "v4a.1",
+   "word": "فَما",
+   "aligned_onset": 15.971,
+   "appears": 15.911,
+   "shot": "man",
+   "full_until": 16.7,
+   "spoken_end": 16.171
+  },
+  {
+   "line": "v4a.1",
+   "word": "أُبالي",
+   "aligned_onset": 16.311,
+   "appears": 15.911,
+   "shot": "man",
+   "full_until": 16.7,
+   "spoken_end": 16.651
+  },
+  {
+   "line": "v4a.2",
+   "word": "بِالرَزايا",
+   "aligned_onset": 16.752,
+   "appears": 16.742,
+   "shot": "sky",
+   "full_until": 17.32,
+   "spoken_end": 17.352
+  },
+  {
+   "line": "v4b.0",
+   "word": "لِأَنّي",
+   "aligned_onset": 17.452,
+   "appears": 17.392,
+   "shot": "man_b",
+   "full_until": 19.5,
+   "spoken_end": 17.852
+  },
+  {
+   "line": "v4b.0",
+   "word": "ما",
+   "aligned_onset": 17.952,
+   "appears": 17.892,
+   "shot": "man_b",
+   "full_until": 19.5,
+   "spoken_end": 18.012
+  },
+  {
+   "line": "v4b.0",
+   "word": "اِنتَفَعتُ",
+   "aligned_onset": 18.032,
+   "appears": 17.972,
+   "shot": "man_b",
+   "full_until": 19.5,
+   "spoken_end": 18.433
+  },
+  {
+   "line": "v4b.1",
+   "word": "بِأَن",
+   "aligned_onset": 18.513,
+   "appears": 18.453,
+   "shot": "man_b",
+   "full_until": 19.5,
+   "spoken_end": 18.753
+  },
+  {
+   "line": "v4b.1",
+   "word": "أُبالي",
+   "aligned_onset": 18.853,
+   "appears": 18.793,
+   "shot": "man_b",
+   "full_until": 19.5,
+   "spoken_end": 19.153
+  },
+  {
+   "line": "v5a.0",
+   "word": "رَماني",
+   "aligned_onset": 19.613,
+   "appears": 19.553,
+   "shot": "train",
+   "full_until": 20.09,
+   "spoken_end": 20.174
+  },
+  {
+   "line": "v5a.1",
+   "word": "الدَهرُ",
+   "aligned_onset": 20.194,
+   "appears": 20.194,
+   "shot": "clock",
+   "full_until": 20.52,
+   "spoken_end": 20.534
+  },
+  {
+   "line": "v5a.2",
+   "word": "بِالأَرزاءِ",
+   "aligned_onset": 20.614,
+   "appears": 20.614,
+   "shot": "volley",
+   "full_until": 21.46,
+   "spoken_end": 21.135
+  },
+  {
+   "line": "v5a.3",
+   "word": "حَتّى",
+   "aligned_onset": 21.615,
+   "appears": 21.555,
+   "shot": "coal",
+   "full_until": 22.36,
+   "spoken_end": 21.915
+  },
+  {
+   "line": "v5b.0",
+   "word": "فُؤادي",
+   "aligned_onset": 21.995,
+   "appears": 21.935,
+   "shot": "coal",
+   "full_until": 22.36,
+   "spoken_end": 22.415
+  },
+  {
+   "line": "v5b.1",
+   "word": "في",
+   "aligned_onset": 22.495,
+   "appears": 22.435,
+   "shot": "thorns",
+   "full_until": 23.7,
+   "spoken_end": 22.575
+  },
+  {
+   "line": "v5b.1",
+   "word": "غِشاءٍ",
+   "aligned_onset": 22.656,
+   "appears": 22.596,
+   "shot": "thorns",
+   "full_until": 23.7,
+   "spoken_end": 23.016
+  },
+  {
+   "line": "v5b.2",
+   "word": "مِن",
+   "aligned_onset": 23.156,
+   "appears": 23.096,
+   "shot": "thorns",
+   "full_until": 23.7,
+   "spoken_end": 23.296
+  },
+  {
+   "line": "v5b.2",
+   "word": "نِبالِ",
+   "aligned_onset": 23.336,
+   "appears": 23.096,
+   "shot": "thorns",
+   "full_until": 23.7,
+   "spoken_end": 23.656
+  },
+  {
+   "line": "v6a.0",
+   "word": "فَصِرتُ",
+   "aligned_onset": 23.736,
+   "appears": 23.736,
+   "shot": "man2",
+   "full_until": 25.52,
+   "spoken_end": 23.996
+  },
+  {
+   "line": "v6a.0",
+   "word": "إِذا",
+   "aligned_onset": 24.137,
+   "appears": 24.137,
+   "shot": "man2",
+   "full_until": 25.52,
+   "spoken_end": 24.277
+  },
+  {
+   "line": "v6a.1",
+   "word": "أَصابَتني",
+   "aligned_onset": 24.397,
+   "appears": 24.337,
+   "shot": "man2",
+   "full_until": 25.52,
+   "spoken_end": 24.957
+  },
+  {
+   "line": "v6a.1",
+   "word": "سِهامٌ",
+   "aligned_onset": 25.017,
+   "appears": 24.957,
+   "shot": "man2",
+   "full_until": 25.52,
+   "spoken_end": 25.377
+  },
+  {
+   "line": "v6b.0",
+   "word": "تَكَسَّرَتِ",
+   "aligned_onset": 25.578,
+   "appears": 25.562,
+   "shot": "shards",
+   "full_until": 26.22,
+   "spoken_end": 26.178
+  },
+  {
+   "line": "v6b.1",
+   "word": "النِصالُ",
+   "aligned_onset": 26.258,
+   "appears": 26.258,
+   "shot": "blade",
+   "full_until": 26.84,
+   "spoken_end": 26.778
+  },
+  {
+   "line": "v6b.2",
+   "word": "عَلى",
+   "aligned_onset": 26.878,
+   "appears": 26.878,
+   "shot": "rock",
+   "full_until": 27.8,
+   "spoken_end": 27.039
+  },
+  {
+   "line": "v6b.2",
+   "word": "النِصالِ",
+   "aligned_onset": 27.099,
+   "appears": 27.099,
+   "shot": "rock",
+   "full_until": 27.8,
+   "spoken_end": 27.599
+  }
+ ],
+ "layout": [
+  {
+   "id": "v1a.0",
+   "text": "يُدَفِّنُ",
+   "size": 190.0,
+   "width_frac": 0.324,
+   "y": 0.625,
+   "top": 0.564,
+   "bottom": 0.686,
+   "left": 0.168,
+   "right": 0.492
+  },
+  {
+   "id": "v1a.1",
+   "text": "بَعضُنا بَعضاً",
+   "size": 140.0,
+   "width_frac": 0.495,
+   "y": 0.79,
+   "top": 0.745,
+   "bottom": 0.835,
+   "left": 0.173,
+   "right": 0.667
+  },
+  {
+   "id": "v1a.2",
+   "text": "وَتَمشي",
+   "size": 170.0,
+   "width_frac": 0.351,
+   "y": 0.762,
+   "top": 0.707,
+   "bottom": 0.817,
+   "left": 0.325,
+   "right": 0.675
+  },
+  {
+   "id": "v1b.0",
+   "text": "أَواخِرُنا",
+   "size": 165.0,
+   "width_frac": 0.371,
+   "y": 0.766,
+   "top": 0.713,
+   "bottom": 0.819,
+   "left": 0.415,
+   "right": 0.785
+  },
+  {
+   "id": "v1b.1",
+   "text": "عَلى هامِ",
+   "size": 132.0,
+   "width_frac": 0.336,
+   "y": 0.52,
+   "top": 0.477,
+   "bottom": 0.563,
+   "left": 0.042,
+   "right": 0.378
+  },
+  {
+   "id": "v1b.2",
+   "text": "الأَوالي",
+   "size": 200.0,
+   "width_frac": 0.458,
+   "y": 0.64,
+   "top": 0.575,
+   "bottom": 0.705,
+   "left": 0.191,
+   "right": 0.649
+  },
+  {
+   "id": "v2a.0",
+   "text": "نُعِدُّ",
+   "size": 180.0,
+   "width_frac": 0.218,
+   "y": 0.645,
+   "top": 0.587,
+   "bottom": 0.703,
+   "left": 0.391,
+   "right": 0.609
+  },
+  {
+   "id": "v2a.1",
+   "text": "المَشرَفِيَّةَ",
+   "size": 180.0,
+   "width_frac": 0.45,
+   "y": 0.76,
+   "top": 0.702,
+   "bottom": 0.818,
+   "left": 0.275,
+   "right": 0.725
+  },
+  {
+   "id": "v2a.2",
+   "text": "وَالعَوالي",
+   "size": 210.0,
+   "width_frac": 0.529,
+   "y": 0.5,
+   "top": 0.432,
+   "bottom": 0.568,
+   "left": 0.236,
+   "right": 0.764
+  },
+  {
+   "id": "v2b.0",
+   "text": "وَتَقتُلُنا المَنونُ",
+   "size": 160.0,
+   "width_frac": 0.619,
+   "y": 0.41,
+   "top": 0.358,
+   "bottom": 0.462,
+   "left": 0.191,
+   "right": 0.809
+  },
+  {
+   "id": "v2b.1",
+   "text": "بِلا قِتالِ",
+   "size": 160.0,
+   "width_frac": 0.417,
+   "y": 0.525,
+   "top": 0.473,
+   "bottom": 0.577,
+   "left": 0.292,
+   "right": 0.708
+  },
+  {
+   "id": "v3a.0",
+   "text": "وَنَرتَبِطُ",
+   "size": 180.0,
+   "width_frac": 0.411,
+   "y": 0.735,
+   "top": 0.677,
+   "bottom": 0.793,
+   "left": 0.294,
+   "right": 0.706
+  },
+  {
+   "id": "v3a.1",
+   "text": "السَوابِقَ",
+   "size": 180.0,
+   "width_frac": 0.433,
+   "y": 0.735,
+   "top": 0.677,
+   "bottom": 0.793,
+   "left": 0.283,
+   "right": 0.717
+  },
+  {
+   "id": "v3a.2",
+   "text": "مُقرَباتٍ",
+   "size": 180.0,
+   "width_frac": 0.47,
+   "y": 0.735,
+   "top": 0.677,
+   "bottom": 0.793,
+   "left": 0.265,
+   "right": 0.735
+  },
+  {
+   "id": "v3b.0",
+   "text": "وَما يُنجينَ",
+   "size": 175.0,
+   "width_frac": 0.489,
+   "y": 0.31,
+   "top": 0.253,
+   "bottom": 0.367,
+   "left": 0.256,
+   "right": 0.744
+  },
+  {
+   "id": "v3b.1",
+   "text": "مِن خَبَبِ",
+   "size": 175.0,
+   "width_frac": 0.542,
+   "y": 0.425,
+   "top": 0.368,
+   "bottom": 0.482,
+   "left": 0.229,
+   "right": 0.771
+  },
+  {
+   "id": "v3b.2",
+   "text": "اللَيالي",
+   "size": 230.0,
+   "width_frac": 0.439,
+   "y": 0.42,
+   "top": 0.346,
+   "bottom": 0.494,
+   "left": 0.28,
+   "right": 0.72
+  },
+  {
+   "id": "v4a.0",
+   "text": "وَهانَ",
+   "size": 220.0,
+   "width_frac": 0.394,
+   "y": 0.64,
+   "top": 0.569,
+   "bottom": 0.711,
+   "left": 0.203,
+   "right": 0.597
+  },
+  {
+   "id": "v4a.1",
+   "text": "فَما أُبالي",
+   "size": 160.0,
+   "width_frac": 0.378,
+   "y": 0.77,
+   "top": 0.718,
+   "bottom": 0.822,
+   "left": 0.211,
+   "right": 0.589
+  },
+  {
+   "id": "v4a.2",
+   "text": "بِالرَزايا",
+   "size": 220.0,
+   "width_frac": 0.476,
+   "y": 0.62,
+   "top": 0.549,
+   "bottom": 0.691,
+   "left": 0.262,
+   "right": 0.738
+  },
+  {
+   "id": "v4b.0",
+   "text": "لِأَنّي ما اِنتَفَعتُ",
+   "size": 130.0,
+   "width_frac": 0.616,
+   "y": 0.625,
+   "top": 0.583,
+   "bottom": 0.667,
+   "left": 0.072,
+   "right": 0.688
+  },
+  {
+   "id": "v4b.1",
+   "text": "بِأَن أُبالي",
+   "size": 165.0,
+   "width_frac": 0.47,
+   "y": 0.768,
+   "top": 0.715,
+   "bottom": 0.821,
+   "left": 0.145,
+   "right": 0.615
+  },
+  {
+   "id": "v5a.0",
+   "text": "رَماني",
+   "size": 210.0,
+   "width_frac": 0.395,
+   "y": 0.71,
+   "top": 0.642,
+   "bottom": 0.778,
+   "left": 0.303,
+   "right": 0.697
+  },
+  {
+   "id": "v5a.1",
+   "text": "الدَهرُ",
+   "size": 230.0,
+   "width_frac": 0.409,
+   "y": 0.52,
+   "top": 0.446,
+   "bottom": 0.594,
+   "left": 0.165,
+   "right": 0.575
+  },
+  {
+   "id": "v5a.2",
+   "text": "بِالأَرزاءِ",
+   "size": 200.0,
+   "width_frac": 0.524,
+   "y": 0.7,
+   "top": 0.635,
+   "bottom": 0.765,
+   "left": 0.238,
+   "right": 0.762
+  },
+  {
+   "id": "v5a.3",
+   "text": "حَتّى",
+   "size": 150.0,
+   "width_frac": 0.231,
+   "y": 0.318,
+   "top": 0.27,
+   "bottom": 0.366,
+   "left": 0.385,
+   "right": 0.615
+  },
+  {
+   "id": "v5b.0",
+   "text": "فُؤادي",
+   "size": 220.0,
+   "width_frac": 0.479,
+   "y": 0.44,
+   "top": 0.369,
+   "bottom": 0.511,
+   "left": 0.261,
+   "right": 0.739
+  },
+  {
+   "id": "v5b.1",
+   "text": "في غِشاءٍ",
+   "size": 190.0,
+   "width_frac": 0.515,
+   "y": 0.43,
+   "top": 0.369,
+   "bottom": 0.491,
+   "left": 0.242,
+   "right": 0.758
+  },
+  {
+   "id": "v5b.2",
+   "text": "مِن نِبالِ",
+   "size": 200.0,
+   "width_frac": 0.526,
+   "y": 0.685,
+   "top": 0.62,
+   "bottom": 0.75,
+   "left": 0.237,
+   "right": 0.763
+  },
+  {
+   "id": "v6a.0",
+   "text": "فَصِرتُ إِذا",
+   "size": 130.0,
+   "width_frac": 0.449,
+   "y": 0.632,
+   "top": 0.59,
+   "bottom": 0.674,
+   "left": 0.356,
+   "right": 0.804
+  },
+  {
+   "id": "v6a.1",
+   "text": "أَصابَتني سِهامٌ",
+   "size": 160.0,
+   "width_frac": 0.653,
+   "y": 0.765,
+   "top": 0.713,
+   "bottom": 0.817,
+   "left": 0.203,
+   "right": 0.857
+  },
+  {
+   "id": "v6b.0",
+   "text": "تَكَسَّرَتِ",
+   "size": 200.0,
+   "width_frac": 0.54,
+   "y": 0.72,
+   "top": 0.655,
+   "bottom": 0.785,
+   "left": 0.23,
+   "right": 0.77
+  },
+  {
+   "id": "v6b.1",
+   "text": "النِصالُ",
+   "size": 220.0,
+   "width_frac": 0.503,
+   "y": 0.72,
+   "top": 0.649,
+   "bottom": 0.791,
+   "left": 0.248,
+   "right": 0.752
+  },
+  {
+   "id": "v6b.2",
+   "text": "عَلى النِصالِ",
+   "size": 200.0,
+   "width_frac": 0.704,
+   "y": 0.735,
+   "top": 0.67,
+   "bottom": 0.8,
+   "left": 0.148,
+   "right": 0.852
+  },
+  {
+   "id": "title",
+   "text": "المُتَنَبّي",
+   "size": 210.0,
+   "width_frac": 0.386,
+   "y": 0.535,
+   "top": 0.467,
+   "bottom": 0.603,
+   "left": 0.227,
+   "right": 0.613
+  },
+  {
+   "id": "credit1",
+   "text": "شِعر: أبو الطيّب المتنبّي",
+   "size": 84.0,
+   "width_frac": 0.569,
+   "y": 0.715,
+   "top": 0.688,
+   "bottom": 0.742,
+   "left": 0.216,
+   "right": 0.784
+  },
+  {
+   "id": "credit2",
+   "text": "إلقاء: عبدالله العنزي",
+   "size": 76.0,
+   "width_frac": 0.472,
+   "y": 0.785,
+   "top": 0.76,
+   "bottom": 0.81,
+   "left": 0.264,
+   "right": 0.736
+  }
+ ],
+ "seen": [
+  {
+   "line": "v1a.0",
+   "word": "يُدَفِّنُ",
+   "t": 2.125,
+   "mean_delta": 168.6,
+   "share_visible": 1.0,
+   "plate_luma": 39.1
+  },
+  {
+   "line": "v1a.1",
+   "word": "بَعضُنا",
+   "t": 2.708,
+   "mean_delta": 164.7,
+   "share_visible": 0.98,
+   "plate_luma": 63.1
+  },
+  {
+   "line": "v1a.1",
+   "word": "بَعضاً",
+   "t": 3.208,
+   "mean_delta": 178.1,
+   "share_visible": 1.0,
+   "plate_luma": 51.2
+  },
+  {
+   "line": "v1a.2",
+   "word": "وَتَمشي",
+   "t": 4.375,
+   "mean_delta": 173.9,
+   "share_visible": 0.93,
+   "plate_luma": 32.4
+  },
+  {
+   "line": "v1b.0",
+   "word": "أَواخِرُنا",
+   "t": 5.0,
+   "mean_delta": 147.4,
+   "share_visible": 0.98,
+   "plate_luma": 63.4
+  },
+  {
+   "line": "v1b.1",
+   "word": "عَلى",
+   "t": 5.625,
+   "mean_delta": 160.6,
+   "share_visible": 1.0,
+   "plate_luma": 74.9
+  },
+  {
+   "line": "v1b.1",
+   "word": "هامِ",
+   "t": 5.917,
+   "mean_delta": 160.6,
+   "share_visible": 1.0,
+   "plate_luma": 62.2
+  },
+  {
+   "line": "v1b.2",
+   "word": "الأَوالي",
+   "t": 6.208,
+   "mean_delta": 119.7,
+   "share_visible": 1.0,
+   "plate_luma": 83.8
+  },
+  {
+   "line": "v2a.0",
+   "word": "نُعِدُّ",
+   "t": 6.625,
+   "mean_delta": 193.6,
+   "share_visible": 1.0,
+   "plate_luma": 9.6
+  },
+  {
+   "line": "v2a.1",
+   "word": "المَشرَفِيَّةَ",
+   "t": 7.0,
+   "mean_delta": 178.3,
+   "share_visible": 1.0,
+   "plate_luma": 9.4
+  },
+  {
+   "line": "v2a.2",
+   "word": "وَالعَوالي",
+   "t": 7.75,
+   "mean_delta": 193.0,
+   "share_visible": 1.0,
+   "plate_luma": 19.7
+  },
+  {
+   "line": "v2b.0",
+   "word": "وَتَقتُلُنا",
+   "t": 8.833,
+   "mean_delta": 190.8,
+   "share_visible": 1.0,
+   "plate_luma": 8.3
+  },
+  {
+   "line": "v2b.0",
+   "word": "المَنونُ",
+   "t": 9.458,
+   "mean_delta": 175.9,
+   "share_visible": 1.0,
+   "plate_luma": 7.5
+  },
+  {
+   "line": "v2b.1",
+   "word": "بِلا",
+   "t": 9.958,
+   "mean_delta": 161.6,
+   "share_visible": 1.0,
+   "plate_luma": 3.0
+  },
+  {
+   "line": "v2b.1",
+   "word": "قِتالِ",
+   "t": 10.25,
+   "mean_delta": 121.4,
+   "share_visible": 1.0,
+   "plate_luma": 3.0
+  },
+  {
+   "line": "v3a.0",
+   "word": "وَنَرتَبِطُ",
+   "t": 11.125,
+   "mean_delta": 174.7,
+   "share_visible": 1.0,
+   "plate_luma": 49.0
+  },
+  {
+   "line": "v3a.1",
+   "word": "السَوابِقَ",
+   "t": 11.75,
+   "mean_delta": 100.4,
+   "share_visible": 1.0,
+   "plate_luma": 136.9
+  },
+  {
+   "line": "v3a.2",
+   "word": "مُقرَباتٍ",
+   "t": 12.417,
+   "mean_delta": 128.4,
+   "share_visible": 1.0,
+   "plate_luma": 109.0
+  },
+  {
+   "line": "v3b.0",
+   "word": "وَما",
+   "t": 13.458,
+   "mean_delta": 183.7,
+   "share_visible": 1.0,
+   "plate_luma": 35.8
+  },
+  {
+   "line": "v3b.0",
+   "word": "يُنجينَ",
+   "t": 13.708,
+   "mean_delta": 184.6,
+   "share_visible": 1.0,
+   "plate_luma": 36.7
+  },
+  {
+   "line": "v3b.1",
+   "word": "مِن",
+   "t": 14.208,
+   "mean_delta": 184.4,
+   "share_visible": 1.0,
+   "plate_luma": 34.1
+  },
+  {
+   "line": "v3b.1",
+   "word": "خَبَبِ",
+   "t": 14.25,
+   "mean_delta": 182.5,
+   "share_visible": 1.0,
+   "plate_luma": 35.6
+  },
+  {
+   "line": "v3b.2",
+   "word": "اللَيالي",
+   "t": 14.708,
+   "mean_delta": 177.9,
+   "share_visible": 1.0,
+   "plate_luma": 23.7
+  },
+  {
+   "line": "v4a.0",
+   "word": "وَهانَ",
+   "t": 15.542,
+   "mean_delta": 199.2,
+   "share_visible": 1.0,
+   "plate_luma": 8.8
+  },
+  {
+   "line": "v4a.1",
+   "word": "فَما",
+   "t": 16.292,
+   "mean_delta": 191.9,
+   "share_visible": 1.0,
+   "plate_luma": 11.5
+  },
+  {
+   "line": "v4a.1",
+   "word": "أُبالي",
+   "t": 16.625,
+   "mean_delta": 124.8,
+   "share_visible": 1.0,
+   "plate_luma": 71.1
+  },
+  {
+   "line": "v4a.2",
+   "word": "بِالرَزايا",
+   "t": 17.042,
+   "mean_delta": 161.1,
+   "share_visible": 1.0,
+   "plate_luma": 58.8
+  },
+  {
+   "line": "v4b.0",
+   "word": "لِأَنّي",
+   "t": 17.75,
+   "mean_delta": 99.6,
+   "share_visible": 1.0,
+   "plate_luma": 130.5
+  },
+  {
+   "line": "v4b.0",
+   "word": "ما",
+   "t": 18.25,
+   "mean_delta": 187.6,
+   "share_visible": 1.0,
+   "plate_luma": 13.8
+  },
+  {
+   "line": "v4b.0",
+   "word": "اِنتَفَعتُ",
+   "t": 18.333,
+   "mean_delta": 185.8,
+   "share_visible": 1.0,
+   "plate_luma": 15.4
+  },
+  {
+   "line": "v4b.1",
+   "word": "بِأَن",
+   "t": 18.833,
+   "mean_delta": 161.9,
+   "share_visible": 1.0,
+   "plate_luma": 13.1
+  },
+  {
+   "line": "v4b.1",
+   "word": "أُبالي",
+   "t": 19.167,
+   "mean_delta": 185.5,
+   "share_visible": 1.0,
+   "plate_luma": 13.6
+  },
+  {
+   "line": "v5a.0",
+   "word": "رَماني",
+   "t": 19.917,
+   "mean_delta": 147.8,
+   "share_visible": 1.0,
+   "plate_luma": 87.3
+  },
+  {
+   "line": "v5a.1",
+   "word": "الدَهرُ",
+   "t": 20.5,
+   "mean_delta": 119.2,
+   "share_visible": 1.0,
+   "plate_luma": 129.4
+  },
+  {
+   "line": "v5a.2",
+   "word": "بِالأَرزاءِ",
+   "t": 20.917,
+   "mean_delta": 179.5,
+   "share_visible": 1.0,
+   "plate_luma": 53.9
+  },
+  {
+   "line": "v5a.3",
+   "word": "حَتّى",
+   "t": 21.917,
+   "mean_delta": 187.7,
+   "share_visible": 1.0,
+   "plate_luma": 32.7
+  },
+  {
+   "line": "v5b.0",
+   "word": "فُؤادي",
+   "t": 22.292,
+   "mean_delta": 179.3,
+   "share_visible": 1.0,
+   "plate_luma": 19.6
+  },
+  {
+   "line": "v5b.1",
+   "word": "في",
+   "t": 22.792,
+   "mean_delta": 159.7,
+   "share_visible": 1.0,
+   "plate_luma": 61.9
+  },
+  {
+   "line": "v5b.1",
+   "word": "غِشاءٍ",
+   "t": 22.958,
+   "mean_delta": 156.7,
+   "share_visible": 1.0,
+   "plate_luma": 52.2
+  },
+  {
+   "line": "v5b.2",
+   "word": "مِن",
+   "t": 23.458,
+   "mean_delta": 118.2,
+   "share_visible": 1.0,
+   "plate_luma": 115.7
+  },
+  {
+   "line": "v5b.2",
+   "word": "نِبالِ",
+   "t": 23.625,
+   "mean_delta": 92.4,
+   "share_visible": 0.99,
+   "plate_luma": 86.4
+  },
+  {
+   "line": "v6a.0",
+   "word": "فَصِرتُ",
+   "t": 24.042,
+   "mean_delta": 196.2,
+   "share_visible": 1.0,
+   "plate_luma": 14.9
+  },
+  {
+   "line": "v6a.0",
+   "word": "إِذا",
+   "t": 24.417,
+   "mean_delta": 174.3,
+   "share_visible": 1.0,
+   "plate_luma": 33.7
+  },
+  {
+   "line": "v6a.1",
+   "word": "أَصابَتني",
+   "t": 24.708,
+   "mean_delta": 187.1,
+   "share_visible": 1.0,
+   "plate_luma": 22.6
+  },
+  {
+   "line": "v6a.1",
+   "word": "سِهامٌ",
+   "t": 25.333,
+   "mean_delta": 177.3,
+   "share_visible": 1.0,
+   "plate_luma": 10.9
+  },
+  {
+   "line": "v6b.0",
+   "word": "تَكَسَّرَتِ",
+   "t": 25.875,
+   "mean_delta": 187.9,
+   "share_visible": 1.0,
+   "plate_luma": 34.0
+  },
+  {
+   "line": "v6b.1",
+   "word": "النِصالُ",
+   "t": 26.542,
+   "mean_delta": 130.9,
+   "share_visible": 1.0,
+   "plate_luma": 103.2
+  },
+  {
+   "line": "v6b.2",
+   "word": "عَلى",
+   "t": 27.167,
+   "mean_delta": 154.7,
+   "share_visible": 1.0,
+   "plate_luma": 40.1
+  },
+  {
+   "line": "v6b.2",
+   "word": "النِصالِ",
+   "t": 27.417,
+   "mean_delta": 163.9,
+   "share_visible": 1.0,
+   "plate_luma": 47.8
+  }
+ ],
+ "passed": 19,
+ "total": 19
+}

@@ -201,7 +201,7 @@ def main() -> None:
     ymin = [float(x) for x in re.findall(r"signalstats\.YMIN=([\d.]+)", st)]
     ymax = [float(x) for x in re.findall(r"signalstats\.YMAX=([\d.]+)", st)]
     yavg = [float(x) for x in re.findall(r"signalstats\.YAVG=([\d.]+)", st)]
-    # the picture is clamped to 18..232 before encoding; the encoder's own ringing may go a little beyond, which
+    # the picture is clamped to 18..226 before encoding; the encoder's own ringing may go a little beyond, which
     # EBU R103 allows for (preferred range 16..235, tolerated 5..246 in 8 bit)
     check("video levels inside the EBU R103 tolerance (luma 5..246 in every frame)", bool(ymin) and min(ymin) >= 5 and max(ymax) <= 246,
           {"frames": len(ymin), "min": min(ymin) if ymin else None, "max": max(ymax) if ymax else None,
