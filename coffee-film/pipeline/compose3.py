@@ -1408,6 +1408,7 @@ def main(argv):
     qc["all_pass"] = bool(all(v.get("pass_", v.get("pass", True)) for k_, v in qc.items() if isinstance(v, dict)))
 
     instruments_used = sorted({e["inst"] for e in events})
+    probed = [a["key"] for a in arrivals if str(a.get("measure", "")).startswith("probe")]
     report = dict(
         title="WARSZAWA - original score", cue_sheet=os.path.relpath(cue_path, os.path.dirname(HERE)),
         file="music.wav", duration_s=round(len(rd) / SR, 6), samples=len(rd), sample_rate=SR, bit_depth=24, channels=2,
@@ -1457,8 +1458,8 @@ def main(argv):
             organ="VSCO-2 CE pipe organ (S. Dalzell / Ivy Audio): Man III open plenum ('open'), Man III stopped flute "
                   "('ged', played at 16', 8', 4' and in the high treble as the 'high flute'), Pedal 16' Loud "
                   "('ped16', also a fifth above for the 32' resultant), Pedal 8' Quiet ('ped8'); swell-box simulation",
-            strings="VSCO-2 CE violin, viola, cello sections (sustain vibrato, tremolo, spiccato), solo contrabass, "
-                    "solo violin (the harmonic: A6 sample, low-passed)",
+            strings="VSCO-2 CE violin, viola, cello sections (sustain vibrato, tremolo, spiccato, cello pizzicato), "
+                    "solo contrabass (sustain, tremolo, pizzicato), solo violin (the harmonic: A6 sample, low-passed)",
             brass="VSCO-2 CE F horn (sustain; 4-player section = velocity layers, detune <= 5 cents, offsets <= 23 ms), "
                   "1950s Olds trombone (two takes), tenor trombone",
             perc="VSCO-2 CE timpani (hits and rolls)",
@@ -1473,9 +1474,12 @@ def main(argv):
             "pitch measurements only.",
             "The solo violin 'harmonic' is an A6 vibrato sample low-passed to approach a harmonic's purity.",
             "The '8' principal' in the kitchen is the open plenum rank at low level behind a nearly closed swell box.",
-            "Six soft arrivals (rise1, look1, spout_out, pullback, look2 inside legato strings/organ, title_in in the "
-            "organ release) cannot be separated by onset detection inside the delivered stem (flux salience < 3); "
-            "their timing is measured on the arrival notes rendered alone through the same chain (probe).",
+            f"{len(probed)} soft arrivals ({', '.join(probed)}) cannot be separated by onset detection inside the "
+            "delivered stem (legato organ/strings, flux salience < 3); their timing is measured on the arrival notes "
+            "rendered alone through the same chain (probe). The others are measured by onset detection in the stem.",
+            "Tuning: the FFT partial measure (same method as the calibration, on rendered notes) is within 6 cents for "
+            "every note; pYIN alone reads up to ~18 cents on a few vibrato string notes (it follows the vibrato), "
+            "both are listed per note.",
             "The master limiter takes up to ~6 dB around the climax (needed for -16 LUFS integrated with a pp-mp "
             "kitchen at -2 dBTP); it is one gain curve on all stems.",
         ],
