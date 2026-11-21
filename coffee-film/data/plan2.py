@@ -103,7 +103,7 @@ shots = [
      "time": [[21.0, 2.0], [29.0, 10.0], [29.083, 10.083], [32.0, 10.083]],   # frame 242: the last sharp one (refocus from 243)
      "grade": CUP, "denoise": "hqdn3d=1.2:1.2:3:3", "acutance": ACUTANCE,
      # (the pull-back stays framed right of the departing server's edge, top left of the held frame)
-     "move": {"keys": [[21.0, 1.10, 0.465, 0.49], [27.0, 1.18, 0.50, 0.55], [29.0, 1.18, 0.50, 0.55], [31.0, 1.12, 0.55, 0.50], [32.0, 1.10, 0.545, 0.49]]},
+     "move": {"keys": [[21.0, 1.10, 0.465, 0.49], [27.0, 1.18, 0.50, 0.55], [29.0, 1.18, 0.50, 0.55], [32.0, 1.12, 0.55, 0.49]]},   # one continuous pull-back
      "light": {"tint": [1.0, 0.97, 0.9], "keys": [[0.0, 0.38, 0.64, 0.29, 0.16, 0.35], [8.0, 0.38, 0.64, 0.29, 0.16, 0.35],
                                                   [11.0, 0.38, 0.64, 0.29, 0.16, 0.2]]},
      "streak": {"threshold": 0.9, "gain": 0.08, "length": 0.22},

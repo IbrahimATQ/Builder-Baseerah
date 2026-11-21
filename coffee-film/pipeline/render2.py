@@ -298,34 +298,39 @@ def dir_blur(img: np.ndarray, length: float) -> np.ndarray:
 _GRID: dict = {}
 
 
-def flow_smear(fr: np.ndarray, g0: np.ndarray, g1: np.ndarray, n: int, scale: float = 1.0) -> np.ndarray:
+def flow_smear(fr: np.ndarray, g0: np.ndarray, g1: np.ndarray, n: int, scale: float = 1.0, shift: float = 0.0) -> np.ndarray:
     """Motion blur along the measured motion of every pixel (optical flow between the first and last frame of the
     exposure, at quarter size): joins the stepped copies an average of a fast pan leaves, also where near and far
-    things move at different speeds."""
+    things move at different speeds. `scale` = smear length in frame intervals of travel; `shift` moves the centre
+    along the motion by that many frame intervals (the moment between two real frames, found by the flow)."""
     a = np.clip(g0 * 255, 0, 255).astype(np.uint8)
     b = np.clip(g1 * 255, 0, 255).astype(np.uint8)
-    flow = cv2.calcOpticalFlowFarneback(a, b, None, 0.5, 4, 21, 3, 7, 1.5, 0) * (scale / max(n - 1, 1))
+    flow = cv2.calcOpticalFlowFarneback(a, b, None, 0.5, 4, 21, 3, 7, 1.5, 0) / max(n - 1, 1)
     H, W = fr.shape[:2]
     fx, fy = W / a.shape[1], H / a.shape[0]
     fl = cv2.resize(flow, (W, H), interpolation=cv2.INTER_LINEAR)
     fl[..., 0] *= fx
     fl[..., 1] *= fy
-    mag = float(np.percentile(np.hypot(fl[..., 0], fl[..., 1]), 99))
-    if mag < 0.25:
-        return fr
-    taps = int(min(12, max(3, math.ceil(mag / 2))))
+    mag = float(np.percentile(np.hypot(fl[..., 0], fl[..., 1]), 99)) * scale
     if (W, H) not in _GRID:
         _GRID.clear()
         _GRID[(W, H)] = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float32))
     xx, yy = _GRID[(W, H)]
     lin = to_lin(fr)
+    if abs(shift) > 1e-3:   # backward warp: the point at y came from y - shift*flow
+        centre = cv2.remap(lin, xx - fl[..., 0] * shift, yy - fl[..., 1] * shift, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+    else:
+        centre = lin
+    if mag < 0.25:
+        return to_disp(np.clip(centre, 0, None))
+    taps = int(min(64, max(3, math.ceil(mag / 1.5)))) | 1   # odd: one tap at the centre
     acc = np.zeros_like(lin)
     for j in range(taps):
-        s = j / (taps - 1) - 0.5
-        acc += cv2.remap(lin, xx + fl[..., 0] * s, yy + fl[..., 1] * s, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
-    out = to_disp(np.clip(acc / taps, 0, None))
-    m = min(1.0, mag / 4.0)   # a short smear fades in from the sharp frame (resampling must not soften it on its own)
-    return out if m >= 1.0 else fr * (1 - m) + out * m
+        s_ = (j / (taps - 1) - 0.5) * scale - shift
+        acc += cv2.remap(lin, xx + fl[..., 0] * s_, yy + fl[..., 1] * s_, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+    m = min(1.0, mag / 4.0)   # a short smear fades in from the (shifted) sharp frame
+    out = centre * (1 - m) + (acc / taps) * m
+    return to_disp(np.clip(out, 0, None))
 
 
 def _lens_core(img: np.ndarray, r: float, boost: float) -> np.ndarray:
@@ -470,15 +475,15 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
         e = span * min(1.0, max(0.0, (span - 1.0) / 0.8)) if s.get("shutter_ramp", True) else span
         mf = s.get("motion_fill", True)
         if e < 1.0 and mf == "flow":
-            # less than one frame interval of exposure: the nearest whole frame, smeared along its own motion by the
-            # open fraction, so the blur grows continuously from nothing as the camera speeds up
+            # less than one frame interval of exposure: the exact moment between the two real frames (the earlier one
+            # moved along the optical flow), smeared by the open fraction, so the blur grows from nothing and the
+            # motion stays even
             k0_ = int(math.floor(kpos))
             nb = rd.frame(k0_ + 1)
             pv = rd.prev if (rd.k == k0_ + 1 and rd.prev is not None) else rd.frame(k0_)
-            base = nb if kpos - k0_ >= 0.5 else pv
-            fr, n, g0, g1 = flow_smear(base, rd._small(pv), rd._small(nb), 2, max(e, 0.0)), 1, None, None
-        else:
-            fr, n, g0, g1 = rd.average(kpos - e, kpos)
+            fr, n, g0, g1 = flow_smear(pv, rd._small(pv), rd._small(nb), 2, max(e, 0.0), kpos - k0_), 1, None, None
+        else:   # the exposure is centred on this moment
+            fr, n, g0, g1 = rd.average(kpos - e / 2, kpos + e / 2) if mf == "flow" else rd.average(kpos - e, kpos)
         if n >= 2 and g0 is not None and mf:
             if mf == "flow":
                 fr = flow_smear(fr, g0, g1, n, min(1.0, e))
