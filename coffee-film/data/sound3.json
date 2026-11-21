@@ -1,0 +1,1633 @@
+{
+ "title": "WARSZAWA",
+ "cuesheet": "cuesheet3.json",
+ "duration": "@duration",
+ "buses": [
+  "city",
+  "kitchen",
+  "foley",
+  "bell"
+ ],
+ "score": {
+  "file": "/home/user/coffee/score3/music.wav",
+  "gain_db": 0.0,
+  "auto": {
+   "t0": "@climax-0.5",
+   "t1": "@climax+2.5",
+   "city_under_db": 8.0,
+   "bus": "city"
+  },
+  "end_fade": [
+   "@end+0.25",
+   "@end+1.35"
+  ]
+ },
+ "music_ducks": [],
+ "notes": [
+  "IMG_5417 and IMG_5416 carry a street musician (sustained notes in A and D major, A = 437-439 Hz, +20-30 dB over the noise in 16k-point spectra). Under the organ score and through the kitchen glass that would be a second, unrelated music, so every city bed is detoned: sustained tonal lines are pulled down to the noise floor around them (tonal prominence 20.9 -> 11.9 dB, the noise baseline; footsteps, voices' breath and the air are kept).",
+  "The kitchen clips' tracks have mains hum (50/100/150 Hz, +17-36 dB) and appliance lines (100, 161, 179, 223, 299, 401 Hz): notched at 50-250 Hz and detoned. IMG_5421's handling knock (src 4.02-5.02) and a tick at src 19.93-20.33 are replaced by clean material of the same clip. IMG_5422's own track is not used at all.",
+  "Speed: the clips' own sound follows the cue sheet's speed curve (0.8x, 0.5x, eased ramps) through rubberband, pitch kept; library textures under the slow motion are laid on the same curve (rate 1.25: real speed where the picture is at 0.8x, 0.625x in the 0.5x stretch). Nothing is slowed by resampling; only the drips and two set-downs are pitched (by resampling, to make them smaller or heavier) and they are not time-locked to frames.",
+  "Set-downs: the glass server is Mixkit 3148 (a glass jar touching down, 888 Hz glass ring); the metal kettle on its base is Mixkit 2934 pitched down 2 semitones (a dull contact) - the brief's 3148 for the kettle and 2933 for the server were swapped for material that matches what is set down. The cup on the stone sill is 2933.",
+  "turn_away -> sill: the catalogue has no cloth rustle; nothing is added (the street runs on, continuous).",
+  "The score is placed at 0 if its file exists at mix time; its gain is set so that the city stem sits 8 dB under it at the climax (window climax-0.5 .. climax+2.5); it is faded out from end+0.25 to end+1.35 so that the city is the last sound."
+ ],
+ "glass_report": [
+  "city_glass",
+  "city_open",
+  "bell3"
+ ],
+ "ceiling_db": -2.0,
+ "targets": {
+  "mix": -14.0,
+  "sfx_only": -16.0
+ },
+ "sections": [
+  [
+   "black_in",
+   "@black_in",
+   "@fade_up"
+  ],
+  [
+   "walk",
+   "@fade_up",
+   "@bloom"
+  ],
+  [
+   "bloom",
+   "@bloom",
+   "@brew.start"
+  ],
+  [
+   "brew",
+   "@brew.start",
+   "@cup"
+  ],
+  [
+   "cup_quiet",
+   "@cup",
+   "@pour"
+  ],
+  [
+   "cup_pour",
+   "@pour",
+   "@server_out"
+  ],
+  [
+   "look3",
+   "@server_out",
+   "@latch"
+  ],
+  [
+   "latch_to_sash",
+   "@latch",
+   "@sash_clear"
+  ],
+  [
+   "no_music_gap",
+   "@sash_clear",
+   "@open+2.5"
+  ],
+  [
+   "street",
+   "@open+2.5",
+   "@turn.start"
+  ],
+  [
+   "turn",
+   "@turn.start",
+   "@square"
+  ],
+  [
+   "square_build",
+   "@square",
+   "@climax"
+  ],
+  [
+   "climax",
+   "@climax-0.5",
+   "@climax+2.5"
+  ],
+  [
+   "release",
+   "@climax+2.5",
+   "@end"
+  ],
+  [
+   "black_out",
+   "@end",
+   "@duration"
+  ]
+ ],
+ "elements": [
+  {
+   "id": "city_glass",
+   "bus": "city",
+   "what": "the street behind the kitchen glass (unused part of the window clip)",
+   "file": "/home/user/coffee/raw/IMG_5417.MOV",
+   "licence": "the commissioner's own recording (iPhone clip)",
+   "splice": [
+    [
+     12.3,
+     19.6
+    ],
+    [
+     19.4,
+     27.0
+    ],
+    [
+     13.4,
+     18.8
+    ],
+    [
+     20.6,
+     26.6
+    ]
+   ],
+   "xfade": 0.8,
+   "tempo": 0.8,
+   "start": "@black_in",
+   "end": "@open+0.4",
+   "hp": 60,
+   "detone": {},
+   "rms_db": -33.5,
+   "gain_keys": [
+    [
+     "@black_in",
+     -16
+    ],
+    [
+     "@rise1",
+     -16
+    ],
+    [
+     "@look1",
+     -13
+    ],
+    [
+     "@kettle_click-0.4",
+     -13
+    ],
+    [
+     "@kettle_click",
+     -15
+    ],
+    [
+     "@stream",
+     -16
+    ],
+    [
+     "@pullback",
+     -16
+    ],
+    [
+     "@look2",
+     -13
+    ],
+    [
+     "@cup-0.25",
+     -13
+    ],
+    [
+     "@cup",
+     -32
+    ],
+    [
+     "@hand",
+     -32
+    ],
+    [
+     "@server_out",
+     -18
+    ],
+    [
+     "@bell2",
+     -15
+    ],
+    [
+     "@rise3+0.5",
+     -12
+    ],
+    [
+     "@open+0.35",
+     -12
+    ]
+   ],
+   "lp_keys": [
+    [
+     "@black_in",
+     600
+    ],
+    [
+     "@rise1",
+     600
+    ],
+    [
+     "@look1",
+     1000
+    ],
+    [
+     "@pullback",
+     1000
+    ],
+    [
+     "@look2",
+     1300
+    ],
+    [
+     "@server_out",
+     1300
+    ],
+    [
+     "@rise3",
+     1800
+    ],
+    [
+     "@open+0.35",
+     1800
+    ]
+   ],
+   "lp_order": 2,
+   "fade_in": 0.25,
+   "fade_out": 0.4,
+   "fade_shape": "power"
+  },
+  {
+   "id": "city_glass_crowd",
+   "bus": "city",
+   "what": "the wider city behind the glass (no speech in it)",
+   "file": "/home/user/coffee/sfx/361_city_downtown_crowd_ambience.wav",
+   "licence": "Mixkit 361 'City downtown crowd ambience' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    2.0,
+    50.0
+   ],
+   "start": "@black_in",
+   "end": "@open+0.4",
+   "hp": 80,
+   "detone": {},
+   "rms_db": -39.5,
+   "gain_keys": [
+    [
+     "@black_in",
+     -16
+    ],
+    [
+     "@rise1",
+     -16
+    ],
+    [
+     "@look1",
+     -13
+    ],
+    [
+     "@kettle_click-0.4",
+     -13
+    ],
+    [
+     "@kettle_click",
+     -15
+    ],
+    [
+     "@stream",
+     -16
+    ],
+    [
+     "@pullback",
+     -16
+    ],
+    [
+     "@look2",
+     -13
+    ],
+    [
+     "@cup-0.25",
+     -13
+    ],
+    [
+     "@cup",
+     -32
+    ],
+    [
+     "@hand",
+     -32
+    ],
+    [
+     "@server_out",
+     -18
+    ],
+    [
+     "@bell2",
+     -15
+    ],
+    [
+     "@rise3+0.5",
+     -12
+    ],
+    [
+     "@open+0.35",
+     -12
+    ]
+   ],
+   "lp_keys": [
+    [
+     "@black_in",
+     600
+    ],
+    [
+     "@rise1",
+     600
+    ],
+    [
+     "@look1",
+     1000
+    ],
+    [
+     "@pullback",
+     1000
+    ],
+    [
+     "@look2",
+     1300
+    ],
+    [
+     "@server_out",
+     1300
+    ],
+    [
+     "@rise3",
+     1800
+    ],
+    [
+     "@open+0.35",
+     1800
+    ]
+   ],
+   "lp_order": 2,
+   "fade_in": 0.25,
+   "fade_out": 0.4,
+   "width": 0.8,
+   "fade_shape": "power"
+  },
+  {
+   "id": "city_open",
+   "bus": "city",
+   "what": "the street through the opening window, in sync (IMG_5417 0.0 on)",
+   "file": "/home/user/coffee/raw/IMG_5417.MOV",
+   "licence": "the commissioner's own recording (iPhone clip)",
+   "timemap": {
+    "shot": "open"
+   },
+   "start": "@open",
+   "end": "@square+0.3",
+   "hp": 50,
+   "detone": {},
+   "rms_db": -33.5,
+   "crest_db": 15.0,
+   "lp_keys": [
+    [
+     "@open",
+     1800
+    ],
+    [
+     "@bell3+0.25",
+     1800
+    ],
+    [
+     "@sash_clear",
+     19000
+    ],
+    [
+     "@pilaster1-0.3",
+     19000
+    ],
+    [
+     "@pilaster1",
+     5500
+    ],
+    [
+     "@pilaster1+0.4",
+     19000
+    ]
+   ],
+   "gain_keys": [
+    [
+     "@open",
+     -6
+    ],
+    [
+     "@bell3+0.25",
+     -6
+    ],
+    [
+     "@sash_clear",
+     3
+    ],
+    [
+     "@open+2.5",
+     3
+    ],
+    [
+     "@pilaster1-0.3",
+     1
+    ],
+    [
+     "@pilaster1",
+     -1.5
+    ],
+    [
+     "@pilaster1+0.4",
+     1
+    ],
+    [
+     "@street",
+     0
+    ]
+   ],
+   "fade_in": 0.35,
+   "fade_out": 0.6,
+   "fade_shape": "power"
+  },
+  {
+   "id": "city_walkers",
+   "bus": "city",
+   "what": "passers-by on the stone below, low under the street",
+   "file": "/home/user/coffee/sfx/375_street_ambience_walking_people.wav",
+   "licence": "Mixkit 375 'Street ambience with walking people' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    3.0,
+    30.0
+   ],
+   "start": "@sash_clear",
+   "end": "@square+0.6",
+   "hp": 150,
+   "lp": 7000,
+   "detone": {},
+   "rms_db": -46.5,
+   "crest_db": 14.0,
+   "width": 1.3,
+   "fade_in": 2.5,
+   "fade_out": 1.0
+  },
+  {
+   "id": "city_square",
+   "bus": "city",
+   "what": "the square, in sync (IMG_5416 4.1 on); its own jump when he leans out",
+   "file": "/home/user/coffee/raw/IMG_5416.MOV",
+   "licence": "the commissioner's own recording (iPhone clip)",
+   "timemap": {
+    "shot": "square"
+   },
+   "start": "@square-0.3",
+   "end": "@duration",
+   "hp": 50,
+   "detone": {},
+   "crest_db": 15.0,
+   "match": {
+    "to": "city_open",
+    "at": "@square",
+    "win": 1.0,
+    "gap": 0.3
+   },
+   "fade_in": 0.6,
+   "fade_out": 1.75,
+   "fade_shape": "power",
+   "step": "@city_doubles"
+  },
+  {
+   "id": "city_square_air",
+   "bus": "city",
+   "what": "the width of the square as it opens, longer reflections",
+   "file": "/home/user/coffee/sfx/346_urban_square_atmosphere.wav",
+   "licence": "Mixkit 346 'Urban square atmosphere' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    4.0,
+    30.0
+   ],
+   "start": "@city_doubles-0.5",
+   "end": "@duration",
+   "hp": 120,
+   "polarity": "flip_right",
+   "detone": {},
+   "rms_db": -37.5,
+   "reverb": {
+    "rt60": 1.8,
+    "mix": 0.3,
+    "predelay": 0.03
+   },
+   "gain_keys": [
+    [
+     "@city_doubles-0.5",
+     -8
+    ],
+    [
+     "@square_in",
+     0
+    ],
+    [
+     "@end",
+     0
+    ]
+   ],
+   "fade_in": 1.5,
+   "fade_out": 1.75
+  },
+  {
+   "id": "room_tone",
+   "bus": "kitchen",
+   "what": "the kitchen's own tone (IMG_5419), hum notched, appliance lines removed",
+   "file": "/home/user/coffee/raw/IMG_5419.MOV",
+   "licence": "the commissioner's own recording (iPhone clip)",
+   "splice": [
+    [
+     0.2,
+     2.7
+    ],
+    [
+     2.3,
+     4.7
+    ],
+    [
+     0.8,
+     3.6
+    ],
+    [
+     1.5,
+     4.7
+    ],
+    [
+     0.3,
+     2.2
+    ]
+   ],
+   "xfade": 0.6,
+   "start": "@black_in",
+   "end": "@open+0.15",
+   "rms_db": -57.0,
+   "fade_in": 0.3,
+   "fade_out": 0.15,
+   "notch": [
+    50,
+    100,
+    150,
+    200,
+    250
+   ],
+   "hp": 60,
+   "detone": {}
+  },
+  {
+   "id": "walk_own",
+   "bus": "kitchen",
+   "what": "the walk's own sound (IMG_5420), in sync",
+   "file": "/home/user/coffee/raw/IMG_5420.MOV",
+   "licence": "the commissioner's own recording (iPhone clip)",
+   "timemap": {
+    "shot": "walk"
+   },
+   "start": "@walk.film_in",
+   "end": "@bloom",
+   "rms_db": -56.0,
+   "fade_in": 0.6,
+   "fade_out": 0.05,
+   "notch": [
+    50,
+    100,
+    150,
+    200,
+    250
+   ],
+   "hp": 60,
+   "detone": {}
+  },
+  {
+   "id": "bloom_own",
+   "bus": "kitchen",
+   "what": "the dripper's own sound (IMG_5421), in sync through the slow motion; handling knock at src 4.05-5.0 replaced",
+   "file": "/home/user/coffee/raw/IMG_5421.MOV",
+   "licence": "the commissioner's own recording (iPhone clip)",
+   "timemap": {
+    "shot": "bloom"
+   },
+   "start": "@bloom",
+   "end": "@bloom.film_out",
+   "repair": [
+    [
+     4.02,
+     5.02,
+     10.0
+    ]
+   ],
+   "rms_db": -56.0,
+   "fade_in": 0.03,
+   "fade_out": 1.0,
+   "notch": [
+    50,
+    100,
+    150,
+    200,
+    250
+   ],
+   "hp": 60,
+   "detone": {}
+  },
+  {
+   "id": "brew_own",
+   "bus": "kitchen",
+   "what": "the dripper later (IMG_5421), in sync; a handling tick at src 19.95-20.3 replaced",
+   "file": "/home/user/coffee/raw/IMG_5421.MOV",
+   "licence": "the commissioner's own recording (iPhone clip)",
+   "timemap": {
+    "shot": "brew"
+   },
+   "start": "@brew",
+   "end": "@cup",
+   "repair": [
+    [
+     19.93,
+     20.33,
+     21.3
+    ]
+   ],
+   "rms_db": -56.0,
+   "fade_in": 1.0,
+   "fade_out": 0.02,
+   "notch": [
+    50,
+    100,
+    150,
+    200,
+    250
+   ],
+   "hp": 60,
+   "detone": {}
+  },
+  {
+   "id": "kettle_on",
+   "bus": "kitchen",
+   "what": "kettle switched on",
+   "file": "/home/user/coffee/sfx/1817_kettle_boiling.wav",
+   "licence": "Mixkit 1817 'Kettle boiling' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    1.06,
+    1.4
+   ],
+   "sync": [
+    1.134,
+    "@fade_up+0.75"
+   ],
+   "peak_db": -34.0,
+   "fade_in": 0.004,
+   "fade_out": 0.15,
+   "pan": 0.45,
+   "width": 0.5,
+   "onset": "@fade_up+0.75"
+  },
+  {
+   "id": "kettle_heat",
+   "bus": "kitchen",
+   "what": "the kettle heating to the boil: a physical crescendo under the walk",
+   "file": "/home/user/coffee/sfx/1817_kettle_boiling.wav",
+   "licence": "Mixkit 1817 'Kettle boiling' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "fit": [
+    [
+     "@fade_up+0.95",
+     1.95
+    ],
+    [
+     "@kettle_click+0.02",
+     30.0
+    ]
+   ],
+   "hp": 70,
+   "detone": {},
+   "rms_db": -44.0,
+   "gain_keys": [
+    [
+     "@fade_up+0.95",
+     -14
+    ],
+    [
+     "@walk",
+     -11
+    ],
+    [
+     "@church_in",
+     -9
+    ],
+    [
+     "@rise1",
+     -6
+    ],
+    [
+     "@look1",
+     -3
+    ],
+    [
+     "@kettle_click-0.5",
+     0
+    ]
+   ],
+   "fade_in": 0.8,
+   "fade_out": 0.018,
+   "pan": 0.45,
+   "width": 0.6
+  },
+  {
+   "id": "kettle_off",
+   "bus": "kitchen",
+   "what": "the kettle clicks off; a tenth of a second of hush, then the cut",
+   "file": "/home/user/coffee/sfx/1817_kettle_boiling.wav",
+   "licence": "Mixkit 1817 'Kettle boiling' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    52.7,
+    52.88
+   ],
+   "sync": [
+    52.777,
+    "@kettle_click"
+   ],
+   "hp": 120,
+   "peak_db": -27.0,
+   "fade_in": 0.004,
+   "fade_out": 0.06,
+   "pan": 0.4,
+   "width": 0.5,
+   "onset": "@kettle_click"
+  },
+  {
+   "id": "stream",
+   "bus": "foley",
+   "what": "the thin stream on the coffee, slowed with the picture",
+   "file": "/home/user/coffee/sfx/1318_water_pour_light_stream.wav",
+   "licence": "Mixkit 1318 'Water pour light stream' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "timemap": {
+    "shot": "bloom",
+    "rate": 1.25,
+    "anchor": [
+     "@stream",
+     3.2
+    ]
+   },
+   "start": "@stream",
+   "end": "@bloom.film_out",
+   "hp": 160,
+   "lp": 12000,
+   "detone": {},
+   "rms_db": -37.0,
+   "crest_db": 16.0,
+   "width": 0.5,
+   "fade_in": 0.006,
+   "fade_out": 1.0,
+   "fade_shape": "power",
+   "onset": "@stream",
+   "onset_before": 0.05,
+   "onset_after": 0.15
+  },
+  {
+   "id": "stream_later",
+   "bus": "foley",
+   "what": "the stream, later: the last pours, until the spout withdraws",
+   "file": "/home/user/coffee/sfx/1318_water_pour_light_stream.wav",
+   "licence": "Mixkit 1318 'Water pour light stream' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    24.8,
+    33.0
+   ],
+   "start": "@brew",
+   "end": "@spout_out+0.05",
+   "hp": 160,
+   "lp": 12000,
+   "detone": {},
+   "rms_db": -38.0,
+   "crest_db": 16.0,
+   "width": 0.5,
+   "fade_in": 1.0,
+   "fade_out": 0.12,
+   "fade_shape": "power"
+  },
+  {
+   "id": "bloom_fizz",
+   "bus": "foley",
+   "what": "the bloom: CO2 fizzing out of the wet coffee, faint",
+   "file": "/home/user/coffee/sfx/3181_pouring_foamy_soda.wav",
+   "licence": "Mixkit 3181 'Pouring foamy soda' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "timemap": {
+    "shot": "bloom",
+    "rate": 1.25,
+    "anchor": [
+     "@stream+0.25",
+     7.3
+    ]
+   },
+   "start": "@stream+0.25",
+   "end": "@brew.start",
+   "hp": 1800,
+   "rms_db": -55.0,
+   "width": 0.7,
+   "fade_in": 1.2,
+   "fade_out": 1.0
+  },
+  {
+   "id": "bloom_bubble1",
+   "bus": "foley",
+   "what": "a bubble breaking in the bloom",
+   "file": "/home/user/coffee/sfx/1317_water_bubble.wav",
+   "licence": "Mixkit 1317 'Water bubble' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.05,
+    0.4
+   ],
+   "start": "@stream+1.35",
+   "pitch": 2.0,
+   "hp": 400,
+   "peak_db": -49.0,
+   "fade_in": 0.01,
+   "fade_out": 0.08,
+   "pan": -0.12
+  },
+  {
+   "id": "bloom_bubble2",
+   "bus": "foley",
+   "what": "a bubble breaking in the bloom",
+   "file": "/home/user/coffee/sfx/1317_water_bubble.wav",
+   "licence": "Mixkit 1317 'Water bubble' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.05,
+    0.4
+   ],
+   "start": "@stream+2.9",
+   "pitch": 3.0,
+   "hp": 400,
+   "peak_db": -50.0,
+   "fade_in": 0.01,
+   "fade_out": 0.08,
+   "pan": 0.1
+  },
+  {
+   "id": "bloom_bubble3",
+   "bus": "foley",
+   "what": "a bubble breaking in the bloom",
+   "file": "/home/user/coffee/sfx/1317_water_bubble.wav",
+   "licence": "Mixkit 1317 'Water bubble' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.05,
+    0.4
+   ],
+   "start": "@stream+4.4",
+   "pitch": 1.0,
+   "hp": 400,
+   "peak_db": -51.0,
+   "fade_in": 0.01,
+   "fade_out": 0.08,
+   "pan": 0.0
+  },
+  {
+   "id": "kettle_down",
+   "bus": "foley",
+   "what": "kettle set down off-screen on its base",
+   "file": "/home/user/coffee/sfx/2934_bowl_put_in_table.wav",
+   "licence": "Mixkit 2934 'Bowl put in table' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.0,
+    0.3
+   ],
+   "sync": [
+    0.004,
+    "@spout_out+0.55"
+   ],
+   "pitch": -2.0,
+   "hp": 90,
+   "lp": 6000,
+   "peak_db": -33.0,
+   "reverb": {
+    "rt60": 0.45,
+    "mix": 0.25,
+    "predelay": 0.008
+   },
+   "pan": 0.45,
+   "fade_out": 0.08,
+   "onset": "@spout_out+0.55"
+  },
+  {
+   "id": "drip1",
+   "bus": "foley",
+   "what": "a single drip into the glass server",
+   "file": "/home/user/coffee/sfx/1879_bathroom_sink_water_drip.wav",
+   "licence": "Mixkit 1879 'Bathroom sink water drip' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    7.13,
+    7.246
+   ],
+   "sync": [
+    7.136,
+    "@spout_out+0.4"
+   ],
+   "pitch": 4.0,
+   "hp": 900,
+   "lp": 14000,
+   "peak_db": -35.0,
+   "reverb": {
+    "rt60": 0.3,
+    "mix": 0.18,
+    "predelay": 0.004
+   },
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "width": 0.3,
+   "skip_after": "@cup-0.3"
+  },
+  {
+   "id": "drip2",
+   "bus": "foley",
+   "what": "a single drip into the glass server",
+   "file": "/home/user/coffee/sfx/1879_bathroom_sink_water_drip.wav",
+   "licence": "Mixkit 1879 'Bathroom sink water drip' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    1.084,
+    1.2000000000000002
+   ],
+   "sync": [
+    1.09,
+    "@spout_out+1.05"
+   ],
+   "pitch": 4.5,
+   "hp": 900,
+   "lp": 14000,
+   "peak_db": -35.6,
+   "reverb": {
+    "rt60": 0.3,
+    "mix": 0.18,
+    "predelay": 0.004
+   },
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "width": 0.3,
+   "skip_after": "@cup-0.3"
+  },
+  {
+   "id": "drip3",
+   "bus": "foley",
+   "what": "a single drip into the glass server",
+   "file": "/home/user/coffee/sfx/1879_bathroom_sink_water_drip.wav",
+   "licence": "Mixkit 1879 'Bathroom sink water drip' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    2.7020000000000004,
+    2.818
+   ],
+   "sync": [
+    2.708,
+    "@spout_out+1.75"
+   ],
+   "pitch": 3.5,
+   "hp": 900,
+   "lp": 14000,
+   "peak_db": -36.2,
+   "reverb": {
+    "rt60": 0.3,
+    "mix": 0.18,
+    "predelay": 0.004
+   },
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "width": 0.3,
+   "skip_after": "@cup-0.3"
+  },
+  {
+   "id": "drip4",
+   "bus": "foley",
+   "what": "a single drip into the glass server",
+   "file": "/home/user/coffee/sfx/1879_bathroom_sink_water_drip.wav",
+   "licence": "Mixkit 1879 'Bathroom sink water drip' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    3.3880000000000003,
+    3.504
+   ],
+   "sync": [
+    3.394,
+    "@spout_out+2.6"
+   ],
+   "pitch": 4.0,
+   "hp": 900,
+   "lp": 14000,
+   "peak_db": -36.8,
+   "reverb": {
+    "rt60": 0.3,
+    "mix": 0.18,
+    "predelay": 0.004
+   },
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "width": 0.3,
+   "skip_after": "@cup-0.3"
+  },
+  {
+   "id": "drip5",
+   "bus": "foley",
+   "what": "a single drip into the glass server",
+   "file": "/home/user/coffee/sfx/1879_bathroom_sink_water_drip.wav",
+   "licence": "Mixkit 1879 'Bathroom sink water drip' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    1.447,
+    1.5630000000000002
+   ],
+   "sync": [
+    1.453,
+    "@spout_out+3.6"
+   ],
+   "pitch": 5.0,
+   "hp": 900,
+   "lp": 14000,
+   "peak_db": -37.4,
+   "reverb": {
+    "rt60": 0.3,
+    "mix": 0.18,
+    "predelay": 0.004
+   },
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "width": 0.3,
+   "skip_after": "@cup-0.3"
+  },
+  {
+   "id": "drip6",
+   "bus": "foley",
+   "what": "a single drip into the glass server",
+   "file": "/home/user/coffee/sfx/1879_bathroom_sink_water_drip.wav",
+   "licence": "Mixkit 1879 'Bathroom sink water drip' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    6.609999999999999,
+    6.726
+   ],
+   "sync": [
+    6.616,
+    "@spout_out+4.75"
+   ],
+   "pitch": 4.0,
+   "hp": 900,
+   "lp": 14000,
+   "peak_db": -38.0,
+   "reverb": {
+    "rt60": 0.3,
+    "mix": 0.18,
+    "predelay": 0.004
+   },
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "width": 0.3,
+   "skip_after": "@cup-0.3"
+  },
+  {
+   "id": "drip7",
+   "bus": "foley",
+   "what": "a single drip into the glass server",
+   "file": "/home/user/coffee/sfx/1879_bathroom_sink_water_drip.wav",
+   "licence": "Mixkit 1879 'Bathroom sink water drip' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    7.13,
+    7.246
+   ],
+   "sync": [
+    7.136,
+    "@spout_out+6.0"
+   ],
+   "pitch": 3.0,
+   "hp": 900,
+   "lp": 14000,
+   "peak_db": -38.6,
+   "reverb": {
+    "rt60": 0.3,
+    "mix": 0.18,
+    "predelay": 0.004
+   },
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "width": 0.3,
+   "skip_after": "@cup-0.3"
+  },
+  {
+   "id": "server_lip",
+   "bus": "foley",
+   "what": "the glass server's lip touches the porcelain, tiny",
+   "file": "/home/user/coffee/sfx/154_a_couple_of_glasses_clink.wav",
+   "licence": "Mixkit 154 'A couple of glasses clink' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.1,
+    0.42
+   ],
+   "sync": [
+    0.113,
+    "@server_in"
+   ],
+   "hp": 300,
+   "peak_db": -40.0,
+   "fade_in": 0.002,
+   "fade_out": 0.22,
+   "onset": "@server_in"
+  },
+  {
+   "id": "pour_porcelain",
+   "bus": "foley",
+   "what": "the coffee hits the empty porcelain, in slow motion (pitch kept)",
+   "file": "/home/user/coffee/sfx/1310_pouring_water_to_mug.wav",
+   "licence": "Mixkit 1310 'Pouring water to mug' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "timemap": {
+    "shot": "cup",
+    "rate": 1.25,
+    "anchor": [
+     "@pour",
+     0.11
+    ]
+   },
+   "start": "@pour",
+   "end": "@slow2_end+1.1",
+   "hp": 140,
+   "lp": 13000,
+   "rms_db": -38.0,
+   "crest_db": 15.0,
+   "fade_in": 0.012,
+   "fade_out": 0.9,
+   "onset": "@pour",
+   "onset_before": 0.05
+  },
+  {
+   "id": "pour_filling",
+   "bus": "foley",
+   "what": "the cup filling, its pitch rising (slow, then the 0.8x real time)",
+   "file": "/home/user/coffee/sfx/2826_pouring_water_in_a_glass.wav",
+   "licence": "Mixkit 2826 'Pouring water in a glass' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "timemap": {
+    "shot": "cup",
+    "fit": [
+     [
+      "@slow2_end-0.5",
+      0.55
+     ],
+     [
+      "@server_out-0.25",
+      3.4
+     ]
+    ]
+   },
+   "start": "@slow2_end-0.5",
+   "end": "@server_out-0.05",
+   "hp": 150,
+   "rms_db": -38.5,
+   "crest_db": 15.0,
+   "gain_keys": [
+    [
+     "@slow2_end",
+     0
+    ],
+    [
+     "@hand+0.8",
+     0
+    ],
+    [
+     "@server_out-2.0",
+     5
+    ],
+    [
+     "@server_out-0.3",
+     5
+    ]
+   ],
+   "fade_in": 0.7,
+   "fade_out": 0.15
+  },
+  {
+   "id": "crema",
+   "bus": "foley",
+   "what": "the crema fizzing in the full cup",
+   "file": "/home/user/coffee/sfx/2833_pouring_soda_in_a_glass.wav",
+   "licence": "Mixkit 2833 'Pouring soda in a glass' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    2.6,
+    6.4
+   ],
+   "tempo": 0.7,
+   "start": "@hand",
+   "hp": 2500,
+   "rms_db": -56.0,
+   "fade_in": 1.5,
+   "fade_out": 1.6,
+   "width": 0.6
+  },
+  {
+   "id": "server_down",
+   "bus": "foley",
+   "what": "the server set down off-screen",
+   "file": "/home/user/coffee/sfx/3148_set_down_jelly_jar.wav",
+   "licence": "Mixkit 3148 'Set down jelly jar' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.0,
+    0.48
+   ],
+   "sync": [
+    0.023,
+    "@server_out+0.7"
+   ],
+   "hp": 200,
+   "lp": 8000,
+   "peak_db": -33.0,
+   "reverb": {
+    "rt60": 0.4,
+    "mix": 0.22,
+    "predelay": 0.006
+   },
+   "pan": -0.3,
+   "fade_out": 0.1,
+   "onset": "@server_out+0.7"
+  },
+  {
+   "id": "latch",
+   "bus": "foley",
+   "what": "the old window's handle and latch",
+   "file": "/home/user/coffee/sfx/2856_gear_lock_sound.wav",
+   "licence": "Mixkit 2856 'Gear lock sound' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.0,
+    0.62
+   ],
+   "sync": [
+    0.238,
+    "@latch"
+   ],
+   "hp": 180,
+   "peak_db": -16.0,
+   "fade_in": 0.002,
+   "fade_out": 0.12,
+   "pan": 0.1,
+   "width": 0.4,
+   "onset": "@latch",
+   "onset_before": 0.04,
+   "onset_mode": "attack"
+  },
+  {
+   "id": "latch_bolt",
+   "bus": "foley",
+   "what": "the latch bolt snaps back",
+   "file": "/home/user/coffee/sfx/1924_gate_latch_click.wav",
+   "licence": "Mixkit 1924 'Gate latch click' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.1,
+    0.28
+   ],
+   "sync": [
+    0.134,
+    "@latch+0.012"
+   ],
+   "hp": 150,
+   "peak_db": -23.0,
+   "fade_in": 0.002,
+   "fade_out": 0.05,
+   "pan": 0.1
+  },
+  {
+   "id": "sash_seal",
+   "bus": "foley",
+   "what": "the sash's seal unsticks; the old hinge creaks",
+   "file": "/home/user/coffee/sfx/195_creaky_door_open.wav",
+   "licence": "Mixkit 195 'Creaky door open' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.08,
+    1.62
+   ],
+   "sync": [
+    0.118,
+    "@latch+0.14"
+   ],
+   "hp": 110,
+   "peak_db": -24.0,
+   "fade_in": 0.004,
+   "fade_out": 0.4,
+   "pan": 0.15
+  },
+  {
+   "id": "sash_creak",
+   "bus": "foley",
+   "what": "the old wood creaks as the sash swings in",
+   "file": "/home/user/coffee/sfx/1163_door_creak_opened_by_the_wind.wav",
+   "licence": "Mixkit 1163 'Door creak opened by the wind' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    1.33,
+    2.0
+   ],
+   "start": "@open+0.5",
+   "hp": 260,
+   "peak_db": -27.0,
+   "fade_in": 0.08,
+   "fade_out": 0.3,
+   "pan": -0.1
+  },
+  {
+   "id": "casement",
+   "bus": "foley",
+   "what": "the outer casement swings away, its hinge creaks",
+   "file": "/home/user/coffee/sfx/1163_door_creak_opened_by_the_wind.wav",
+   "licence": "Mixkit 1163 'Door creak opened by the wind' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    1.95,
+    2.75
+   ],
+   "sync": [
+    1.95,
+    "@casement"
+   ],
+   "hp": 240,
+   "peak_db": -24.0,
+   "fade_in": 0.03,
+   "fade_out": 0.35,
+   "pan": -0.25,
+   "onset": "@casement",
+   "slap": {
+    "delays": [
+     0.062,
+     0.118
+    ],
+    "gains_db": [
+     -14,
+     -18
+    ],
+    "lp": 4000
+   }
+  },
+  {
+   "id": "cup_on_sill",
+   "bus": "foley",
+   "what": "his cup set down on the stone sill, off screen",
+   "file": "/home/user/coffee/sfx/2933_dish_placed_in_wood_table.wav",
+   "licence": "Mixkit 2933 'Dish placed in a wood table' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.0,
+    0.45
+   ],
+   "sync": [
+    0.069,
+    "@cup_on_sill"
+   ],
+   "hp": 200,
+   "peak_db": -18.0,
+   "fade_in": 0.003,
+   "fade_out": 0.12,
+   "pan": -0.15,
+   "onset": "@cup_on_sill",
+   "onset_before": 0.03,
+   "onset_mode": "attack"
+  },
+  {
+   "id": "bell1",
+   "bus": "bell",
+   "what": "bell stroke 1: far off, muffled through the glass, over black",
+   "file": "/home/user/coffee/sfx/617_melodic_church_bell.wav",
+   "licence": "Mixkit 617 'Melodic church bell' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.05,
+    6.3
+   ],
+   "sync": [
+    0.1,
+    "@bell1"
+   ],
+   "hp": 90,
+   "lp": 3500,
+   "rms_db": -56.0,
+   "pan": -0.25,
+   "width": 0.6,
+   "reverb": {
+    "rt60": 3.4,
+    "mix": 0.65,
+    "predelay": 0.06
+   },
+   "lp_keys": [
+    [
+     "@black_in",
+     600
+    ],
+    [
+     "@rise1",
+     600
+    ],
+    [
+     "@look1",
+     1000
+    ],
+    [
+     "@pullback",
+     1000
+    ],
+    [
+     "@look2",
+     1300
+    ],
+    [
+     "@server_out",
+     1300
+    ],
+    [
+     "@rise3",
+     1800
+    ],
+    [
+     "@open+0.35",
+     1800
+    ]
+   ],
+   "onset": "@bell1",
+   "onset_after": 0.4
+  },
+  {
+   "id": "bell2",
+   "bus": "bell",
+   "what": "bell stroke 2: through the kitchen glass",
+   "file": "/home/user/coffee/sfx/617_melodic_church_bell.wav",
+   "licence": "Mixkit 617 'Melodic church bell' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.05,
+    6.3
+   ],
+   "sync": [
+    0.1,
+    "@bell2"
+   ],
+   "hp": 90,
+   "lp": 4500,
+   "rms_db": -42.0,
+   "pan": -0.25,
+   "width": 0.6,
+   "reverb": {
+    "rt60": 3.4,
+    "mix": 0.6,
+    "predelay": 0.06
+   },
+   "lp_keys": [
+    [
+     "@black_in",
+     600
+    ],
+    [
+     "@rise1",
+     600
+    ],
+    [
+     "@look1",
+     1000
+    ],
+    [
+     "@pullback",
+     1000
+    ],
+    [
+     "@look2",
+     1300
+    ],
+    [
+     "@server_out",
+     1300
+    ],
+    [
+     "@rise3",
+     1800
+    ],
+    [
+     "@bell3+0.25",
+     1800
+    ],
+    [
+     "@sash_clear",
+     19000
+    ]
+   ],
+   "gain_keys": [
+    [
+     "@rise3",
+     0.0
+    ],
+    [
+     "@bell3+0.25",
+     -9
+    ],
+    [
+     "@sash_clear",
+     0
+    ]
+   ],
+   "onset": "@bell2",
+   "onset_after": 0.4
+  },
+  {
+   "id": "bell3",
+   "bus": "bell",
+   "what": "bell stroke 3: behind the glass, then in the open air as the sash clears",
+   "file": "/home/user/coffee/sfx/617_melodic_church_bell.wav",
+   "licence": "Mixkit 617 'Melodic church bell' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.05,
+    6.3
+   ],
+   "sync": [
+    0.1,
+    "@bell3"
+   ],
+   "hp": 80,
+   "rms_db": -38.0,
+   "pan": -0.2,
+   "reverb": {
+    "rt60": 3.6,
+    "mix": 0.5,
+    "predelay": 0.05
+   },
+   "slap": {
+    "delays": [
+     0.068,
+     0.125
+    ],
+    "gains_db": [
+     -11,
+     -15
+    ],
+    "lp": 3500
+   },
+   "lp_keys": [
+    [
+     "@bell3",
+     1800
+    ],
+    [
+     "@bell3+0.25",
+     1800
+    ],
+    [
+     "@sash_clear",
+     19000
+    ]
+   ],
+   "gain_keys": [
+    [
+     "@bell3",
+     -9
+    ],
+    [
+     "@bell3+0.25",
+     -9
+    ],
+    [
+     "@sash_clear",
+     0
+    ]
+   ],
+   "onset": "@bell3",
+   "onset_after": 0.4
+  },
+  {
+   "id": "bell4",
+   "bus": "bell",
+   "what": "bell stroke 4: open air over the square, the facades answer, a long tail",
+   "file": "/home/user/coffee/sfx/617_melodic_church_bell.wav",
+   "licence": "Mixkit 617 'Melodic church bell' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
+   "src": [
+    0.05,
+    6.3
+   ],
+   "sync": [
+    0.1,
+    "@bell4"
+   ],
+   "hp": 80,
+   "lp": 9000,
+   "rms_db": -39.0,
+   "pan": -0.15,
+   "reverb": {
+    "rt60": 4.6,
+    "mix": 0.45,
+    "predelay": 0.05
+   },
+   "slap": {
+    "delays": [
+     0.085,
+     0.16,
+     0.31,
+     0.47
+    ],
+    "gains_db": [
+     -9,
+     -12,
+     -15,
+     -19
+    ],
+    "lp": 3200
+   },
+   "gain_keys": [
+    [
+     "@end",
+     0
+    ],
+    [
+     "@end+1.2",
+     -40
+    ]
+   ],
+   "onset": "@bell4",
+   "onset_after": 0.4
+  }
+ ]
+}
