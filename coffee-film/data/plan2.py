@@ -86,10 +86,15 @@ finish = {"bloom": {"threshold": 0.78, "gain": 0.18, "radius": 0.03, "tint": [1.
           "vignette": 0.16, "grain": {"amount": 0.011, "size": 1.0}, "fades": []}
 
 
+# what the checks (pipeline/qc2.py) must accept as intended: the black cards and the dips to black around them,
+# the frozen moment, and the whip (one big step of motion by design)
+qc = {"black_ok": [[0.0, 0.3], [2.0, 3.0], [14.6, 15.35], [36.5, 37.5]], "still_ok": [[13.45, 15.0]], "cut_ok": [[10.8, 11.2]]}
+
+
 def build() -> dict:
     here = os.path.dirname(os.path.abspath(__file__))
     return {"fps": 24, "w": 2160, "h": 3840, "duration": 37.5, "look": look, "shots": shots, "titles": titles,
-            "overlays": overlays, "finish": finish, "fonts": os.path.join(os.path.dirname(here), "fonts")}
+            "overlays": overlays, "finish": finish, "qc": qc, "fonts": os.path.join(os.path.dirname(here), "fonts")}
 
 
 if __name__ == "__main__":

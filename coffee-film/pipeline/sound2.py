@@ -4,9 +4,10 @@
 Spec (data/sound2.json):
   {"duration": s,
    "score": {"file": music.wav, "gain_db": 0, "stems": {"organ": [file, gain_db], ...} (optional, instead of file)},
-   "beds":  [{"file", "src_in", "start", "end", "tempo": 0.8, "gain_db", "hp", "lp", "fade_in", "fade_out", "rms_db"}],
+   "beds":  [{"file", "src_in", "start", "end", "tempo": 0.8, "gain_db", "gain_keys": [[film s, dB], ...], "hp", "lp", "notch": [Hz],
+              "fade_in", "fade_out", "rms_db"}],
    "cues":  [{"file", "src_in", "dur", "at", "gain_db", "fade_in", "fade_out", "hp", "lp", "pitch": semitones,
-              "reverse": false, "rms_db": target RMS before gain (optional)}],
+              "reverse": false, "rms_db": target RMS before gain (optional), "align": "end" (the sound ends at `at`), "gain_keys"}],
    "ticks": {"file", "tick_in", "tock_in", "dur", "times": [...], "gain_db", "gain_keys": [[t, db], ...], "hp", "lp"},
    "ducks": [[t0, t1, db]]   (master-level dips of everything but the score, e.g. for a hard stop)
    "silence": [[t0, t1]]     (absolute silence windows: everything is cut, with 4 ms fades)}
@@ -51,8 +52,19 @@ def env(n: int, fi: float, fo: float) -> np.ndarray:
     return e
 
 
+def keyed(c: dict, at: float, n: int) -> np.ndarray:
+    """A gain curve from `gain_keys` [[film s, dB], ...] (held flat outside the keys)."""
+    if not c.get("gain_keys"):
+        return np.ones(n)
+    k = c["gain_keys"]
+    t = at + np.arange(n) / SR
+    return 10 ** (np.interp(t, [q[0] for q in k], [q[1] for q in k]) / 20)
+
+
 def filters(c: dict) -> list[str]:
     f = []
+    for hz in c.get("notch", []):
+        f.append(f"bandreject=f={hz}:width_type=q:w=12")
     if c.get("hp"):
         f.append(f"highpass=f={c['hp']}")
     if c.get("lp"):
@@ -101,6 +113,7 @@ def main() -> None:
         if "rms_db" in b:
             a *= 10 ** ((b["rms_db"] - rms_db(a)) / 20)
         a *= 10 ** (b.get("gain_db", 0) / 20) * env(len(a), b.get("fade_in", 0.05), b.get("fade_out", 0.05))[:, None]
+        a *= keyed(b, b["start"], len(a))[:, None]
         place(fx, a, b["start"])
         report["beds"].append({"file": os.path.basename(b["file"]), "start": b["start"], "end": b["end"], "rms_db": round(rms_db(a), 1)})
     for c in sp.get("cues", []):
@@ -116,6 +129,7 @@ def main() -> None:
             a *= 10 ** ((c["rms_db"] - rms_db(a)) / 20)
         a *= 10 ** (c.get("gain_db", 0) / 20) * env(len(a), c.get("fade_in", 0.005), c.get("fade_out", 0.05))[:, None]
         at = c["at"] - (len(a) / SR if c.get("align") == "end" else 0.0)
+        a *= keyed(c, at, len(a))[:, None]
         place(fx, a, at)
         report["cues"].append({"file": os.path.basename(c["file"]), "at": round(at, 3), "len": round(len(a) / SR, 3), "rms_db": round(rms_db(a), 1)})
     tk = sp.get("ticks")
