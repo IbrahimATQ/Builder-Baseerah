@@ -227,7 +227,7 @@ def load_model(path: str) -> IFNet:
 
 
 class Interpolator:
-    def __init__(self, net: IFNet, scale: float = 0.5):
+    def __init__(self, net: IFNet, scale: float = 1.0):
         self.net, self.scale = net, scale
         self.scale_list = [16 / scale, 8 / scale, 4 / scale, 2 / scale, 1 / scale]
         self.mult = int(max(128, 128 / scale))
@@ -331,7 +331,7 @@ class Encoder:
 # --------------------------------------------------------------------------------------------- drivers
 
 
-def run_rife(src, out, start, end, factor, weights, scale=0.5, crop=None, codec="x264", crf=10, log=print):
+def run_rife(src, out, start, end, factor, weights, scale=1.0, crop=None, codec="x264", crf=10, log=print):
     w, h, fps = probe(src)
     first, last = round(start * fps), round(end * fps)
     if crop:
@@ -389,8 +389,9 @@ def main():
     ap.add_argument("--end", type=float, required=True, help="seconds in SRC (last real frame = round(end*fps))")
     ap.add_argument("--factor", type=int, default=2, help="2 = twice as many frames (half speed), 3, 4 ...")
     ap.add_argument("--method", choices=["rife", "minterpolate"], default="rife")
-    ap.add_argument("--weights", default="/home/user/coffee/slowmo/dl/rife_v4.25.safetensors")
-    ap.add_argument("--scale", type=float, default=0.5, help="RIFE flow scale: 0.5 for 4K (official advice), 1.0, 0.25")
+    ap.add_argument("--weights", default="/home/user/coffee/slowmo/dl/rife426/RIFEv4.26_0921/flownet.pkl",
+                    help="RIFE v4.25/4.26 state dict (.pkl via weights_only, or .safetensors)")
+    ap.add_argument("--scale", type=float, default=1.0, help="RIFE flow scale: 1.0 (used for the film; best in tests), 0.5 (official 4K advice, faster)")
     ap.add_argument("--crop", default=None, help="X,Y,W,H pixel box (even numbers) to process instead of the full frame")
     ap.add_argument("--codec", choices=["x264", "prores"], default="x264")
     ap.add_argument("--crf", type=int, default=10)

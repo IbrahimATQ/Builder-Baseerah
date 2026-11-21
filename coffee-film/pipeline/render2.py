@@ -21,7 +21,7 @@ Per output frame (24 fps, 2160x3840 or a fraction of it):
 Long renders are split into parallel jobs joined without re-encoding.
 
 Usage: python render2.py PLAN.json LUT_DIR OUT.mp4 [--scale 0.5] [--from T] [--to T] [--jobs 2]
-                         [--codec h264|hevc10] [--crf 16] [--frames DIR]   (--frames: also write PNG stills of every frame there)
+                         [--codec h264|h264_10|hevc10] [--crf 16] [--frames DIR]   (--frames: also write PNG stills of every frame there)
 """
 from __future__ import annotations
 
@@ -576,6 +576,8 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
     if codec == "hevc10":
         venc = ["-c:v", "libx265", "-preset", "slow", "-crf", crf, "-pix_fmt", "yuv420p10le",
                 "-x265-params", "aq-mode=3:psy-rd=2.0:psy-rdoq=1.0:deblock=-1,-1:rc-lookahead=20:log-level=error", "-tag:v", "hvc1"]
+    elif codec == "h264_10":   # a near-lossless 10-bit intermediate (the delivery file is encoded from it, with the sound)
+        venc = ["-c:v", "libx264", "-preset", "medium", "-crf", crf, "-pix_fmt", "yuv420p10le", "-x264-params", "rc-lookahead=20:deblock=-1,-1"]
     else:
         venc = ["-c:v", "libx264", "-preset", "slow", "-crf", crf, "-pix_fmt", "yuv420p", "-x264-params", "aq-mode=3:rc-lookahead=20:deblock=-1,-1:ipratio=1.1:pbratio=1.1"]
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb48le", "-s", f"{W}x{H}", "-r", str(fps), "-i", "-",
