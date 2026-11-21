@@ -38,7 +38,7 @@
    "to": 17.0,
    "what": "the long street from above, people walking",
    "stab": {
-    "tripod": true
+    "smoothing": 60
    }
   },
   {

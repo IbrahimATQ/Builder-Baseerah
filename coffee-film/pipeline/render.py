@@ -196,6 +196,14 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
             k = (t - s["start"]) / max(s["end"] - s["start"], 1e-3)
             z0, z1 = mv.get("z", [1.0, 1.0])
             fr = zoomed(fr, z0 + (z1 - z0) * min(max(k, -0.2), 1.2), mv.get("cx", 0.5), mv.get("cy", 0.5))
+            kg = s.get("key_green")
+            if kg:  # an LED glowing green through glass: inside a soft band of the frame, take its colour and half its light
+                g_ = fr[..., 1] - np.maximum(fr[..., 0], fr[..., 2])
+                m = np.clip((g_ / np.maximum(fr[..., 1], 1e-3) - kg.get("lo", 0.06)) / (kg.get("hi", 0.22) - kg.get("lo", 0.06)), 0, 1)
+                ramp = np.clip((np.arange(H, dtype=np.float32) / H - kg.get("y0", 0.35)) / 0.08, 0, 1)[:, None]
+                m = cv2.GaussianBlur(m * ramp, (0, 0), 2.0 * W / 2160)[..., None] * kg.get("strength", 1.0)
+                lum_ = (fr @ LUMA)[..., None]
+                fr = fr * (1 - m) + lum_ * (1 - 0.5 * m) * m
             lt = s.get("light")
             if lt:  # a soft window of light that follows a subject (keys: [shot-local s, cx, cy, rx, ry] in frame fractions)
                 ks = sorted(lt["keys"])

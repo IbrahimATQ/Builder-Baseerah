@@ -1,0 +1,117 @@
+{
+ "film": "/home/user/Builder-Baseerah/coffee-film/output/Warszawa-coffee_4K_9x16.mp4",
+ "checks": [
+  {
+   "check": "picture: 9:16, 24 fps, H.264 High, BT.709, 4:2:0",
+   "pass": true,
+   "detail": {
+    "size": [
+     2160,
+     3840
+    ],
+    "fps": "24/1",
+    "codec": "h264",
+    "profile": "High",
+    "pix_fmt": "yuv420p",
+    "colour": [
+     "bt709",
+     "bt709",
+     "bt709",
+     "tv"
+    ]
+   }
+  },
+  {
+   "check": "duration is the plan's",
+   "pass": true,
+   "detail": {
+    "file_s": 31.5,
+    "plan_s": 31.5
+   }
+  },
+  {
+   "check": "no location or device tags in the file",
+   "pass": true,
+   "detail": "none"
+  },
+  {
+   "check": "motion: no repeated frames and no jumps inside shots",
+   "pass": true,
+   "detail": {
+    "frames": 756,
+    "repeated_at_s": [],
+    "jumps_at_s": [],
+    "median_step": 2.85
+   }
+  },
+  {
+   "check": "no black frames outside the fades",
+   "pass": true,
+   "detail": []
+  },
+  {
+   "check": "levels inside EBU R103 tolerance (luma 5..246, after a light low-pass)",
+   "pass": true,
+   "detail": {
+    "min": 13.0,
+    "max": 242.0
+   }
+  },
+  {
+   "check": "sound stream: AAC, 48 kHz, stereo",
+   "pass": true,
+   "detail": {
+    "codec": "aac",
+    "rate": "48000",
+    "channels": 2
+   }
+  },
+  {
+   "check": "loudness -14 LUFS (+/-1), true peak <= -0.9 dBTP",
+   "pass": true,
+   "detail": {
+    "integrated_lufs": -14.0,
+    "true_peak_dbtp": -1.4
+   }
+  },
+  {
+   "check": "the sound is the intended master, in sync",
+   "pass": true,
+   "detail": {
+    "lag_ms": 0.0,
+    "correlation": 1.0
+   }
+  },
+  {
+   "check": "titles inside the safe area (8 %..84 % of the height, clear of the button column)",
+   "pass": true,
+   "detail": [
+    {
+     "id": "open",
+     "top": 0.099,
+     "bottom": 0.188,
+     "left": 0.291,
+     "right": 0.646
+    },
+    {
+     "id": "close",
+     "top": 0.281,
+     "bottom": 0.328,
+     "left": 0.322,
+     "right": 0.825
+    }
+   ]
+  },
+  {
+   "check": "photosensitivity screen",
+   "pass": true,
+   "detail": {
+    "max_flashing_area_fraction": 0.0365,
+    "threshold_area_fraction": 0.11,
+    "verdict": "PASS"
+   }
+  }
+ ],
+ "passed": 11,
+ "total": 11
+}

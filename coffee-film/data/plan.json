@@ -2,7 +2,7 @@
  "fps": 24,
  "w": 2160,
  "h": 3840,
- "duration": 36.0,
+ "duration": 31.5,
  "look": {
   "black": 0.028,
   "sat": 0.9,
@@ -10,15 +10,15 @@
  },
  "shots": [
   {
-   "id": "window",
-   "src": "/home/user/coffee/prep/window.mp4",
-   "in": 1.6,
+   "id": "square",
+   "src": "/home/user/coffee/prep/square.mp4",
+   "in": 0.6,
    "start": 0.0,
-   "end": 3.8,
+   "end": 6.2,
    "move": {
     "z": [
      1.0,
-     1.03
+     1.05
     ]
    },
    "grade": {
@@ -30,34 +30,10 @@
    }
   },
   {
-   "id": "square",
-   "src": "/home/user/coffee/prep/square.mp4",
-   "in": 0.6,
-   "start": 3.8,
-   "end": 7.7,
-   "trans": {
-    "type": "dissolve",
-    "dur": 0.8
-   },
-   "move": {
-    "z": [
-     1.0,
-     1.04
-    ]
-   },
-   "grade": {
-    "ev": 0.0,
-    "temp": 0.12
-   },
-   "sound": {
-    "db": -24
-   }
-  },
-  {
    "id": "street",
    "src": "/home/user/coffee/prep/street.mp4",
    "in": 2.5,
-   "start": 7.7,
+   "start": 6.2,
    "end": 12.6,
    "trans": {
     "type": "dissolve",
@@ -71,7 +47,7 @@
    },
    "grade": {
     "ev": 0.05,
-    "temp": 0.1
+    "temp": 0.15
    },
    "sound": {
     "db": -23
@@ -82,7 +58,7 @@
    "src": "/home/user/coffee/prep/bloom.mp4",
    "in": 1.0,
    "start": 12.6,
-   "end": 18.35,
+   "end": 19.5,
    "trans": {
     "type": "dissolve",
     "dur": 0.5
@@ -90,7 +66,7 @@
    "move": {
     "z": [
      1.0,
-     1.06
+     1.07
     ]
    },
    "grade": {
@@ -107,42 +83,9 @@
      0.99
     ]
    },
-   "sound": {
-    "db": -27,
-    "hp": 160
-   }
-  },
-  {
-   "id": "spiral",
-   "src": "/home/user/coffee/prep/spiral.mp4",
-   "in": 1.75,
-   "start": 18.35,
-   "end": 21.25,
-   "trans": {
-    "type": "dissolve",
-    "dur": 0.6
-   },
-   "move": {
-    "z": [
-     1.42,
-     1.5
-    ],
-    "cx": 0.5,
-    "cy": 0.54
-   },
-   "grade": {
-    "ev": 0.6,
-    "temp": 1.9,
-    "tint": 3.0,
-    "contrast": 1.08,
-    "greens": 0.1,
-    "led": 1.0,
-    "reds": 1.12,
-    "cool_lo": [
-     0.98,
-     0.99,
-     0.99
-    ]
+   "key_green": {
+    "y0": 0.42,
+    "strength": 1.0
    },
    "sound": {
     "db": -27,
@@ -152,21 +95,21 @@
   {
    "id": "pourcup",
    "src": "/home/user/coffee/prep/pourcup.mp4",
-   "in": 1.0,
-   "start": 21.25,
-   "end": 31.75,
+   "in": 1.9,
+   "start": 19.5,
+   "end": 26.9,
    "move": {
     "z": [
-     1.18,
-     1.16
+     1.22,
+     1.2
     ],
-    "cx": 0.6,
-    "cy": 0.5
+    "cx": 0.62,
+    "cy": 0.56
    },
    "grade": {
-    "ev": 0.95,
-    "temp": 2.6,
-    "tint": 4.2,
+    "ev": 1.05,
+    "temp": 3.2,
+    "tint": 4.5,
     "contrast": 1.05,
     "reds": 1.12,
     "cool_lo": [
@@ -176,35 +119,26 @@
     ]
    },
    "light": {
-    "ev": 0.45,
+    "ev": 0.65,
+    "tint": [
+     1.0,
+     0.97,
+     0.9
+    ],
     "keys": [
      [
       0.0,
-      0.35,
-      0.69,
-      0.3,
-      0.17
+      0.32,
+      0.62,
+      0.32,
+      0.18
      ],
      [
-      8.6,
-      0.36,
-      0.69,
-      0.3,
-      0.17
-     ],
-     [
-      9.6,
-      0.4,
-      0.68,
-      0.27,
-      0.15
-     ],
-     [
-      10.5,
-      0.52,
-      0.73,
-      0.22,
-      0.13
+      8.0,
+      0.32,
+      0.62,
+      0.32,
+      0.18
      ]
     ]
    },
@@ -217,9 +151,9 @@
   {
    "id": "roofs",
    "src": "/home/user/coffee/prep/roofs.mp4",
-   "in": 0.9,
-   "start": 31.75,
-   "end": 36.0,
+   "in": 0.5,
+   "start": 26.9,
+   "end": 31.5,
    "trans": {
     "type": "dissolve",
     "dur": 1.0
@@ -234,8 +168,8 @@
    },
    "grade": {
     "ev": 0.1,
-    "temp": 0.8,
-    "tint": 1.2
+    "temp": 1.4,
+    "tint": -0.5
    },
    "sound": {
     "db": -27,
@@ -243,8 +177,8 @@
     "src": "street",
     "in": 0.5,
     "fade_out": [
-     35.0,
-     36.0
+     30.6,
+     31.4
     ]
    }
   }
@@ -256,30 +190,36 @@
     {
      "text": "Warszawa",
      "font": "cormorant-garamond-latin-500-italic.woff",
-     "size": 300,
+     "size": 215,
      "track": 0.0
     },
     {
      "text": "STARE MIASTO",
      "font": "cormorant-garamond-latin-500-normal.woff",
-     "size": 80,
-     "track": 0.42,
-     "gap": 34
+     "size": 72,
+     "track": 0.26,
+     "gap": 24
     }
    ],
-   "y": 0.42,
+   "y": 0.138,
+   "x": 0.47,
    "rule": {
-    "width": 0.1,
-    "gap": 54
+    "width": 0.08,
+    "gap": 40
    },
    "in": 0.1,
-   "out": 3.55,
-   "fade_in": 0.9,
-   "fade_out": 0.55,
-   "rise": 22,
-   "focus": 6.0,
-   "shade": 0.1,
-   "shadow": 0.65
+   "out": 5.4,
+   "fade_in": 0.8,
+   "fade_out": 0.6,
+   "rise": 16,
+   "focus": 5.0,
+   "shade": 0.0,
+   "shadow": 0.0,
+   "color": [
+    0.16,
+    0.13,
+    0.11
+   ]
   },
   {
    "id": "close",
@@ -287,15 +227,15 @@
     {
      "text": "the city can wait.",
      "font": "cormorant-garamond-latin-500-italic.woff",
-     "size": 190,
+     "size": 180,
      "track": 0.0
     }
    ],
    "y": 0.3,
-   "x": 0.6,
-   "in": 32.6,
-   "out": 36.0,
-   "fade_in": 1.4,
+   "x": 0.575,
+   "in": 27.2,
+   "out": 31.5,
+   "fade_in": 1.0,
    "fade_out": 0.0,
    "rise": 16,
    "focus": 6.0,
@@ -323,8 +263,8 @@
   "grain": 0.022,
   "fade_in": 0.2,
   "fade_out": [
-   34.9,
-   36.0
+   30.6,
+   31.1
   ]
  },
  "music": {
@@ -337,8 +277,8 @@
   "offset": 9.83,
   "fade_in": 0.6,
   "fade_out": [
-   32.4,
-   34.2
+   29.6,
+   31.1
   ],
   "db": 0.0,
   "keys": [
@@ -355,19 +295,19 @@
     0.0
    ],
    [
-    22.6,
+    19.3,
     0.0
    ],
    [
-    23.1,
+    19.8,
     -3.0
    ],
    [
-    30.0,
+    25.8,
     -3.0
    ],
    [
-    31.0,
+    26.8,
     0.0
    ]
   ]

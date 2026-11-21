@@ -6,44 +6,44 @@ iPhone (six clips, 4K, 30 fps). Of three directions offered he chose the first: 
 Warsaw*, 30–40 s, vertical, the city through the window to the cup, mostly the scene's own sound with a soft music
 bed, minimal text. His instruction: "make sure it is VERY BEAUTIFUL!!"
 
-## The film
+## The film (31.5 s)
 `data/plan.py` is the edit (it writes `data/plan.json`). Film time runs 0.8× the camera's time: every real frame
 of the 30 fps footage is shown once at 24 fps. Nothing is blended or interpolated, and hand-held motion becomes slower
 and calmer.
 
 | Film (s) | Shot | Picture | Into it |
 |---|---|---|---|
-| 0.0 | window | the window opens on the painted (sgraffito) facade across the street; "Warszawa · STARE MIASTO", up within the first second | from black, 0.2 s |
-| 3.8 | square | red houses and the square below, people crossing, a stone volute in front | dissolve 0.8 s |
-| 7.7 | street | the long street from above, people walking | dissolve 0.8 s, on a piano phrase |
-| 12.6 | bloom | inside: the gooseneck's stream meets the coffee bed, the window and red roofs behind | dissolve 0.5 s, on the music's swell |
-| 18.35 | spiral | closer: the slow spiral pour (time passing) | dissolve 0.6 s, on a beat |
-| 21.25 | pourcup | one take: coffee from the glass server into the WARSZAWA mug, which is softly lit, then the camera draws back toward the window | cut, on a beat |
-| 31.75 | roofs | the view through the kitchen window: red roofs, the brick church, the sky; "the city can wait." set in the sky pane | dissolve 1.0 s |
-| 34.9–36.0 | | fade to black | |
+| 0.0 | square | the red houses and the castle square below, people crossing, a stone volute in front; "Warszawa · STARE MIASTO" in warm charcoal in the pale sky | from black, 0.2 s |
+| 6.2 | street | the long street from above, people walking | dissolve 0.8 s |
+| 12.6 | bloom | inside, on the music's swell: the kettle's stream meets the coffee, the window and red roofs behind | dissolve 0.5 s |
+| 19.5 | pourcup | the stream of coffee into the WARSZAWA mug, softly lit, until the cup is full | cut, on a beat |
+| 26.9 | roofs | the view through the kitchen window: red roofs, the brick church, the sky; "the city can wait." in the sky pane, held 2.5 s | dissolve 1.0 s |
+| 30.6–31.1 | | fade to black, then 0.4 s of black | |
 
-The story runs from outside to inside to the cup and back to the window. The music ends at about 34 s, and the city's
-own murmur carries the last line.
+The story runs from the city to the cup and back to the window. The music fades with the last shot, and the city's own
+murmur, heard through the window, carries the last line.
 
-## Two reviews
-An independent reviewer looked at the first cut frame by frame and called it nice but not yet very beautiful, because
-it grew colder, darker and more cluttered as it went. Changes:
+## Three cuts, two independent reviews
+Two reviewers, each seeing the film fresh, looked at it frame by frame against the brief ("VERY beautiful"). Every
+finding was measured before it was acted on.
 
 | Finding | Change |
 |---|---|
-| The grade turned cold exactly where it should be warmest; the mug sat in blue shadow (b* −3.5, L 36) | Inside shots warmed and lifted, with shadows no longer cool; a soft tracked light on the mug |
-| The kitchen-counter shot was the weakest frame: cluttered, soft, auto-exposure jump, neon scale display | Removed; the street dissolves straight into the brew, which already shows the window |
-| The brew ran 11.5 s, and the second shot read as a jump cut | Brew 8.7 s; the closer shot now dissolves in (time passing) |
-| The green LED glowed through the dripper | Its hue loses its colour and half its light (`led` in grade.py) |
-| No hook in the first second | The film starts later in the window shot; the title is up within a second |
-| A grey band behind the title; the small line too thin | The band is almost gone, with a stronger glyph shadow; "STARE MIASTO" is larger |
-| The end line crossed the pouring glass; the rack and the camera's drift showed at the end | The ending moved to the view through the window; the cup shot is cropped in a little |
-| The first half was 8–10 LU quieter than the pour | Piano half +4 dB, kettle −3 dB, city +3 dB: loudness range 10.8 → 6.9 LU |
+| The grade turned cold exactly where it should be warmest; the mug sat in blue shadow (b* −3.5, L 36) | Inside shots warmed and lifted, with shadows no longer cool; a soft light on the mug |
+| The kitchen-counter shot was the weakest frame (cluttered, soft, auto-exposure jump) | Removed |
+| The brew ran 11.5 s; the closer brew shot was the least beautiful frame, and its dissolve showed two dripper rims at once | Brew is one 6.9 s shot |
+| The scale's green LED glowed through the dripper | Keyed out by hue in the lower part of the frame (`key_green` in render.py), so the green copper roof in the window is untouched |
+| No hook in the first second: window bars over a plain wall | The film opens on its most beautiful frame, the square, with the title in its sky |
+| A grey band behind the title; the small line thin and lost on ochre | Title set in warm charcoal on the pale sky, without a band |
+| The mug shot ran 10.5 s, with a sliver of glass, fingertips and late blotchy bubbles | It starts as the stream enters the cup and leaves when the cup is full; cropped to keep the hand out |
+| The end line crossed the pouring glass, then got no time to land | The ending is the view through the window; the line holds 2.5 s, then 0.4 s of black |
+| The quiet first half was 8–10 LU under the pour | Piano half +4 dB, pour −3 dB, city +3 dB: loudness range 10.8 → 6.9 LU |
+| A tick in the square shot (vid.stab tripod mode on a stretch where the camera had moved) and a 2 px tick in the street | Both re-stabilised with smoothing: 0.1–0.3 px residual |
 
 ## Music and sound (`pipeline/sound.py`)
 - **Music**: Mixkit 599 "Possible Dreams" (Eugenio Mininni), Mixkit Stock Music Free License, entered at 9.83 s of the
-  track. Its sparse piano phrases fall at 1.9 and 7.7 s (the city), the strings swell at 12.6 s as we go inside and
-  the water meets the coffee, and the section dies away from about 32 s, under the last shot. It was chosen from 18 candidates
+  track. Its sparse piano phrases fall at 1.9 and 7.7 s (the city), and the strings swell at 12.6 s as we go inside and
+  the water meets the coffee. The music fades out under the last shot. It was chosen from 18 candidates
   by measured tempo, percussion share, brightness and structure, and its spectrogram was read: piano phrases with
   space between them, then a swell.
 - **Scene sound**: each shot carries its own recorded sound (city murmur from the window, the quiet room, the kettle's
@@ -59,9 +59,9 @@ it grew colder, darker and more cluttered as it went. Changes:
   (brick, roofs, coffee), and held-back greens and blues (the scale's green LED, the grey sky).
 - In the render: a slow push-in on most shots, a warm bloom around highlights, a vignette, and fine film grain, which
   also dithers the 16-bit picture to 8 bits.
-- Titles in Cormorant Garamond (SIL OFL): "Warszawa" in italic over small spaced capitals "STARE MIASTO" with a hairline
-  between; at the end "the city can wait.", set over the dark counter above the mug. Each fades in with a small rise
-  and a focus pull, over a soft pool of shade, with no box.
+- Titles in Cormorant Garamond (SIL OFL), in warm charcoal on pale sky: "Warszawa" in italic over small spaced
+  capitals "STARE MIASTO" with a hairline between; at the end "the city can wait." in the sky pane of the window,
+  like writing on the glass. Each fades in with a small rise and a focus pull.
 
 ## Preparing the footage (`pipeline/prep.py`, `data/sources.json`)
 - The iPhone timestamps were checked first: no dropped frames in any clip, so frame-for-frame slow motion is even.
@@ -76,6 +76,8 @@ it grew colder, darker and more cluttered as it went. Changes:
     whole film now measures 0.02.
 
 ## Checks (`pipeline/qc.py`)
+All three delivered files pass all 11 checks (`data/qc_4K_9x16.json`, `data/qc_1080x1920_share.json`, `data/qc_natural.json`).
+
 File format (9:16, 24 fps, H.264 High, BT.709); duration; no location or device tags (the originals carried GPS
 coordinates); no repeated frames and no jumps inside shots; no black frames outside the fades; levels inside EBU R103,
 measured after a light low-pass; sound format, loudness and true peak; the sound in the file is the intended master,
