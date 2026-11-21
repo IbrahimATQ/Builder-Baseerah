@@ -13,27 +13,43 @@ and calmer.
 
 | Film (s) | Shot | Picture | Into it |
 |---|---|---|---|
-| 0.0 | window | the window opens on the painted (sgraffito) facade across the street; "Warszawa · STARE MIASTO" | from black, 0.35 s |
-| 6.2 | square | red houses and the square below, people crossing, a stone volute in front | dissolve 0.8 s |
-| 12.0 | street | the long street from above, people walking | dissolve 0.8 s |
-| 14.4 | kitchen | inside: the counter under the window, grinder, kettle, scale | dissolve 0.5 s |
-| 16.93 | bloom | the gooseneck's stream meets the coffee bed | cut, on the music's swell |
-| 23.83 | spiral | closer: the slow spiral pour, the bed bubbling | cut, on a beat |
-| 28.44 | pourcup | one take: coffee from the glass server into the WARSZAWA mug (it lands on a beat at 29.36), then the camera draws back to the window and the church; "the city can wait." | cut, on a beat |
-| 39.0–40.0 | | fade to black | |
+| 0.0 | window | the window opens on the painted (sgraffito) facade across the street; "Warszawa · STARE MIASTO", up within the first second | from black, 0.2 s |
+| 3.8 | square | red houses and the square below, people crossing, a stone volute in front | dissolve 0.8 s |
+| 7.7 | street | the long street from above, people walking | dissolve 0.8 s, on a piano phrase |
+| 12.6 | bloom | inside: the gooseneck's stream meets the coffee bed, the window and red roofs behind | dissolve 0.5 s, on the music's swell |
+| 18.35 | spiral | closer: the slow spiral pour (time passing) | dissolve 0.6 s, on a beat |
+| 21.25 | pourcup | one take: coffee from the glass server into the WARSZAWA mug, which is softly lit, then the camera draws back toward the window | cut, on a beat |
+| 31.75 | roofs | the view through the kitchen window: red roofs, the brick church, the sky; "the city can wait." set in the sky pane | dissolve 1.0 s |
+| 34.9–36.0 | | fade to black | |
 
-The story is outside to inside to the cup, and the last frame returns to the window it started from.
+The story runs from outside to inside to the cup and back to the window. The music ends at about 34 s, and the city's
+own murmur carries the last line.
+
+## Two reviews
+An independent reviewer looked at the first cut frame by frame and called it nice but not yet very beautiful, because
+it grew colder, darker and more cluttered as it went. Changes:
+
+| Finding | Change |
+|---|---|
+| The grade turned cold exactly where it should be warmest; the mug sat in blue shadow (b* −3.5, L 36) | Inside shots warmed and lifted, with shadows no longer cool; a soft tracked light on the mug |
+| The kitchen-counter shot was the weakest frame: cluttered, soft, auto-exposure jump, neon scale display | Removed; the street dissolves straight into the brew, which already shows the window |
+| The brew ran 11.5 s, and the second shot read as a jump cut | Brew 8.7 s; the closer shot now dissolves in (time passing) |
+| The green LED glowed through the dripper | Its hue loses its colour and half its light (`led` in grade.py) |
+| No hook in the first second | The film starts later in the window shot; the title is up within a second |
+| A grey band behind the title; the small line too thin | The band is almost gone, with a stronger glyph shadow; "STARE MIASTO" is larger |
+| The end line crossed the pouring glass; the rack and the camera's drift showed at the end | The ending moved to the view through the window; the cup shot is cropped in a little |
+| The first half was 8–10 LU quieter than the pour | Piano half +4 dB, kettle −3 dB, city +3 dB: loudness range 10.8 → 6.9 LU |
 
 ## Music and sound (`pipeline/sound.py`)
-- **Music**: Mixkit 599 "Possible Dreams" (Eugenio Mininni), Mixkit Stock Music Free License, entered at 5.5 s of the
-  track. Its sparse piano phrases fall at 1.0, 6.2 and 12.0 s (the city), the strings swell at 16.93 s as the water
-  meets the coffee, and the section dies away from 36.3 s as the camera draws back. It was chosen from 18 candidates
+- **Music**: Mixkit 599 "Possible Dreams" (Eugenio Mininni), Mixkit Stock Music Free License, entered at 9.83 s of the
+  track. Its sparse piano phrases fall at 1.9 and 7.7 s (the city), the strings swell at 12.6 s as we go inside and
+  the water meets the coffee, and the section dies away from about 32 s, under the last shot. It was chosen from 18 candidates
   by measured tempo, percussion share, brightness and structure, and its spectrogram was read: piano phrases with
   space between them, then a swell.
 - **Scene sound**: each shot carries its own recorded sound (city murmur from the window, the quiet room, the kettle's
   stream, the coffee falling into the mug), slowed to 0.8× with the pitch kept, cleaned of rumble, crossfaded with
-  the picture. The music steps back 3.5 dB while the coffee is poured into the mug.
-- **Masters**: `mix.wav`, −14 LUFS, true peak −1 dBTP; and `natural.wav`, the scene sound alone at −16 LUFS, for
+  the picture. The music steps back 3 dB while the coffee is poured into the mug, and its quiet piano half is lifted 4 dB.
+- **Masters**: `mix.wav`, −14 LUFS, true peak −1.5 dBTP; and `natural.wav`, the scene sound alone at −16 LUFS, for
   posting with a platform's own music.
 
 ## Look (`pipeline/grade.py`, `pipeline/render.py`)

@@ -54,11 +54,11 @@
   {
    "id": "roofs",
    "file": "IMG_5420.MOV",
-   "from": 5.4,
+   "from": 5.9,
    "to": 9.9,
    "what": "through the kitchen window: red roofs and the brick church",
    "stab": {
-    "tripod": true
+    "smoothing": 40
    }
   },
   {

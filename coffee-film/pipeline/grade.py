@@ -8,7 +8,8 @@ The footage is iPhone SDR (BT.709, already tone mapped), shot on a grey November
   * split toning: cool shadows, warm cream highlights, so the coffee and the brick glow against the
     grey daylight,
   * colour by hue: reds and oranges (roofs, brick, coffee) kept rich, greens and blues held back
-    (the scale's green LED, a cold sky), and overall saturation a little below the phone's.
+    (a cold sky), and overall saturation a little below the phone's; where `led` is set, the scale's green
+    LED loses its colour and half its light.
 Spatial parts of the look (bloom around highlights, vignette, grain) are added by render.py.
 
 Usage: python grade.py PLAN.json OUT_DIR       -> one .cube per shot (65 points), named <shot id>.cube
@@ -75,6 +76,8 @@ def grade(rgb: np.ndarray, p: dict) -> np.ndarray:
     lum = (x @ LUMA)[..., None]
     sat = p["sat"] * (1 + (p["reds"] - 1) * w_red + (p["greens"] - 1) * w_green + (p["blues"] - 1) * w_blue)[..., None]
     x = lum + (x - lum) * sat
+    if p.get("led", 0) > 0:  # the scale's green LED: take its colour out and half its light
+        x = x * (1 - 0.5 * p["led"] * np.clip(w_green * 1.6, 0, 1))[..., None]
     # split toning by luminance
     lum = (np.clip(x, 0, 1) @ LUMA)[..., None]
     hi = np.clip((lum - 0.45) / 0.45, 0, 1) ** 1.2

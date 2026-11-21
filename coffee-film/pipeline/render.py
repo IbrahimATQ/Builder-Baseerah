@@ -113,12 +113,12 @@ class Title:
                 A[y:y + rule_h, x0:x0 + rw] = 0.8
                 y += rule_h + rule_gap // 2
         self.A = A
-        self.shadow = cv2.GaussianBlur(A, (0, 0), 9 * s)
+        self.shadow = cv2.GaussianBlur(A, (0, 0), 6 * s)
         box = np.zeros_like(A)
         box[pad:pad + height, pad:pad + width] = 1.0
         sh = cv2.GaussianBlur(box, (0, 0), 85 * s)
         self.shade = (sh / max(float(sh.max()), 1e-6)).astype(np.float32)  # a soft pool of shade under the words
-        self.x0 = (W - A.shape[1]) // 2
+        self.x0 = int(round(t.get("x", 0.5) * W - A.shape[1] / 2))  # "x": the block's centre, a fraction of the width
         self.yc = int(t["y"] * H)
         self.s = s
         self.color = np.array(t.get("color", [0.965, 0.94, 0.895]), np.float32)
@@ -145,7 +145,7 @@ class Title:
         if yb <= ya or xb <= xa:
             return
         a_crop = A[ya - y0:yb - y0, xa - self.x0:xb - self.x0][..., None] * a
-        s_crop = Sh[ya - y0:yb - y0, xa - self.x0:xb - self.x0][..., None] * a * 0.42
+        s_crop = Sh[ya - y0:yb - y0, xa - self.x0:xb - self.x0][..., None] * a * float(t.get("shadow", 0.6))
         p_crop = self.shade[ya - y0:yb - y0, xa - self.x0:xb - self.x0][..., None] * a * float(t.get("shade", 0.0))
         roi = img[ya:yb, xa:xb]
         roi *= (1 - p_crop) * (1 - s_crop * 0.9)   # a pool of shade and a soft shadow keep the letters clear on bright walls
@@ -196,6 +196,16 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
             k = (t - s["start"]) / max(s["end"] - s["start"], 1e-3)
             z0, z1 = mv.get("z", [1.0, 1.0])
             fr = zoomed(fr, z0 + (z1 - z0) * min(max(k, -0.2), 1.2), mv.get("cx", 0.5), mv.get("cy", 0.5))
+            lt = s.get("light")
+            if lt:  # a soft window of light that follows a subject (keys: [shot-local s, cx, cy, rx, ry] in frame fractions)
+                ks = sorted(lt["keys"])
+                lt_t = t - s["start"]
+                cx_, cy_, rx_, ry_ = (float(np.interp(lt_t, [q[0] for q in ks], [q[i] for q in ks])) for i in (1, 2, 3, 4))
+                yy_, xx_ = np.ogrid[0:H, 0:W]
+                d2 = ((xx_ / W - cx_) / rx_) ** 2 + ((yy_ / H - cy_) / ry_) ** 2
+                m = np.exp(-d2 * 1.4).astype(np.float32)[..., None]
+                warm = np.array(lt.get("tint", [1.0, 0.985, 0.95]), np.float32)
+                fr = fr * (1 + m * ((2 ** lt.get("ev", 0.5)) * warm - 1))
             if img is None:
                 img = fr.copy()
             else:  # the later shot dissolves in

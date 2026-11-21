@@ -9,7 +9,7 @@ master gain), cleaned of rumble (high-pass) and, where asked, of hiss (low-pass)
 
 The music (plan["music"]) enters at its offset, fades in over a second and out where the plan says.
 Two masters are written:
-  mix.wav      music + scene sound, -14 LUFS integrated, true peak <= -1 dBTP
+  mix.wav      music + scene sound, -14 LUFS integrated, true peak <= -1.5 dBTP
   natural.wav  scene sound alone, -16 LUFS, for posting with a platform's own music
 Usage: python sound.py PLAN.json SOURCES.json RAW_DIR OUT_DIR
 """
@@ -70,7 +70,8 @@ def main() -> None:
     report = []
     for i, s in enumerate(shots):
         snd = s.get("sound", {})
-        st = stretches[s["id"]]
+        st = stretches[snd.get("src", s["id"])]  # a shot may carry another stretch's sound (e.g. the city heard through the window)
+        s_in = snd.get("in", s["in"])
         tr = s.get("trans", {})
         xin = tr.get("dur", 0.0) if tr.get("type") == "dissolve" else snd.get("xfade", 0.12)
         nxt = shots[i + 1] if i + 1 < len(shots) else None
@@ -78,7 +79,7 @@ def main() -> None:
         xout = (ntr.get("dur", 0.0) if ntr.get("type") == "dissolve" else (nxt.get("sound", {}).get("xfade", 0.12) if nxt else 0.0))
         t0 = max(0.0, s["start"] - xin / 2 - snd.get("lead", 0.0))
         t1 = min(plan["duration"], s["end"] + xout / 2)
-        src0 = st["from"] + (s["in"] + (t0 - s["start"])) * 0.8
+        src0 = st["from"] + (s_in + (t0 - s["start"])) * 0.8
         af = [f"atempo=0.8", f"highpass=f={snd.get('hp', 120)}"]
         if snd.get("lp"):
             af.append(f"lowpass=f={snd['lp']}")
@@ -119,7 +120,7 @@ def main() -> None:
         x = x.copy()
         x[-tail:] *= np.linspace(1, 0, tail)[:, None]
         g = lufs - meter.integrated_loudness(x)
-        x = limit(x * 10 ** (g / 20), -1.0)
+        x = limit(x * 10 ** (g / 20), -1.5)  # -1.5 so the AAC encode stays under -1 dBTP
         sf.write(os.path.join(out, name), x.astype(np.float32), SR, subtype="PCM_24")
         return {"file": name, "lufs": round(meter.integrated_loudness(x), 2), "true_peak_dbtp": round(true_peak_db(x), 2), "gain_db": round(g, 2)}
 
