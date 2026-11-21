@@ -491,15 +491,6 @@
    "fade_out": 0.8
   },
   {
-   "file": "/home/user/coffee/sfx/2936_wine_glass_clink.wav",
-   "src_in": 0.0,
-   "dur": 0.43,
-   "at": 21.052,
-   "rms_db": -38.0,
-   "hp": 600,
-   "fade_out": 0.12
-  },
-  {
    "file": "/home/user/coffee/sfx/2826_pouring_water_in_a_glass.wav",
    "src_in": 0.3,
    "dur": 4.4,

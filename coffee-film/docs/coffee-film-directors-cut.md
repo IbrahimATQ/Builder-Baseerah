@@ -31,7 +31,7 @@ a picture event, a musical event and a sound event within a few milliseconds.
 | 11.0–13.5 | the race: square and street cut against each other ever faster (1 s, 0.5, 0.25, 0.25, 0.125, 0.125) | 32nds, a rising organ cluster, ticks four times a second |
 | 13.5–15.0 | TIME STOPS: frozen people, colour drains, push-in toward them, lens defocus into black | everything sucked into one hard stop; a deep hit; one low organ D breathing |
 | 15.0–21.0 | inside: the kettle's stream on the coffee bed, racking into focus | the kettle, soft bubbles; quiet organ triads, a low piano motif; a pendulum clock every 2 s |
-| 21.0 | match cut on the stream (the two streams land at the same place on screen) | a glass touch; the pour |
+| 21.0 | match cut on the stream (the two streams land at the same place on screen) | the pour |
 | 21.0–29.0 | the coffee into the mug; a slow push into the rising crema, peaking on 27.0 | the real pour; the organ and strings build through a valley into the climax (27.0, crash, full organ) |
 | 29.0–32.0 | the full cup held on its last sharp frame; real steam rising; the frame draws back; amber light through the dissolve | the D-major resolution decaying |
 | 31.5–36.5 | the view through the kitchen window; *the city / can wait.* written in the pane | the city faint through the glass, a distant church bell (in key), ticks at 34 and 36 |
@@ -55,7 +55,7 @@ a picture event, a musical event and a sound event within a few milliseconds.
   strings, timpani, cymbals (VSCO-2 Community Edition), every note measured and tuned, a synthetic church reverb
   that is gated on the two hard stops. D minor, 60 bpm with the clock, ending in D major. No melody, chord
   sequence or motif of any existing score is quoted.
-* `pipeline/sound2.py` + `data/sound2.py` — the sound: the clips' own sound (slowed with the picture), 26 recorded
+* `pipeline/sound2.py` + `data/sound2.py` — the sound: the clips' own sound (slowed with the picture), 25 recorded
   effects from Mixkit's free library, three clock voices, the score; ducks so the pour and the ticks carry; mastered
   to −14 LUFS, true peak ≤ −2 dBTP.
 * `pipeline/qc2.py` — checks on the finished file (format, privacy tags, motion, blacks, levels, loudness, sync,
@@ -74,7 +74,7 @@ photosensitivity screen until its shutter was lengthened.
 
 ## Licences
 `data/licences2.json` (built by `data/licences2.py` from what the cut uses): the commissioner's own footage and
-sound; the score made from VSCO-2 CE (CC0); 26 Mixkit sound effects and 3 Mixkit video elements (steam, light
+sound; the score made from VSCO-2 CE (CC0); 25 Mixkit sound effects and 3 Mixkit video elements (steam, light
 leak), each with its own free-licence record; Cormorant Garamond (SIL OFL 1.1); RIFE (MIT).
 
 ## Reproducing it

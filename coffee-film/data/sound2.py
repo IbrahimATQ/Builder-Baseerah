@@ -117,7 +117,6 @@ def design() -> None:
     cue("2833", 17.0, 2.5, 3.9, rms_db=-46.0, hp=1500, fade_in=0.8, fade_out=0.8)
     # 21-29 the pour: a ceramic layer under the real pour, the cup filling up, a deep swell into the climax
     cue("1310", 21.0, 0.10, 4.25, rms_db=-36.0, hp=150, fade_in=0.01, fade_out=0.8)
-    cue("2936", 21.06, 0.0, 0.43, sync=0.008, rms_db=-38.0, hp=600, fade_out=0.12)   # the glass server's lip on the mug
     cue("2826", 24.3, 0.30, 4.4, rms_db=-37.0, hp=200, fade_in=0.8, fade_out=0.5)
     cue("2664", 27.0, 5.725, 7.0, sync=9.725, rms_db=-31.0, hp=28, fade_in=2.5, fade_out=2.5)
     # 33.0 a church bell somewhere across the roofs
