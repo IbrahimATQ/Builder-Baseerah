@@ -670,7 +670,7 @@ def build_score():
     cell_f = [N("C5"), N("F5"), N("A5"), N("C5"), N("F5"), N("Bb5"), N("C5"), N("G5")]
     cell_g = [N("D5"), N("G5"), N("B5"), N("D5"), N("G5"), N("C6"), N("D5"), N("A5")]
     cell_a = [N("E5"), N("A5"), N("C#6"), N("E5")]
-    for c, t0, g0, g1 in ((cell_f, 11.0, -11, -9), (cell_g, 12.0, -7.5, -5.5), (cell_a, 13.0, -3.5, -2.5)):
+    for c, t0, g0, g1 in ((cell_f, 11.0, -11, -9), (cell_g, 12.0, -9, -7.5), (cell_a, 13.0, -6.5, -5.5)):
         cell(c, t0, 0.125, "open", g0 + 5, g1 + 5, dur_frac=1.1, rel=0.035)
         cell(c, t0, 0.125, "ged", g0 + 2, g1 + 2, dur_frac=1.1, rel=0.035)
         cell(c, t0, 0.125, "open", g0 - 3, g1 - 2, dur_frac=1.1, rel=0.035, oct=-12)
@@ -683,7 +683,7 @@ def build_score():
     for i, note in enumerate(cluster):
         t = 11.0 + 0.25 * i
         ev("organ", "open", note, t, 13.6 - t, 0, attack=0.12, release=0.0,
-           env=ramp([(t, -23), (13.5, -2)]), pan=(-0.5 + i / 9.0) * 0.8, role="rising cluster")
+           env=ramp([(t, -23), (13.5, -5)]), pan=(-0.5 + i / 9.0) * 0.8, role="rising cluster")
     for (inst, notes, pan) in (("vc_trem", ("F2", "C3", "G2", "D3", "A2", "E3"), 0.5),
                                ("va_trem", ("A3", "C4", "B3", "D4", "C#4", "E4"), 0.2),
                                ("vln_trem", ("F4", "A4", "G4", "B4", "A4", "C#5"), -0.25)):
@@ -695,16 +695,16 @@ def build_score():
         ev("strings", "cb_trem", note, t, 1.0 if t < 13 else 0.6, -18, layer=2, attack=0.02, release=0.04, pan=0.55,
            role="trem")
     E.append(dict(stem="strings", inst="vln_trem", gliss=lambda tt: N("D5") + 12 * (tt / 2.5) ** 2.0, t=11.0, dur=2.6,
-                  g=0.0, pan=-0.45, layer=2, env=ramp([(11.0, -20), (13.5, -9)]), role="string riser"))
+                  g=0.0, pan=-0.45, layer=2, env=ramp([(11.0, -20), (13.5, -12)]), role="string riser"))
     E.append(dict(stem="strings", inst="va_trem", gliss=lambda tt: N("D4") + 12 * (tt / 2.5) ** 2.0, t=11.0, dur=2.6,
-                  g=0.0, pan=0.3, layer=2, env=ramp([(11.0, -21), (13.5, -10)]), role="string riser"))
+                  g=0.0, pan=0.3, layer=2, env=ramp([(11.0, -21), (13.5, -13)]), role="string riser"))
 
     # percussion of the city
     ev("perc", "timp", "Bb2", 7.0, 3.0, -16, layer=4, release=0.5, role="timpani")
     ev("perc", "timp", "G2", 9.0, 2.0, -13, layer=4, release=0.5, role="timpani")
     for t, note, g in ((11.0, "F2", -1), (11.5, "F2", -6), (12.0, "G2", -2), (12.5, "G2", -3)):
         ev("perc", "timp", note, t, 2.5, g, layer=4, release=0.3, role="timpani")
-    ev("perc", "timproll", "A2", 13.0, 0.6, 0, layer=5, attack=0.01, release=0.0, env=ramp([(13.0, -8), (13.5, 5)]),
+    ev("perc", "timproll", "A2", 13.0, 0.6, 0, layer=5, attack=0.01, release=0.0, env=ramp([(13.0, -8), (13.5, 1)]),
        role="timpani roll")
     E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v7_rr1_Sum.wav", t=11.0, g=-10,
                   ratio=0.89, role="gran cassa"))
@@ -714,7 +714,7 @@ def build_score():
     E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/susCymb1-hit_mp_rr1.wav", t=11.0, g=-12,
                   role="cymbal"))
     E.append(dict(stem="perc", kind="swell", path=f"{VSCO}/Percussion/susCymb1-cresc-Long_v1.wav", peak_at=13.5,
-                  g=-3, role="cymbal riser"))
+                  g=-7, role="cymbal riser"))
 
     # ---------------- 13.5-15.0 time stops: one very low, very quiet organ D breathing
     br = ramp([(13.5, -70), (13.95, -24), (14.45, -19), (15.0, -25), (15.6, -23), (16.6, -70)])
@@ -722,8 +722,8 @@ def build_score():
     ev("organ", "ped8", "D2", 13.5, 3.1, -10, skip=1.5, attack=0.002, release=0.0, env=br, role="breath")
 
     # ---------------- 15.0-21.0 bloom: warmth (Gedackt chords, sparse piano motif, strings pp)
-    bloom = [(15.0, "Bb2", ["F3", "A3", "C4", "D4"]), (17.0, "A2", ["F3", "A3", "C4", "E4"]),
-             (19.0, "G2", ["F3", "Bb3", "D4", "A4"])]
+    bloom = [(15.0, "Bb2", ["F3", "Bb3", "D4"]), (17.0, "A2", ["F3", "A3", "C4"]),
+             (19.0, "G2", ["G3", "Bb3", "D4"])]
     for t, bass, ch in bloom:
         ev("organ", "ped8", bass, t, 2.05, -15.5, attack=0.09, release=0.45, role="bloom bass")
         for i, n_ in enumerate(ch):
@@ -732,24 +732,20 @@ def build_score():
     for t, n1, n2 in ((15.0, "Bb2", "D4"), (17.0, "A2", "C4"), (19.0, "G2", "D4")):
         ev("strings", "vc_sus", n1, t, 2.05, -20.5, layer=1, attack=0.45, release=0.6, pan=0.45, role="strings pp")
         ev("strings", "va_sus", n2, t, 2.05, -18.5, layer=1, attack=0.45, release=0.6, pan=0.2, role="strings pp")
-    ev("strings", "vln_sus", "A5", 15.0, 6.1, -20, layer=1, attack=1.4, release=0.4, pan=-0.4, role="strings pp halo")
-    ev("strings", "harp", "Bb2", 15.0, 2.5, -11, release=0.6, pan=-0.1, role="harp")
-    ev("strings", "harp", "F3", 15.0, 2.5, -15, release=0.6, pan=-0.1, role="harp")
-    motif = [(15.5, "A4", 1.0, -9), (16.0, "D5", 1.0, -7), (16.5, "E5", 1.4, -8), (17.5, "F5", 2.0, -6),
-             (19.5, "E5", 0.9, -8), (20.0, "D5", 2.4, -7)]
-    for t, n_, d, g in motif:
-        ev("piano", "piano", n_, t, d, g - 0.5, layer=1, release=0.7, pan=-0.15, role="piano motif")
-    ev("piano", "piano", "F4", 17.5, 2.0, -19.5, layer=1, release=0.7, pan=-0.15, role="piano motif")
-    ev("piano", "piano", "D4", 20.0, 2.4, -19.5, layer=1, release=0.7, pan=-0.15, role="piano motif")
+    ev("strings", "vln_sus", "A5", 15.0, 6.1, -24, layer=1, attack=1.4, release=0.4, pan=-0.4, role="strings pp halo")
+    motif = [(15.5, "A3", 1.0, -10), (16.0, "D4", 1.0, -9), (16.5, "E4", 1.4, -10), (17.5, "F4", 2.0, -8.5),
+             (19.5, "E4", 0.9, -10), (20.0, "D4", 2.4, -9)]
+    for t, n_, d, g in motif:   # a weighted single line, low in the piano: no tinkle
+        ev("piano", "piano", n_, t, d, g, layer=2, release=0.7, pan=-0.15, role="piano motif")
+    cell(CELL_MINOR, 15.0, 1.0, "ged", -24, -20)   # the city's figure, crawling: time has slowed, not stopped
 
     # ---------------- 21.0-29.0 pour: build pp -> climax 27-29 (timpani roll into 27.0)
-    ev("strings", "harp", "D2", 21.0, 3.0, -11, release=0.6, pan=0.0, role="harp")
-    ev("strings", "harp", "D3", 21.0, 3.0, -15, release=0.6, pan=0.0, role="harp")
+    ev("perc", "timp", "D2", 21.0, 3.0, -20, layer=4, release=0.6, role="timpani")   # a soft low D on the match cut
     build = [  # t, dur, ped16, ped8, ged chord, open chord, gain offset
         (21.0, 2.0, "D1", "D2", ["F3", "A3", "D4", "E4"], [], -12),
         (23.0, 2.0, "Bb1", "Bb2", ["F3", "Bb3", "D4", "F4"], ["Bb3", "D4", "F4"], -8),
-        (25.0, 1.0, "G1", "G2", ["G3", "Bb3", "D4", "G4"], ["G3", "D4", "G4", "Bb4"], -3.5),
-        (26.0, 1.0, "A1", "A2", ["A3", "C#4", "E4", "G4"], ["A3", "E4", "G4", "C#5"], -1),
+        (25.0, 1.0, "G1", "G2", ["G3", "Bb3", "D4", "G4"], ["G3", "D4", "G4", "Bb4"], -7),
+        (26.0, 1.0, "A1", "A2", ["A3", "C#4", "E4", "G4"], ["A3", "E4", "G4", "C#5"], -5),
         (27.0, 1.0, "Bb1", "Bb2", ["Bb4", "D5", "F5", "D6"], ["Bb3", "D4", "F4", "Bb4", "D5", "F5"], 0),
         (28.0, 1.0, "C2", "C3", ["C5", "E5", "G5", "E6"], ["C4", "E4", "G4", "C5", "E5", "G5"], 0.5),
     ]
@@ -768,23 +764,23 @@ def build_score():
     cell([N("Bb4"), N("D5"), N("F5"), N("Bb4")], 23.0, 0.5, "open", -18, -14, dur_frac=0.96, rel=0.06)
     seq16 = [N(x) for x in ("G4", "D5", "F5", "G4", "A4", "C#5", "E5", "G5",
                             "Bb4", "D5", "F5", "D5", "C5", "E5", "G5", "E5")]
-    cell(seq16, 25.0, 0.25, "ged", -5, -2, dur_frac=1.0, rel=0.05)
-    cell(seq16, 25.0, 0.25, "open", -9, -2.5, dur_frac=1.0, rel=0.05)
+    cell(seq16, 25.0, 0.25, "ged", -9, -2, dur_frac=1.0, rel=0.05)
+    cell(seq16, 25.0, 0.25, "open", -13, -2.5, dur_frac=1.0, rel=0.05)
     # resolution 29.0: D major, slow decay to silence by ~35.7
     ev("organ", "ped16", "D1", 29.0, 6.0, -4.5, attack=0.02, release=0.5, env=res_decay, role="resolution")
     ev("organ", "ped8", "D2", 29.0, 6.0, -7.5, attack=0.02, release=0.5, env=res_decay, role="resolution")
     for i, n_ in enumerate(["D3", "A3", "D4", "F#4", "A4", "D5", "F#5"]):
-        ev("organ", "open", n_, 29.0, 6.0, -10, attack=0.02, release=0.5, env=res_decay, pan=-0.45 + 0.15 * i,
+        ev("organ", "open", n_, 29.0, 6.0, -8, attack=0.02, release=0.5, env=res_decay, pan=-0.45 + 0.15 * i,
            role="resolution")
     for i, n_ in enumerate(["F#5", "A5", "D6", "F#6"]):
-        ev("organ", "ged", n_, 29.0, 6.0, -9 + (3 if n_ == "F#6" else 0), attack=0.02, release=0.5, env=res_decay,
+        ev("organ", "ged", n_, 29.0, 6.0, -7 + (3 if n_ == "F#6" else 0), attack=0.02, release=0.5, env=res_decay,
            pan=-0.3 + 0.2 * i, role="resolution")
     # strings of the pour
     st_build = [  # t, dur, cb, vc pair, va pair, vln2 pair, vln1 melody (octave pair), gain
         (21.0, 2.0, "D2", ("D3",), ("A3", "F4"), ("F4", "A4"), None, -21),
         (23.0, 2.0, "Bb1", ("Bb2",), ("Bb3", "F4"), ("F4", "D5"), ("Bb4", "Bb5"), -18.5),
-        (25.0, 1.0, "G1", ("G2", "D3"), ("Bb3", "D4"), ("G4", "D5"), ("Bb4", "Bb5"), -18),
-        (26.0, 1.0, "A1", ("A2", "E3"), ("C#4", "E4"), ("A4", "E5"), ("A4", "A5"), -15.5),
+        (25.0, 1.0, "G1", ("G2", "D3"), ("Bb3", "D4"), ("G4", "D5"), ("Bb4", "Bb5"), -21),
+        (26.0, 1.0, "A1", ("A2", "E3"), ("C#4", "E4"), ("A4", "E5"), ("A4", "A5"), -19),
         (27.0, 1.0, "Bb1", ("Bb2", "F3"), ("D4", "F4"), ("F5", "Bb5"), ("D5", "D6"), -14),
         (28.0, 1.0, "C2", ("C3", "G3"), ("E4", "G4"), ("G5", "C6"), ("E5", "E6"), -13.5),
     ]
@@ -810,15 +806,15 @@ def build_score():
             ev("strings", inst, n_, 29.0, 5.9, -14.5, layer=2 if inst != "cb_sus" and inst != "vc_sus" else 3,
                attack=0.05, release=0.5, pan=pan, env=res_decay, role="resolution")
     # piano: the motif once more over the match cut, then it gives way
-    for t, n_, d, g in ((21.5, "A4", 1.0, -16), (22.0, "D5", 1.0, -14), (22.5, "E5", 1.0, -15), (23.5, "F5", 2.5, -13)):
+    for t, n_, d, g in ((21.5, "A3", 1.0, -14), (22.0, "D4", 1.0, -12), (22.5, "E4", 1.0, -13), (23.5, "F4", 2.5, -11)):
         ev("piano", "piano", n_, t, d, g, layer=2, release=0.8, pan=-0.15, role="piano motif")
         ev("piano", "piano", N(n_) + 12, t, d, g - 11, layer=1, release=0.8, pan=-0.2, role="piano motif 8va")
     # percussion of the pour
-    ev("perc", "timproll", "A2", 25.5, 1.52, 0, layer=5, attack=0.05, release=0.03,
-       env=ramp([(25.5, -14), (26.3, -5), (27.0, 2)]), role="timpani roll")
+    ev("perc", "timproll", "A2", 25.5, 1.43, 0, layer=5, attack=0.05, release=0.02,
+       env=ramp([(25.5, -14), (26.3, -8), (26.9, -1)]), role="timpani roll")   # ends 70 ms before the downbeat
     for t, note, g in ((27.0, "Bb2", 3), (27.5, "Bb2", -4), (28.0, "C3", 1), (28.5, "C3", -4), (29.0, "D2", 3)):
         ev("perc", "timp", note, t, 4.0 if t < 29 else 6.0, g, layer=4, release=0.6, role="timpani")
-    for t, g, v in ((27.0, -8, 7), (28.0, -13, 6), (29.0, -8, 7)):
+    for t, g, v in ((27.0, -4, 7), (28.0, -13, 6), (29.0, -4, 7)):
         E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v{v}_rr2_Sum.wav", t=t, g=g,
                       ratio=0.89, role="gran cassa"))
     E.append(dict(stem="perc", kind="sub", t=27.0, g=-14, role="sub boom"))

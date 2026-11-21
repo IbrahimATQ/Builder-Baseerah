@@ -119,8 +119,12 @@
      2.7
     ],
     [
-     6.4,
-     8.6
+     6.3,
+     8.2
+    ],
+    [
+     6.8,
+     10.6
     ],
     [
      7.0,
@@ -156,6 +160,20 @@
      0.92,
      0.98,
      1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.0,
+    "y1": 0.3,
+    "ev_keys": [
+     [
+      6.3,
+      0.0
+     ],
+     [
+      7.0,
+      -1.4
+     ]
     ]
    },
    "ev_keys": [
@@ -235,18 +253,19 @@
    "grad": {
     "y0": 0.06,
     "y1": 0.34,
-    "ev": -2.2
+    "ev": -1.4
    }
   },
   {
-   "id": "square",
+   "id": "sqA",
    "src": "/home/user/coffee/prep/square_long.mp4",
    "start": 11.0,
-   "end": 15.0,
+   "end": 12.0,
    "trans": {
     "type": "whip",
     "dur": 0.38,
-    "dir": "left"
+    "dir": "left",
+    "blur": 1.8
    },
    "time": [
     [
@@ -255,19 +274,7 @@
     ],
     [
      12.0,
-     1.8
-    ],
-    [
-     12.75,
-     4.3
-    ],
-    [
-     13.5,
-     10.3
-    ],
-    [
-     15.0,
-     10.3
+     2.3
     ]
    ],
    "interp": "linear",
@@ -286,16 +293,10 @@
       0.5
      ],
      [
-      13.5,
-      1.06,
+      12.0,
+      1.05,
       0.5,
       0.5
-     ],
-     [
-      15.0,
-      1.14,
-      0.5,
-      0.48
      ]
     ]
    },
@@ -310,6 +311,369 @@
      0.92,
      0.98,
      1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.0,
+    "y1": 0.3,
+    "ev": -1.2
+   }
+  },
+  {
+   "id": "stB",
+   "src": "/home/user/coffee/prep/street_long.mp4",
+   "start": 12.0,
+   "end": 12.5,
+   "time": [
+    [
+     12.0,
+     12.0
+    ],
+    [
+     12.5,
+     15.5
+    ]
+   ],
+   "interp": "linear",
+   "trail": {
+    "frames": 48,
+    "mix": 0.72,
+    "align": true
+   },
+   "motion_fill": false,
+   "move": {
+    "keys": [
+     [
+      12.0,
+      1.08,
+      0.5,
+      0.5
+     ],
+     [
+      12.5,
+      1.1,
+      0.47,
+      0.5
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": -1.0,
+    "tint": 0.3,
+    "contrast": 1.12,
+    "split": 0.4,
+    "sat": 0.88,
+    "cool_lo": [
+     0.92,
+     0.98,
+     1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.06,
+    "y1": 0.34,
+    "ev": -1.4
+   }
+  },
+  {
+   "id": "sqC",
+   "src": "/home/user/coffee/prep/square_long.mp4",
+   "start": 12.5,
+   "end": 12.75,
+   "time": [
+    [
+     12.5,
+     2.6
+    ],
+    [
+     12.75,
+     4.4
+    ]
+   ],
+   "interp": "linear",
+   "trail": {
+    "frames": 36,
+    "mix": 0.68,
+    "align": true
+   },
+   "motion_fill": false,
+   "move": {
+    "keys": [
+     [
+      12.5,
+      1.08,
+      0.5,
+      0.5
+     ],
+     [
+      12.75,
+      1.09,
+      0.5,
+      0.5
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": -1.0,
+    "tint": 0.3,
+    "contrast": 1.12,
+    "split": 0.4,
+    "sat": 0.88,
+    "cool_lo": [
+     0.92,
+     0.98,
+     1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.0,
+    "y1": 0.3,
+    "ev": -1.2
+   }
+  },
+  {
+   "id": "stD",
+   "src": "/home/user/coffee/prep/street_long.mp4",
+   "start": 12.75,
+   "end": 13.0,
+   "time": [
+    [
+     12.75,
+     16.0
+    ],
+    [
+     13.0,
+     18.5
+    ]
+   ],
+   "interp": "linear",
+   "trail": {
+    "frames": 48,
+    "mix": 0.72,
+    "align": true
+   },
+   "motion_fill": false,
+   "move": {
+    "keys": [
+     [
+      12.75,
+      1.18,
+      0.47,
+      0.5
+     ],
+     [
+      13.0,
+      1.19,
+      0.47,
+      0.5
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": -1.0,
+    "tint": 0.3,
+    "contrast": 1.12,
+    "split": 0.4,
+    "sat": 0.88,
+    "cool_lo": [
+     0.92,
+     0.98,
+     1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.06,
+    "y1": 0.34,
+    "ev": -1.4
+   }
+  },
+  {
+   "id": "sqE",
+   "src": "/home/user/coffee/prep/square_long.mp4",
+   "start": 13.0,
+   "end": 13.125,
+   "time": [
+    [
+     13.0,
+     4.6
+    ],
+    [
+     13.125,
+     6.0
+    ]
+   ],
+   "interp": "linear",
+   "trail": {
+    "frames": 36,
+    "mix": 0.68,
+    "align": true
+   },
+   "motion_fill": false,
+   "move": {
+    "keys": [
+     [
+      13.0,
+      1.12,
+      0.5,
+      0.5
+     ],
+     [
+      13.125,
+      1.12,
+      0.5,
+      0.5
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": -1.0,
+    "tint": 0.3,
+    "contrast": 1.12,
+    "split": 0.4,
+    "sat": 0.88,
+    "cool_lo": [
+     0.92,
+     0.98,
+     1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.0,
+    "y1": 0.3,
+    "ev": -1.2
+   }
+  },
+  {
+   "id": "stF",
+   "src": "/home/user/coffee/prep/street_long.mp4",
+   "start": 13.125,
+   "end": 13.25,
+   "time": [
+    [
+     13.125,
+     19.0
+    ],
+    [
+     13.25,
+     21.0
+    ]
+   ],
+   "interp": "linear",
+   "trail": {
+    "frames": 48,
+    "mix": 0.72,
+    "align": true
+   },
+   "motion_fill": false,
+   "move": {
+    "keys": [
+     [
+      13.125,
+      1.22,
+      0.47,
+      0.5
+     ],
+     [
+      13.25,
+      1.22,
+      0.47,
+      0.5
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": -1.0,
+    "tint": 0.3,
+    "contrast": 1.12,
+    "split": 0.4,
+    "sat": 0.88,
+    "cool_lo": [
+     0.92,
+     0.98,
+     1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.06,
+    "y1": 0.34,
+    "ev": -1.4
+   }
+  },
+  {
+   "id": "sqG",
+   "src": "/home/user/coffee/prep/square_long.mp4",
+   "start": 13.25,
+   "end": 15.0,
+   "time": [
+    [
+     13.25,
+     6.4
+    ],
+    [
+     13.5,
+     10.3
+    ],
+    [
+     15.0,
+     10.3
+    ]
+   ],
+   "interp": "linear",
+   "trail": {
+    "frames": 36,
+    "mix": 0.68,
+    "align": true
+   },
+   "motion_fill": false,
+   "grade": {
+    "ev": 0.0,
+    "temp": -1.0,
+    "tint": 0.3,
+    "contrast": 1.12,
+    "split": 0.4,
+    "sat": 0.88,
+    "cool_lo": [
+     0.92,
+     0.98,
+     1.06
+    ]
+   },
+   "grad": {
+    "y0": 0.0,
+    "y1": 0.3,
+    "ev": -1.2
+   },
+   "move": {
+    "keys": [
+     [
+      13.25,
+      1.1,
+      0.5,
+      0.52
+     ],
+     [
+      13.5,
+      1.14,
+      0.47,
+      0.55
+     ],
+     [
+      14.45,
+      1.2,
+      0.45,
+      0.57
+     ],
+     [
+      15.0,
+      1.22,
+      0.45,
+      0.58
+     ]
     ]
    },
    "sat_keys": [
@@ -435,6 +799,7 @@
    "src": "/home/user/coffee/prep/pourcup.mp4",
    "start": 21.0,
    "end": 32.0,
+   "interp": "linear",
    "time": [
     [
      21.0,
@@ -445,11 +810,14 @@
      10.0
     ],
     [
+     29.083,
+     10.083
+    ],
+    [
      32.0,
-     12.45
+     10.083
     ]
    ],
-   "interp": "linear",
    "grade": {
     "ev": 0.95,
     "temp": 2.9,
@@ -478,21 +846,21 @@
       0.55
      ],
      [
-      28.6,
+      29.0,
       1.18,
       0.5,
       0.55
      ],
      [
       31.0,
-      1.1,
-      0.52,
+      1.12,
+      0.55,
       0.5
      ],
      [
       32.0,
       1.1,
-      0.53,
+      0.545,
       0.49
      ]
     ]
@@ -521,20 +889,12 @@
       0.35
      ],
      [
-      9.5,
-      0.48,
-      0.66,
-      0.22,
-      0.13,
-      0.0
-     ],
-     [
       11.0,
-      0.52,
-      0.74,
-      0.17,
-      0.1,
-      0.0
+      0.38,
+      0.64,
+      0.29,
+      0.16,
+      0.2
      ]
     ]
    },
@@ -545,20 +905,48 @@
    },
    "plate_layers": [
     {
-     "src": "/home/user/coffee/vfx/deliver/steam_layer_4k.mp4",
-     "first_prep_frame": 231,
-     "frames": 69,
+     "src": "/home/user/coffee/vfx/deliver/steam_hold_1964_4k.mp4",
+     "clock": "film",
+     "t0": 29.0,
+     "frames": 75,
      "credit_ids": [
-      "1964",
+      "1964"
+     ],
+     "gain_keys": [
+      [
+       29.0,
+       0.0
+      ],
+      [
+       29.4,
+       1.3
+      ],
+      [
+       32.0,
+       1.3
+      ]
+     ],
+     "tint": [
+      1.0,
+      0.95,
+      0.88
+     ]
+    },
+    {
+     "src": "/home/user/coffee/vfx/deliver/steam_hold_50956_4k.mp4",
+     "clock": "film",
+     "t0": 29.0,
+     "frames": 75,
+     "credit_ids": [
       "50956"
      ],
      "gain_keys": [
       [
-       28.6,
+       29.0,
        0.0
       ],
       [
-       29.3,
+       29.4,
        1.3
       ],
       [
@@ -634,26 +1022,26 @@
    "lines": [
     {
      "text": "WARSZAWA",
-     "font": "montserrat-latin-300-normal.woff",
-     "size": 150,
+     "font": "cormorant-garamond-latin-500-normal.woff",
+     "size": 125,
      "track": [
-      0.28,
-      0.34
+      0.14,
+      0.18
      ]
     },
     {
-     "text": "STARE MIASTO",
-     "font": "montserrat-latin-400-normal.woff",
-     "size": 80,
+     "text": "stare miasto",
+     "font": "cormorant-garamond-latin-500-italic.woff",
+     "size": 64,
      "track": [
-      0.36,
-      0.42
+      0.04,
+      0.06
      ],
-     "gap": 40
+     "gap": 18
     }
    ],
-   "x": 0.385,
-   "y": 0.19,
+   "x": 0.46,
+   "y": 0.175,
    "in": 7.5,
    "out": 10.75,
    "fade_in": 0.5,
@@ -736,15 +1124,15 @@
     ],
     [
      3.45,
-     0.6
+     0.35
     ],
     [
      3.9,
-     1.0
+     0.6
     ],
     [
      4.5,
-     0.6
+     0.35
     ],
     [
      5.1,

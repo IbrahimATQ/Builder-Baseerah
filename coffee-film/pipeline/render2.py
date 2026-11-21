@@ -500,7 +500,10 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
     fr = fr.copy()
     for pl, lr in zip(s.get("plate_layers", []), getattr(rd, "layers", [])):
         # an element tracked to the subject in the clip's own coordinates (e.g. steam over the cup), screen-blended
-        kl = int(round(kpos)) - int(pl["first_prep_frame"])
+        if pl.get("clock") == "film":   # the element plays in film time (e.g. steam rising over a held frame)
+            kl = int(round((t - pl["t0"]) * fps))
+        else:
+            kl = int(round(kpos)) - int(pl["first_prep_frame"])
         if 0 <= kl < int(pl.get("frames", 10 ** 6)):
             lf = lr.frame(kl)
             g = float(np.interp(t, [q[0] for q in pl["gain_keys"]], [q[1] for q in pl["gain_keys"]])) if pl.get("gain_keys") else pl.get("gain", 1.0)
@@ -541,7 +544,9 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
     if gr:  # a graduated ND filter: -ev stops at the top edge, easing to nothing at y1
         ys = np.arange(H, dtype=np.float32) / H
         w = np.clip(1 - (ys - gr.get("y0", 0.0)) / max(gr["y1"] - gr.get("y0", 0.0), 1e-3), 0, 1) ** 1.5
-        fr = to_disp(to_lin(fr) * (2.0 ** (gr["ev"] * w))[:, None, None])
+        gev = keyed(gr["ev_keys"], t, 0.0) if gr.get("ev_keys") else gr["ev"]
+        if abs(gev) > 1e-3:
+            fr = to_disp(to_lin(fr) * (2.0 ** (gev * w))[:, None, None])
     ev = keyed(s.get("ev_keys"), t, 0.0)
     if abs(ev) > 1e-3:
         fr = to_disp(to_lin(fr) * 2 ** ev)
@@ -626,7 +631,10 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
                 readers[i] = Reader(s, os.path.join(luts, f"{s['id']}.cube"), pa, W, H, hist=int(math.ceil(vmax)) + 3, store=store)
                 readers[i].layers = []
                 for pl in s.get("plate_layers", []):
-                    k_first = max(0, int(round(pa * PREP_FPS)) - int(pl["first_prep_frame"]))
+                    if pl.get("clock") == "film":
+                        k_first = max(0, int(round((t - pl["t0"]) * fps)))
+                    else:
+                        k_first = max(0, int(round(pa * PREP_FPS)) - int(pl["first_prep_frame"]))
                     readers[i].layers.append(Reader({"src": pl["src"]}, None, k_first / PREP_FPS, W, H))
             frs[i] = shot_frame(s, readers.get(i), tims[i], t, fps, S, W, H)
         img = None
@@ -638,9 +646,21 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
             tr = s.get("trans", {})
             d = tr.get("dur", 0.3)
             p = min(1.0, max(0.0, (t - (s["start"] - d / 2)) / d))
-            if tr.get("type") == "whip":
-                # a whip pan: the outgoing shot accelerates away, the incoming one decelerates in; the smear is
-                # proportional to the speed (a 180-degree shutter), so it grows from nothing and dies to nothing
+            if tr.get("type") == "whip" and tr.get("strip", True):
+                # a whip pan: the two shots lie side by side, as if they were one wide view the camera swings across,
+                # eased in and out; the smear follows the speed (a 180-degree shutter): it grows from nothing at the
+                # start, peaks mid-swing and dies away as the camera settles
+                left = tr.get("dir", "left") == "left"
+                e_ = lambda q: smooth(min(max(q, 0.0), 1.0))
+                dp = 1.0 / (fps * d)
+                strip = np.concatenate([img, fr], axis=1) if left else np.concatenate([fr, img], axis=1)
+                off = W * e_(p) if left else W * (1 - e_(p))
+                M = np.array([[1, 0, -off], [0, 1, 0]], np.float32)
+                img = cv2.warpAffine(strip, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+                del strip
+                v = W * abs(e_(p) - e_(p - dp))
+                img = dir_blur(img, 0.5 * v * tr.get("blur", 1.0))
+            elif tr.get("type") == "whip":
                 dirn = -1 if tr.get("dir", "left") == "left" else 1
                 amp, ex = tr.get("travel", 0.75) * W, tr.get("ease", 2.2)
                 sh_out = lambda q: dirn * amp * (max(q, 0.0) / 0.5) ** ex

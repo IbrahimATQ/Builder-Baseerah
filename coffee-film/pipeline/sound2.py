@@ -14,7 +14,9 @@ Spec (data/sound2.json):
    "ducks": [[t0, t1, db]]   (master-level dips of everything but the score, e.g. for a hard stop)
    "silence": [[t0, t1]]     (absolute silence windows: everything is cut, with 4 ms fades)}
 Every sound is decoded with ffmpeg to 48 kHz stereo; tempo uses atempo (pitch kept), pitch uses resampling.
-Masters: mix.wav (-14 LUFS, true peak <= -1.5 dBTP) and sfx_only.wav (everything but the score, -16 LUFS).
+Masters: mix.wav (-14 LUFS, true peak <= -2 dBTP, so the AAC of the film stays under -1 dBTP) and sfx_only.wav
+(everything but the score, -16 LUFS). "music_ducks": [[t0, t1, dB]] dips the score; "music_tick_duck": {"times", "db",
+"dur"} dips it for a moment under each tick.
 Usage: python sound2.py SPEC.json OUT_DIR
 """
 from __future__ import annotations
@@ -112,11 +114,17 @@ def limit(a: np.ndarray, ceiling_db: float) -> np.ndarray:
     need = np.minimum(1.0, c / np.maximum(up, 1e-9))
     if need.min() >= 1.0:
         return a
+    # 4 ms look-ahead attack, 40 ms one-sided release: the gain comes down just before a peak and recovers smoothly
     w = int(0.004 * SR)
     g = minimum_filter1d(need, size=2 * w + 1, mode="nearest")
     k = np.hanning(2 * w + 1); k /= k.sum()
     g = np.minimum(np.convolve(g, k, mode="same"), need)
-    return a * g[:, None]
+    rel = np.exp(-1.0 / (0.040 * SR))
+    out = g.copy()
+    for i in range(1, len(out)):      # release: the gain may rise only as fast as the release allows
+        if out[i] > out[i - 1]:
+            out[i] = min(out[i], out[i - 1] * rel + (1 - rel))
+    return a * np.minimum(out, need)[:, None]
 
 
 def main() -> None:
@@ -179,6 +187,24 @@ def main() -> None:
                 place(mus, a * 10 ** (g / 20), 0.0)
         else:
             place(mus, decode(sc["file"])[:N] * 10 ** (sc.get("gain_db", 0) / 20), 0.0)
+    for t0, t1, db in sp.get("music_ducks", []):   # the score dipped under a moment the sound must carry (0.3 s ramps)
+        tt = np.arange(N) / SR
+        r = 0.3
+        e = np.clip(np.minimum((tt - (t0 - r)) / r, ((t1 + r) - tt) / r), 0, 1)
+        mus *= (1 - e * (1 - 10 ** (db / 20)))[:, None]
+    td = sp.get("music_tick_duck")
+    if td:   # a short dip of the score under each tick in a range, so the accelerating clock stays audible
+        tt = np.arange(N) / SR
+        g = np.ones(N)
+        for t in td["times"]:
+            i0, i1 = int((t - 0.005) * SR), int((t + td.get("dur", 0.05)) * SR)
+            if 0 <= i0 < N:
+                n_ = min(i1, N) - i0
+                env_ = np.ones(n_) * 10 ** (td.get("db", -3.0) / 20)
+                f = min(n_ // 3, int(0.008 * SR))
+                env_[-f:] = np.linspace(10 ** (td.get("db", -3.0) / 20), 1, f)
+                g[i0:i0 + n_] = np.minimum(g[i0:i0 + n_], env_)
+        mus *= g[:, None]
     for t0, t1 in sp.get("silence", []):
         i0, i1 = int(t0 * SR), int(t1 * SR)
         f = int(0.004 * SR)
@@ -195,14 +221,20 @@ def main() -> None:
         tail = int(0.01 * SR)
         x[-tail:] *= np.linspace(1, 0, tail)[:, None]
         g = lufs - meter.integrated_loudness(x)
-        x = limit(x * 10 ** (g / 20), -1.5)
+        src = x
+        for _ in range(4):   # the limiter takes a little loudness: converge on the target
+            x = limit(src * 10 ** (g / 20), sp.get("ceiling_db", -2.0))
+            err = lufs - meter.integrated_loudness(x)
+            if abs(err) < 0.05:
+                break
+            g += err
         sf.write(os.path.join(out, name), x.astype(np.float32), SR, subtype="PCM_24")
         return {"file": name, "lufs": round(meter.integrated_loudness(x), 2), "true_peak_dbtp": round(true_peak_db(x), 2), "gain_db": round(g, 2)}
 
     report["mix"] = master(fx + mus, -14.0, "mix.wav")
     report["sfx_only"] = master(fx, -16.0, "sfx_only.wav")
-    sf.write(os.path.join(out, "fx_bus.wav"), fx.astype(np.float32), SR, subtype="PCM_24")
-    sf.write(os.path.join(out, "music_bus.wav"), mus.astype(np.float32), SR, subtype="PCM_24")
+    sf.write(os.path.join(out, "fx_bus.wav"), fx.astype(np.float32), SR, subtype="FLOAT")
+    sf.write(os.path.join(out, "music_bus.wav"), mus.astype(np.float32), SR, subtype="FLOAT")
     json.dump(report, open(os.path.join(out, "sound_report.json"), "w"), indent=1)
     print(json.dumps({k: report[k] for k in ("mix", "sfx_only")}))
 

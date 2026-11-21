@@ -56,7 +56,7 @@
     ],
     [
      13.4,
-     3.0
+     4.5
     ]
    ]
   },
@@ -79,7 +79,7 @@
     ],
     [
      13.4,
-     3.0
+     4.5
     ]
    ]
   },
@@ -98,6 +98,28 @@
     [
      10.9,
      -1.0
+    ],
+    [
+     13.4,
+     4.5
+    ]
+   ]
+  },
+  {
+   "id": "square_faster",
+   "file": "/home/user/coffee/raw/IMG_5416.MOV",
+   "src_in": 9.0,
+   "start": 12.0,
+   "end": 13.5,
+   "tempo": 2.5,
+   "hp": 160,
+   "rms_db": -34.0,
+   "fade_in": 0.3,
+   "fade_out": 0.008,
+   "gain_keys": [
+    [
+     12.0,
+     -3.0
     ],
     [
      13.4,
@@ -140,9 +162,43 @@
     100,
     150
    ],
-   "rms_db": -34.0,
+   "rms_db": -30.0,
    "fade_in": 0.6,
-   "fade_out": 0.03
+   "fade_out": 0.03,
+   "gain_keys": [
+    [
+     16.9,
+     0.0
+    ],
+    [
+     16.98,
+     -4.0
+    ],
+    [
+     17.12,
+     -4.0
+    ],
+    [
+     17.25,
+     0.0
+    ],
+    [
+     18.9,
+     0.0
+    ],
+    [
+     18.98,
+     -4.0
+    ],
+    [
+     19.12,
+     -4.0
+    ],
+    [
+     19.25,
+     0.0
+    ]
+   ]
   },
   {
    "id": "pour",
@@ -155,7 +211,9 @@
    "notch": [
     50,
     100,
-    150
+    150,
+    108.4,
+    178.7
    ],
    "rms_db": -22.0,
    "fade_in": 0.015,
@@ -166,20 +224,28 @@
      0.0
     ],
     [
-     26.0,
-     0.0
+     25.0,
+     2.0
     ],
     [
-     27.2,
-     -2.5
+     26.5,
+     5.0
     ],
     [
-     29.0,
-     -2.5
+     28.2,
+     5.0
     ],
     [
-     30.0,
-     0.0
+     28.6,
+     -3.0
+    ],
+    [
+     29.2,
+     -6.0
+    ],
+    [
+     31.5,
+     -6.0
     ]
    ]
   },
@@ -217,7 +283,7 @@
   {
    "file": "/home/user/coffee/raw/IMG_5422.MOV",
    "src_in": 3.6,
-   "dur": 1.45,
+   "dur": 1.498,
    "at": 0.0,
    "pitch": -5,
    "hp": 110,
@@ -233,7 +299,7 @@
   {
    "file": "/home/user/coffee/sfx/1324_pouring_water_to_glass.wav",
    "src_in": 0.5,
-   "dur": 1.55,
+   "dur": 1.587,
    "at": 0.0,
    "pitch": -4,
    "hp": 90,
@@ -247,6 +313,7 @@
    "dur": 2.6,
    "at": 1.99,
    "rms_db": -19.0,
+   "hp": 28,
    "fade_in": 0.002,
    "fade_out": 0.8
   },
@@ -256,8 +323,19 @@
    "dur": 0.9,
    "at": 1.99,
    "rms_db": -20.0,
+   "hp": 28,
    "fade_in": 0.002,
    "fade_out": 0.3
+  },
+  {
+   "file": "/home/user/coffee/sfx/563_drum_deep_impact.wav",
+   "src_in": 0.13,
+   "dur": 2.4,
+   "at": 1.985,
+   "rms_db": -25.0,
+   "hp": 40,
+   "fade_in": 0.002,
+   "fade_out": 0.8
   },
   {
    "file": "/home/user/coffee/sfx/2856_gear_lock_sound.wav",
@@ -287,12 +365,20 @@
    "fade_out": 0.5
   },
   {
+   "file": "/home/user/coffee/sfx/1474_transition_windy_swoosh.wav",
+   "src_in": 0.23,
+   "dur": 2.82,
+   "at": 4.525,
+   "rms_db": -33.0,
+   "fade_out": 0.5
+  },
+  {
    "file": "/home/user/coffee/sfx/1465_vacuum_swoosh_transition.wav",
    "src_in": 0.08,
    "dur": 2.09,
-   "at": 5.035,
+   "at": 5.435,
    "rms_db": -27.0,
-   "fade_out": 0.4
+   "fade_out": 0.25
   },
   {
    "file": "/home/user/coffee/sfx/1144_short_space_stutter_intro_riser.wav",
@@ -300,6 +386,7 @@
    "dur": 4.5,
    "at": 9.0,
    "rms_db": -31.0,
+   "hp": 28,
    "fade_in": 0.4,
    "fade_out": 0.004
   },
@@ -316,7 +403,7 @@
    "src_in": 0.06,
    "dur": 0.7,
    "at": 12.8,
-   "rms_db": -23.0,
+   "rms_db": -25.0,
    "fade_in": 0.05,
    "fade_out": 0.004
   },
@@ -325,7 +412,9 @@
    "src_in": 0.29,
    "dur": 2.6,
    "at": 13.49,
+   "pitch": -2,
    "rms_db": -17.0,
+   "hp": 28,
    "fade_in": 0.002,
    "fade_out": 1.0
   },
@@ -335,16 +424,28 @@
    "dur": 0.9,
    "at": 13.49,
    "rms_db": -19.0,
+   "hp": 28,
    "fade_in": 0.002,
    "fade_out": 0.3
+  },
+  {
+   "file": "/home/user/coffee/sfx/563_drum_deep_impact.wav",
+   "src_in": 0.13,
+   "dur": 2.4,
+   "at": 13.485,
+   "rms_db": -23.0,
+   "hp": 40,
+   "fade_in": 0.002,
+   "fade_out": 1.0
   },
   {
    "file": "/home/user/coffee/sfx/1318_water_pour_light_stream.wav",
    "src_in": 4.0,
    "dur": 6.0,
    "at": 15.0,
-   "rms_db": -37.0,
+   "rms_db": -41.0,
    "hp": 200,
+   "lp": 8000,
    "notch": [
     590
    ],
@@ -382,6 +483,15 @@
    "fade_out": 0.8
   },
   {
+   "file": "/home/user/coffee/sfx/2936_wine_glass_clink.wav",
+   "src_in": 0.0,
+   "dur": 0.43,
+   "at": 21.052,
+   "rms_db": -38.0,
+   "hp": 600,
+   "fade_out": 0.12
+  },
+  {
    "file": "/home/user/coffee/sfx/2826_pouring_water_in_a_glass.wav",
    "src_in": 0.3,
    "dur": 4.4,
@@ -394,26 +504,40 @@
   {
    "file": "/home/user/coffee/sfx/2664_cinematic_rumbling_swell.wav",
    "src_in": 5.725,
-   "dur": 5.0,
+   "dur": 7.0,
    "at": 23.0,
    "rms_db": -31.0,
+   "hp": 28,
    "fade_in": 2.5,
-   "fade_out": 1.2
+   "fade_out": 2.5
   },
   {
    "file": "/home/user/coffee/sfx/617_melodic_church_bell.wav",
    "src_in": 0.07,
    "dur": 6.2,
    "at": 32.972,
-   "rms_db": -40.0,
+   "rms_db": -43.0,
    "lp": 3500,
    "hp": 180,
+   "notch": [
+    349.2
+   ],
    "reverb": {
     "rt60": 3.8,
     "mix": 0.55,
     "predelay": 0.04
    },
-   "fade_out": 1.5
+   "fade_out": 1.5,
+   "gain_keys": [
+    [
+     34.5,
+     0.0
+    ],
+    [
+     36.45,
+     -30.0
+    ]
+   ]
   }
  ],
  "ticks": [
@@ -464,11 +588,15 @@
     ],
     [
      10.5,
-     -2.0
+     0.0
+    ],
+    [
+     11.0,
+     3.0
     ],
     [
      13.25,
-     0.0
+     6.0
     ]
    ]
   },
@@ -490,22 +618,19 @@
     13.0,
     13.25
    ],
-   "gain_db": -17.0,
+   "gain_db": -7.0,
    "hp": 500
   },
   {
    "file": "/home/user/coffee/sfx/1072_old_clock_pendulum_ticking.wav",
    "tick_in": 1.865,
-   "tock_in": 0.841,
+   "tock_in": 3.686,
    "dur": 0.3,
    "pre": 0.005,
    "times": [
     15.0,
     17.0,
-    19.0,
-    34.0,
-    36.0,
-    36.5
+    19.0
    ],
    "gain_db": -7.0,
    "hp": 300,
@@ -515,20 +640,40 @@
      -2.0
     ],
     [
-     19.0,
-     -4.0
+     17.0,
+     3.0
     ],
     [
+     19.0,
+     2.0
+    ]
+   ]
+  },
+  {
+   "file": "/home/user/coffee/sfx/1072_old_clock_pendulum_ticking.wav",
+   "tick_in": 1.865,
+   "tock_in": 0.841,
+   "dur": 0.3,
+   "pre": 0.005,
+   "times": [
+    34.0,
+    36.0,
+    36.5
+   ],
+   "gain_db": -7.0,
+   "hp": 300,
+   "gain_keys": [
+    [
      34.0,
-     -5.0
+     3.0
     ],
     [
      36.0,
-     -3.0
+     -1.0
     ],
     [
      36.5,
-     2.0
+     1.0
     ]
    ]
   }
@@ -542,5 +687,30 @@
    36.75,
    37.5
   ]
- ]
+ ],
+ "ceiling_db": -2.0,
+ "music_ducks": [
+  [
+   25.0,
+   26.9,
+   -2.5
+  ]
+ ],
+ "music_tick_duck": {
+  "times": [
+   10.5,
+   11.0,
+   11.25,
+   11.5,
+   11.75,
+   12.0,
+   12.25,
+   12.5,
+   12.75,
+   13.0,
+   13.25
+  ],
+  "db": -3.0,
+  "dur": 0.05
+ }
 }
