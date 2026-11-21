@@ -170,7 +170,7 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
         grains.append((g / (g.std() + 1e-6)).astype(np.float16))
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(fps), "-i", "-",
                             "-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p,lutyuv=y='clip(val,20,230)'",  # room for the encoder's ringing "-c:v", "libx264", "-preset", "slow", "-crf", crf,
-                            "-x264-params", "aq-mode=3", "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
+                            "-x264-params", "aq-mode=3:rc-lookahead=20", "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
                             "-color_range", "tv", "-movflags", "+faststart", out], stdin=subprocess.PIPE)
     readers: dict[int, Reader] = {}
     for f in range(f0, f1):
