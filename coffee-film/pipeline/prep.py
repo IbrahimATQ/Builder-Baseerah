@@ -46,7 +46,7 @@ def main() -> None:
             mode = "tripod=1:" if st.get("tripod") else f"smoothing={st.get('smoothing', 30)}:"
             vf = (f"{retime},vidstabtransform=input={trf}:{mode}optzoom={st.get('optzoom', 1)}:zoomspeed=0.1:interpol=bicubic:crop=black,"
                   f"scale=2160:3840:flags=lanczos,unsharp=5:5:0.35:5:5:0.0")
-        run(["ffmpeg", "-v", "error", "-y"] + cut + ["-an", "-vf", vf, "-r", "24", "-c:v", "libx264", "-preset", "medium", "-crf", "12",
+        run(["ffmpeg", "-v", "error", "-y"] + cut + ["-an", "-vf", vf, "-r", "24", "-c:v", "libx264", "-preset", "medium", "-crf", str(s.get("crf", 12)),
              "-pix_fmt", "yuv420p10le", "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-map_metadata", "-1", dst])
         n = subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries", "stream=nb_read_frames",
                             "-of", "csv=p=0", dst], capture_output=True, text=True).stdout.strip()

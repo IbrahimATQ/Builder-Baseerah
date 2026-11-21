@@ -1,0 +1,597 @@
+{
+ "fps": 24,
+ "w": 2160,
+ "h": 3840,
+ "duration": 37.5,
+ "look": {
+  "black": 0.0,
+  "sat": 0.92,
+  "shoulder": 0.86,
+  "contrast": 1.1,
+  "split": 0.8,
+  "warm_hi": [
+   1.0,
+   0.97,
+   0.92
+  ],
+  "cool_lo": [
+   0.94,
+   0.985,
+   1.03
+  ],
+  "reds": 1.06,
+  "greens": 0.7,
+  "blues": 0.88
+ },
+ "shots": [
+  {
+   "id": "cold",
+   "src": "/home/user/coffee/prep/pourcup.mp4",
+   "start": 0.0,
+   "end": 2.0,
+   "time": [
+    [
+     0.0,
+     2.55
+    ],
+    [
+     2.0,
+     4.55
+    ]
+   ],
+   "interp": "linear",
+   "move": {
+    "keys": [
+     [
+      0.0,
+      1.3,
+      0.4,
+      0.47
+     ],
+     [
+      2.0,
+      1.36,
+      0.4,
+      0.47
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.95,
+    "temp": 2.6,
+    "tint": 4.2,
+    "contrast": 1.1,
+    "reds": 1.12,
+    "cool_lo": [
+     0.99,
+     0.99,
+     0.985
+    ]
+   },
+   "denoise": "hqdn3d=1.2:1.2:3:3",
+   "light": {
+    "ev": 0.5,
+    "keys": [
+     [
+      0.0,
+      0.42,
+      0.62,
+      0.35,
+      0.2
+     ],
+     [
+      2.0,
+      0.42,
+      0.62,
+      0.35,
+      0.2
+     ]
+    ]
+   },
+   "ev_keys": [
+    [
+     0.0,
+     -4.0
+    ],
+    [
+     0.4,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "black1",
+   "black": true,
+   "start": 2.0,
+   "end": 3.0
+  },
+  {
+   "id": "reveal",
+   "src": "/home/user/coffee/prep/reveal.mp4",
+   "start": 3.0,
+   "end": 7.0,
+   "time": [
+    [
+     3.0,
+     0.0
+    ],
+    [
+     4.8,
+     1.8
+    ],
+    [
+     5.3,
+     2.7
+    ],
+    [
+     6.4,
+     8.6
+    ],
+    [
+     7.0,
+     11.2
+    ]
+   ],
+   "shutter": 1.0,
+   "move": {
+    "keys": [
+     [
+      3.0,
+      1.03,
+      0.5,
+      0.5
+     ],
+     [
+      7.0,
+      1.0,
+      0.5,
+      0.5
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": 0.2,
+    "contrast": 1.12
+   },
+   "ev_keys": [
+    [
+     3.0,
+     -3.0
+    ],
+    [
+     3.25,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "street",
+   "src": "/home/user/coffee/prep/street_long.mp4",
+   "start": 7.0,
+   "end": 11.0,
+   "time": [
+    [
+     7.0,
+     4.0
+    ],
+    [
+     11.0,
+     24.3
+    ]
+   ],
+   "interp": "linear",
+   "shutter": 2.4,
+   "move": {
+    "keys": [
+     [
+      7.0,
+      1.0,
+      0.5,
+      0.5
+     ],
+     [
+      11.0,
+      1.06,
+      0.5,
+      0.5
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": 0.2,
+    "contrast": 1.12
+   },
+   "grad": {
+    "y0": 0.0,
+    "y1": 0.36,
+    "ev": -1.5
+   }
+  },
+  {
+   "id": "square",
+   "src": "/home/user/coffee/prep/square_long.mp4",
+   "start": 11.0,
+   "end": 15.0,
+   "trans": {
+    "type": "whip",
+    "dur": 0.32,
+    "dir": "left"
+   },
+   "time": [
+    [
+     11.0,
+     0.3
+    ],
+    [
+     13.5,
+     8.3
+    ],
+    [
+     15.0,
+     8.3
+    ]
+   ],
+   "interp": "linear",
+   "shutter": 2.0,
+   "move": {
+    "keys": [
+     [
+      11.0,
+      1.02,
+      0.5,
+      0.5
+     ],
+     [
+      13.5,
+      1.05,
+      0.5,
+      0.5
+     ],
+     [
+      15.0,
+      1.12,
+      0.5,
+      0.48
+     ]
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": 0.2,
+    "contrast": 1.12
+   },
+   "sat_keys": [
+    [
+     13.5,
+     1.0
+    ],
+    [
+     14.2,
+     0.12
+    ]
+   ],
+   "defocus": [
+    [
+     14.2,
+     0.0
+    ],
+    [
+     15.0,
+     46.0
+    ]
+   ],
+   "ev_keys": [
+    [
+     14.35,
+     0.0
+    ],
+    [
+     15.0,
+     -7.0
+    ]
+   ]
+  },
+  {
+   "id": "bloom",
+   "src": "/home/user/coffee/prep/bloom.mp4",
+   "start": 15.0,
+   "end": 21.0,
+   "in": 1.0,
+   "grade": {
+    "ev": 0.55,
+    "temp": 1.9,
+    "tint": 3.0,
+    "contrast": 1.12,
+    "greens": 0.1,
+    "led": 1.0,
+    "reds": 1.12,
+    "cool_lo": [
+     0.99,
+     0.99,
+     0.985
+    ]
+   },
+   "denoise": "hqdn3d=1.5:1.5:4:4",
+   "key_green": {
+    "y0": 0.42,
+    "strength": 1.0
+   },
+   "move": {
+    "keys": [
+     [
+      15.0,
+      1.0,
+      0.5,
+      0.5
+     ],
+     [
+      21.0,
+      1.07,
+      0.5,
+      0.5
+     ]
+    ]
+   },
+   "defocus": [
+    [
+     15.0,
+     44.0
+    ],
+    [
+     15.8,
+     0.0
+    ]
+   ],
+   "ev_keys": [
+    [
+     15.0,
+     -5.0
+    ],
+    [
+     15.4,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "pour",
+   "src": "/home/user/coffee/prep/pourcup.mp4",
+   "start": 21.0,
+   "end": 32.0,
+   "in": 2.0,
+   "grade": {
+    "ev": 0.95,
+    "temp": 2.6,
+    "tint": 4.2,
+    "contrast": 1.1,
+    "reds": 1.12,
+    "cool_lo": [
+     0.99,
+     0.99,
+     0.985
+    ]
+   },
+   "denoise": "hqdn3d=1.2:1.2:3:3",
+   "move": {
+    "keys": [
+     [
+      21.0,
+      1.12,
+      0.52,
+      0.52
+     ],
+     [
+      29.0,
+      1.12,
+      0.52,
+      0.52
+     ],
+     [
+      32.0,
+      1.15,
+      0.54,
+      0.49
+     ]
+    ]
+   },
+   "light": {
+    "ev": 0.6,
+    "tint": [
+     1.0,
+     0.97,
+     0.9
+    ],
+    "keys": [
+     [
+      0.0,
+      0.34,
+      0.63,
+      0.32,
+      0.18
+     ],
+     [
+      11.0,
+      0.34,
+      0.63,
+      0.32,
+      0.18
+     ]
+    ]
+   },
+   "streak": {
+    "threshold": 0.9,
+    "gain": 0.08,
+    "length": 0.22
+   }
+  },
+  {
+   "id": "roofs2",
+   "src": "/home/user/coffee/prep/roofs2.mp4",
+   "start": 31.5,
+   "end": 36.5,
+   "in": 0.35,
+   "trans": {
+    "type": "dissolve",
+    "dur": 1.0
+   },
+   "grade": {
+    "ev": 0.1,
+    "temp": 1.3,
+    "tint": -0.5,
+    "contrast": 1.1
+   },
+   "move": {
+    "keys": [
+     [
+      31.0,
+      1.08,
+      0.5,
+      0.45
+     ],
+     [
+      36.5,
+      1.13,
+      0.5,
+      0.45
+     ]
+    ]
+   }
+  },
+  {
+   "id": "black2",
+   "black": true,
+   "start": 36.5,
+   "end": 37.5
+  }
+ ],
+ "titles": [
+  {
+   "id": "warszawa",
+   "lines": [
+    {
+     "text": "WARSZAWA",
+     "font": "montserrat-latin-300-normal.woff",
+     "size": 150,
+     "track": [
+      0.5,
+      0.78
+     ]
+    },
+    {
+     "text": "STARE MIASTO",
+     "font": "montserrat-latin-400-normal.woff",
+     "size": 54,
+     "track": [
+      0.55,
+      0.7
+     ],
+     "gap": 30
+    }
+   ],
+   "x": 0.5,
+   "y": 0.15,
+   "in": 7.6,
+   "out": 10.75,
+   "fade_in": 0.9,
+   "fade_out": 0.45,
+   "rise": 0,
+   "focus": 9.0,
+   "focus_out": 6.0,
+   "glow": 0.18,
+   "shadow": 0.55,
+   "color": [
+    0.97,
+    0.95,
+    0.91
+   ]
+  },
+  {
+   "id": "wait",
+   "lines": [
+    {
+     "text": "THE CITY",
+     "font": "montserrat-latin-300-normal.woff",
+     "size": 80,
+     "track": [
+      0.34,
+      0.44
+     ]
+    },
+    {
+     "text": "CAN WAIT.",
+     "font": "montserrat-latin-300-normal.woff",
+     "size": 80,
+     "track": [
+      0.34,
+      0.44
+     ],
+     "gap": 24
+    }
+   ],
+   "x": 0.79,
+   "y": 0.27,
+   "in": 32.5,
+   "out": 36.5,
+   "fade_in": 1.3,
+   "fade_out": 0.0,
+   "focus": 8.0,
+   "color": [
+    0.13,
+    0.11,
+    0.1
+   ]
+  }
+ ],
+ "overlays": [
+  {
+   "src": "/home/user/film/v4/src/3987.mp4",
+   "start": 3.05,
+   "end": 4.6,
+   "in": 0.6,
+   "speed": 1.6,
+   "gain": 0.6,
+   "black": 0.1,
+   "fade_in": 0.15,
+   "fade_out": 0.9,
+   "mono": true,
+   "tint": [
+    1.0,
+    0.8,
+    0.58
+   ],
+   "scale": 1.6,
+   "cx": 0.35,
+   "cy": 0.45,
+   "feather": 0.25
+  }
+ ],
+ "finish": {
+  "bloom": {
+   "threshold": 0.78,
+   "gain": 0.18,
+   "radius": 0.03,
+   "tint": [
+    1.0,
+    0.86,
+    0.7
+   ]
+  },
+  "clarity": {
+   "amount": 0.35,
+   "sigma": 0.012
+  },
+  "sharpen": {
+   "amount": 0.45,
+   "sigma": 1.0
+  },
+  "vignette": 0.16,
+  "grain": {
+   "amount": 0.011,
+   "size": 1.0
+  },
+  "fades": []
+ },
+ "fonts": "/home/user/Builder-Baseerah/coffee-film/fonts"
+}

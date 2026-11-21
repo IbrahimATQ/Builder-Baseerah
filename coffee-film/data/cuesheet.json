@@ -1,0 +1,30 @@
+{
+ "title": "THE CITY CAN WAIT - director's cut (9:16, 24 fps, 2160x3840)",
+ "concept": "A film about time. Outside, the city races: speed-ramped timelapse, a ticking clock that doubles and doubles again, a pipe organ ostinato that builds. Then time STOPS. Inside, the coffee ritual happens in slow motion; the organ swells into a warm climax as the coffee meets the cup. At the end the city waits outside the window, the clock slows, one last tick, black. Interstellar is the reference for the score (pipe organ, minimalist ostinato, ticking clock, slow build), never its melodies.",
+ "duration": 37.5,
+ "fps": 24,
+ "clock": "the clock motif ticks on whole seconds unless stated: base pulse 60 bpm (1 tick per second)",
+ "segments": [
+  {"id": "cold_open", "start": 0.0, "end": 2.0, "picture": "macro flash-forward: the amber coffee stream falling into the white mug, tight crop, slow motion",
+   "music": "out of silence: a low organ pedal note (D) swelling from nothing, one high quiet sustained tone above it; no pulse, no tick", "sfx": "close liquid pour, very present"},
+  {"id": "hit_black", "start": 2.0, "end": 3.0, "picture": "smash cut to black on 2.000",
+   "music": "everything cuts dead at 2.000 (no tail except a short room reverb)", "sfx": "2.000: deep sub boom + the first clock tick; silence after, only room tone"},
+  {"id": "reveal", "start": 3.0, "end": 7.0, "picture": "the window swings open (real speed, 3.0-5.4), then the camera turns right, speed-ramped ~4x with motion blur (5.4-7.0), landing on the long street below",
+   "music": "3.000: organ ostinato enters pianissimo in 8th notes (2 per second), pedal under it, crescendo through the segment", "sfx": "ticks at 3,4,5,6; window latch/creak at 3.0 if available; the city's sound floods in as the window opens (3.3-4.0); a whoosh for the speed-ramped turn 5.3-7.0"},
+  {"id": "street_timelapse", "start": 7.0, "end": 11.0, "picture": "the long street from above, timelapse ~5.5x, people streaming as motion-blurred streaks; title WARSZAWA in the sky 7.5-10.6",
+   "music": "ostinato doubles to 16ths (4 per second), pedal pulses, strings tremolo enter at 9.0, building", "sfx": "ticks every 0.5 s (7.0, 7.5 ... 10.5); city murmur sped up/whooshing, a low riser begins at 9.0"},
+  {"id": "whip", "start": 10.85, "end": 11.15, "picture": "whip-pan transition street -> square, centred on 11.000", "music": "an accent/lift on 11.000", "sfx": "fast whoosh centred on 11.0"},
+  {"id": "square_timelapse", "start": 11.0, "end": 13.5, "picture": "the red houses and the castle square, timelapse ~2.4x, people streaking", "music": "fullest and fastest: everything rising to a peak at 13.5 (accelerando feel, organ full, riser)", "sfx": "ticks every 0.25 s (11.0 ... 13.25), accelerating chaos; riser peaks at 13.5"},
+  {"id": "time_stops", "start": 13.5, "end": 15.0, "picture": "13.500: TIME STOPS - the square drops to real speed and freezes, colour drains, slow push-in, then a defocus into black by 15.0",
+   "music": "13.500: hard stop of everything; then only one very low, very quiet organ note (D) breathing until 15.0", "sfx": "13.500: sub boom + all sound sucked out (reverse swell peaking exactly at 13.5, then silence); the ticking stops"},
+  {"id": "bloom", "start": 15.0, "end": 21.0, "picture": "inside: the kettle's stream meets the coffee bed in the V60 (slow 0.8x), racking into focus from blur 15.0-15.6",
+   "music": "warmth: soft sustained organ chords (quiet ranks), a sparse original piano motif, strings pianissimo; ticks every 2 s (15, 17, 19) - time has slowed", "sfx": "close kettle stream on the coffee, gentle bubbling, room tone"},
+  {"id": "pour", "start": 21.0, "end": 31.5, "picture": "21.000: MATCH CUT on the stream (kettle stream -> coffee stream): the coffee pours from the glass server into the WARSZAWA mug in slow motion, until the cup is full; the camera starts to draw back toward the window from ~29",
+   "music": "no ticks; organ + strings build from 21.0 (pp) to the climax at 27.0-29.0 (full organ, timpani roll into 27.0), then a resolving chord at 29.0 that decays to the end of the segment", "sfx": "the real pour into the cup, close and rich; glass server clink at the start; a soft low swell under the climax"},
+  {"id": "window_end", "start": 31.5, "end": 36.5, "picture": "dissolve 31.0-32.0 from the cup to the view through the kitchen window: red roofs, brick church, sky; line 'the city can wait.' 32.5-36.4",
+   "music": "the final chord's long decay; at most one last quiet organ note; silence by 36.0", "sfx": "faint city ambience through the glass; one distant church bell around 33.0 if a good free recording exists; slow ticks return at 34.0 and 36.0"},
+  {"id": "end", "start": 36.5, "end": 37.5, "picture": "36.500: final tick, cut to black", "music": "silence", "sfx": "36.500: the last tick, then nothing"}
+ ],
+ "hits": [2.0, 3.0, 7.0, 11.0, 13.5, 15.0, 21.0, 27.0, 29.0, 31.5, 36.5],
+ "ticks": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.25, 11.5, 11.75, 12.0, 12.25, 12.5, 12.75, 13.0, 13.25, 15.0, 17.0, 19.0, 34.0, 36.0, 36.5]
+}
