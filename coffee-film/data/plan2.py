@@ -20,6 +20,7 @@ import os
 
 PREP = os.environ.get("COFFEE_PREP", "/home/user/coffee/prep")
 SRC = "/home/user/film/v4/src"
+VFX = os.environ.get("COFFEE_VFX", "/home/user/coffee/vfx") + "/deliver"
 SLOWMO_A2X = os.environ.get("COFFEE_SLOWMO", "/home/user/coffee/slowmo") + "/a_2x.mp4"
 
 
@@ -75,7 +76,11 @@ shots = [
      "move": {"keys": [[21.0, 1.10, 0.465, 0.49], [27.0, 1.18, 0.50, 0.55], [28.6, 1.18, 0.50, 0.55], [31.0, 1.10, 0.52, 0.50], [32.0, 1.10, 0.53, 0.49]]},
      "light": {"tint": [1.0, 0.97, 0.9], "keys": [[0.0, 0.38, 0.64, 0.29, 0.16, 0.35], [8.0, 0.38, 0.64, 0.29, 0.16, 0.35],
                                                   [9.5, 0.48, 0.66, 0.22, 0.13, 0.0], [11.0, 0.52, 0.74, 0.17, 0.10, 0.0]]},
-     "streak": {"threshold": 0.9, "gain": 0.08, "length": 0.22}},
+     "streak": {"threshold": 0.9, "gain": 0.08, "length": 0.22},
+     # real steam (two filmed smoke elements on black, tracked to the mug in the clip's own coordinates), rising once
+     # the server has left the frame; pourcup frame 231 = layer frame 0
+     "plate_layers": [{"src": f"{VFX}/steam_layer_4k.mp4", "first_prep_frame": 231, "frames": 69, "credit_ids": ["1964", "50956"],
+                       "gain_keys": [[28.6, 0.0], [29.3, 1.3], [32.0, 1.3]], "tint": [1.0, 0.95, 0.88]}]},
     # lands on a correctly exposed window still tilting up; the phone's focus snap becomes a rack on the 34.0 tick
     {"id": "roofs2", "src": clip("roofs2"), "start": 31.5, "end": 36.5, "time": [[31.0, 1.5], [33.9, 3.85], [36.5, 5.85]],
      "trans": {"type": "dissolve", "dur": 1.0},
@@ -99,9 +104,14 @@ titles = [
 ]
 
 overlays = [
-    # the window opens and the light floods in: a real light leak, warm, screen-blended
-    {"src": f"{SRC}/3987.mp4", "start": 3.05, "end": 4.6, "in": 0.6, "speed": 3.0, "gain": 0.75, "black": 0.25, "fade_in": 0.3, "fade_out": 0.6,
-     "mono": False, "tint": [1.0, 0.8, 0.58], "scale": 1.6, "cx": 0.2, "cy": 0.45, "feather": 0.25},
+    # real light (a filmed prism leak, regraded amber) blooming from the window side: as the sash opens, and through
+    # the dissolve from the cup to the window
+    {"src": f"{VFX}/leak_3987_amber_4k.mp4", "credit_ids": ["3987"], "start": 3.1, "end": 5.1, "in": 0.0, "speed": 1.0, "black": 0.0,
+     "mono": False, "scale": 1.0, "cx": 0.5, "cy": 0.5, "feather": 0.02, "radial": {"cx": 0.85, "cy": 0.25, "r0": 0.35, "r1": 1.1},
+     "gain_keys": [[3.1, 0.0], [3.45, 0.6], [3.9, 1.0], [4.5, 0.6], [5.1, 0.0]]},
+    {"src": f"{VFX}/leak_3987_amber_4k.mp4", "credit_ids": ["3987"], "start": 30.6, "end": 32.6, "in": 1.5, "speed": 1.0, "black": 0.0,
+     "mono": False, "scale": 1.0, "cx": 0.5, "cy": 0.5, "feather": 0.02, "radial": {"cx": 0.85, "cy": 0.25, "r0": 0.35, "r1": 1.1},
+     "gain_keys": [[30.6, 0.0], [31.0, 0.5], [31.5, 0.85], [32.0, 0.5], [32.6, 0.0]]},
 ]
 
 finish = {"bloom": {"threshold": 0.90, "gain": 0.12, "radius": 0.03, "tint": [1.0, 0.93, 0.85]},

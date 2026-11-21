@@ -4,7 +4,7 @@
 Reads data/plan2.json (picture: footage, overlays, fonts), data/sound2.json (every sound file) and the sound
 library's catalogue (each Mixkit item's own licence record, checked when it was downloaded), and writes
 data/licences2.json. Run it after data/plan2.py and data/sound2.py.
-Usage: python licences2.py [SFX_CATALOG.json]
+Usage: python licences2.py [SFX_CATALOG.json] [VFX_CATALOG.json]
 """
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CAT = sys.argv[1] if len(sys.argv) > 1 else "/home/user/coffee/sfx/catalog.json"
+VFX_CAT = sys.argv[2] if len(sys.argv) > 2 else "/home/user/coffee/vfx/catalog.json"
 
 
 def main() -> None:
@@ -32,20 +33,24 @@ def main() -> None:
             raise SystemExit(f"no licence record for {f}")
         used.append({k: i.get(k) for k in ("id", "title", "page_url", "licence", "licence_code_on_page", "licence_url",
                                             "statement_on_page", "checked", "download_page", "asset_url", "asset_sha256")})
+    # filmed elements (light leak, steam): each Mixkit item's own page record, from the VFX element catalogue
+    vcat = json.load(open(VFX_CAT, encoding="utf-8"))
+    vby = {str(i["id"]): i for i in vcat["items"]}
+    ids = []
+    for o in plan.get("overlays", []) + [pl for sh in plan["shots"] for pl in sh.get("plate_layers", [])]:
+        ids += [i for i in o.get("credit_ids", []) if i not in ids]
     overlays = []
-    v4 = json.load(open("/home/user/film/v4/src/licences.json", encoding="utf-8")) if os.path.exists("/home/user/film/v4/src/licences.json") else {}
-    for o in plan.get("overlays", []):
-        oid = os.path.splitext(os.path.basename(o["src"]))[0]
-        rec = v4.get(oid) if isinstance(v4, dict) else None   # Mixkit video id -> its own licence record
-        if rec is None or rec.get("licence") != "videoFree":
-            raise SystemExit(f"overlay {oid}: no videoFree licence record")
-        overlays.append({"id": oid, **rec})
+    for oid in ids:
+        rec = vby.get(oid)
+        if rec is None or "videoFree" not in (rec.get("licence_as_stated") or ""):
+            raise SystemExit(f"element {oid}: no videoFree licence record")
+        overlays.append({k: rec.get(k) for k in ("id", "title", "page", "licence_as_stated", "checked")})
     fonts = sorted({ln["font"] for t in plan["titles"] for ln in t["lines"]})
     out = {
         "what": "Licences of everything in THE CITY CAN WAIT (director's cut)",
         "footage": "All picture is the commissioner's own: iPhone clips " + ", ".join(sorted({os.path.basename(s['src']) for s in plan['shots'] if s.get('src')})) +
                    " are prepared stretches of the commissioner's clips; their own sound is used too (" + ", ".join(own) + "). Location and device tags are not carried into the finished file.",
-        "overlays": overlays,
+        "filmed_elements": overlays,
         "score": {
             "title": "THE CITY CAN WAIT (original score, pipeline/compose.py)",
             "made_from": "VSCO-2 Community Edition sample library (Versilian Studios), CC0 1.0 (public domain dedication); the pipe organ and upright piano samples by Simon Dalzell (Ivy Audio), whose Info.txt grants the right to redistribute; credit to Versilian Studios and Simon Dalzell is encouraged",

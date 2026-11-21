@@ -3,7 +3,7 @@
 
 What it does
   * decodes source frames [round(start*fps) .. round(end*fps)] of a prepared 2160x3840 10-bit clip exactly by frame
-    index (ffmpeg `select`, BT.709 limited range -> 16-bit RGB, no 8-bit step),
+    index, on demand (PyAV/libavcodec in-process, BT.709 limited range -> 16-bit RGB, no 8-bit step),
   * between every pair of neighbouring real frames inserts factor-1 frames at t = k/factor, predicted by RIFE's IFNet
     (one network pass per new frame, arbitrary timestep; no recursive halving, so 3x is as clean as 2x),
   * keeps every real frame untouched, and writes all frames at the same fps as the source
@@ -29,8 +29,8 @@ Scale
   RIFE estimates flow on a downscaled copy (scale 0.5 is the authors' recommendation for 4K, 1.0 = full resolution);
   warping and blending always happen on the full-resolution frame. Frames are zero-padded right/bottom to a multiple
   of max(128, 128/scale) as in the official inference script, then cropped back. On this machine (2 threads), a
-  full 2160x3840 frame takes ~10.5 s per new frame at scale 1.0 (python peak ~2.5 GB, + ~0.75 GB for the two
-  ffmpeg pipes) and ~6-7 s at scale 0.5.
+  full 2160x3840 frame takes ~9-14 s per new frame at scale 1.0 (measured total peak 3.1 GB: python incl. decoder
+  2.6 GB + x264 encoder 0.5 GB) and ~6-7 s at scale 0.5.
 
 Usage (what produced /home/user/coffee/slowmo/a_2x.mp4, a_3x.mp4, b_2x.mp4)
   export OMP_NUM_THREADS=2 MKL_NUM_THREADS=2
@@ -279,28 +279,29 @@ def probe(src: str) -> tuple[int, int, float]:
 
 
 def decode_frames(src: str, first: int, last: int, crop=None):
-    """Yield (index, HxWx3 float32 RGB 0..1) for source frames first..last (inclusive), exact by frame number."""
-    w, h, _ = probe(src)
-    if crop:
-        x, y, w, h = crop
-    vf = f"select='between(n\\,{first}\\,{last})'"
-    if crop:
-        vf += f",crop={w}:{h}:{x}:{y}"
-    vf += f",scale=in_color_matrix=bt709:in_range=tv:flags={_SWS},format=rgb48le"
-    p = subprocess.Popen(["ffmpeg", "-v", "error", "-threads", "2", "-filter_threads", "1", "-i", src, "-an", "-vf", vf, "-fps_mode", "passthrough", "-f", "rawvideo",
-                          "-pix_fmt", "rgb48le", "-"], stdout=subprocess.PIPE)
-    nbytes = w * h * 3 * 2
-    i = first
-    try:
-        while True:
-            buf = p.stdout.read(nbytes)
-            if len(buf) < nbytes:
+    """Yield (index, HxWx3 float32 RGB 0..1) for source frames first..last (inclusive), exact by frame number
+    (frames are counted in presentation order from the first frame of the file).
+
+    Decoded in-process with PyAV (libavcodec, 2 threads) and converted by swscale with the BT.709 matrix from
+    limited range to 16-bit full-range RGB. Frames are pulled on demand: an ffmpeg CLI pipe decodes ahead and
+    buffered ~0.8-1.5 GB of 4K RGB48 frames, which is why it is not used here."""
+    import av
+    with av.open(src) as c:
+        st = c.streams.video[0]
+        st.thread_type = "AUTO"
+        st.codec_context.thread_count = 2
+        for n, fr in enumerate(c.decode(st)):
+            if n < first:
+                continue
+            if n > last:
                 break
-            yield i, np.frombuffer(buf, np.uint16).reshape(h, w, 3).astype(np.float32) / 65535.0
-            i += 1
-    finally:
-        p.stdout.close()
-        p.wait()
+            rgb = fr.reformat(format="rgb48le", src_colorspace="ITU709", dst_colorspace="ITU709", src_color_range="MPEG",
+                              dst_color_range="JPEG", interpolation="BICUBIC").to_ndarray()
+            if crop:
+                x, y, w, h = crop
+                rgb = rgb[y:y + h, x:x + w]
+            yield n, rgb.astype(np.float32) / 65535.0
+            del rgb, fr
 
 
 class Encoder:
@@ -312,7 +313,7 @@ class Encoder:
         else:
             venc = ["-vf", f"scale=out_color_matrix=bt709:out_range=tv:flags={_SWS},format=yuv420p10le", "-c:v", "libx264",
                     "-preset", preset, "-crf", str(crf), "-profile:v", "high10", "-x264-params", "threads=2:rc-lookahead=12"]
-        self.p = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-filter_threads", "1", "-f", "rawvideo", "-pix_fmt", "rgb48le", "-s", f"{w}x{h}",
+        self.p = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-filter_threads", "1", "-thread_queue_size", "2", "-f", "rawvideo", "-pix_fmt", "rgb48le", "-s", f"{w}x{h}",
                                    "-r", str(fps), "-i", "-"] + venc + ["-color_primaries", "bt709", "-color_trc", "bt709",
                                    "-colorspace", "bt709", "-color_range", "tv", "-movflags", "+faststart", "-an", out],
                                   stdin=subprocess.PIPE)

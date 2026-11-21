@@ -116,8 +116,8 @@ class Reader:
             k0 -= int(self.trail.get("frames", 24))
         self.k0 = max(0, k0)
         den = shot.get("denoise")
-        vf = (f"{den + ',' if den else ''}scale={W}:{H}:flags=lanczos:in_color_matrix=bt709:in_range=tv,format=gbrp16le,"
-              f"lut3d=file='{lut}':interp=tetrahedral,format=rgb48le")
+        vf = (f"{den + ',' if den else ''}scale={W}:{H}:flags=lanczos:in_color_matrix=bt709:in_range=tv,format=gbrp16le," +
+              (f"lut3d=file='{lut}':interp=tetrahedral," if lut else "") + "format=rgb48le")
         self.p = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", f"{self.k0 / PREP_FPS:.4f}", "-i", shot["src"], "-vf", vf,
                                    "-f", "rawvideo", "-"], stdout=subprocess.PIPE, bufsize=W * H * 6 * 2)
         self.n = W * H * 6
@@ -236,6 +236,8 @@ class Reader:
         return to_disp(acc / wsum), len(use), small(use[0][1]), small(use[-1][1])
 
     def close(self) -> None:
+        for lr in getattr(self, "layers", []):
+            lr.close()
         self.p.stdout.close()
         self.p.kill()
         self.p.wait()
@@ -496,6 +498,15 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
                     small = cv2.filter2D(small, -1, k / max(float(k.sum()), 1e-6), borderType=cv2.BORDER_REFLECT)
                     fr = cv2.resize(small, (W, H), interpolation=cv2.INTER_LINEAR)
     fr = fr.copy()
+    for pl, lr in zip(s.get("plate_layers", []), getattr(rd, "layers", [])):
+        # an element tracked to the subject in the clip's own coordinates (e.g. steam over the cup), screen-blended
+        kl = int(round(kpos)) - int(pl["first_prep_frame"])
+        if 0 <= kl < int(pl.get("frames", 10 ** 6)):
+            lf = lr.frame(kl)
+            g = float(np.interp(t, [q[0] for q in pl["gain_keys"]], [q[1] for q in pl["gain_keys"]])) if pl.get("gain_keys") else pl.get("gain", 1.0)
+            if g > 1e-3:
+                lay = np.clip(lf * g * np.array(pl.get("tint", [1, 1, 1]), np.float32), 0, 1)
+                fr = 1 - (1 - np.clip(fr, 0, 1)) * (1 - lay)
     lt = s.get("light")
     if lt:  # a soft window of light on the subject, in the picture's own coordinates (it moves with the framing)
         ks = sorted(lt["keys"])
@@ -613,6 +624,10 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
                 vmax = max([(tims[i].prep_t(x) - tims[i].prep_t(x - sh_ / fps)) * PREP_FPS for x in tt] + [1.0])
                 store = vmax > 1.02 and not s.get("trail") and s.get("accumulate", True)
                 readers[i] = Reader(s, os.path.join(luts, f"{s['id']}.cube"), pa, W, H, hist=int(math.ceil(vmax)) + 3, store=store)
+                readers[i].layers = []
+                for pl in s.get("plate_layers", []):
+                    k_first = max(0, int(round(pa * PREP_FPS)) - int(pl["first_prep_frame"]))
+                    readers[i].layers.append(Reader({"src": pl["src"]}, None, k_first / PREP_FPS, W, H))
             frs[i] = shot_frame(s, readers.get(i), tims[i], t, fps, S, W, H)
         img = None
         for i in live:
@@ -664,6 +679,8 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
                 blk = o.get("black", 0.05)
                 ol = np.clip((ol - blk) / (1 - blk), 0, 1) ** o.get("gamma", 1.0)
                 env = min(1.0, (t - o["start"]) / max(o.get("fade_in", 0.3), 1e-3), (o["end"] - t) / max(o.get("fade_out", 0.3), 1e-3))
+                if o.get("gain_keys"):   # an envelope in film time instead of the fades
+                    env = keyed(o["gain_keys"], t, 0.0)
                 if o.get("mono"):
                     ol = np.repeat((ol @ LUMA)[..., None], 3, axis=2)
                 ol = ol * o.get("gain", 1.0) * max(0.0, env) * np.array(o.get("tint", [1, 1, 1]), np.float32)
@@ -686,6 +703,12 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
                     xs = (np.arange(xa, xb, dtype=np.float32) - (xa + xb) / 2) / max((xb - xa) / 2, 1)
                     hm = np.clip((1 - np.abs(xs)) / mk.get("edge", 0.35), 0, 1)[None, :]
                     part = part * (vm * hm)[..., None]
+                rm = o.get("radial")
+                if rm:  # full inside r0, nothing beyond r1 (frame-height units, from a centre in frame fractions)
+                    yy_ = (np.arange(ya, yb, dtype=np.float32)[:, None] - rm["cy"] * H) / H
+                    xx_ = (np.arange(xa, xb, dtype=np.float32)[None, :] - rm["cx"] * W) / H
+                    rr_ = np.sqrt(xx_ ** 2 + yy_ ** 2)
+                    part = part * (np.clip((rm["r1"] - rr_) / max(rm["r1"] - rm["r0"], 1e-3), 0, 1) ** 1.5)[..., None]
                 roi = img[ya:yb, xa:xb]
                 roi[:] = 1 - (1 - np.clip(roi, 0, 1)) * (1 - np.clip(part, 0, 1))
         img = np.clip(img, 0, 1.5)
