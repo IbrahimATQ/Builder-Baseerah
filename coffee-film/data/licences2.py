@@ -57,6 +57,9 @@ def main() -> None:
             "composition": "original; written for this film; no melody, chord sequence or motif of any existing score is quoted",
         },
         "sound_effects": {"licence": cat.get("licence"), "how_checked": cat.get("how_checked"), "items": used},
+        "slow_motion": "the cold open's in-between frames are made with RIFE v4.26 (Practical-RIFE, MIT licence, (c) 2021 hzwer); "
+                       "weights from the author's own Hugging Face repository, checksums and provenance in the slow-motion record "
+                       "(pipeline/slowmo.py)",
         "fonts": {f: ("Montserrat, SIL Open Font License 1.1 (fonts/OFL-Montserrat.txt)" if f.startswith("montserrat")
                       else "Cormorant Garamond, SIL Open Font License 1.1 (fonts/OFL-Cormorant-Garamond.txt)") for f in fonts},
     }

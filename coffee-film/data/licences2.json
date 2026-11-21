@@ -159,6 +159,19 @@
     "asset_sha256": "2b6af0f6de39c12bbf378a56947d5f1fa5610e3b5dfe3ef689648f05bbc37d3f"
    },
    {
+    "id": 1474,
+    "title": "Transition windy swoosh",
+    "page_url": "https://mixkit.co/free-sound-effects/transition/",
+    "licence": "Mixkit Sound Effects Free License",
+    "licence_code_on_page": "sfxFree",
+    "licence_url": "https://mixkit.co/license/#sfxFree",
+    "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License. (link carries data-license=\"sfxFree\")",
+    "checked": "2026-11-21T04:48:11Z",
+    "download_page": "https://mixkit.co/free-sound-effects/download/1474/",
+    "asset_url": "https://assets.mixkit.co/active_storage/sfx/1474/1474.wav",
+    "asset_sha256": "ebd16aaf114f617c75888184f41ff469f3d6ba89156df680761519fed23c2415"
+   },
+   {
     "id": 1490,
     "title": "Fast whoosh transition",
     "page_url": "https://mixkit.co/free-sound-effects/whoosh/",
@@ -276,6 +289,19 @@
     "asset_sha256": "83d9d4016a3b48359d8b98a3f4ab0200cd8f6d7f6b0ba47e321f32f6541c7c0d"
    },
    {
+    "id": 2936,
+    "title": "Wine glass clink",
+    "page_url": "https://mixkit.co/free-sound-effects/kitchen/",
+    "licence": "Mixkit Sound Effects Free License",
+    "licence_code_on_page": "sfxFree",
+    "licence_url": "https://mixkit.co/license/#sfxFree",
+    "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License. (link carries data-license=\"sfxFree\")",
+    "checked": "2026-11-21T04:47:50Z",
+    "download_page": "https://mixkit.co/free-sound-effects/download/2936/",
+    "asset_url": "https://assets.mixkit.co/active_storage/sfx/2936/2936.wav",
+    "asset_sha256": "65699c196a1ab8c93cdcae6c3cfc5c05d864ae3e135d918844b246008d4f2f4b"
+   },
+   {
     "id": 3199,
     "title": "Cinematic room tone loop",
     "page_url": "https://mixkit.co/free-sound-effects/discover/room/",
@@ -328,6 +354,19 @@
     "asset_sha256": "1e65586460963c9985943d026837163b92a4788d7db809e07f4e009fbe502a1a"
    },
    {
+    "id": 563,
+    "title": "Drum deep impact",
+    "page_url": "https://mixkit.co/free-sound-effects/cinematic/",
+    "licence": "Mixkit Sound Effects Free License",
+    "licence_code_on_page": "sfxFree",
+    "licence_url": "https://mixkit.co/license/#sfxFree",
+    "statement_on_page": "All of our sound effects are free to download and ready to use in your next video or audio project, under the Mixkit License. (link carries data-license=\"sfxFree\")",
+    "checked": "2026-11-21T04:48:19Z",
+    "download_page": "https://mixkit.co/free-sound-effects/download/563/",
+    "asset_url": "https://assets.mixkit.co/active_storage/sfx/563/563.wav",
+    "asset_sha256": "a1e85c7ebe28188a4f1d4f909b9fd7aa09cb3a5a1563e39f072eff41c1550676"
+   },
+   {
     "id": 617,
     "title": "Melodic church bell",
     "page_url": "https://mixkit.co/free-sound-effects/church/",
@@ -342,9 +381,9 @@
    }
   ]
  },
+ "slow_motion": "the cold open's in-between frames are made with RIFE v4.26 (Practical-RIFE, MIT licence, (c) 2021 hzwer); weights from the author's own Hugging Face repository, checksums and provenance in the slow-motion record (pipeline/slowmo.py)",
  "fonts": {
   "cormorant-garamond-latin-500-italic.woff": "Cormorant Garamond, SIL Open Font License 1.1 (fonts/OFL-Cormorant-Garamond.txt)",
-  "montserrat-latin-300-normal.woff": "Montserrat, SIL Open Font License 1.1 (fonts/OFL-Montserrat.txt)",
-  "montserrat-latin-400-normal.woff": "Montserrat, SIL Open Font License 1.1 (fonts/OFL-Montserrat.txt)"
+  "cormorant-garamond-latin-500-normal.woff": "Cormorant Garamond, SIL Open Font License 1.1 (fonts/OFL-Cormorant-Garamond.txt)"
  }
 }
