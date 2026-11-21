@@ -1,0 +1,117 @@
+{
+ "film": "output/The-City-Can-Wait_4K_2160x3840.mp4",
+ "checks": [
+  {
+   "check": "picture: 9:16, 24 fps, H.264 High 8-bit or HEVC Main 10, BT.709, 4:2:0",
+   "pass": true,
+   "detail": {
+    "size": [
+     2160,
+     3840
+    ],
+    "fps": "24/1",
+    "codec": "h264",
+    "profile": "High",
+    "pix_fmt": "yuv420p",
+    "colour": [
+     "bt709",
+     "bt709",
+     "bt709",
+     "tv"
+    ]
+   }
+  },
+  {
+   "check": "duration is the plan's",
+   "pass": true,
+   "detail": {
+    "file_s": 37.5,
+    "plan_s": 37.5
+   }
+  },
+  {
+   "check": "no location or device tags in the file",
+   "pass": true,
+   "detail": "none"
+  },
+  {
+   "check": "motion: no repeated frames and no jumps inside shots",
+   "pass": true,
+   "detail": {
+    "frames": 900,
+    "repeated_at_s": [],
+    "jumps_at_s": [],
+    "median_step": 3.81
+   }
+  },
+  {
+   "check": "no black frames outside the intended blacks",
+   "pass": true,
+   "detail": []
+  },
+  {
+   "check": "levels inside EBU R103 tolerance (luma 5..246, after a light low-pass, outside the intended blacks)",
+   "pass": true,
+   "detail": {
+    "min": 11.0,
+    "max": 240.0
+   }
+  },
+  {
+   "check": "sound stream: AAC, 48 kHz, stereo",
+   "pass": true,
+   "detail": {
+    "codec": "aac",
+    "rate": "48000",
+    "channels": 2
+   }
+  },
+  {
+   "check": "loudness -14 LUFS (+/-1), true peak <= -0.9 dBTP",
+   "pass": true,
+   "detail": {
+    "integrated_lufs": -14.0,
+    "true_peak_dbtp": -1.8
+   }
+  },
+  {
+   "check": "the sound is the intended master, in sync",
+   "pass": true,
+   "detail": {
+    "lag_ms": 0.0,
+    "correlation": 0.9999
+   }
+  },
+  {
+   "check": "titles inside the safe area (8 %..84 % of the height, clear of the button column)",
+   "pass": true,
+   "detail": [
+    {
+     "id": "warszawa",
+     "top": 0.15,
+     "bottom": 0.204,
+     "left": 0.257,
+     "right": 0.663
+    },
+    {
+     "id": "wait",
+     "top": 0.246,
+     "bottom": 0.331,
+     "left": 0.453,
+     "right": 0.712
+    }
+   ]
+  },
+  {
+   "check": "photosensitivity screen",
+   "pass": true,
+   "detail": {
+    "max_flashing_area_fraction": 0.0226,
+    "threshold_area_fraction": 0.11,
+    "verdict": "PASS"
+   }
+  }
+ ],
+ "passed": 11,
+ "total": 11
+}
