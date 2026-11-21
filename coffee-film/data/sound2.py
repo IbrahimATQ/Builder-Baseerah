@@ -43,11 +43,11 @@ beds = [
      "fade_in": 0.7, "fade_out": 0.008, "gain_keys": [[3.3, 0.0], [7.0, 0.0], [13.4, 3.0]]},
     # time speeds up: the murmur gets denser (the same street, the square and a crowd recording, faster, layered)
     {"id": "city_fast", "file": raw("IMG_5417"), "src_in": 12.0, "start": 6.6, "end": 13.5, "tempo": 1.6, "hp": 120,
-     "rms_db": -33.0, "fade_in": 0.6, "fade_out": 0.008, "gain_keys": [[6.6, -2.0], [13.4, 4.5]]},
+     "rms_db": -33.0, "fade_in": 0.6, "fade_out": 0.008, "gain_keys": [[6.6, -2.0], [13.4, 3.0]]},
     {"id": "crowd_fast", "file": sfx("361"), "src_in": 4.0, "start": 7.0, "end": 13.5, "tempo": 1.7, "hp": 150, "lp": 9000,
-     "rms_db": -36.0, "fade_in": 0.8, "fade_out": 0.008, "gain_keys": [[7.0, -4.0], [13.4, 4.5]]},
+     "rms_db": -36.0, "fade_in": 0.8, "fade_out": 0.008, "gain_keys": [[7.0, -4.0], [13.4, 3.0]]},
     {"id": "square_fast", "file": raw("IMG_5416"), "src_in": 6.0, "start": 10.9, "end": 13.5, "tempo": 2.0, "hp": 140,
-     "rms_db": -31.0, "fade_in": 0.25, "fade_out": 0.008, "gain_keys": [[10.9, -1.0], [13.4, 4.5]]},
+     "rms_db": -31.0, "fade_in": 0.25, "fade_out": 0.008, "gain_keys": [[10.9, -1.0], [13.4, 3.0]]},
     # the last second of the race: the square's murmur faster still, accelerating with the picture
     {"id": "square_faster", "file": raw("IMG_5416"), "src_in": 9.0, "start": 12.0, "end": 13.5, "tempo": 2.5, "hp": 160,
      "rms_db": -34.0, "fade_in": 0.3, "fade_out": 0.008, "gain_keys": [[12.0, -3.0], [13.4, 3.0]]},
@@ -65,7 +65,8 @@ beds = [
     {"id": "pour", "file": raw("IMG_5422"), "src_in": 3.2, "start": 21.0, "end": 31.55, "tempo": 0.8,
      "hp": 120, "notch": HUM + [108.4, 178.7], "rms_db": -22.0, "fade_in": 0.015, "fade_out": 0.9,
      # up while the stream is on screen and under the build, down once it has stopped (handling noise only)
-     "gain_keys": [[21.0, 0.0], [25.0, 2.0], [26.5, 5.0], [28.2, 5.0], [28.6, -3.0], [29.2, -6.0], [31.5, -6.0]]},
+     # up through the build, stepping back into the climax (the score carries 27-29), down once the stream has stopped
+     "gain_keys": [[21.0, 0.0], [24.0, 1.5], [25.5, 1.5], [26.9, -2.0], [27.05, -4.0], [28.2, -4.0], [28.6, -7.0], [29.2, -9.0], [31.5, -9.0]]},
     # the view through the window: the room, and the city faint through the glass
     {"id": "room_end", "file": raw("IMG_5420"), "src_in": 5.48, "start": 31.0, "end": 36.5, "tempo": 0.8,
      "hp": 100, "notch": HUM, "rms_db": -42.0, "fade_in": 1.0, "fade_out": 0.01},
@@ -149,7 +150,7 @@ def build() -> dict:
             "silence": [[36.75, 37.5]], "ceiling_db": -2.0,
             # the score steps back under the build so the pour carries it (27.0 arrives in full); and under each
             # tick at the peak of the race, so the clock that doubles and doubles again stays audible
-            "music_ducks": [[25.0, 26.9, -2.5]],
+            "music_ducks": [[11.4, 13.2, -2.0], [23.8, 25.6, -2.0]],
             "music_tick_duck": {"times": [t for t in CUES["ticks"] if 10.4 <= t <= 13.3], "db": -3.0, "dur": 0.05}}
 
 

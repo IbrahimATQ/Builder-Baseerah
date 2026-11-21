@@ -311,7 +311,7 @@ def flow_smear(fr: np.ndarray, g0: np.ndarray, g1: np.ndarray, n: int, scale: fl
     fl[..., 0] *= fx
     fl[..., 1] *= fy
     mag = float(np.percentile(np.hypot(fl[..., 0], fl[..., 1]), 99))
-    if mag < 1.5:
+    if mag < 0.25:
         return fr
     taps = int(min(12, max(3, math.ceil(mag / 2))))
     if (W, H) not in _GRID:
@@ -322,8 +322,10 @@ def flow_smear(fr: np.ndarray, g0: np.ndarray, g1: np.ndarray, n: int, scale: fl
     acc = np.zeros_like(lin)
     for j in range(taps):
         s = j / (taps - 1) - 0.5
-        acc += cv2.remap(lin, xx + fl[..., 0] * s, yy + fl[..., 1] * s, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-    return to_disp(acc / taps)
+        acc += cv2.remap(lin, xx + fl[..., 0] * s, yy + fl[..., 1] * s, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+    out = to_disp(np.clip(acc / taps, 0, None))
+    m = min(1.0, mag / 4.0)   # a short smear fades in from the sharp frame (resampling must not soften it on its own)
+    return out if m >= 1.0 else fr * (1 - m) + out * m
 
 
 def _lens_core(img: np.ndarray, r: float, boost: float) -> np.ndarray:
@@ -466,8 +468,17 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
         # the exposure opens with the speed: just above real time it is still nearly one whole frame, and it reaches
         # the full shutter at ~1.8x (a fast move is smeared, a slow one stays crisp, with nothing switching on suddenly)
         e = span * min(1.0, max(0.0, (span - 1.0) / 0.8)) if s.get("shutter_ramp", True) else span
-        fr, n, g0, g1 = rd.average(kpos - e, kpos)
         mf = s.get("motion_fill", True)
+        if e < 1.0 and mf == "flow":
+            # less than one frame interval of exposure: the nearest whole frame, smeared along its own motion by the
+            # open fraction, so the blur grows continuously from nothing as the camera speeds up
+            k0_ = int(math.floor(kpos))
+            nb = rd.frame(k0_ + 1)
+            pv = rd.prev if (rd.k == k0_ + 1 and rd.prev is not None) else rd.frame(k0_)
+            base = nb if kpos - k0_ >= 0.5 else pv
+            fr, n, g0, g1 = flow_smear(base, rd._small(pv), rd._small(nb), 2, max(e, 0.0)), 1, None, None
+        else:
+            fr, n, g0, g1 = rd.average(kpos - e, kpos)
         if n >= 2 and g0 is not None and mf:
             if mf == "flow":
                 fr = flow_smear(fr, g0, g1, n, min(1.0, e))
@@ -561,6 +572,10 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
         L = max(3, int(st.get("length", 0.3) * W / 8) | 1)
         hi = cv2.filter2D(hi, -1, np.ones((1, L), np.float32) / L * 3.0)
         fr = fr + st.get("gain", 0.12) * cv2.resize(hi, (W, H), interpolation=cv2.INTER_LINEAR) * np.array(st.get("tint", [0.75, 0.88, 1.0]), np.float32)
+    ac = s.get("acutance")
+    if ac:  # mid-scale detail for soft plates (the interiors), at a radius a phone screen shows
+        lum = fr @ LUMA
+        fr = fr + (ac["amount"] * (lum - cv2.GaussianBlur(lum, (0, 0), ac["sigma"] * S)))[..., None]
     dfk = s.get("defocus")
     if dfk:
         r = keyed(dfk, t, 0.0)
@@ -651,14 +666,14 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
                 # eased in and out; the smear follows the speed (a 180-degree shutter): it grows from nothing at the
                 # start, peaks mid-swing and dies away as the camera settles
                 left = tr.get("dir", "left") == "left"
-                e_ = lambda q: smooth(min(max(q, 0.0), 1.0))
+                e_ = lambda q: (lambda x: x * x * x * (x * (6 * x - 15) + 10))(min(max(q, 0.0), 1.0))   # smootherstep
                 dp = 1.0 / (fps * d)
                 strip = np.concatenate([img, fr], axis=1) if left else np.concatenate([fr, img], axis=1)
                 off = W * e_(p) if left else W * (1 - e_(p))
                 M = np.array([[1, 0, -off], [0, 1, 0]], np.float32)
                 img = cv2.warpAffine(strip, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
                 del strip
-                v = W * abs(e_(p) - e_(p - dp))
+                v = W * abs(e_(p + dp / 2) - e_(p - dp / 2))
                 img = dir_blur(img, 0.5 * v * tr.get("blur", 1.0))
             elif tr.get("type") == "whip":
                 dirn = -1 if tr.get("dir", "left") == "left" else 1
@@ -680,9 +695,9 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
                     img = a
                 else:
                     img = to_disp(to_lin(a) * (1 - mix) + to_lin(b) * mix)
-            else:
+            else:   # a dissolve in linear light: the brighter picture leads, as light does
                 a = smooth(p)
-                img = img * (1 - a) + fr * a
+                img = to_disp(to_lin(img) * (1 - a) + to_lin(fr) * a)
         b = fin.get("bloom")
         if b:
             small = cv2.resize(img, (W // 8, H // 8), interpolation=cv2.INTER_AREA)
@@ -757,7 +772,9 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
         g = fin.get("grain")
         if g:
             lum = np.clip(img @ LUMA, 0, 1)[..., None]
-            img = img + grains[f % len(grains)].astype(np.float32)[..., None] * g["amount"] * (0.3 + 1.4 * lum * (1 - lum))
+            rg = np.random.default_rng(1000 + f)   # a different grain every frame (no 10-frame loop on the holds)
+            gr_ = np.roll(grains[int(rg.integers(len(grains)))], (int(rg.integers(H)), int(rg.integers(W))), axis=(0, 1))
+            img = img + gr_.astype(np.float32)[..., None] * g["amount"] * (0.3 + 1.4 * lum * (1 - lum))
         out16 = (np.clip(img, 0, 1) * 65535 + 0.5).astype(np.uint16)
         enc.stdin.write(out16.tobytes())
         if frames_dir:

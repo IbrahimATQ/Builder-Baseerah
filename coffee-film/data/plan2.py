@@ -37,30 +37,31 @@ BREW = {"ev": 0.4, "temp": 2.2, "tint": 1.0, "contrast": 1.12, "greens": 0.1, "l
 CUP = {"ev": 0.95, "temp": 2.9, "tint": 3.0, "contrast": 1.1, "reds": 1.06, **INSIDE}
 
 # starts unzoomed: the swing lands on it with one step in the swing's own direction (scale matches within 3 %)
+ACUTANCE = {"amount": 0.28, "sigma": 2.5}   # mid-scale detail for the soft interior plates (sigma in 4K px)
 STREET_MOVE = {"keys": [[7.0, 1.0, 0.5, 0.5], [11.0, 1.12, 0.47, 0.5]]}
 STREET_TRAIL = {"frames": 48, "mix": 0.72, "align": True}
-SQUARE_TRAIL = {"frames": 36, "mix": 0.68, "align": True}
+SQUARE_TRAIL = {"frames": 14, "mix": 0.55, "align": True}   # shorter: the square plate is handheld (drift + rotation)
 STREET_GRAD = {"y0": 0.06, "y1": 0.34, "ev": -1.4}   # the same overcast sky in every city shot: no jumps at the cuts
-SQUARE_GRAD = {"y0": 0.0, "y1": 0.30, "ev": -1.2}
+SQUARE_GRAD = {"y0": 0.0, "y1": 0.30, "ev": -1.6}
 
 shots = [
     # a flash-forward in real slow motion: 0.4x real time (pipeline/slowmo.py, RIFE 2x on pourcup frames 62-101); only the
     # clean, laminar stretch is used (source frames 62-86: one distinct frame per output frame), before the glug
-    {"id": "cold", "src": SLOWMO_A2X, "start": 0.0, "end": 2.0, "in": 0.0,
+    {"id": "cold", "src": SLOWMO_A2X, "start": 0.0, "end": 2.0, "in": 0.0, "acutance": ACUTANCE,
      "move": {"keys": [[0.0, 1.14, 0.45, 0.49], [2.0, 1.18, 0.44, 0.49]]}, "grade": CUP, "denoise": "hqdn3d=1.2:1.2:3:3",
      "light": {"keys": [[0.0, 0.338, 0.562, 0.27, 0.154, 0.3], [2.0, 0.338, 0.562, 0.27, 0.154, 0.3]]},
      "ev_keys": [[0.0, -4.0], [0.4, 0.0]]},
     {"id": "black1", "black": True, "start": 2.0, "end": 3.0},
     {"id": "reveal", "src": clip("reveal"), "start": 3.0, "end": 7.0,
      # the swing eases into its landing on the street
-     "time": [[3.0, 0.0], [4.4, 1.4], [4.8, 1.8], [5.3, 2.7], [6.3, 8.2], [6.8, 10.6], [7.0, 11.2]], "shutter": 1.0, "motion_fill": "flow",
+     "time": [[3.0, 0.0], [4.3, 1.3], [4.4, 1.4], [4.8, 1.83], [5.3, 2.7], [6.3, 8.2], [6.8, 10.6], [7.0, 11.2]], "shutter": 1.0, "motion_fill": "flow",
      # a longer exposure through the fastest part of the swing: the facade's windows smear into motion instead of
      # strobing past (photosensitivity: no area may flash more than three times a second)
      "shutter_keys": [[5.0, 1.0], [5.4, 2.2], [6.6, 2.2], [7.0, 1.0]],
      "move": {"keys": [[3.0, 1.03, 0.5, 0.5], [7.0, 1.0, 0.5, 0.5]]}, "grade": CITY,
      "grad": {"y0": 0.0, "y1": 0.30, "ev_keys": [[6.3, 0.0], [7.0, -1.4]]},   # the sky settles to the street's before the cut
      # out of black, then a daylight overshoot as the sash clears the frame
-     "ev_keys": [[3.0, -3.0], [3.25, 0.0], [3.45, 0.0], [3.85, 0.5], [4.6, 0.0]]},
+     "ev_keys": [[3.0, -3.0], [3.25, 0.0], [3.45, 0.0], [3.85, 0.3], [4.6, 0.0]]},
     {"id": "street", "src": clip("street_long"), "start": 7.0, "end": 11.0,
      # the steady wide part of the take; a trail exposure: the camera's drift is taken out, so the city stays sharp
      # and the walkers leave streaks
@@ -68,28 +69,30 @@ shots = [
      "move": STREET_MOVE, "grade": CITY, "grad": STREET_GRAD},
     # 11.0-13.5 the race: the square and the street cut against each other ever faster, on the ostinato's grid
     # (1 s, 0.5, 0.25, 0.25, 0.125, 0.125), each insert arriving already streaked, into the dead stop on 13.5
-    {"id": "sqA", "src": clip("square_long"), "start": 11.0, "end": 12.0, "trans": {"type": "whip", "dur": 0.38, "dir": "left", "blur": 1.8},
-     "time": [[11.0, 0.3], [12.0, 2.3]], "interp": "linear", "trail": SQUARE_TRAIL, "motion_fill": False,
+    {"id": "sqA", "src": clip("square_long"), "start": 11.0, "end": 12.0, "trans": {"type": "whip", "dur": 0.54, "dir": "left", "blur": 1.15},
+     "time": [[10.958, 0.2], [11.0, 0.3], [12.0, 2.3]], "interp": "linear", "trail": SQUARE_TRAIL, "motion_fill": False,
      "move": {"keys": [[11.0, 1.03, 0.5, 0.5], [12.0, 1.05, 0.5, 0.5]]}, "grade": CITY, "grad": SQUARE_GRAD},
-    {"id": "stB", "src": clip("street_long"), "start": 12.0, "end": 12.5, "time": [[12.0, 12.0], [12.5, 15.5]], "interp": "linear",
+    {"id": "stB", "src": clip("street_long"), "start": 12.0, "end": 12.5, "time": [[11.958, 11.708], [12.0, 12.0], [12.5, 15.5]], "interp": "linear",
      "trail": STREET_TRAIL, "motion_fill": False, "move": {"keys": [[12.0, 1.08, 0.5, 0.5], [12.5, 1.10, 0.47, 0.5]]}, "grade": CITY, "grad": STREET_GRAD},
-    {"id": "sqC", "src": clip("square_long"), "start": 12.5, "end": 12.75, "time": [[12.5, 2.6], [12.75, 4.4]], "interp": "linear",
+    {"id": "sqC", "src": clip("square_long"), "start": 12.5, "end": 12.75, "time": [[12.458, 2.3], [12.5, 2.6], [12.75, 4.4]], "interp": "linear",
      "trail": SQUARE_TRAIL, "motion_fill": False, "move": {"keys": [[12.5, 1.08, 0.5, 0.5], [12.75, 1.09, 0.5, 0.5]]}, "grade": CITY, "grad": SQUARE_GRAD},
-    {"id": "stD", "src": clip("street_long"), "start": 12.75, "end": 13.0, "time": [[12.75, 16.0], [13.0, 18.5]], "interp": "linear",
+    {"id": "stD", "src": clip("street_long"), "start": 12.75, "end": 13.0, "time": [[12.708, 15.583], [12.75, 16.0], [13.0, 18.5]], "interp": "linear",
      "trail": STREET_TRAIL, "motion_fill": False, "move": {"keys": [[12.75, 1.18, 0.47, 0.5], [13.0, 1.19, 0.47, 0.5]]}, "grade": CITY, "grad": STREET_GRAD},
-    {"id": "sqE", "src": clip("square_long"), "start": 13.0, "end": 13.125, "time": [[13.0, 4.6], [13.125, 6.0]], "interp": "linear",
+    {"id": "sqE", "src": clip("square_long"), "start": 13.0, "end": 13.125, "time": [[12.958, 4.133], [13.0, 4.6], [13.125, 6.0]], "interp": "linear",
      "trail": SQUARE_TRAIL, "motion_fill": False, "move": {"keys": [[13.0, 1.12, 0.5, 0.5], [13.125, 1.12, 0.5, 0.5]]}, "grade": CITY, "grad": SQUARE_GRAD},
-    {"id": "stF", "src": clip("street_long"), "start": 13.125, "end": 13.25, "time": [[13.125, 19.0], [13.25, 21.0]], "interp": "linear",
+    {"id": "stF", "src": clip("street_long"), "start": 13.125, "end": 13.25, "time": [[13.083, 18.333], [13.125, 19.0], [13.25, 21.0]], "interp": "linear",
      "trail": STREET_TRAIL, "motion_fill": False, "move": {"keys": [[13.125, 1.22, 0.47, 0.5], [13.25, 1.22, 0.47, 0.5]]}, "grade": CITY, "grad": STREET_GRAD},
     # 13.5 TIME STOPS: the streaks snap into sharp, frozen people; the colour drains on the frame; the push-in goes to them
-    {"id": "sqG", "src": clip("square_long"), "start": 13.25, "end": 15.0, "time": [[13.25, 6.4], [13.5, 10.3], [15.0, 10.3]], "interp": "linear",
+    {"id": "sqG", "src": clip("square_long"), "start": 13.25, "end": 15.0, "time": [[13.208, 5.62], [13.25, 6.4], [13.458, 10.3], [15.0, 10.3]], "interp": "linear",
      "trail": SQUARE_TRAIL, "motion_fill": False, "grade": CITY, "grad": SQUARE_GRAD,
      "move": {"keys": [[13.25, 1.10, 0.5, 0.52], [13.5, 1.14, 0.47, 0.55], [14.45, 1.20, 0.45, 0.57], [15.0, 1.22, 0.45, 0.58]]},
-     "sat_keys": [[13.5, 1.0], [13.55, 0.35], [14.3, 0.1]], "defocus": [[14.2, 0.0], [15.0, 46.0]],
-     "ev_keys": [[13.45, 0.0], [13.5, 0.35], [13.62, 0.0], [14.35, 0.0], [15.0, -16.0]]},
+     # time stops on the hit (13.5 is the first frozen frame); the lens goes soft while the frozen square is still
+     # bright enough for its highlights to bloom into discs, then it falls to black
+     "sat_keys": [[13.5, 1.0], [13.55, 0.35], [14.3, 0.1]], "defocus": [[14.1, 0.0], [14.6, 30.0], [15.0, 46.0]],
+     "ev_keys": [[13.45, 0.0], [13.5, 0.35], [13.62, 0.0], [14.5, 0.0], [14.8, -2.5], [15.0, -16.0]]},
     # 21.0 lands on the kettle's long arc (prep 6.6); the push-in puts where it lands on screen exactly where the
     # coffee's arc lands after the match cut (output 0.50, 0.66)
-    {"id": "bloom", "src": clip("bloom"), "start": 15.0, "end": 21.0, "in": 0.6, "grade": BREW, "denoise": "hqdn3d=1.5:1.5:4:4",
+    {"id": "bloom", "src": clip("bloom"), "start": 15.0, "end": 21.0, "in": 0.6, "grade": BREW, "denoise": "hqdn3d=1.5:1.5:4:4", "acutance": ACUTANCE,
      "key_green": {"y0": 0.42, "strength": 1.0, "lo": 0.015, "hi": 0.08, "dim": 0.15},
      "move": {"keys": [[15.0, 1.0, 0.5, 0.5], [17.5, 1.03, 0.51, 0.52], [21.0, 1.15, 0.555, 0.56]]},
      "defocus": [[15.0, 44.0], [15.8, 0.0]], "ev_keys": [[15.0, -14.0], [15.45, 0.0]]},
@@ -98,7 +101,7 @@ shots = [
     # and the frame draws back from it instead, into the dissolve
     {"id": "pour", "src": clip("pourcup"), "start": 21.0, "end": 32.0, "interp": "linear",
      "time": [[21.0, 2.0], [29.0, 10.0], [29.083, 10.083], [32.0, 10.083]],   # frame 242: the last sharp one (refocus from 243)
-     "grade": CUP, "denoise": "hqdn3d=1.2:1.2:3:3",
+     "grade": CUP, "denoise": "hqdn3d=1.2:1.2:3:3", "acutance": ACUTANCE,
      # (the pull-back stays framed right of the departing server's edge, top left of the held frame)
      "move": {"keys": [[21.0, 1.10, 0.465, 0.49], [27.0, 1.18, 0.50, 0.55], [29.0, 1.18, 0.50, 0.55], [31.0, 1.12, 0.55, 0.50], [32.0, 1.10, 0.545, 0.49]]},
      "light": {"tint": [1.0, 0.97, 0.9], "keys": [[0.0, 0.38, 0.64, 0.29, 0.16, 0.35], [8.0, 0.38, 0.64, 0.29, 0.16, 0.35],
@@ -152,7 +155,7 @@ finish = {"bloom": {"threshold": 0.90, "gain": 0.12, "radius": 0.03, "tint": [1.
 # what the checks (pipeline/qc2.py) must accept as intended: the black cards and the dips to black around them,
 # the frozen moment, and the whip (one big step of motion by design)
 qc = {"black_ok": [[0.0, 0.3], [2.0, 3.0], [14.6, 15.4], [36.5, 37.5]], "still_ok": [[13.45, 15.0]],
-      "cut_ok": [[0.0, 0.45], [3.0, 3.3], [10.75, 11.25], [15.0, 15.5]]}   # the whip, and the fades up from black
+      "cut_ok": [[0.0, 0.45], [3.0, 3.3], [10.7, 11.3], [15.0, 15.5]]}   # the whip, and the fades up from black
 
 
 def build() -> dict:

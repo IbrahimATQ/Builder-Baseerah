@@ -781,8 +781,8 @@ def build_score():
         (23.0, 2.0, "Bb1", ("Bb2",), ("Bb3", "F4"), ("F4", "D5"), ("Bb4", "Bb5"), -18.5),
         (25.0, 1.0, "G1", ("G2", "D3"), ("Bb3", "D4"), ("G4", "D5"), ("Bb4", "Bb5"), -21),
         (26.0, 1.0, "A1", ("A2", "E3"), ("C#4", "E4"), ("A4", "E5"), ("A4", "A5"), -19),
-        (27.0, 1.0, "Bb1", ("Bb2", "F3"), ("D4", "F4"), ("F5", "Bb5"), ("D5", "D6"), -14),
-        (28.0, 1.0, "C2", ("C3", "G3"), ("E4", "G4"), ("G5", "C6"), ("E5", "E6"), -13.5),
+        (27.0, 1.0, "Bb1", ("Bb2", "F3"), ("D4", "F4"), ("F5", "Bb5"), ("D5", "D6"), -9),
+        (28.0, 1.0, "C2", ("C3", "G3"), ("E4", "G4"), ("G5", "C6"), ("E5", "E6"), -8.5),
     ]
     for t, d, cb, vc, va, v2, v1, g in st_build:
         L = 1 if t < 25 else 2
@@ -803,7 +803,7 @@ def build_score():
     for inst, notes, pan in (("cb_sus", ["D2"], 0.6), ("vc_sus", ["D3", "A3"], 0.45), ("va_sus", ["F#4", "A4"], 0.2),
                              ("vln_sus", ["A5", "D6"], -0.25), ("vln_sus", ["F#5", "F#6"], -0.5)):
         for n_ in notes:
-            ev("strings", inst, n_, 29.0, 5.9, -14.5, layer=2 if inst != "cb_sus" and inst != "vc_sus" else 3,
+            ev("strings", inst, n_, 29.0, 5.9, -11.5, layer=2 if inst != "cb_sus" and inst != "vc_sus" else 3,
                attack=0.05, release=0.5, pan=pan, env=res_decay, role="resolution")
     # piano: the motif once more over the match cut, then it gives way
     for t, n_, d, g in ((21.5, "A3", 1.0, -14), (22.0, "D4", 1.0, -12), (22.5, "E4", 1.0, -13), (23.5, "F4", 2.5, -11)):
@@ -811,14 +811,15 @@ def build_score():
         ev("piano", "piano", N(n_) + 12, t, d, g - 11, layer=1, release=0.8, pan=-0.2, role="piano motif 8va")
     # percussion of the pour
     ev("perc", "timproll", "A2", 25.5, 1.43, 0, layer=5, attack=0.05, release=0.02,
-       env=ramp([(25.5, -14), (26.3, -8), (26.9, -1)]), role="timpani roll")   # ends 70 ms before the downbeat
-    for t, note, g in ((27.0, "Bb2", 3), (27.5, "Bb2", -4), (28.0, "C3", 1), (28.5, "C3", -4), (29.0, "D2", 3)):
+       env=ramp([(25.5, -14), (26.3, -10), (26.9, -5)]), role="timpani roll")   # ends 70 ms before the downbeat
+    for t, note, g in ((27.0, "Bb2", 0), (27.5, "Bb2", -6), (28.0, "C3", -2), (28.5, "C3", -6), (29.0, "D2", 0)):
         ev("perc", "timp", note, t, 4.0 if t < 29 else 6.0, g, layer=4, release=0.6, role="timpani")
     for t, g, v in ((27.0, -4, 7), (28.0, -13, 6), (29.0, -4, 7)):
         E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v{v}_rr2_Sum.wav", t=t, g=g,
                       ratio=0.89, role="gran cassa"))
-    E.append(dict(stem="perc", kind="sub", t=27.0, g=-14, role="sub boom"))
-    E.append(dict(stem="perc", kind="sub", t=29.0, g=-13, role="sub boom"))
+    # (no synthetic sub booms on 27 and 29: their energy sat below what a phone plays and only fed the limiters;
+    # instead a real crash cymbal marks the arrival of the climax)
+    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/cymbal-crash1_mf_rr1.wav", t=27.0, g=-7, role="crash"))
     E.append(dict(stem="perc", kind="swell", path=f"{VSCO}/Percussion/susCymb1-cresc-Median_v1.wav", peak_at=27.0,
                   g=-6, role="cymbal riser"))
     E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/gongHit_mf.wav", t=29.0, g=-9,
