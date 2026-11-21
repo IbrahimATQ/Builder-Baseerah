@@ -77,6 +77,15 @@ photosensitivity screen until its shutter was lengthened.
 sound; the score made from VSCO-2 CE (CC0); 25 Mixkit sound effects and 3 Mixkit video elements (steam, light
 leak), each with its own free-licence record; Cormorant Garamond (SIL OFL 1.1); RIFE (MIT).
 
+## The delivered file
+`output/The-City-Can-Wait_4K_2160x3840.mp4` (not in the repository): 2160×3840, 24 fps, 900 frames (37.5 s), H.264
+High@5.1, two-pass 80 Mbps from a 10-bit near-lossless intermediate, AAC 320 kbps stereo, 359 MiB, no location or
+device tags. QC (`data/qc_directors_cut_4K.json`): 11/11 — format, duration, privacy, motion (no repeated frames or
+jumps), blacks, levels, loudness −14.0 LUFS / true peak −1.7 dBTP after AAC, sound in sync (0 ms, r = 0.9999),
+titles in the safe area, photosensitivity screen (2.1 % flashing area against an 11 % limit). A release check of
+the file itself (picture at full 4K, sound decoded from the AAC) found the encode within 42–46 dB PSNR of the
+master with no grain pulsing, and a stutter at the start of the swing, fixed before delivery.
+
 ## Reproducing it
 ```
 python data/plan2.py && python pipeline/grade.py data/plan2.json LUTS

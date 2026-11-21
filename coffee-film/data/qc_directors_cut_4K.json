@@ -41,7 +41,7 @@
     "frames": 900,
     "repeated_at_s": [],
     "jumps_at_s": [],
-    "median_step": 3.81
+    "median_step": 3.8
    }
   },
   {
@@ -71,7 +71,7 @@
    "pass": true,
    "detail": {
     "integrated_lufs": -14.0,
-    "true_peak_dbtp": -1.8
+    "true_peak_dbtp": -1.7
    }
   },
   {
@@ -106,7 +106,7 @@
    "check": "photosensitivity screen",
    "pass": true,
    "detail": {
-    "max_flashing_area_fraction": 0.0226,
+    "max_flashing_area_fraction": 0.0208,
     "threshold_area_fraction": 0.11,
     "verdict": "PASS"
    }
