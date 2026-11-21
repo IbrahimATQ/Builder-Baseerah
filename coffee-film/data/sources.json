@@ -1,0 +1,115 @@
+{
+ "about": "Stretches of the six iPhone clips (IMG_5416..5422, Warsaw Old Town, 2026-11-19) prepared by pipeline/prep.py, each with handles around the part the edit uses. Times are source seconds.",
+ "stretches": [
+  {
+   "id": "window",
+   "file": "IMG_5416.MOV",
+   "from": 0.0,
+   "to": 5.8,
+   "what": "the window opens on the sgraffito facade",
+   "stab": {
+    "smoothing": 24
+   }
+  },
+  {
+   "id": "facade",
+   "file": "IMG_5416.MOV",
+   "from": 5.0,
+   "to": 13.4,
+   "what": "the patterned facade, then a pan to the red houses and the square below",
+   "stab": {
+    "smoothing": 40
+   }
+  },
+  {
+   "id": "square",
+   "file": "IMG_5416.MOV",
+   "from": 14.6,
+   "to": 20.6,
+   "what": "red houses, people crossing the square, a stone volute in the foreground (after the camera settles)",
+   "stab": {
+    "smoothing": 60
+   }
+  },
+  {
+   "id": "street",
+   "file": "IMG_5417.MOV",
+   "from": 9.0,
+   "to": 17.0,
+   "what": "the long street from above, people walking",
+   "stab": {
+    "tripod": true
+   }
+  },
+  {
+   "id": "kitchen",
+   "file": "IMG_5420.MOV",
+   "from": 0.0,
+   "to": 5.8,
+   "what": "the counter under the window: grinder, bowl, server",
+   "stab": {
+    "smoothing": 40
+   }
+  },
+  {
+   "id": "roofs",
+   "file": "IMG_5420.MOV",
+   "from": 5.4,
+   "to": 9.9,
+   "what": "through the kitchen window: red roofs and the brick church",
+   "stab": {
+    "tripod": true
+   }
+  },
+  {
+   "id": "bloom",
+   "file": "IMG_5421.MOV",
+   "from": 0.6,
+   "to": 8.4,
+   "what": "the gooseneck pours onto the dry bed, the bed rises",
+   "stab": {
+    "smoothing": 40
+   }
+  },
+  {
+   "id": "spiral",
+   "file": "IMG_5421.MOV",
+   "from": 10.6,
+   "to": 17.6,
+   "what": "the slow spiral pour, the bed bubbling",
+   "stab": {
+    "smoothing": 40
+   }
+  },
+  {
+   "id": "pour",
+   "file": "IMG_5422.MOV",
+   "from": 1.6,
+   "to": 8.0,
+   "what": "coffee from the glass server into the WARSZAWA mug",
+   "stab": {
+    "smoothing": 30
+   }
+  },
+  {
+   "id": "cup",
+   "file": "IMG_5422.MOV",
+   "from": 7.2,
+   "to": 11.598,
+   "what": "the full mug, the camera draws back to the window and the church",
+   "stab": {
+    "smoothing": 40
+   }
+  },
+  {
+   "id": "pourcup",
+   "file": "IMG_5422.MOV",
+   "from": 1.6,
+   "to": 11.598,
+   "what": "one take: coffee from the glass server into the WARSZAWA mug, then the camera draws back to the window and the church",
+   "stab": {
+    "smoothing": 30
+   }
+  }
+ ]
+}

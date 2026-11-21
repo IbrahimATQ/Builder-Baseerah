@@ -1,0 +1,294 @@
+{
+ "fps": 24,
+ "w": 2160,
+ "h": 3840,
+ "duration": 40.0,
+ "look": {
+  "black": 0.028,
+  "sat": 0.9,
+  "shoulder": 0.82
+ },
+ "shots": [
+  {
+   "id": "window",
+   "src": "/home/user/coffee/prep/window.mp4",
+   "in": 0.0,
+   "start": 0.0,
+   "end": 6.2,
+   "move": {
+    "z": [
+     1.0,
+     1.035
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": 0.15
+   },
+   "sound": {
+    "db": -27
+   }
+  },
+  {
+   "id": "square",
+   "src": "/home/user/coffee/prep/square.mp4",
+   "in": 0.5,
+   "start": 6.2,
+   "end": 12.0,
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.8
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.04
+    ]
+   },
+   "grade": {
+    "ev": 0.0,
+    "temp": 0.12
+   },
+   "sound": {
+    "db": -27
+   }
+  },
+  {
+   "id": "street",
+   "src": "/home/user/coffee/prep/street.mp4",
+   "in": 2.5,
+   "start": 12.0,
+   "end": 14.4,
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.8
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.05
+    ]
+   },
+   "grade": {
+    "ev": 0.05,
+    "temp": 0.1
+   },
+   "sound": {
+    "db": -25
+   }
+  },
+  {
+   "id": "kitchen",
+   "src": "/home/user/coffee/prep/kitchen.mp4",
+   "in": 1.25,
+   "start": 14.4,
+   "end": 16.93,
+   "trans": {
+    "type": "dissolve",
+    "dur": 0.5
+   },
+   "move": {
+    "z": [
+     1.0,
+     1.02
+    ]
+   },
+   "grade": {
+    "ev": 0.6,
+    "temp": 0.5,
+    "contrast": 1.06,
+    "reds": 1.1
+   },
+   "sound": {
+    "db": -34
+   }
+  },
+  {
+   "id": "bloom",
+   "src": "/home/user/coffee/prep/bloom.mp4",
+   "in": 1.0,
+   "start": 16.93,
+   "end": 23.83,
+   "move": {
+    "z": [
+     1.0,
+     1.06
+    ]
+   },
+   "grade": {
+    "ev": 0.4,
+    "temp": 0.55,
+    "contrast": 1.08,
+    "greens": 0.15,
+    "reds": 1.12
+   },
+   "sound": {
+    "db": -24,
+    "hp": 160,
+    "lead": 0.25
+   }
+  },
+  {
+   "id": "spiral",
+   "src": "/home/user/coffee/prep/spiral.mp4",
+   "in": 1.75,
+   "start": 23.83,
+   "end": 28.44,
+   "move": {
+    "z": [
+     1.42,
+     1.5
+    ],
+    "cx": 0.5,
+    "cy": 0.54
+   },
+   "grade": {
+    "ev": 0.4,
+    "temp": 0.55,
+    "contrast": 1.08,
+    "greens": 0.15,
+    "reds": 1.12
+   },
+   "sound": {
+    "db": -24,
+    "hp": 160
+   }
+  },
+  {
+   "id": "pourcup",
+   "src": "/home/user/coffee/prep/pourcup.mp4",
+   "in": 0.75,
+   "start": 28.44,
+   "end": 40.0,
+   "move": {
+    "z": [
+     1.03,
+     1.0
+    ]
+   },
+   "grade": {
+    "ev": 0.55,
+    "temp": 0.6,
+    "contrast": 1.08,
+    "reds": 1.15
+   },
+   "sound": {
+    "db": -19,
+    "hp": 90,
+    "lead": 0.2,
+    "fade_out": [
+     38.6,
+     40.0
+    ]
+   }
+  }
+ ],
+ "titles": [
+  {
+   "id": "open",
+   "lines": [
+    {
+     "text": "Warszawa",
+     "font": "cormorant-garamond-latin-500-italic.woff",
+     "size": 300,
+     "track": 0.0
+    },
+    {
+     "text": "STARE MIASTO",
+     "font": "cormorant-garamond-latin-500-normal.woff",
+     "size": 66,
+     "track": 0.45,
+     "gap": 34
+    }
+   ],
+   "y": 0.42,
+   "rule": {
+    "width": 0.1,
+    "gap": 54
+   },
+   "in": 0.6,
+   "out": 5.3,
+   "fade_in": 1.4,
+   "fade_out": 0.9,
+   "rise": 26,
+   "focus": 7.0,
+   "shade": 0.34
+  },
+  {
+   "id": "close",
+   "lines": [
+    {
+     "text": "the city can wait.",
+     "font": "cormorant-garamond-latin-500-italic.woff",
+     "size": 190,
+     "track": 0.0
+    }
+   ],
+   "y": 0.375,
+   "in": 36.0,
+   "out": 40.0,
+   "fade_in": 1.6,
+   "fade_out": 0.0,
+   "rise": 18,
+   "focus": 6.0,
+   "shade": 0.3
+  }
+ ],
+ "finish": {
+  "bloom": {
+   "threshold": 0.72,
+   "gain": 0.32,
+   "radius": 0.035,
+   "tint": [
+    1.0,
+    0.82,
+    0.62
+   ]
+  },
+  "vignette": 0.22,
+  "grain": 0.022,
+  "fade_in": 0.35,
+  "fade_out": [
+   39.0,
+   40.0
+  ]
+ },
+ "music": {
+  "file": "/home/user/coffee/music/599.mp3",
+  "id": 599,
+  "title": "Possible Dreams",
+  "artist": "Eugenio Mininni",
+  "licence": "Mixkit Stock Music Free License",
+  "page": "https://mixkit.co/free-stock-music/possible-dreams-599/",
+  "offset": 5.5,
+  "fade_in": 1.0,
+  "fade_out": [
+   36.6,
+   38.6
+  ],
+  "db": 0.0,
+  "keys": [
+   [
+    0,
+    0.0
+   ],
+   [
+    28.9,
+    0.0
+   ],
+   [
+    29.5,
+    -3.5
+   ],
+   [
+    34.6,
+    -3.5
+   ],
+   [
+    35.6,
+    0.0
+   ]
+  ]
+ },
+ "fonts": "/home/user/Builder-Baseerah/coffee-film/fonts"
+}
