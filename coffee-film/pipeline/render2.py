@@ -447,7 +447,7 @@ class Title:
 def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W: int, H: int) -> np.ndarray:
     if s.get("black"):
         return np.zeros((H, W, 3), np.float32)
-    shutter = s.get("shutter", 1.0)
+    shutter = keyed(s["shutter_keys"], t, 1.0) if s.get("shutter_keys") else s.get("shutter", 1.0)
     pa, pb = tm.prep_t(t - shutter / fps), tm.prep_t(t)
     span = (pb - pa) * PREP_FPS          # prep frames inside this output frame's shutter
     kpos = pb * PREP_FPS
@@ -622,7 +622,7 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
         for i in live:
             s = shots[i]
             if not s.get("black") and i not in readers:
-                sh_ = s.get("shutter", 1.0)
+                sh_ = max([q[1] for q in s["shutter_keys"]]) if s.get("shutter_keys") else s.get("shutter", 1.0)
                 pa = tims[i].prep_t(t - sh_ / fps)   # not clamped to the shot's start: its first frame already has a full exposure
                 a_, b_ = window(i)
                 tt = np.arange(a_, b_, 1.0 / fps)

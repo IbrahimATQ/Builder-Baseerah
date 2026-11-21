@@ -54,6 +54,9 @@ shots = [
     {"id": "reveal", "src": clip("reveal"), "start": 3.0, "end": 7.0,
      # the swing eases into its landing on the street
      "time": [[3.0, 0.0], [4.4, 1.4], [4.8, 1.8], [5.3, 2.7], [6.3, 8.2], [6.8, 10.6], [7.0, 11.2]], "shutter": 1.0, "motion_fill": "flow",
+     # a longer exposure through the fastest part of the swing: the facade's windows smear into motion instead of
+     # strobing past (photosensitivity: no area may flash more than three times a second)
+     "shutter_keys": [[5.0, 1.0], [5.4, 2.2], [6.6, 2.2], [7.0, 1.0]],
      "move": {"keys": [[3.0, 1.03, 0.5, 0.5], [7.0, 1.0, 0.5, 0.5]]}, "grade": CITY,
      "grad": {"y0": 0.0, "y1": 0.30, "ev_keys": [[6.3, 0.0], [7.0, -1.4]]},   # the sky settles to the street's before the cut
      # out of black, then a daylight overshoot as the sash clears the frame
@@ -148,7 +151,8 @@ finish = {"bloom": {"threshold": 0.90, "gain": 0.12, "radius": 0.03, "tint": [1.
 
 # what the checks (pipeline/qc2.py) must accept as intended: the black cards and the dips to black around them,
 # the frozen moment, and the whip (one big step of motion by design)
-qc = {"black_ok": [[0.0, 0.3], [2.0, 3.0], [14.6, 15.4], [36.5, 37.5]], "still_ok": [[13.45, 15.0]], "cut_ok": [[10.75, 11.25]]}
+qc = {"black_ok": [[0.0, 0.3], [2.0, 3.0], [14.6, 15.4], [36.5, 37.5]], "still_ok": [[13.45, 15.0]],
+      "cut_ok": [[0.0, 0.45], [3.0, 3.3], [10.75, 11.25], [15.0, 15.5]]}   # the whip, and the fades up from black
 
 
 def build() -> dict:

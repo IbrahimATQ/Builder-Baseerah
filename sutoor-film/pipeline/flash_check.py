@@ -60,7 +60,10 @@ def main() -> None:
     start = float(args[1]) if len(args) > 2 else None
     end = float(args[2]) if len(args) > 2 else None
     gw, gh = map(int, grid.split("x"))
-    fps = 30.0
+    r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=r_frame_rate",
+                        "-of", "csv=p=0", path], capture_output=True, text=True).stdout.strip()
+    a, b = (r.split("/") + ["1"])[:2]
+    fps = float(a) / float(b) if r else 30.0   # the window is one second of this film's own frames
     L = rel_lum(frames(path, start, end, gw, gh))  # (T, gh, gw): block means via area scaling
     T = L.shape[0]
     marks = np.zeros((T, gh, gw), bool)
