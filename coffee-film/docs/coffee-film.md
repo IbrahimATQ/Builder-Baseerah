@@ -2,7 +2,7 @@
 
 ## What was asked
 The commissioner filmed a V60 pour-over in his kitchen in Warsaw's Old Town, and the view from his window, on an
-iPhone 13 Pro Max (six clips, 4K, 30 fps). Of three directions offered he chose the first: *a slow morning in
+iPhone (six clips, 4K, 30 fps). Of three directions offered he chose the first: *a slow morning in
 Warsaw*, 30–40 s, vertical, the city through the window to the cup, mostly the scene's own sound with a soft music
 bed, minimal text. His instruction: "make sure it is VERY BEAUTIFUL!!"
 
