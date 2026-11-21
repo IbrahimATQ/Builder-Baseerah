@@ -154,6 +154,72 @@
     "smoothing": 40
    },
    "crf": 14
+  },
+  {
+   "id": "k_walk",
+   "file": "IMG_5420.MOV",
+   "from": 0.0,
+   "to": 9.93,
+   "what": "WARSZAWA: from the doorway along the counter, rising to the kitchen window and the brick church (whole take)",
+   "stab": {
+    "smoothing": 40
+   },
+   "crf": 12
+  },
+  {
+   "id": "k_brew",
+   "file": "IMG_5421.MOV",
+   "from": 14.6,
+   "to": 23.06,
+   "what": "WARSZAWA: the last pours on the high bed, the spout withdraws, the camera draws back to the window and the church",
+   "stab": {
+    "smoothing": 30
+   },
+   "crf": 12
+  },
+  {
+   "id": "k_cup",
+   "file": "IMG_5422.MOV",
+   "from": 0.0,
+   "to": 11.598,
+   "what": "WARSZAWA: the empty WARSZAWA mug, the coffee poured in, the rise to the window (whole take)",
+   "stab": {
+    "smoothing": 30
+   },
+   "crf": 12
+  },
+  {
+   "id": "w_open",
+   "file": "IMG_5417.MOV",
+   "from": 0.0,
+   "to": 12.7,
+   "what": "WARSZAWA: the inner sash opens, the turn right along the facade, the pilaster, the long street",
+   "stab": {
+    "smoothing": 14
+   },
+   "crf": 12
+  },
+  {
+   "id": "w_turn",
+   "file": "IMG_5417.MOV",
+   "from": 26.6,
+   "to": 31.5,
+   "what": "WARSZAWA: the street later, then the turn away past the pilaster to the sill and the medallion (not stabilised: vid.stab zoomed it 1.45x to hide the borders of the fast turn; the turn and its motion blur stay as shot)",
+   "stab": {
+    "off": true
+   },
+   "crf": 12
+  },
+  {
+   "id": "w_square",
+   "file": "IMG_5416.MOV",
+   "from": 3.5,
+   "to": 21.5,
+   "what": "WARSZAWA: the outer casement, the gaze left along the sgraffito to the red houses and the Castle Square behind the volute",
+   "stab": {
+    "smoothing": 20
+   },
+   "crf": 12
   }
  ]
 }
