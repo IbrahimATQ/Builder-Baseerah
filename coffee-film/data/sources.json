@@ -126,8 +126,8 @@
    "id": "street_long",
    "file": "IMG_5417.MOV",
    "from": 9.0,
-   "to": 31.5,
-   "what": "the long street from above, people walking (for the timelapse)",
+   "to": 28.0,
+   "what": "the long street from above, people walking (for the timelapse): the steady wide part only, so the stabiliser does not zoom in",
    "stab": {
     "smoothing": 60
    },

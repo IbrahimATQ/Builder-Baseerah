@@ -2,23 +2,6 @@
  "duration": 37.5,
  "beds": [
   {
-   "id": "cold_pour",
-   "file": "/home/user/coffee/raw/IMG_5422.MOV",
-   "src_in": 3.64,
-   "start": 0.0,
-   "end": 2.0,
-   "tempo": 0.8,
-   "hp": 120,
-   "notch": [
-    50,
-    100,
-    150
-   ],
-   "rms_db": -21.0,
-   "fade_in": 0.35,
-   "fade_out": 0.006
-  },
-  {
    "id": "room_reveal",
    "file": "/home/user/coffee/raw/IMG_5417.MOV",
    "src_in": 0.0,
@@ -78,6 +61,29 @@
    ]
   },
   {
+   "id": "crowd_fast",
+   "file": "/home/user/coffee/sfx/361_city_downtown_crowd_ambience.wav",
+   "src_in": 4.0,
+   "start": 7.0,
+   "end": 13.5,
+   "tempo": 1.7,
+   "hp": 150,
+   "lp": 9000,
+   "rms_db": -36.0,
+   "fade_in": 0.8,
+   "fade_out": 0.008,
+   "gain_keys": [
+    [
+     7.0,
+     -4.0
+    ],
+    [
+     13.4,
+     3.0
+    ]
+   ]
+  },
+  {
    "id": "square_fast",
    "file": "/home/user/coffee/raw/IMG_5416.MOV",
    "src_in": 6.0,
@@ -100,6 +106,28 @@
    ]
   },
   {
+   "id": "carriage",
+   "file": "/home/user/coffee/sfx/353_street_ambience_carriage_and_people.wav",
+   "src_in": 0.0,
+   "start": 4.0,
+   "end": 7.6,
+   "hp": 120,
+   "lp": 7000,
+   "rms_db": -40.0,
+   "fade_in": 0.6,
+   "fade_out": 0.6
+  },
+  {
+   "id": "room_black",
+   "file": "/home/user/coffee/sfx/3199_cinematic_room_tone_loop.wav",
+   "src_in": 1.0,
+   "start": 2.0,
+   "end": 3.2,
+   "rms_db": -52.0,
+   "fade_in": 0.15,
+   "fade_out": 0.3
+  },
+  {
    "id": "kettle",
    "file": "/home/user/coffee/raw/IMG_5421.MOV",
    "src_in": 5.1,
@@ -112,7 +140,7 @@
     100,
     150
    ],
-   "rms_db": -33.0,
+   "rms_db": -34.0,
    "fade_in": 0.6,
    "fade_out": 0.03
   },
@@ -130,7 +158,7 @@
     150
    ],
    "rms_db": -22.0,
-   "fade_in": 0.02,
+   "fade_in": 0.015,
    "fade_out": 0.9,
    "gain_keys": [
     [
@@ -185,8 +213,326 @@
    "fade_out": 0.01
   }
  ],
- "cues": [],
- "ticks": null,
+ "cues": [
+  {
+   "file": "/home/user/coffee/raw/IMG_5422.MOV",
+   "src_in": 3.6,
+   "dur": 1.45,
+   "at": 0.0,
+   "pitch": -5,
+   "hp": 110,
+   "notch": [
+    50,
+    100,
+    150
+   ],
+   "rms_db": -23.0,
+   "fade_in": 0.3,
+   "fade_out": 0.004
+  },
+  {
+   "file": "/home/user/coffee/sfx/1324_pouring_water_to_glass.wav",
+   "src_in": 0.5,
+   "dur": 1.55,
+   "at": 0.0,
+   "pitch": -4,
+   "hp": 90,
+   "rms_db": -27.0,
+   "fade_in": 0.25,
+   "fade_out": 0.004
+  },
+  {
+   "file": "/home/user/coffee/sfx/553_blockbuster_trailer_bass_drum.wav",
+   "src_in": 0.29,
+   "dur": 2.6,
+   "at": 1.99,
+   "rms_db": -19.0,
+   "fade_in": 0.002,
+   "fade_out": 0.8
+  },
+  {
+   "file": "/home/user/coffee/sfx/2299_short_bass_hit.wav",
+   "src_in": 0.04,
+   "dur": 0.9,
+   "at": 1.99,
+   "rms_db": -20.0,
+   "fade_in": 0.002,
+   "fade_out": 0.3
+  },
+  {
+   "file": "/home/user/coffee/sfx/2856_gear_lock_sound.wav",
+   "src_in": 0.03,
+   "dur": 0.59,
+   "at": 2.792,
+   "rms_db": -30.0,
+   "hp": 200
+  },
+  {
+   "file": "/home/user/coffee/sfx/195_creaky_door_open.wav",
+   "src_in": 0.38,
+   "dur": 1.67,
+   "at": 3.15,
+   "rms_db": -36.0,
+   "hp": 150,
+   "fade_out": 0.3
+  },
+  {
+   "file": "/home/user/coffee/sfx/1163_door_creak_opened_by_the_wind.wav",
+   "src_in": 1.35,
+   "dur": 1.4,
+   "at": 3.3,
+   "rms_db": -38.0,
+   "hp": 120,
+   "fade_in": 0.2,
+   "fade_out": 0.5
+  },
+  {
+   "file": "/home/user/coffee/sfx/1465_vacuum_swoosh_transition.wav",
+   "src_in": 0.08,
+   "dur": 2.09,
+   "at": 5.035,
+   "rms_db": -27.0,
+   "fade_out": 0.4
+  },
+  {
+   "file": "/home/user/coffee/sfx/1144_short_space_stutter_intro_riser.wav",
+   "src_in": 2.0,
+   "dur": 4.5,
+   "at": 9.0,
+   "rms_db": -31.0,
+   "fade_in": 0.4,
+   "fade_out": 0.004
+  },
+  {
+   "file": "/home/user/coffee/sfx/1492_cinematic_whoosh_fast_transition.wav",
+   "src_in": 0.0,
+   "dur": 1.3,
+   "at": 9.925,
+   "rms_db": -26.0,
+   "fade_out": 0.15
+  },
+  {
+   "file": "/home/user/coffee/sfx/1490_fast_whoosh_transition_hard_stop.wav",
+   "src_in": 0.06,
+   "dur": 0.7,
+   "at": 12.8,
+   "rms_db": -23.0,
+   "fade_in": 0.05,
+   "fade_out": 0.004
+  },
+  {
+   "file": "/home/user/coffee/sfx/553_blockbuster_trailer_bass_drum.wav",
+   "src_in": 0.29,
+   "dur": 2.6,
+   "at": 13.49,
+   "rms_db": -17.0,
+   "fade_in": 0.002,
+   "fade_out": 1.0
+  },
+  {
+   "file": "/home/user/coffee/sfx/2299_short_bass_hit.wav",
+   "src_in": 0.04,
+   "dur": 0.9,
+   "at": 13.49,
+   "rms_db": -19.0,
+   "fade_in": 0.002,
+   "fade_out": 0.3
+  },
+  {
+   "file": "/home/user/coffee/sfx/1318_water_pour_light_stream.wav",
+   "src_in": 4.0,
+   "dur": 6.0,
+   "at": 15.0,
+   "rms_db": -37.0,
+   "hp": 200,
+   "notch": [
+    590
+   ],
+   "fade_in": 0.7,
+   "fade_out": 0.05
+  },
+  {
+   "file": "/home/user/coffee/sfx/1817_kettle_boiling.wav",
+   "src_in": 38.0,
+   "dur": 4.8,
+   "at": 16.2,
+   "rms_db": -45.0,
+   "hp": 250,
+   "fade_in": 1.2,
+   "fade_out": 0.8
+  },
+  {
+   "file": "/home/user/coffee/sfx/2833_pouring_soda_in_a_glass.wav",
+   "src_in": 2.5,
+   "dur": 3.9,
+   "at": 17.0,
+   "rms_db": -46.0,
+   "hp": 1500,
+   "fade_in": 0.8,
+   "fade_out": 0.8
+  },
+  {
+   "file": "/home/user/coffee/sfx/1310_pouring_water_to_mug.wav",
+   "src_in": 0.1,
+   "dur": 4.25,
+   "at": 21.0,
+   "rms_db": -36.0,
+   "hp": 150,
+   "fade_in": 0.01,
+   "fade_out": 0.8
+  },
+  {
+   "file": "/home/user/coffee/sfx/2826_pouring_water_in_a_glass.wav",
+   "src_in": 0.3,
+   "dur": 4.4,
+   "at": 24.3,
+   "rms_db": -37.0,
+   "hp": 200,
+   "fade_in": 0.8,
+   "fade_out": 0.5
+  },
+  {
+   "file": "/home/user/coffee/sfx/2664_cinematic_rumbling_swell.wav",
+   "src_in": 5.725,
+   "dur": 5.0,
+   "at": 23.0,
+   "rms_db": -31.0,
+   "fade_in": 2.5,
+   "fade_out": 1.2
+  },
+  {
+   "file": "/home/user/coffee/sfx/617_melodic_church_bell.wav",
+   "src_in": 0.07,
+   "dur": 6.2,
+   "at": 32.972,
+   "rms_db": -40.0,
+   "lp": 3500,
+   "hp": 180,
+   "reverb": {
+    "rt60": 3.8,
+    "mix": 0.55,
+    "predelay": 0.04
+   },
+   "fade_out": 1.5
+  }
+ ],
+ "ticks": [
+  {
+   "file": "/home/user/coffee/sfx/1063_fast_wall_clock_ticking.wav",
+   "tick_in": 0.103,
+   "tock_in": 0.396,
+   "dur": 0.225,
+   "pre": 0.005,
+   "times": [
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    7.5,
+    8.0,
+    8.5,
+    9.0,
+    9.5,
+    10.0,
+    10.5,
+    11.0,
+    11.25,
+    11.5,
+    11.75,
+    12.0,
+    12.25,
+    12.5,
+    12.75,
+    13.0,
+    13.25
+   ],
+   "gain_db": -9.0,
+   "gain_keys": [
+    [
+     2.0,
+     0.0
+    ],
+    [
+     3.0,
+     -5.0
+    ],
+    [
+     6.9,
+     -4.0
+    ],
+    [
+     10.5,
+     -2.0
+    ],
+    [
+     13.25,
+     0.0
+    ]
+   ]
+  },
+  {
+   "file": "/home/user/coffee/sfx/1059_tick_tock_clock_close_up.wav",
+   "tick_in": 0.105,
+   "tock_in": 0.595,
+   "dur": 0.123,
+   "pre": 0.003,
+   "times": [
+    11.0,
+    11.25,
+    11.5,
+    11.75,
+    12.0,
+    12.25,
+    12.5,
+    12.75,
+    13.0,
+    13.25
+   ],
+   "gain_db": -17.0,
+   "hp": 500
+  },
+  {
+   "file": "/home/user/coffee/sfx/1072_old_clock_pendulum_ticking.wav",
+   "tick_in": 1.865,
+   "tock_in": 0.841,
+   "dur": 0.3,
+   "pre": 0.005,
+   "times": [
+    15.0,
+    17.0,
+    19.0,
+    34.0,
+    36.0,
+    36.5
+   ],
+   "gain_db": -7.0,
+   "hp": 300,
+   "gain_keys": [
+    [
+     15.0,
+     -2.0
+    ],
+    [
+     19.0,
+     -4.0
+    ],
+    [
+     34.0,
+     -5.0
+    ],
+    [
+     36.0,
+     -3.0
+    ],
+    [
+     36.5,
+     2.0
+    ]
+   ]
+  }
+ ],
  "score": {
   "file": "/home/user/coffee/score/music.wav",
   "gain_db": 0.0

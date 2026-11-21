@@ -8,7 +8,9 @@ Spec (data/sound2.json):
               "fade_in", "fade_out", "rms_db"}],
    "cues":  [{"file", "src_in", "dur", "at", "gain_db", "fade_in", "fade_out", "hp", "lp", "pitch": semitones,
               "reverse": false, "rms_db": target RMS before gain (optional), "align": "end" (the sound ends at `at`), "gain_keys"}],
-   "ticks": {"file", "tick_in", "tock_in", "dur", "times": [...], "gain_db", "gain_keys": [[t, db], ...], "hp", "lp"},
+   "ticks": [{"file", "tick_in", "tock_in", "dur", "pre", "times": [...], "gain_db", "gain_keys": [[t, db], ...], "hp", "lp"}, ...]
+            (one group per clock voice; ticks alternate tick/tock; `pre` = how far into the cut the transient sits),
+   cue "reverb": {"rt60": s, "mix": 0..1, "predelay": s} puts a sound far away in a large space (synthetic hall),
    "ducks": [[t0, t1, db]]   (master-level dips of everything but the score, e.g. for a hard stop)
    "silence": [[t0, t1]]     (absolute silence windows: everything is cut, with 4 ms fades)}
 Every sound is decoded with ffmpeg to 48 kHz stereo; tempo uses atempo (pitch kept), pitch uses resampling.
@@ -72,6 +74,24 @@ def filters(c: dict) -> list[str]:
     return f
 
 
+def reverb(a: np.ndarray, rt60: float, mix: float, predelay: float = 0.02, seed: int = 3) -> np.ndarray:
+    """A synthetic hall: decorrelated exponentially decaying noise per channel, darker as it decays."""
+    from scipy.signal import fftconvolve, butter, sosfilt
+    rng = np.random.default_rng(seed)
+    n = int(rt60 * 1.2 * SR)
+    t = np.arange(n) / SR
+    out = np.zeros((len(a) + n + int(predelay * SR), 2))
+    for ch in range(2):
+        ir = rng.standard_normal(n) * np.exp(-6.91 * t / rt60)
+        ir = sosfilt(butter(2, 5000, "low", fs=SR, output="sos"), ir)
+        ir /= np.sqrt(np.sum(ir ** 2)) + 1e-12
+        wet = fftconvolve(a[:, ch], ir)
+        d = int(predelay * SR)
+        out[d:d + len(wet), ch] += wet * mix
+        out[:len(a), ch] += a[:, ch] * (1 - mix)
+    return out
+
+
 def place(bus: np.ndarray, a: np.ndarray, at: float) -> None:
     i0 = int(round(at * SR))
     if i0 >= len(bus):
@@ -125,6 +145,9 @@ def main() -> None:
             a = resample_poly(a, num, den, axis=0)
         if c.get("reverse"):
             a = a[::-1].copy()
+        if c.get("reverb"):
+            rv = c["reverb"]
+            a = reverb(a, rv.get("rt60", 3.0), rv.get("mix", 0.5), rv.get("predelay", 0.02))
         if "rms_db" in c:
             a *= 10 ** ((c["rms_db"] - rms_db(a)) / 20)
         a *= 10 ** (c.get("gain_db", 0) / 20) * env(len(a), c.get("fade_in", 0.005), c.get("fade_out", 0.05))[:, None]
@@ -132,15 +155,18 @@ def main() -> None:
         a *= keyed(c, at, len(a))[:, None]
         place(fx, a, at)
         report["cues"].append({"file": os.path.basename(c["file"]), "at": round(at, 3), "len": round(len(a) / SR, 3), "rms_db": round(rms_db(a), 1)})
-    tk = sp.get("ticks")
-    if tk:
+    tks = sp.get("ticks") or []
+    if isinstance(tks, dict):
+        tks = [tks]
+    for tk in tks:
         tick = decode(tk["file"], tk["tick_in"], tk["dur"], ",".join(filters(tk)) or None)
         tock = decode(tk["file"], tk.get("tock_in", tk["tick_in"]), tk["dur"], ",".join(filters(tk)) or None)
-        e = env(len(tick), 0.002, 0.03)[:, None]
+        n = min(len(tick), len(tock))
+        e = env(n, 0.001, 0.04)[:, None]
         for k, t in enumerate(tk["times"]):
             g = tk.get("gain_db", 0) + (np.interp(t, [q[0] for q in tk["gain_keys"]], [q[1] for q in tk["gain_keys"]]) if tk.get("gain_keys") else 0)
             src = tick if k % 2 == 0 else tock
-            place(fx, src[: len(e)] * e[: len(src)] * 10 ** (g / 20), t - tk.get("pre", 0.0))
+            place(fx, src[:n] * e * 10 ** (g / 20), t - tk.get("pre", 0.0))
     for t0, t1, db in sp.get("ducks", []):
         i0, i1 = int(t0 * SR), int(t1 * SR)
         fx[i0:i1] *= 10 ** (db / 20)

@@ -65,8 +65,10 @@ def grade(rgb: np.ndarray, p: dict) -> np.ndarray:
     x = to_disp(lin)
     # film curve: S around 0.42, then a shoulder that rolls highlights off toward 0.97
     k = p["contrast"]
-    x = 0.42 + (x - 0.42) * k
-    x = np.where(x < 0.42, 0.42 * np.power(np.clip(x / 0.42, 0, None), 1.0 + 0.25 * (k - 1.0) + 0.06), x)
+    # above the pivot a straight contrast line; below it a toe computed from the value before the contrast, so the
+    # shadows fall smoothly to black instead of a whole range of dark values being cut to exactly 0
+    x0 = x
+    x = np.where(x0 < 0.42, 0.42 * np.power(np.clip(x0 / 0.42, 0, None), k + 0.25 * (k - 1.0) + 0.06), 0.42 + (x0 - 0.42) * k)
     s = p["shoulder"]
     over = np.clip(x - s, 0, None)
     x = np.where(x > s, s + (0.975 - s) * (1 - np.exp(-over / (0.975 - s) * 1.15)), x)

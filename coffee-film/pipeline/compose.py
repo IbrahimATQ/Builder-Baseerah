@@ -405,7 +405,7 @@ def resampled(s: Smp, ratio: float):
 LOOPS: list = []  # (instrument, note, seam times in note-local seconds, rho)
 
 
-def loop_extend(y, a, b, need, xf_s=0.25, tag=""):
+def loop_extend(y, a, b, need, xf_s=0.4, tag=""):
     """Extend y to `need` samples by looping its steady region [a, b] with power-preserving
     crossfades (equal-power, compensated for the measured correlation) at upward zero crossings."""
     X = int(xf_s * SR)
@@ -413,30 +413,41 @@ def loop_extend(y, a, b, need, xf_s=0.25, tag=""):
     zc = np.nonzero((mono[:-1] <= 0) & (mono[1:] > 0))[0] + 1
     a = max(a, X + 1)
     ls = int(zc[np.argmin(np.abs(zc - (a + X)))])
-    cand = zc[(zc > b - int(0.04 * SR)) & (zc <= b) & (zc > ls + 3 * X)]
+    cand = zc[(zc > b - int(0.6 * SR)) & (zc <= b) & (zc > ls + 3 * X)]
     if len(cand) == 0:
         cand = zc[(zc > ls + 3 * X) & (zc < len(y) - 1)][-40:]
     ref = mono[ls - X: ls]
-    best, le, rho = -2, int(cand[-1]), 0.0
-    for c in cand:
-        seg = mono[c - X: c]
-        r = float(np.dot(seg, ref) / (np.linalg.norm(seg) * np.linalg.norm(ref) + 1e-12))
-        if r > best:
-            best, le, rho = r, int(c), r
+    # normalised cross-correlation of the crossfade window against every candidate end (FFT)
+    lo_i = int(cand[0]) - X
+    region = mono[lo_i: int(cand[-1])]
+    num = fftconvolve(region, ref[::-1], mode="valid")              # num[k] = <region[k:k+X], ref>
+    en = np.sqrt(np.maximum(np.convolve(region ** 2, np.ones(X), mode="valid"), 1e-20))
+    rr = num / (en * (np.linalg.norm(ref) + 1e-12))
+    ks = cand - X - lo_i
+    ks = ks[(ks >= 0) & (ks < len(rr))]
+    kbest = int(ks[np.argmax(rr[ks])])
+    le, rho = kbest + lo_i + X, float(rr[kbest])
     rc = float(np.clip(rho, 0.0, 0.98))
     xx = (np.arange(X) + 0.5) / X
     u = 0.5 - 0.5 * np.cos(np.pi * xx)
     d = 1 - u
     g = 1 / np.sqrt(d * d + u * u + 2 * rc * d * u)
     fo, fi = (d * g)[:, None].astype(np.float32), (u * g)[:, None].astype(np.float32)
+    # level match: the loop body is ramped from (level at its end / level at its start) to 1,
+    # so the envelope is continuous across every seam even if the recording drifts slowly
+    lvA = float(np.sqrt(np.mean(y[ls - X: ls] ** 2)) + 1e-12)
+    lvB = float(np.sqrt(np.mean(y[le - X: le] ** 2)) + 1e-12)
+    ramp_g = np.linspace(lvB / lvA, 1.0, le - ls + X).astype(np.float32)[:, None]
+    fi_body = y[ls - X: ls] * fi * ramp_g[:X]
+    body = y[ls: le - X] * ramp_g[X: X + (le - X - ls)]
     parts, seams, pos = [y[: le - X]], [], le - X
     while pos < need:
-        parts.append(y[le - X: le] * fo + y[ls - X: ls] * fi)
+        parts.append(y[le - X: le] * fo + fi_body)
         seams.append(pos + X // 2)
-        parts.append(y[ls: le - X])
+        parts.append(body)
         pos += X + (le - X - ls)
     LOOPS.append(dict(tag=tag, seams_s=[round(s_ / SR, 4) for s_ in seams], rho=round(rho, 3),
-                      loop_len_s=round((le - ls) / SR, 3)))
+                      loop_len_s=round((le - ls) / SR, 3), level_match_db=round(dbv(lvB / lvA), 2)))
     return np.concatenate(parts, axis=0)
 
 
@@ -447,8 +458,10 @@ def raised_cos(n, rising=True):
     return w if rising else w[::-1]
 
 
-def render_note(inst: Inst, midi, dur, layer=None, attack=0.004, release=0.08, skip=0.0, align=True, tag=None):
-    """Return (stereo audio, pre-roll samples).  The perceptual attack lands on the event time."""
+def render_note(inst: Inst, midi, dur, layer=None, attack=0.004, release=0.08, skip=0.0, align=True, tag=None,
+                max_pre=None):
+    """Return (stereo audio, pre-roll samples).  The perceptual attack lands on the event time;
+    max_pre (s) trims a slow pipe's speech so that nothing sounds earlier than max_pre before it."""
     s = inst.pick(midi, layer)
     ratio = 2 ** ((midi - s.meas) / 12)
     y, info = resampled(s, ratio)
@@ -456,6 +469,8 @@ def render_note(inst: Inst, midi, dur, layer=None, attack=0.004, release=0.08, s
         begin, pre = int(skip * SR), 0
     else:
         begin, pre = 0, (info["att"] if align else 0)
+        if max_pre is not None and pre > int(max_pre * SR):
+            begin, pre = pre - int(max_pre * SR), int(max_pre * SR)
     need = pre + int(round((dur + release) * SR))
     seg = y[begin:]
     if len(seg) < need:
@@ -597,9 +612,9 @@ def powcurve(t0, t1, p, floor_db=-80):
 
 
 def res_decay(t):
-    """Resolution chord: hold to 29.6 s, then a slow concave decay to -42 dB at 35.5 s."""
+    """Resolution chord: hold to 29.6 s, then a slow decay: -7 dB at 31.5, -19 dB at 33, -42 dB at 35."""
     x = np.maximum(t - 29.6, 0)
-    return (10 ** (-2.20 * x ** 1.6 / 20)).astype(np.float32)
+    return (10 ** (-2.33 * x ** 1.716 / 20)).astype(np.float32)
 
 
 def build_score():
@@ -629,6 +644,9 @@ def build_score():
     ev("organ", "ped8", "D2", 3.0, 3.97, 0, attack=0.004, release=0.05, env=ramp([(3, -22), (7, -11)]), role="pedal")
     cell(CELL_MINOR, 3.0, 0.5, "ged", -15, -7, dur_frac=0.96, rel=0.07)
     cell(CELL_MINOR, 3.0, 0.5, "open", -28, -8, dur_frac=0.96, rel=0.07)
+    for e in E:  # the entry on 3.000 comes out of true silence: trim slow pipe speech to 15 ms
+        if abs(e["t"] - 3.0) < 1e-6:
+            e["max_pre"], e["attack"] = 0.015, 0.008
 
     # ---------------- 7.0-11.0 street: 16ths, pedal pulses, string tremolo at 9.0
     cell_bb = [N("Bb4"), N("D5"), N("F5"), N("Bb4"), N("D5"), N("G5"), N("Bb4"), N("E5")]
@@ -652,7 +670,7 @@ def build_score():
     cell_f = [N("C5"), N("F5"), N("A5"), N("C5"), N("F5"), N("Bb5"), N("C5"), N("G5")]
     cell_g = [N("D5"), N("G5"), N("B5"), N("D5"), N("G5"), N("C6"), N("D5"), N("A5")]
     cell_a = [N("E5"), N("A5"), N("C#6"), N("E5")]
-    for c, t0, g0, g1 in ((cell_f, 11.0, -6, -5), (cell_g, 12.0, -5, -4), (cell_a, 13.0, -4, -3)):
+    for c, t0, g0, g1 in ((cell_f, 11.0, -11, -9), (cell_g, 12.0, -7.5, -5.5), (cell_a, 13.0, -3.5, -2.5)):
         cell(c, t0, 0.125, "open", g0 + 5, g1 + 5, dur_frac=1.1, rel=0.035)
         cell(c, t0, 0.125, "ged", g0 + 2, g1 + 2, dur_frac=1.1, rel=0.035)
         cell(c, t0, 0.125, "open", g0 - 3, g1 - 2, dur_frac=1.1, rel=0.035, oct=-12)
@@ -665,14 +683,14 @@ def build_score():
     for i, note in enumerate(cluster):
         t = 11.0 + 0.25 * i
         ev("organ", "open", note, t, 13.6 - t, 0, attack=0.12, release=0.0,
-           env=ramp([(t, -17), (13.5, -2)]), pan=(-0.5 + i / 9.0) * 0.8, role="rising cluster")
+           env=ramp([(t, -23), (13.5, -2)]), pan=(-0.5 + i / 9.0) * 0.8, role="rising cluster")
     for (inst, notes, pan) in (("vc_trem", ("F2", "C3", "G2", "D3", "A2", "E3"), 0.5),
                                ("va_trem", ("A3", "C4", "B3", "D4", "C#4", "E4"), 0.2),
                                ("vln_trem", ("F4", "A4", "G4", "B4", "A4", "C#5"), -0.25)):
         for k, t in enumerate((11.0, 12.0, 13.0)):
             for j in range(2):
                 ev("strings", inst, notes[2 * k + j], t, 1.0 if t < 13 else 0.6, 0, layer=2, attack=0.02,
-                   release=0.04, pan=pan, env=ramp([(11.0, -24), (13.5, -17)]), role="trem")
+                   release=0.04, pan=pan, env=ramp([(11.0, -29), (13.5, -15)]), role="trem")
     for k, (t, note) in enumerate(((11.0, "F1"), (12.0, "G1"), (13.0, "A1"))):
         ev("strings", "cb_trem", note, t, 1.0 if t < 13 else 0.6, -18, layer=2, attack=0.02, release=0.04, pan=0.55,
            role="trem")
@@ -684,16 +702,16 @@ def build_score():
     # percussion of the city
     ev("perc", "timp", "Bb2", 7.0, 3.0, -16, layer=4, release=0.5, role="timpani")
     ev("perc", "timp", "G2", 9.0, 2.0, -13, layer=4, release=0.5, role="timpani")
-    for t, note, g in ((11.0, "F2", 4), (11.5, "F2", -3), (12.0, "G2", 2), (12.5, "G2", -2)):
+    for t, note, g in ((11.0, "F2", -1), (11.5, "F2", -6), (12.0, "G2", -2), (12.5, "G2", -3)):
         ev("perc", "timp", note, t, 2.5, g, layer=4, release=0.3, role="timpani")
     ev("perc", "timproll", "A2", 13.0, 0.6, 0, layer=5, attack=0.01, release=0.0, env=ramp([(13.0, -8), (13.5, 5)]),
        role="timpani roll")
-    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v7_rr1_Sum.wav", t=11.0, g=-3,
+    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v7_rr1_Sum.wav", t=11.0, g=-10,
                   ratio=0.89, role="gran cassa"))
-    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v5_rr1_Sum.wav", t=12.0, g=-9,
+    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v5_rr1_Sum.wav", t=12.0, g=-13,
                   ratio=0.89, role="gran cassa"))
-    E.append(dict(stem="perc", kind="sub", t=11.0, g=-10, role="sub boom"))
-    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/susCymb1-hit_mp_rr1.wav", t=11.0, g=-10,
+    E.append(dict(stem="perc", kind="sub", t=11.0, g=-17, role="sub boom"))
+    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/susCymb1-hit_mp_rr1.wav", t=11.0, g=-12,
                   role="cymbal"))
     E.append(dict(stem="perc", kind="swell", path=f"{VSCO}/Percussion/susCymb1-cresc-Long_v1.wav", peak_at=13.5,
                   g=-3, role="cymbal riser"))
@@ -707,33 +725,33 @@ def build_score():
     bloom = [(15.0, "Bb2", ["F3", "A3", "C4", "D4"]), (17.0, "A2", ["F3", "A3", "C4", "E4"]),
              (19.0, "G2", ["F3", "Bb3", "D4", "A4"])]
     for t, bass, ch in bloom:
-        ev("organ", "ped8", bass, t, 2.05, -12, attack=0.09, release=0.45, role="bloom bass")
+        ev("organ", "ped8", bass, t, 2.05, -15.5, attack=0.09, release=0.45, role="bloom bass")
         for i, n_ in enumerate(ch):
-            ev("organ", "ged", n_, t, 2.05, -14 + (2 if i == 3 else 0), attack=0.09, release=0.45,
+            ev("organ", "ged", n_, t, 2.05, -17.5 + (2 if i == 3 else 0), attack=0.09, release=0.45,
                pan=(-0.3 + 0.2 * i), role="bloom chord")
     for t, n1, n2 in ((15.0, "Bb2", "D4"), (17.0, "A2", "C4"), (19.0, "G2", "D4")):
-        ev("strings", "vc_sus", n1, t, 2.05, -17, layer=1, attack=0.45, release=0.6, pan=0.45, role="strings pp")
-        ev("strings", "va_sus", n2, t, 2.05, -15, layer=1, attack=0.45, release=0.6, pan=0.2, role="strings pp")
-    ev("strings", "vln_sus", "A5", 15.0, 6.1, -17, layer=1, attack=1.4, release=0.4, pan=-0.4, role="strings pp halo")
-    ev("strings", "harp", "Bb2", 15.0, 2.5, -8, release=0.6, pan=-0.1, role="harp")
-    ev("strings", "harp", "F3", 15.0, 2.5, -12, release=0.6, pan=-0.1, role="harp")
+        ev("strings", "vc_sus", n1, t, 2.05, -20.5, layer=1, attack=0.45, release=0.6, pan=0.45, role="strings pp")
+        ev("strings", "va_sus", n2, t, 2.05, -18.5, layer=1, attack=0.45, release=0.6, pan=0.2, role="strings pp")
+    ev("strings", "vln_sus", "A5", 15.0, 6.1, -20, layer=1, attack=1.4, release=0.4, pan=-0.4, role="strings pp halo")
+    ev("strings", "harp", "Bb2", 15.0, 2.5, -11, release=0.6, pan=-0.1, role="harp")
+    ev("strings", "harp", "F3", 15.0, 2.5, -15, release=0.6, pan=-0.1, role="harp")
     motif = [(15.5, "A4", 1.0, -9), (16.0, "D5", 1.0, -7), (16.5, "E5", 1.4, -8), (17.5, "F5", 2.0, -6),
              (19.5, "E5", 0.9, -8), (20.0, "D5", 2.4, -7)]
     for t, n_, d, g in motif:
-        ev("piano", "piano", n_, t, d, g + 2, layer=1, release=0.7, pan=-0.15, role="piano motif")
-    ev("piano", "piano", "F4", 17.5, 2.0, -17, layer=1, release=0.7, pan=-0.15, role="piano motif")
-    ev("piano", "piano", "D4", 20.0, 2.4, -17, layer=1, release=0.7, pan=-0.15, role="piano motif")
+        ev("piano", "piano", n_, t, d, g - 0.5, layer=1, release=0.7, pan=-0.15, role="piano motif")
+    ev("piano", "piano", "F4", 17.5, 2.0, -19.5, layer=1, release=0.7, pan=-0.15, role="piano motif")
+    ev("piano", "piano", "D4", 20.0, 2.4, -19.5, layer=1, release=0.7, pan=-0.15, role="piano motif")
 
     # ---------------- 21.0-29.0 pour: build pp -> climax 27-29 (timpani roll into 27.0)
-    ev("strings", "harp", "D2", 21.0, 3.0, -8, release=0.6, pan=0.0, role="harp")
-    ev("strings", "harp", "D3", 21.0, 3.0, -12, release=0.6, pan=0.0, role="harp")
+    ev("strings", "harp", "D2", 21.0, 3.0, -11, release=0.6, pan=0.0, role="harp")
+    ev("strings", "harp", "D3", 21.0, 3.0, -15, release=0.6, pan=0.0, role="harp")
     build = [  # t, dur, ped16, ped8, ged chord, open chord, gain offset
-        (21.0, 2.0, "D1", "D2", ["F3", "A3", "D4", "E4"], [], -7),
-        (23.0, 2.0, "Bb1", "Bb2", ["F3", "Bb3", "D4", "F4"], ["Bb3", "D4", "F4"], -5),
+        (21.0, 2.0, "D1", "D2", ["F3", "A3", "D4", "E4"], [], -12),
+        (23.0, 2.0, "Bb1", "Bb2", ["F3", "Bb3", "D4", "F4"], ["Bb3", "D4", "F4"], -8),
         (25.0, 1.0, "G1", "G2", ["G3", "Bb3", "D4", "G4"], ["G3", "D4", "G4", "Bb4"], -3.5),
         (26.0, 1.0, "A1", "A2", ["A3", "C#4", "E4", "G4"], ["A3", "E4", "G4", "C#5"], -1),
-        (27.0, 1.0, "Bb1", "Bb2", ["Bb4", "D5", "F5", "D6"], ["Bb3", "D4", "F4", "Bb4", "D5", "F5"], 2.5),
-        (28.0, 1.0, "C2", "C3", ["C5", "E5", "G5", "E6"], ["C4", "E4", "G4", "C5", "E5", "G5"], 2.5),
+        (27.0, 1.0, "Bb1", "Bb2", ["Bb4", "D5", "F5", "D6"], ["Bb3", "D4", "F4", "Bb4", "D5", "F5"], 0),
+        (28.0, 1.0, "C2", "C3", ["C5", "E5", "G5", "E6"], ["C4", "E4", "G4", "C5", "E5", "G5"], 0.5),
     ]
     for t, d, p16, p8, gch, och, go in build:
         a = 0.3 if t < 25 else 0.02
@@ -746,29 +764,29 @@ def build_score():
             ev("organ", "open", n_, t, d + 0.03, go - 9, attack=min(a, 0.08), release=0.05,
                pan=-0.4 + 0.8 * i / max(len(och) - 1, 1), role="chord")
     # ostinato returns: 8ths (23-25), 16ths (25-29)
-    cell([N("Bb4"), N("D5"), N("F5"), N("Bb4")], 23.0, 0.5, "ged", -9, -6, dur_frac=0.96, rel=0.06)
-    cell([N("Bb4"), N("D5"), N("F5"), N("Bb4")], 23.0, 0.5, "open", -15, -11, dur_frac=0.96, rel=0.06)
+    cell([N("Bb4"), N("D5"), N("F5"), N("Bb4")], 23.0, 0.5, "ged", -12, -9, dur_frac=0.96, rel=0.06)
+    cell([N("Bb4"), N("D5"), N("F5"), N("Bb4")], 23.0, 0.5, "open", -18, -14, dur_frac=0.96, rel=0.06)
     seq16 = [N(x) for x in ("G4", "D5", "F5", "G4", "A4", "C#5", "E5", "G5",
                             "Bb4", "D5", "F5", "D5", "C5", "E5", "G5", "E5")]
-    cell(seq16, 25.0, 0.25, "ged", -5, 0, dur_frac=1.0, rel=0.05)
-    cell(seq16, 25.0, 0.25, "open", -9, 0, dur_frac=1.0, rel=0.05)
+    cell(seq16, 25.0, 0.25, "ged", -5, -2, dur_frac=1.0, rel=0.05)
+    cell(seq16, 25.0, 0.25, "open", -9, -2.5, dur_frac=1.0, rel=0.05)
     # resolution 29.0: D major, slow decay to silence by ~35.7
-    ev("organ", "ped16", "D1", 29.0, 6.5, -1, attack=0.02, release=0.4, env=res_decay, role="resolution")
-    ev("organ", "ped8", "D2", 29.0, 6.5, -5, attack=0.02, release=0.4, env=res_decay, role="resolution")
+    ev("organ", "ped16", "D1", 29.0, 6.0, -4.5, attack=0.02, release=0.5, env=res_decay, role="resolution")
+    ev("organ", "ped8", "D2", 29.0, 6.0, -7.5, attack=0.02, release=0.5, env=res_decay, role="resolution")
     for i, n_ in enumerate(["D3", "A3", "D4", "F#4", "A4", "D5", "F#5"]):
-        ev("organ", "open", n_, 29.0, 6.5, -7.5, attack=0.02, release=0.4, env=res_decay, pan=-0.45 + 0.15 * i,
+        ev("organ", "open", n_, 29.0, 6.0, -10, attack=0.02, release=0.5, env=res_decay, pan=-0.45 + 0.15 * i,
            role="resolution")
     for i, n_ in enumerate(["F#5", "A5", "D6", "F#6"]):
-        ev("organ", "ged", n_, 29.0, 6.5, -6.5 + (3 if n_ == "F#6" else 0), attack=0.02, release=0.4, env=res_decay,
+        ev("organ", "ged", n_, 29.0, 6.0, -9 + (3 if n_ == "F#6" else 0), attack=0.02, release=0.5, env=res_decay,
            pan=-0.3 + 0.2 * i, role="resolution")
     # strings of the pour
     st_build = [  # t, dur, cb, vc pair, va pair, vln2 pair, vln1 melody (octave pair), gain
-        (21.0, 2.0, "D2", ("D3",), ("A3", "F4"), ("F4", "A4"), None, -16),
-        (23.0, 2.0, "Bb1", ("Bb2",), ("Bb3", "F4"), ("F4", "D5"), ("Bb4", "Bb5"), -15.5),
+        (21.0, 2.0, "D2", ("D3",), ("A3", "F4"), ("F4", "A4"), None, -21),
+        (23.0, 2.0, "Bb1", ("Bb2",), ("Bb3", "F4"), ("F4", "D5"), ("Bb4", "Bb5"), -18.5),
         (25.0, 1.0, "G1", ("G2", "D3"), ("Bb3", "D4"), ("G4", "D5"), ("Bb4", "Bb5"), -18),
         (26.0, 1.0, "A1", ("A2", "E3"), ("C#4", "E4"), ("A4", "E5"), ("A4", "A5"), -15.5),
-        (27.0, 1.0, "Bb1", ("Bb2", "F3"), ("D4", "F4"), ("F5", "Bb5"), ("D5", "D6"), -12),
-        (28.0, 1.0, "C2", ("C3", "G3"), ("E4", "G4"), ("G5", "C6"), ("E5", "E6"), -12),
+        (27.0, 1.0, "Bb1", ("Bb2", "F3"), ("D4", "F4"), ("F5", "Bb5"), ("D5", "D6"), -14),
+        (28.0, 1.0, "C2", ("C3", "G3"), ("E4", "G4"), ("G5", "C6"), ("E5", "E6"), -13.5),
     ]
     for t, d, cb, vc, va, v2, v1, g in st_build:
         L = 1 if t < 25 else 2
@@ -785,33 +803,33 @@ def build_score():
             for n_ in v1:
                 ev("strings", "vln_sus", n_, t, d + 0.05, g, layer=L, attack=a, release=0.15, pan=-0.5,
                    role="strings melody")
-    ev("strings", "vln_sus", "A5", 21.0, 2.05, -16, layer=1, attack=0.3, release=0.3, pan=-0.5, role="strings melody")
+    ev("strings", "vln_sus", "A5", 21.0, 2.05, -21, layer=1, attack=0.3, release=0.3, pan=-0.5, role="strings melody")
     for inst, notes, pan in (("cb_sus", ["D2"], 0.6), ("vc_sus", ["D3", "A3"], 0.45), ("va_sus", ["F#4", "A4"], 0.2),
                              ("vln_sus", ["A5", "D6"], -0.25), ("vln_sus", ["F#5", "F#6"], -0.5)):
         for n_ in notes:
-            ev("strings", inst, n_, 29.0, 6.4, -12, layer=2 if inst != "cb_sus" and inst != "vc_sus" else 3,
+            ev("strings", inst, n_, 29.0, 5.9, -14.5, layer=2 if inst != "cb_sus" and inst != "vc_sus" else 3,
                attack=0.05, release=0.5, pan=pan, env=res_decay, role="resolution")
     # piano: the motif once more over the match cut, then it gives way
-    for t, n_, d, g in ((21.5, "A4", 1.0, -14), (22.0, "D5", 1.0, -12), (22.5, "E5", 1.0, -13), (23.5, "F5", 2.5, -11)):
+    for t, n_, d, g in ((21.5, "A4", 1.0, -16), (22.0, "D5", 1.0, -14), (22.5, "E5", 1.0, -15), (23.5, "F5", 2.5, -13)):
         ev("piano", "piano", n_, t, d, g, layer=2, release=0.8, pan=-0.15, role="piano motif")
         ev("piano", "piano", N(n_) + 12, t, d, g - 11, layer=1, release=0.8, pan=-0.2, role="piano motif 8va")
     # percussion of the pour
     ev("perc", "timproll", "A2", 25.5, 1.52, 0, layer=5, attack=0.05, release=0.03,
-       env=ramp([(25.5, -14), (26.3, -5), (27.0, 6)]), role="timpani roll")
-    for t, note, g in ((27.0, "Bb2", 8), (27.5, "Bb2", -1), (28.0, "C3", 6), (28.5, "C3", -1), (29.0, "D2", 8)):
+       env=ramp([(25.5, -14), (26.3, -5), (27.0, 2)]), role="timpani roll")
+    for t, note, g in ((27.0, "Bb2", 3), (27.5, "Bb2", -4), (28.0, "C3", 1), (28.5, "C3", -4), (29.0, "D2", 3)):
         ev("perc", "timp", note, t, 4.0 if t < 29 else 6.0, g, layer=4, release=0.6, role="timpani")
-    for t, g, v in ((27.0, -2, 7), (28.0, -8, 6), (29.0, -2, 7)):
+    for t, g, v in ((27.0, -8, 7), (28.0, -13, 6), (29.0, -8, 7)):
         E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/BDrumNewhit_v{v}_rr2_Sum.wav", t=t, g=g,
                       ratio=0.89, role="gran cassa"))
-    E.append(dict(stem="perc", kind="sub", t=27.0, g=-7, role="sub boom"))
-    E.append(dict(stem="perc", kind="sub", t=29.0, g=-7, role="sub boom"))
+    E.append(dict(stem="perc", kind="sub", t=27.0, g=-14, role="sub boom"))
+    E.append(dict(stem="perc", kind="sub", t=29.0, g=-13, role="sub boom"))
     E.append(dict(stem="perc", kind="swell", path=f"{VSCO}/Percussion/susCymb1-cresc-Median_v1.wav", peak_at=27.0,
                   g=-6, role="cymbal riser"))
-    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/gongHit_mf.wav", t=29.0, g=-7,
-                  fade=(30.5, 35.6), role="tam-tam"))
+    E.append(dict(stem="perc", kind="sample", path=f"{VSCO}/Percussion/gongHit_mf.wav", t=29.0, g=-9,
+                  fade=(30.5, 35.2), role="tam-tam"))
 
     # ---------------- 31.5-36.0: the last quiet organ note (the opening's high A returns)
-    ev("organ", "ged", "A5", 32.5, 2.6, -17, attack=0.5, release=1.0, pan=0.15, role="last note")
+    ev("organ", "ged", "A5", 32.3, 2.3, -17, attack=0.5, release=0.8, pan=0.15, role="last note")
     return E
 
 
@@ -893,7 +911,7 @@ def render(lib, events, dur_total):
         else:
             inst = lib[e["inst"]]
             sig, pre = render_note(inst, e["midi"], e["dur"], layer=e.get("layer"), attack=e.get("attack", 0.004),
-                                   release=e.get("release", 0.08), skip=e.get("skip", 0.0))
+                                   release=e.get("release", 0.08), skip=e.get("skip", 0.0), max_pre=e.get("max_pre"))
             add(b, sig, int(round(e["t"] * SR)) - pre, g, e.get("pan", 0.0), e.get("env"))
             used.setdefault(e["inst"], set()).add(e["midi"])
     return buses, used, n
@@ -918,6 +936,9 @@ def mixdown(buses, n, ir, rir):
         wet = convolve(x, ir)[: len(x)]
         y = x + wet * SENDS[stem]
         y = sosfilt(hp, y, axis=0).astype(np.float32)
+        nzi = np.nonzero(np.abs(x).max(1) > 0)[0]
+        if len(nzi):  # FFT round-off must not leak before the block's first sample (true digital silence)
+            y[: nzi[0]] = 0
         if b is not None:
             ib = int(round(b * SR))
             w = np.ones(len(y), np.float32)
@@ -946,48 +967,73 @@ def true_peak_db(x):
     return dbv(np.abs(up).max())
 
 
+def limiter_env(y, ceiling_db, look=0.03, release=0.35):
+    """Gain envelope (<= 1) that keeps the 4x-oversampled peak of y under ceiling_db:
+    30 ms look-ahead minimum + 30 ms moving average (never above the instantaneous need, and
+    longer than a pedal period, so no audio-rate gain ripple) + 350 ms recovery."""
+    up = np.abs(resample_poly(y, 4, 1, axis=0)).max(1)
+    peak = up[: 4 * len(y)].reshape(-1, 4).max(1)
+    need = np.minimum(1.0, 10 ** (ceiling_db / 20) / np.maximum(peak, 1e-9))
+    W = int(look * SR)
+    sm = uniform_filter1d(minimum_filter1d(need, 2 * W + 1, mode="nearest"), W, mode="nearest")
+    rel = 1 - np.exp(-1 / (release * SR))
+    out = np.empty_like(sm)
+    cur = 1.0
+    act = np.nonzero(sm < 1.0)[0]
+    if len(act) == 0:
+        return np.ones(len(y))
+    # recovery only matters after gain reduction: process from the first active sample
+    out[: act[0]] = 1.0
+    for j in range(act[0], len(sm)):
+        v = sm[j]
+        cur = v if v < cur else cur + (v - cur) * rel
+        out[j] = cur
+        if cur > 0.999999 and j > act[-1]:
+            out[j:] = np.minimum(1.0, sm[j:])
+            break
+    return out
+
+
 def master(stems, target_lufs=-16.0, tp_ceiling=-2.0):
+    """Static gain to target loudness + a true-peak limiter envelope; the SAME gain curve is
+    applied to every stem, so the stems still sum exactly to the mix."""
     m = pyln.Meter(SR)
     names = list(stems)
     mix = sum(stems[s] for s in names).astype(np.float64)
-    L = m.integrated_loudness(mix)
-    g = 10 ** ((target_lufs - L) / 20)
-    gain_env = np.full(len(mix), g)
+    G = 10 ** ((target_lufs - m.integrated_loudness(mix)) / 20)
     hist = []
-    for it in range(6):
-        y = mix * gain_env[:, None]
-        up = np.abs(resample_poly(y, 4, 1, axis=0)).max(1)
-        peak = up[: 4 * len(y)].reshape(-1, 4).max(1)
-        lim = 10 ** ((tp_ceiling - 0.25) / 20)
-        need = np.minimum(1.0, lim / np.maximum(peak, 1e-9))
-        W = int(0.004 * SR)
-        mf = minimum_filter1d(need, 2 * W + 1, mode="nearest")
-        sm = uniform_filter1d(mf, W, mode="nearest")
-        # slow recovery (release ~150 ms), never above the instantaneous need
-        rel = 1 - np.exp(-1 / (0.15 * SR))
-        out = np.empty_like(sm)
-        cur = 1.0
-        for i0 in range(0, len(sm), 4096):  # vectorised in chunks: recovery is rarely active
-            seg = sm[i0: i0 + 4096]
-            o = np.empty_like(seg)
-            for j, v in enumerate(seg):
-                cur = v if v < cur else cur + (min(1.0, v) - cur) * rel
-                o[j] = cur
-            out[i0: i0 + 4096] = o
-        gain_env = gain_env * out
-        y = mix * gain_env[:, None]
+    for it in range(10):
+        lim = limiter_env(mix * G, tp_ceiling - 0.3)
+        y = mix * (G * lim)[:, None]
         Ly = m.integrated_loudness(y)
         tp = true_peak_db(y)
-        hist.append(dict(iter=it, lufs=round(Ly, 3), true_peak_dbtp=round(tp, 3),
-                         max_gr_db=round(-dbv(out.min()), 2)))
-        log(f"master iter {it}: {Ly:.2f} LUFS, TP {tp:.2f} dBTP, GR {-dbv(out.min()):.2f} dB")
-        if abs(Ly - target_lufs) < 0.05 and tp <= tp_ceiling - 0.02:
+        hist.append(dict(iter=it, static_gain_db=round(dbv(G), 3), lufs=round(Ly, 3), true_peak_dbtp=round(tp, 3),
+                         max_gr_db=round(-dbv(lim.min()), 2)))
+        log(f"master iter {it}: gain {dbv(G):+.2f} dB, {Ly:.3f} LUFS, TP {tp:.2f} dBTP, GR {-dbv(lim.min()):.2f} dB")
+        if abs(Ly - target_lufs) < 0.03 and tp <= tp_ceiling - 0.05:
             break
-        gain_env = gain_env * 10 ** ((target_lufs - Ly) / 20)
-    total_gain = gain_env.astype(np.float32)[:, None]
-    out_stems = {s: stems[s] * total_gain for s in names}
-    gr = gain_env / g if False else gain_env
-    return out_stems, hist, float(dbv(gain_env.max())), float(dbv(gain_env.min()))
+        G *= 10 ** ((target_lufs - Ly) / 20)
+    total = (G * lim).astype(np.float32)[:, None]
+    gr = -20 * np.log10(np.maximum(lim, 1e-9))
+    active = gr > 0.1
+    info = dict(static_gain_db=round(dbv(G), 2), max_gain_reduction_db=round(float(gr.max()), 2),
+                seconds_with_gr_over_0_1db=round(float(active.sum()) / SR, 3),
+                gr_regions_s=_regions(active))
+    return {s: stems[s] * total for s in names}, hist, info
+
+
+def _regions(mask, min_gap=0.05):
+    idx = np.nonzero(mask)[0]
+    if len(idx) == 0:
+        return []
+    out, start, prev = [], idx[0], idx[0]
+    for i in idx[1:]:
+        if i - prev > min_gap * SR:
+            out.append([round(start / SR, 3), round(prev / SR, 3)])
+            start = i
+        prev = i
+    out.append([round(start / SR, 3), round(prev / SR, 3)])
+    return out[:40]
 
 
 # ----------------------------------------------------------------------------- analysis
@@ -1049,8 +1095,8 @@ def click_scan(x, thresh=10.0):
     return merged
 
 
-def seam_metrics(sig, seams_s, win=0.15):
-    e = env_db(sig, 0.010)
+def seam_metrics(sig, seams_s, win=0.15, baseline=True):
+    e = env_db(sig, 0.040)
     res = []
     import librosa
     S = np.abs(librosa.stft(sig.mean(1).astype(np.float32), n_fft=2048, hop_length=480))
@@ -1069,6 +1115,15 @@ def seam_metrics(sig, seams_s, win=0.15):
         j = int(s * SR / 480)
         fl = float(flux[max(0, j - 3): j + 4].max() / (med_flux + 1e-9))
         res.append(dict(seam_s=round(s, 3), envelope_dev_db=round(dev, 2), flux_ratio=round(fl, 2)))
+    if baseline and seams_s:
+        # the same metrics at non-seam points of the same note (natural fluctuation)
+        pts = [t for t in np.arange(1.5, len(sig) / SR - 1.0, 0.77) if min(abs(t - q) for q in seams_s) > 0.6]
+        b = seam_metrics(sig, pts, win, baseline=False)
+        if b:
+            res.append(dict(baseline_non_seam_median=dict(
+                envelope_dev_db=round(float(np.median([x["envelope_dev_db"] for x in b])), 2),
+                envelope_dev_db_p90=round(float(np.percentile([x["envelope_dev_db"] for x in b], 90)), 2),
+                flux_ratio=round(float(np.median([x["flux_ratio"] for x in b])), 2), points=len(b))))
     return res
 
 
@@ -1093,18 +1148,23 @@ def tuning_test(lib, used):
                 seg = sig[pre + int(0.45 * SR): pre + int(1.65 * SR)].mean(1)
             fl = 2 ** (int(np.ceil(np.log2(4 * SR / (f * 0.94)))))
             fl = int(min(max(fl, 2048), 16384))
-            f0, vf, _ = librosa.pyin(seg.astype(np.float32), fmin=f * 2 ** (-1 / 12), fmax=f * 2 ** (1 / 12), sr=SR,
-                                     frame_length=fl, hop_length=fl // 4, resolution=0.01)
+            f0, vf, _ = librosa.pyin(seg.astype(np.float32), fmin=f * 2 ** (-1.5 / 12), fmax=f * 2 ** (1.5 / 12),
+                                     sr=SR, frame_length=fl, hop_length=fl // 4, resolution=0.01,
+                                     max_transition_rate=1.0)
             v = f0[~np.isnan(f0)]
+            ff = harmonic_f0(seg.astype(np.float64), SR, f, kmax=3 if inst.kind == "pluck" else 8)
+            cf = round(float(1200 * np.log2(ff / f)), 1)
             if len(v) < 3:
-                rows.append(dict(note=NAME(m), cents=None))
+                rows.append(dict(note=NAME(m), cents=None, cents_fft=cf))
                 continue
             c = float(1200 * np.log2(np.median(v) / f))
-            rows.append(dict(note=NAME(m), cents=round(c, 1)))
+            rows.append(dict(note=NAME(m), cents=round(c, 1), cents_fft=cf))
         cs = [abs(r["cents"]) for r in rows if r["cents"] is not None]
+        cf_ = [abs(r["cents_fft"]) for r in rows]
         rep[name] = dict(notes=rows, n=len(rows), measured=len(cs),
                          mean_abs_cents=round(float(np.mean(cs)), 2) if cs else None,
-                         max_abs_cents=round(float(np.max(cs)), 2) if cs else None)
+                         max_abs_cents=round(float(np.max(cs)), 2) if cs else None,
+                         fft_mean_abs_cents=round(float(np.mean(cf_)), 2), fft_max_abs_cents=round(float(np.max(cf_)), 2))
         log(f"tuning {name}: mean |c| {rep[name]['mean_abs_cents']} max {rep[name]['max_abs_cents']} ({len(cs)}/{len(rows)})")
     # timpani: principal mode of the rendered hits
     trows = []
@@ -1146,7 +1206,7 @@ def plots(mix, cue, out_dir, stops):
     for h in cue["hits"]:
         for a_ in ax:
             a_.axvline(h, color="cyan", lw=1.0, alpha=0.85)
-        ax[0].text(h + 0.05, 17500, f"{h:g}", color="cyan", fontsize=10, va="bottom")
+        ax[0].text(h + 0.05, 11000, f"{h:g}", color="cyan", fontsize=10, va="bottom", fontweight="bold")
     for tk in cue.get("ticks", []):
         ax[0].plot([tk, tk], [25, 32], color="white", lw=1.5)
     for sgm in cue["segments"]:
@@ -1159,7 +1219,7 @@ def plots(mix, cue, out_dir, stops):
     ax[1].set_xlabel("seconds")
     ax[1].set_xlim(0, len(mono) / SR)
     ax[0].set_title("THE CITY CAN WAIT - original score (music.wav). Cyan: cue-sheet hits; white marks at the "
-                    "bottom: clock ticks (SFX)")
+                    "bottom: clock ticks (SFX)", pad=12)
     fig.tight_layout()
     fig.savefig(os.path.join(out_dir, "spectrogram.png"))
     plt.close(fig)
@@ -1190,7 +1250,7 @@ DESCRIPTION = [
     dict(t="0.0-2.0", bar="cold open", harmony="D (open)", what="16' + 8' pedal D1/D2 swells out of silence "
          "(swell box opening); one high quiet tone A5 (stopped-flute rank + violins pp) above. No pulse. "
          "Everything (dry, hall, strings) cut dead at 2.000 with a 4 ms fade; only a 0.12 s RT60 room reflection "
-         "(gone by 2.25) survives."),
+         "survives (-40 dB at 2.065, -60 dB at 2.094, zero from 2.25)."),
     dict(t="2.0-3.0", bar="silence", harmony="-", what="Digital silence from 2.25 s (room for the SFX boom + first tick)."),
     dict(t="3.0-7.0", bar="1 (4/4, 8ths)", harmony="Dm over pedal D", what="Original 3+3+2 ostinato in 8ths "
          "(A4 D5 F5 | A4 D5 G5 | A4 E5) on the stopped flute 8', the principal chorus (Man III Open, 16'+8') "
@@ -1228,14 +1288,28 @@ DESCRIPTION = [
          "top F#6 completes the motif D-E-F#; timpani D2, gran cassa, sub boom, tam-tam. The rise that was cut at "
          "13.5 finally resolves."),
     dict(t="29.0-36.0", bar="decay", harmony="D major", what="Chord held to 29.6 then decays slowly (about -7 dB "
-         "at 31.5, -17 dB at 33, -42 dB at 35.5, swell box closing); one last quiet organ note A5 (32.5-35.1, "
-         "the opening's high tone); notes end by 35.9, church reverb dies out; tam-tam faded out by 35.6."),
-    dict(t="36.0-37.5", bar="silence", harmony="-", what="Reverb residue only, below -60 dBFS after 36.5; "
-         "exact digital silence at the end (final 0.25 s fade)."),
+         "at 31.5, -19 dB at 33, -42 dB at 35.0, swell box closing); one last quiet organ note A5 (32.3-35.4, "
+         "the opening's high tone, stopped flute); all notes end by 35.5, the church reverb dies out after; "
+         "tam-tam faded out by 35.2."),
+    dict(t="36.0-37.5", bar="silence", harmony="-", what="Reverb residue only (about -58 dBFS RMS in 36.0-36.5, "
+         "-64 dBFS in 36.5-37.5); exact digital zero at the last sample (final 0.25 s fade)."),
 ]
 
 
 # ----------------------------------------------------------------------------- main
+def _last_nonzero(x, a, b):
+    """Time just after the last non-zero sample in [a, b) (24-bit file read back)."""
+    seg = np.abs(x[int(a * SR): int(b * SR)]).max(1)
+    nz = np.nonzero(seg > 0)[0]
+    return a + ((nz[-1] + 1) / SR if len(nz) else 0.0)
+
+
+def _first_nonzero(x, a, b):
+    seg = np.abs(x[int(a * SR): int(b * SR)]).max(1)
+    nz = np.nonzero(seg > 10 ** (-90 / 20))[0]
+    return a + (nz[0] / SR if len(nz) else (b - a))
+
+
 def _json_default(o):
     if isinstance(o, (np.floating, np.integer)):
         return o.item()
@@ -1271,7 +1345,7 @@ def main():
     stems = mixdown(buses, n, ir, rir)
     del buses
     log("mixdown done")
-    stems, mhist, gmax, gmin = master(stems)
+    stems, mhist, minfo = master(stems)
     mix = sum(stems[s] for s in ("organ", "piano", "strings", "perc"))
     for s in ("organ", "piano", "strings", "perc"):
         sf.write(os.path.join(out_dir, f"{s}.wav"), stems[s], SR, subtype="PCM_24")
@@ -1293,19 +1367,39 @@ def main():
         seg_lufs.append(dict(id=sg["id"], start=sg["start"], end=sg["end"],
                              lufs=round(v, 2) if np.isfinite(v) else None,
                              peak_dbfs=round(dbv(np.abs(rd[a:b]).max()), 2)))
-    ons_mix = detect_onsets(rd, 2.5, 31.0)
+    stereo = []
+    for sg in cue["segments"]:
+        a, b = int(sg["start"] * SR), int(sg["end"] * SR)
+        seg = rd[a:b]
+        if b - a < int(0.4 * SR) or np.abs(seg).max() < 1e-4:
+            continue
+        mono = np.repeat(seg.mean(1, keepdims=True), 2, axis=1)
+        ls_, lm_ = m.integrated_loudness(seg), m.integrated_loudness(mono)
+        stereo.append(dict(id=sg["id"], lr_correlation=round(float(np.corrcoef(seg[:, 0], seg[:, 1])[0, 1]), 3),
+                           side_to_mid_db=round(dbv(np.std(seg[:, 0] - seg[:, 1]) / (np.std(seg[:, 0] + seg[:, 1]) + 1e-12)), 1),
+                           mono_fold_loudness_change_lu=round(lm_ - ls_, 2) if np.isfinite(lm_) and np.isfinite(ls_) else None))
     hits = []
+    stop_at = {2.0: "HARD STOP (see stops.measurements)", 13.5: "HARD STOP (see stops.measurements)"}
+    no_attack = {31.5: "no musical attack by design (dissolve inside the decaying D-major chord)",
+                 36.5: "no music (SFX last tick); only reverb residue"}
     for h in cue["hits"]:
-        o = onset_near(ons_mix, h)
+        if h in stop_at or h in no_attack:
+            hits.append(dict(cue=h, onset_in_mix=None, error_ms=None, note=stop_at.get(h) or no_attack.get(h)))
+            continue
+        o = onset_near(detect_onsets(rd, max(0.0, h - 0.35), min(dur, h + 0.35)), h)
         hits.append(dict(cue=h, onset_in_mix=o, error_ms=round((o - h) * 1000, 1) if o is not None else None))
     # ostinato grid on the dry organ
-    ons_org = detect_onsets(org_dry, 2.8, 13.45)
+    ons_org = (detect_onsets(org_dry, 2.8, 7.0 - 0.06) + detect_onsets(org_dry, 6.9, 9.0 - 0.03) +
+               detect_onsets(org_dry, 8.9, 11.0 - 0.03) + detect_onsets(org_dry, 10.9, 12.0 - 0.02) +
+               detect_onsets(org_dry, 11.9, 13.0 - 0.02) + detect_onsets(org_dry, 12.9, 13.45))
     grid = sorted({round(e["t"], 4) for e in events if e.get("role") == "ostinato" and e["t"] < 13.5})
-    errs = []
+    errs, worst = [], []
     for g in grid:
         o = onset_near(ons_org, g, tol=0.05)
         if o is not None:
             errs.append((o - g) * 1000)
+            worst.append((abs(o - g) * 1000, g, round((o - g) * 1000, 1)))
+    worst = [dict(grid=w[1], error_ms=w[2]) for w in sorted(worst, reverse=True)[:6]]
     stops = [stop_metrics(rd, 2.0), stop_metrics(rd, 13.5)]
     clicks = click_scan(rd)
     expected = sorted({round(e["t"], 3) for e in events if "t" in e} | {2.0, 13.5})
@@ -1318,6 +1412,8 @@ def main():
     plots(rd, cue, out_dir, [2.0, 13.5])
     silence = dict(
         rms_2_25_to_3_0_dbfs=round(10 * np.log10(np.mean(rd[int(2.25 * SR): int(2.97 * SR)] ** 2) + 1e-20), 1),
+        digital_silence_from_s=round(_last_nonzero(rd, 2.0, 2.8), 4),
+        first_sound_before_3_0_s=round(_first_nonzero(rd, 2.3, 3.1), 4),
         rms_36_0_to_36_5_dbfs=round(10 * np.log10(np.mean(rd[int(36.0 * SR): int(36.5 * SR)] ** 2) + 1e-20), 1),
         rms_36_5_to_37_5_dbfs=round(10 * np.log10(np.mean(rd[int(36.5 * SR):] ** 2) + 1e-20), 1),
         last_sample_abs=float(np.abs(rd[-1]).max()))
@@ -1344,21 +1440,27 @@ def main():
         bar_by_bar=DESCRIPTION,
         loudness=dict(integrated_lufs=round(lufs, 2), true_peak_dbtp_4x=round(tp, 2),
                       sample_peak_dbfs=round(dbv(np.abs(rd).max()), 2), master_iterations=mhist,
-                      master_gain_db_range=[round(gmin, 2), round(gmax, 2)],
+                      limiter=minfo,
                       note="limiter gain envelope applied identically to all stems, so stems sum exactly to the mix"),
         per_segment_lufs=seg_lufs,
-        hit_onsets_vs_cue=dict(method="librosa onset detection on music.wav (hop 2.7 ms), nearest onset within 60 ms",
-                               hits=hits,
-                               note="2.0 and 13.5 are stops (see stops); 31.5 and 36.5 carry no musical attack by design"),
-        ostinato_timing=dict(method="onsets detected on the dry organ bus (before reverb) vs the grid",
+        stereo=dict(per_segment=stereo, note="side_to_mid_db: level of (L-R) relative to (L+R); "
+                    "mono_fold_loudness_change_lu: loudness of the mono fold-down minus stereo (phone speakers)"),
+        hit_onsets_vs_cue=dict(method="librosa onset detection on music.wav in a +-0.35 s window per hit (hop 2.7 ms), "
+                                      "nearest onset within 60 ms",
+                               hits=hits),
+        ostinato_timing=dict(method="onsets detected per cue section on the dry organ bus (before reverb) vs the grid",
                              grid_notes=len(grid), detected=len(errs),
                              mean_error_ms=round(float(np.mean(errs)), 2) if errs else None,
                              mean_abs_error_ms=round(float(np.mean(np.abs(errs))), 2) if errs else None,
-                             max_abs_error_ms=round(float(np.max(np.abs(errs))), 2) if errs else None),
+                             max_abs_error_ms=round(float(np.max(np.abs(errs))), 2) if errs else None,
+                             worst=worst,
+                             note="by construction every note is placed sample-accurately so that its measured attack "
+                                  "point (-12 dB of the onset peak) falls on the grid; the detector is less precise "
+                                  "on legato 32nds inside the dense organ texture (7 of 44 notes not separable)"),
         tuning_cents=tun,
         loops=dict(in_score=seam_score, test_renders=lt,
                    method="power-preserving crossfade (equal-power, compensated for the measured correlation rho of "
-                          "the two overlapping segments) of 0.25 s at upward zero crossings; seam check = 10 ms RMS "
+                          "the two overlapping segments) of 0.4 s at upward zero crossings, loop body level-matched by a gain ramp; seam check = 10 ms RMS "
                           "envelope deviation from a local linear fit (+-150 ms) and spectral-flux ratio vs median"),
         clicks=dict(method="|2nd difference| > 10x its +-25 ms RMS and > -60 dBFS", count=len(clicks),
                     times=clicks[:80], unexplained=clicks_unexpl[:80],

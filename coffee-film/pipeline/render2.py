@@ -93,14 +93,28 @@ class Timing:
         return float(self.f(t))
 
 
-class Reader:
-    """Sequential, graded frames of one prepared stretch; serves single frames or averages of a range."""
+LIN16 = np.power(np.arange(65536, dtype=np.float64) / 65535.0, 2.2).astype(np.float32)   # uint16 display -> linear
 
-    def __init__(self, shot: dict, lut: str, p0: float, W: int, H: int, hist: int = 1):
+
+def shift_img(img: np.ndarray, dx: float, dy: float, border: int = cv2.BORDER_CONSTANT) -> np.ndarray:
+    M = np.array([[1, 0, dx], [0, 1, dy]], np.float32)
+    return cv2.warpAffine(img, M, (img.shape[1], img.shape[0]), flags=cv2.INTER_LINEAR, borderMode=border)
+
+
+class Reader:
+    """Sequential, graded frames of one prepared stretch: single frames, a blend of two neighbours, weighted
+    averages of a range (a shutter), or a trail exposure (a running, camera-aligned exposure)."""
+
+    def __init__(self, shot: dict, lut: str, p0: float, W: int, H: int, hist: int = 1, store: bool = False):
         self.W, self.H = W, H
         self.hist: list[tuple[int, np.ndarray]] = []   # recent frames in linear light (float16), for long exposures
         self.maxhist = max(1, hist)
-        self.k0 = max(0, int(math.floor(p0 * PREP_FPS)) - 1)
+        self.store = store
+        self.trail = shot.get("trail")
+        k0 = int(math.floor(p0 * PREP_FPS)) - 1
+        if self.trail:   # start early, so the exposure already holds its history on the shot's first frame
+            k0 -= int(self.trail.get("frames", 24))
+        self.k0 = max(0, k0)
         den = shot.get("denoise")
         vf = (f"{den + ',' if den else ''}scale={W}:{H}:flags=lanczos:in_color_matrix=bt709:in_range=tv,format=gbrp16le,"
               f"lut3d=file='{lut}':interp=tetrahedral,format=rgb48le")
@@ -109,14 +123,75 @@ class Reader:
         self.n = W * H * 6
         self.k = self.k0 - 1      # index of self.cur
         self.cur = None
+        self.prev = None          # the frame before self.cur (for blends of two neighbours)
+        self.lin = None           # self.cur in linear light (kept when a trail or a history needs it)
+        self.acc = self.wacc = None
+        self.small_prev = None
+        self.off = np.zeros(2)    # where the current frame's content sits relative to the trail's reference frame
+        self.last_vec = (0.0, 0.0)
+
+    def _small(self, disp: np.ndarray) -> np.ndarray:
+        return cv2.resize(disp @ LUMA, (self.W // 4, self.H // 4), interpolation=cv2.INTER_AREA)
 
     def _advance(self) -> bool:
         b = self.p.stdout.read(self.n)
         if len(b) < self.n:
             return False
-        self.cur = np.frombuffer(b, np.uint16).reshape(self.H, self.W, 3).astype(np.float32) * (1 / 65535.0)
+        u = np.frombuffer(b, np.uint16).reshape(self.H, self.W, 3)
+        self.prev = self.cur
+        self.cur = u.astype(np.float32) * (1 / 65535.0)
         self.k += 1
+        self.lin = None
+        if self.store or self.trail:
+            self.lin = LIN16[u]
+        if self.store:
+            self.hist.append((self.k, self.lin.astype(np.float16)))
+            if len(self.hist) > self.maxhist:
+                self.hist.pop(0)
+        if self.trail:
+            self._trail_update()
         return True
+
+    def _trail_update(self) -> None:
+        """A running exposure: acc <- acc*d + frame*(1-d), kept in one fixed reference frame. Each new frame is moved
+        into it by the camera's measured travel (so the city stays sharp and only what moves through it leaves a
+        trail) and the exposure is moved back once when shown: every frame is resampled twice, not once per frame.
+        wacc tracks how much exposure each pixel holds (the edges the camera has just uncovered hold less)."""
+        tr = self.trail
+        d = 1.0 - 1.0 / max(2.0, float(tr.get("frames", 24)))
+        sm = cv2.resize(self.cur @ LUMA, (self.W // 2, self.H // 2), interpolation=cv2.INTER_AREA)
+        if self.acc is None:
+            self.acc = self.lin.copy()
+            self.wacc = np.ones((self.H, self.W), np.float32)
+        else:
+            if tr.get("align", True) and self.small_prev is not None:
+                (dx, dy), resp = cv2.phaseCorrelate(self.small_prev.astype(np.float32), sm.astype(np.float32))
+                if resp > 0.05 and abs(dx) < sm.shape[1] / 4 and abs(dy) < sm.shape[0] / 4:
+                    self.off += (dx * self.W / sm.shape[1], dy * self.H / sm.shape[0])
+            if np.abs(self.off).max() > 0.01:
+                f_ref = cv2.warpAffine(self.lin, np.array([[1, 0, -self.off[0]], [0, 1, -self.off[1]]], np.float32), (self.W, self.H),
+                                       flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_CONSTANT)
+                m_ref = shift_img(np.ones((self.H, self.W), np.float32), -self.off[0], -self.off[1])
+            else:
+                f_ref, m_ref = self.lin, 1.0
+            self.acc *= d
+            self.acc += f_ref * (m_ref[..., None] if isinstance(m_ref, np.ndarray) else 1.0) * (1 - d)
+            self.wacc *= d
+            self.wacc += m_ref * (1 - d)
+        self.small_prev = sm
+
+    def trail_frame(self, k: int) -> np.ndarray:
+        self.frame(k)
+        mix = float(self.trail.get("mix", 0.6))
+        w = self.wacc
+        expo = self.acc / np.maximum(w, 1e-4)[..., None]
+        if np.abs(self.off).max() > 0.01:
+            M = np.array([[1, 0, self.off[0]], [0, 1, self.off[1]]], np.float32)
+            expo = cv2.warpAffine(expo, M, (self.W, self.H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+            w = cv2.warpAffine(w, M, (self.W, self.H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+        # where the exposure holds little (an edge just uncovered by the camera), the current frame stands in
+        mx = mix * np.clip(w / 0.5, 0, 1)[..., None]
+        return to_disp(np.clip((1 - mx) * self.lin + mx * np.clip(expo, 0, None), 0, None))
 
     def frame(self, k: int) -> np.ndarray:
         while self.k < k or self.cur is None:   # a time before the stretch's first frame shows its first frame
@@ -124,26 +199,41 @@ class Reader:
                 break
         if self.cur is None:
             raise RuntimeError("no frame")
+        if k == self.k - 1 and self.prev is not None:
+            return self.prev
+        if k < self.k - 1:
+            for kk, f in self.hist:
+                if kk == k:
+                    return to_disp(f.astype(np.float32))
         return self.cur
 
-    def average(self, k0: int, k1: int) -> tuple[np.ndarray, int, np.ndarray | None, np.ndarray | None]:
-        """Mean of frames k0..k1 (inclusive) in linear light (frames already passed come from a short history,
-        so shutter intervals may overlap: a long exposure), the number averaged, and small grey copies of the
-        first and last of them (to measure how far the picture moved in between)."""
-        while self.k < k1:
-            if not self._advance():
-                break
-            self.hist.append((self.k, to_lin(self.cur).astype(np.float16)))
-            if len(self.hist) > self.maxhist:
-                self.hist.pop(0)
-        use = [(k, f) for k, f in self.hist if k0 <= k <= k1]
-        if not use:
-            return self.frame(k1), 1, None, None
+    def blend(self, kf: int, w: float) -> np.ndarray:
+        """Frame kf and kf+1 mixed by w (0..1): sub-real-time motion without repeated frames."""
+        b = self.frame(kf + 1)
+        a = self.prev if (self.k == kf + 1 and self.prev is not None) else self.frame(kf)
+        return a * (1 - w) + b * w
+
+    def average(self, A: float, B: float) -> tuple[np.ndarray, int, np.ndarray | None, np.ndarray | None]:
+        """Exposure over prep-frame positions [A, B] (frame k covers [k-0.5, k+0.5]): every frame weighted by how
+        much of it falls inside, averaged in linear light (frames already passed come from a short history, so
+        exposures may overlap: a long shutter). Also returns the number of frames used and small grey copies of
+        the first and last (to measure how far the picture moved in between)."""
+        k_lo, k_hi = int(math.floor(A + 0.5)), int(math.floor(B + 0.5))
+        self.frame(k_hi)
+        use = []
+        for k, f in self.hist:
+            w = min(B, k + 0.5) - max(A, k - 0.5)
+            if w > 1e-4 and k_lo <= k <= k_hi:
+                use.append((k, f, w))
+        if len(use) < 2:
+            return self.frame(k_hi), 1, None, None
         acc = np.zeros(use[0][1].shape, np.float32)
-        for _, f in use:
-            acc += f
-        small = lambda lin: cv2.resize(to_disp(lin.astype(np.float32)) @ LUMA, (self.W // 4, self.H // 4), interpolation=cv2.INTER_AREA)
-        return to_disp(acc / len(use)), len(use), small(use[0][1]), small(use[-1][1])
+        wsum = 0.0
+        for _, f, w in use:
+            acc += f.astype(np.float32) * w
+            wsum += w
+        small = lambda lin: self._small(to_disp(lin.astype(np.float32)))
+        return to_disp(acc / wsum), len(use), small(use[0][1]), small(use[-1][1])
 
     def close(self) -> None:
         self.p.stdout.close()
@@ -188,40 +278,88 @@ def warp(img: np.ndarray, z: float, cx: float, cy: float, dx_px: float = 0.0) ->
 
 
 def dir_blur(img: np.ndarray, length: float) -> np.ndarray:
-    """Horizontal motion blur of `length` px, computed at quarter size (the result is a blur anyway)."""
-    if length < 2:
+    """Horizontal motion blur of `length` px (a tent kernel: soft ends, like a real shutter's smear of a pan),
+    computed at quarter size (the result is a blur anyway)."""
+    if length < 1.0:
         return img
     H, W = img.shape[:2]
-    small = cv2.resize(img, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
-    L = max(3, int(length / 4) | 1)
-    k = np.ones((1, L), np.float32) / L
-    small = cv2.filter2D(small, -1, k, borderType=cv2.BORDER_REFLECT)
-    return cv2.resize(small, (W, H), interpolation=cv2.INTER_LINEAR)
+    f = 1 if length < 16 else (2 if length < 64 else 4)   # a short smear keeps full resolution
+    small = cv2.resize(img, (W // f, H // f), interpolation=cv2.INTER_AREA) if f > 1 else img
+    hl = length / f / 2
+    L = int(math.ceil(hl)) * 2 + 1
+    x = np.arange(L, dtype=np.float32) - L // 2
+    k = np.clip(1.0 - np.abs(x) / max(hl, 0.5), 0, None)[None, :]
+    small = cv2.filter2D(small, -1, k / k.sum(), borderType=cv2.BORDER_REFLECT)
+    return cv2.resize(small, (W, H), interpolation=cv2.INTER_LINEAR) if f > 1 else small
 
 
-def lens_blur(img: np.ndarray, r: float, S: float) -> np.ndarray:
-    """Defocus with a round aperture: highlights become bokeh discs. r in px at 4K, S = output scale."""
-    r = r * S
-    if r < 0.8:
-        return img
+_GRID: dict = {}
+
+
+def flow_smear(fr: np.ndarray, g0: np.ndarray, g1: np.ndarray, n: int, scale: float = 1.0) -> np.ndarray:
+    """Motion blur along the measured motion of every pixel (optical flow between the first and last frame of the
+    exposure, at quarter size): joins the stepped copies an average of a fast pan leaves, also where near and far
+    things move at different speeds."""
+    a = np.clip(g0 * 255, 0, 255).astype(np.uint8)
+    b = np.clip(g1 * 255, 0, 255).astype(np.uint8)
+    flow = cv2.calcOpticalFlowFarneback(a, b, None, 0.5, 4, 21, 3, 7, 1.5, 0) * (scale / max(n - 1, 1))
+    H, W = fr.shape[:2]
+    fx, fy = W / a.shape[1], H / a.shape[0]
+    fl = cv2.resize(flow, (W, H), interpolation=cv2.INTER_LINEAR)
+    fl[..., 0] *= fx
+    fl[..., 1] *= fy
+    mag = float(np.percentile(np.hypot(fl[..., 0], fl[..., 1]), 99))
+    if mag < 1.5:
+        return fr
+    taps = int(min(12, max(3, math.ceil(mag / 2))))
+    if (W, H) not in _GRID:
+        _GRID.clear()
+        _GRID[(W, H)] = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float32))
+    xx, yy = _GRID[(W, H)]
+    lin = to_lin(fr)
+    acc = np.zeros_like(lin)
+    for j in range(taps):
+        s = j / (taps - 1) - 0.5
+        acc += cv2.remap(lin, xx + fl[..., 0] * s, yy + fl[..., 1] * s, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    return to_disp(acc / taps)
+
+
+def _lens_core(img: np.ndarray, r: float, boost: float) -> np.ndarray:
     H, W = img.shape[:2]
     f = 4 if r >= 8 else (2 if r >= 3 else 1)
     small = cv2.resize(img, (W // f, H // f), interpolation=cv2.INTER_AREA) if f > 1 else img
     lin = to_lin(small)
     lum = lin @ LUMA
-    lin = lin * (1 + 4.0 * np.clip((lum - 0.55) / 0.45, 0, 1) ** 2)[..., None]
+    lin = lin * (1 + boost * np.clip((lum - 0.55) / 0.45, 0, 1) ** 2)[..., None]
     rr = max(1.0, r / f)
     n = int(math.ceil(rr)) * 2 + 1
     yy, xx = np.mgrid[0:n, 0:n] - n // 2
     k = np.clip(rr + 0.5 - np.sqrt(xx ** 2 + yy ** 2), 0, 1).astype(np.float32)
     k /= k.sum()
     out = cv2.filter2D(lin, -1, k, borderType=cv2.BORDER_REFLECT)
-    out = to_disp(out / (1 + 0.25 * np.clip(out - 1, 0, None)))
+    out = to_disp(out / (1 + boost / 16.0 * np.clip(out - 1, 0, None)))
     return cv2.resize(out, (W, H), interpolation=cv2.INTER_LINEAR) if f > 1 else out
 
 
+def lens_blur(img: np.ndarray, r: float, S: float) -> np.ndarray:
+    """Defocus with a round aperture: highlights become bokeh discs. r in px at 4K, S = output scale.
+    The highlight boost grows with the radius (a tiny blur must not brighten the sky), and small radii are a
+    cross-fade from the sharp image, so the defocus starts and ends without a pop."""
+    rp = r * S
+    if rp < 0.05:
+        return img
+    boost = 4.0 * min(1.0, r / 24.0)
+    m = min(1.0, rp / 2.0)
+    out = _lens_core(img, max(rp, 1.0), boost)
+    return out if m >= 1.0 else img * (1 - m) + out * m
+
+
 class Title:
-    """Lines of text, each re-laid out per frame so its letter spacing can breathe."""
+    """Lines of text, each re-laid out per frame so its letter spacing can breathe. Letters are set on a 4x canvas
+    (advances in fractions of a pixel) and the block is placed with sub-pixel precision, so a slow tracking
+    animation glides instead of stepping a pixel at a time."""
+
+    SS = 4
 
     def __init__(self, t: dict, fonts: str, W: int, H: int):
         self.t, self.W, self.H = t, W, H
@@ -230,44 +368,47 @@ class Title:
         for ln in t["lines"]:
             key = (ln["font"], ln["size"])
             if key not in self.fonts:
-                self.fonts[key] = ImageFont.truetype(os.path.join(fonts, ln["font"]), max(8, int(ln["size"] * self.s)))
+                self.fonts[key] = ImageFont.truetype(os.path.join(fonts, ln["font"]), max(8, int(round(ln["size"] * self.s * self.SS))))
         self.color = np.array(t.get("color", [0.96, 0.94, 0.9]), np.float32)
 
-    def mask(self, track_k: float) -> tuple[np.ndarray, int, int]:
-        t, s = self.t, self.s
+    def mask(self, track_k: float) -> tuple[np.ndarray, float, float]:
+        t, s, q = self.t, self.s, self.SS
         rows = []
         for ln in t["lines"]:
             f = self.fonts[(ln["font"], ln["size"])]
             tr0, tr1 = ln.get("track", [0.0, 0.0]) if isinstance(ln.get("track"), list) else (ln.get("track", 0.0), ln.get("track", 0.0))
-            track = (tr0 + (tr1 - tr0) * track_k) * ln["size"] * s
+            track = (tr0 + (tr1 - tr0) * track_k) * ln["size"] * s * q
             chars = list(ln["text"])
             ws = [f.getlength(c) for c in chars]
-            tw = int(sum(ws) + track * (len(chars) - 1)) + 8
+            tw = int(math.ceil(sum(ws) + track * (len(chars) - 1))) + 8 * q
             asc, desc = f.getmetrics()
-            im = Image.new("L", (max(tw, 8), asc + desc + 8), 0)
+            im = Image.new("L", (max(tw, 8 * q), asc + desc + 8 * q), 0)
             d = ImageDraw.Draw(im)
-            x = 4.0
+            x = 4.0 * q
             for c, w in zip(chars, ws):
-                d.text((x, 4), c, font=f, fill=255)
+                d.text((x, 4 * q), c, font=f, fill=255)
                 x += w + track
-            rows.append((np.asarray(im, np.float32) / 255.0, int(ln.get("gap", 0) * s)))
+            rows.append((np.asarray(im, np.float32) / 255.0, int(ln.get("gap", 0) * s * q)))
         width = max(r.shape[1] for r, _ in rows)
         height = sum(r.shape[0] + g for r, g in rows)
-        pad = int(60 * s)
+        pad = int(max(60, 3 * t.get("shadow_sigma", 6)) * s) * q
         A = np.zeros((height + 2 * pad, width + 2 * pad), np.float32)
         y = pad
         for r, g in rows:
             y += g
-            x = pad + (width - r.shape[1]) // 2
-            A[y:y + r.shape[0], x:x + r.shape[1]] = np.maximum(A[y:y + r.shape[0], x:x + r.shape[1]], r)
+            x = pad + (width - r.shape[1]) / 2.0
+            xi = int(round(x))
+            A[y:y + r.shape[0], xi:xi + r.shape[1]] = np.maximum(A[y:y + r.shape[0], xi:xi + r.shape[1]], r)
             y += r.shape[0]
-        x0 = int(round(t.get("x", 0.5) * self.W - A.shape[1] / 2))
-        y0 = int(round(t.get("y", 0.5) * self.H - A.shape[0] / 2))
+        hq, wq = (A.shape[0] // q) * q, (A.shape[1] // q) * q
+        A = cv2.resize(A[:hq, :wq], (wq // q, hq // q), interpolation=cv2.INTER_AREA)
+        x0 = t.get("x", 0.5) * self.W - A.shape[1] / 2
+        y0 = t.get("y", 0.5) * self.H - A.shape[0] / 2
         return A, x0, y0
 
     def draw(self, img: np.ndarray, time: float) -> None:
         t = self.t
-        if time < t["in"] or time > t["out"]:
+        if time < t["in"] or time >= t["out"]:   # never on the frame of a cut (e.g. a cut to black at `out`)
             return
         life = (time - t["in"]) / max(t["out"] - t["in"], 1e-3)
         a_in = smooth((time - t["in"]) / max(t.get("fade_in", 1.0), 1e-3))
@@ -275,11 +416,15 @@ class Title:
         a = min(a_in, a_out) * t.get("opacity", 1.0)
         if a <= 0.003:
             return
-        A, x0, y0 = self.mask(1 - (1 - life) ** 2)
+        A, x0f, y0f = self.mask(1 - (1 - life) ** 2)
         blur = t.get("focus", 0) * self.s * (1 - a_in) ** 1.5 + t.get("focus_out", 0) * self.s * (1 - a_out) ** 1.5
         if blur > 0.3:
             A = cv2.GaussianBlur(A, (0, 0), blur)
-        y0 += int(round(t.get("rise", 0) * self.s * (1 - a_in)))
+        y0f += t.get("rise", 0) * self.s * (1 - a_in)
+        x0, y0 = int(math.floor(x0f)), int(math.floor(y0f))
+        fx, fy = x0f - x0, y0f - y0
+        A = cv2.warpAffine(A, np.array([[1, 0, fx], [0, 1, fy]], np.float32), (A.shape[1] + 1, A.shape[0] + 1),
+                           flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
         H, W = img.shape[:2]
         ya, yb, xa, xb = max(0, y0), min(H, y0 + A.shape[0]), max(0, x0), min(W, x0 + A.shape[1])
         if yb <= ya or xb <= xa:
@@ -289,8 +434,9 @@ class Title:
         if t.get("glow", 0) > 0:  # a soft halo of the letters' own light
             g = cv2.GaussianBlur(m, (0, 0), 14 * self.s)[..., None] * t["glow"] * a
             roi[:] = 1 - (1 - roi) * (1 - g * self.color)
-        if t.get("shadow", 0) > 0:
-            sh = cv2.GaussianBlur(m, (0, 0), 6 * self.s)[..., None] * t["shadow"] * a
+        if t.get("shadow", 0) > 0:  # a soft dark bed under the letters, wide enough to separate them from a busy plate
+            sh = cv2.GaussianBlur(m, (0, 0), t.get("shadow_sigma", 6) * self.s)
+            sh = np.clip(sh / max(float(sh.max()), 1e-3), 0, 1)[..., None] * t["shadow"] * a
             roi *= (1 - sh)
         mm = m[..., None] * a
         roi[:] = roi * (1 - mm) + self.color * mm
@@ -301,29 +447,68 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
         return np.zeros((H, W, 3), np.float32)
     shutter = s.get("shutter", 1.0)
     pa, pb = tm.prep_t(t - shutter / fps), tm.prep_t(t)
-    span = (pb - pa) * PREP_FPS
-    if span > 1.6 and s.get("accumulate", True):
-        k1 = int(round(pb * PREP_FPS))
-        k0 = int(round(pa * PREP_FPS)) + 1
-        fr, n, g0, g1 = rd.average(min(k0, k1), k1)
-        if n >= 2 and g0 is not None and s.get("motion_fill", True):
-            # averaged frames of a fast camera move leave stepped copies; a real shutter smears continuously, so
-            # blur along the measured travel of one frame interval to join the copies
-            (dx, dy), resp = cv2.phaseCorrelate(g0.astype(np.float32), g1.astype(np.float32), cv2.createHanningWindow(g0.shape[::-1], cv2.CV_32F))
-            dx, dy = 4 * dx / (n - 1), 4 * dy / (n - 1)
-            L = math.hypot(dx, dy)
-            if L > 3 and resp > 0.05:
-                f2 = 2
-                small = cv2.resize(fr, (W // f2, H // f2), interpolation=cv2.INTER_AREA)
-                n_ = max(3, int(L / f2) | 1)
-                k = np.zeros((n_, n_), np.float32)
-                c = (n_ - 1) / 2
-                cv2.line(k, (int(round(c - dx / L * c)), int(round(c - dy / L * c))), (int(round(c + dx / L * c)), int(round(c + dy / L * c))), 1.0, 1, cv2.LINE_AA)
-                small = cv2.filter2D(small, -1, k / max(float(k.sum()), 1e-6), borderType=cv2.BORDER_REFLECT)
-                fr = cv2.resize(small, (W, H), interpolation=cv2.INTER_LINEAR)
+    span = (pb - pa) * PREP_FPS          # prep frames inside this output frame's shutter
+    kpos = pb * PREP_FPS
+    if s.get("trail") and span >= 0.02:
+        fr = rd.trail_frame(int(round(kpos)))
+    elif span < 0.02:                    # a freeze: one whole, crisp frame
+        fr = rd.frame(int(round(kpos)))
+    elif span <= 1.02 or not s.get("accumulate", True):
+        kf = int(math.floor(kpos))
+        w = kpos - kf
+        if abs(span - 1) <= 0.02 or w < 0.03 or w > 0.97 or not s.get("blend", True):
+            fr = rd.frame(int(round(kpos)))
+        else:                            # slower than real time: the two real frames around this moment, mixed
+            fr = rd.blend(kf, w)
     else:
-        fr = rd.frame(int(round(pb * PREP_FPS)))
+        # the exposure opens with the speed: just above real time it is still nearly one whole frame, and it reaches
+        # the full shutter at ~1.8x (a fast move is smeared, a slow one stays crisp, with nothing switching on suddenly)
+        e = span * min(1.0, max(0.0, (span - 1.0) / 0.8)) if s.get("shutter_ramp", True) else span
+        fr, n, g0, g1 = rd.average(kpos - e, kpos)
+        mf = s.get("motion_fill", True)
+        if n >= 2 and g0 is not None and mf:
+            if mf == "flow":
+                fr = flow_smear(fr, g0, g1, n, min(1.0, e))
+            else:
+                # averaged frames of a fast camera move leave stepped copies; a real shutter smears continuously, so
+                # blur along the measured travel of one frame interval to join the copies (continuous in length,
+                # and the last good measurement is kept when one is unreliable, so the blur never toggles)
+                (dx, dy), resp = cv2.phaseCorrelate(g0.astype(np.float32), g1.astype(np.float32), cv2.createHanningWindow(g0.shape[::-1], cv2.CV_32F))
+                if resp < 0.2:
+                    dx, dy = rd.last_vec
+                else:
+                    dx, dy = dx * W / g0.shape[1] / (n - 1), dy * H / g0.shape[0] / (n - 1)
+                    rd.last_vec = (dx, dy)
+                dx, dy = dx * min(1.0, e), dy * min(1.0, e)
+                L = math.hypot(dx, dy)
+                if L >= 1.0:
+                    f2 = 2
+                    small = cv2.resize(fr, (W // f2, H // f2), interpolation=cv2.INTER_AREA)
+                    hl = L / f2 / 2
+                    n_ = int(math.ceil(hl)) * 2 + 3
+                    k = np.zeros((n_, n_), np.float32)
+                    c = (n_ - 1) / 2
+                    ux, uy = dx / L, dy / L
+                    sh = 16
+                    p1 = (int(round((c - ux * hl) * sh)), int(round((c - uy * hl) * sh)))
+                    p2 = (int(round((c + ux * hl) * sh)), int(round((c + uy * hl) * sh)))
+                    cv2.line(k, p1, p2, 1.0, 1, cv2.LINE_AA, 4)
+                    small = cv2.filter2D(small, -1, k / max(float(k.sum()), 1e-6), borderType=cv2.BORDER_REFLECT)
+                    fr = cv2.resize(small, (W, H), interpolation=cv2.INTER_LINEAR)
     fr = fr.copy()
+    lt = s.get("light")
+    if lt:  # a soft window of light on the subject, in the picture's own coordinates (it moves with the framing)
+        ks = sorted(lt["keys"])
+        lt_t = t - s["start"]
+        kt = [q[0] for q in ks]
+        cx_, cy_, rx_, ry_ = (float(np.interp(lt_t, kt, [q[i] for q in ks])) for i in (1, 2, 3, 4))
+        ev_l = float(np.interp(lt_t, kt, [q[5] if len(q) > 5 else lt.get("ev", 0.5) for q in ks]))
+        if abs(ev_l) > 1e-3:
+            yy_, xx_ = np.ogrid[0:H, 0:W]
+            d2 = ((xx_ / W - cx_) / rx_) ** 2 + ((yy_ / H - cy_) / ry_) ** 2
+            m = np.exp(-d2 * 1.4).astype(np.float32)[..., None]
+            warm = np.array(lt.get("tint", [1.0, 0.985, 0.95]), np.float32)
+            fr = to_disp(to_lin(fr) * (1 + m * ((2 ** ev_l) * warm - 1)))
     mv = s.get("move", {})
     if "keys" in mv:
         ks = sorted(mv["keys"])
@@ -340,17 +525,7 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
         ramp = np.clip((np.arange(H, dtype=np.float32) / H - kg.get("y0", 0.35)) / 0.08, 0, 1)[:, None]
         m = cv2.GaussianBlur(m * ramp, (0, 0), 2.0 * S)[..., None] * kg.get("strength", 1.0)
         lum_ = (fr @ LUMA)[..., None]
-        fr = fr * (1 - m) + lum_ * (1 - 0.5 * m) * m
-    lt = s.get("light")
-    if lt:
-        ks = sorted(lt["keys"])
-        lt_t = t - s["start"]
-        cx_, cy_, rx_, ry_ = (float(np.interp(lt_t, [q[0] for q in ks], [q[i] for q in ks])) for i in (1, 2, 3, 4))
-        yy_, xx_ = np.ogrid[0:H, 0:W]
-        d2 = ((xx_ / W - cx_) / rx_) ** 2 + ((yy_ / H - cy_) / ry_) ** 2
-        m = np.exp(-d2 * 1.4).astype(np.float32)[..., None]
-        warm = np.array(lt.get("tint", [1.0, 0.985, 0.95]), np.float32)
-        fr = fr * (1 + m * ((2 ** lt.get("ev", 0.5)) * warm - 1))
+        fr = fr * (1 - m) + lum_ * (1 - kg.get("dim", 0.5) * m) * m
     gr = s.get("grad")
     if gr:  # a graduated ND filter: -ev stops at the top edge, easing to nothing at y1
         ys = np.arange(H, dtype=np.float32) / H
@@ -373,7 +548,7 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
     dfk = s.get("defocus")
     if dfk:
         r = keyed(dfk, t, 0.0)
-        if r > 0.8:
+        if r > 0.0:
             fr = lens_blur(fr, r, S)
     return fr
 
@@ -391,18 +566,18 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
     vign = (1 - fin.get("vignette", 0.18) * np.clip(rv - 0.4, 0, None) ** 1.7).astype(np.float32)[..., None]
     del yy, xx, rv
     rng = np.random.default_rng(11)
-    gs = fin.get("grain", {}).get("size", 1.0)
+    gs = fin.get("grain", {}).get("size", 1.0) * W / 1080.0   # grain size in pixels of a 1080-wide picture: the same grain at every size
     grains = []
     for _ in range(10):
         g = rng.standard_normal((max(2, int(H / gs)), max(2, int(W / gs)))).astype(np.float32)
-        if gs != 1.0:
+        if abs(gs - 1.0) > 1e-3:
             g = cv2.resize(g, (W, H), interpolation=cv2.INTER_CUBIC)
         grains.append((g / (g.std() + 1e-6)).astype(np.float16))
     if codec == "hevc10":
         venc = ["-c:v", "libx265", "-preset", "slow", "-crf", crf, "-pix_fmt", "yuv420p10le",
                 "-x265-params", "aq-mode=3:psy-rd=2.0:psy-rdoq=1.0:deblock=-1,-1:rc-lookahead=20:log-level=error", "-tag:v", "hvc1"]
     else:
-        venc = ["-c:v", "libx264", "-preset", "slow", "-crf", crf, "-pix_fmt", "yuv420p", "-x264-params", "aq-mode=3:rc-lookahead=20:deblock=-1,-1"]
+        venc = ["-c:v", "libx264", "-preset", "slow", "-crf", crf, "-pix_fmt", "yuv420p", "-x264-params", "aq-mode=3:rc-lookahead=20:deblock=-1,-1:ipratio=1.1:pbratio=1.1"]
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb48le", "-s", f"{W}x{H}", "-r", str(fps), "-i", "-",
                             "-vf", "scale=out_color_matrix=bt709:out_range=tv"] + venc +
                            ["-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-color_range", "tv", "-movflags", "+faststart", out],
@@ -430,11 +605,12 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
             s = shots[i]
             if not s.get("black") and i not in readers:
                 sh_ = s.get("shutter", 1.0)
-                pa = tims[i].prep_t(max(t - sh_ / fps, window(i)[0]))
+                pa = tims[i].prep_t(t - sh_ / fps)   # not clamped to the shot's start: its first frame already has a full exposure
                 a_, b_ = window(i)
                 tt = np.arange(a_, b_, 1.0 / fps)
                 vmax = max([(tims[i].prep_t(x) - tims[i].prep_t(x - sh_ / fps)) * PREP_FPS for x in tt] + [1.0])
-                readers[i] = Reader(s, os.path.join(luts, f"{s['id']}.cube"), pa, W, H, hist=int(math.ceil(vmax)) + 2)
+                store = vmax > 1.02 and not s.get("trail") and s.get("accumulate", True)
+                readers[i] = Reader(s, os.path.join(luts, f"{s['id']}.cube"), pa, W, H, hist=int(math.ceil(vmax)) + 3, store=store)
             frs[i] = shot_frame(s, readers.get(i), tims[i], t, fps, S, W, H)
         img = None
         for i in live:
@@ -446,14 +622,27 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
             d = tr.get("dur", 0.3)
             p = min(1.0, max(0.0, (t - (s["start"] - d / 2)) / d))
             if tr.get("type") == "whip":
+                # a whip pan: the outgoing shot accelerates away, the incoming one decelerates in; the smear is
+                # proportional to the speed (a 180-degree shutter), so it grows from nothing and dies to nothing
                 dirn = -1 if tr.get("dir", "left") == "left" else 1
-                L = tr.get("blur", 0.9) * W * math.sin(math.pi * p)
-                out_shift = dirn * W * 0.55 * smooth(p * 2) if p < 0.5 else 0
-                in_shift = -dirn * W * 0.55 * (1 - smooth((p - 0.5) * 2)) if p >= 0.5 else 0
-                a = dir_blur(warp(img, 1, 0.5, 0.5, out_shift), L) if p < 0.62 else None
-                b = dir_blur(warp(fr, 1, 0.5, 0.5, in_shift), L) if p > 0.38 else None
+                amp, ex = tr.get("travel", 0.75) * W, tr.get("ease", 2.2)
+                sh_out = lambda q: dirn * amp * (max(q, 0.0) / 0.5) ** ex
+                sh_in = lambda q: -dirn * amp * max(0.0, 1 - (q - 0.5) / 0.5) ** ex
+                dp = 1.0 / (fps * d)
+                a = b = None
+                if p < 0.62:
+                    L = 0.5 * abs(sh_out(p) - sh_out(p - dp)) * tr.get("blur", 1.0)
+                    a = dir_blur(warp(img, 1, 0.5, 0.5, sh_out(p)), L)
+                if p > 0.38:
+                    L = 0.5 * abs(sh_in(p) - sh_in(p - dp)) * tr.get("blur", 1.0)
+                    b = dir_blur(warp(fr, 1, 0.5, 0.5, sh_in(p)), L)
                 mix = smooth((p - 0.38) / 0.24)
-                img = a if b is None else (b if a is None else a * (1 - mix) + b * mix)
+                if a is None:
+                    img = b
+                elif b is None:
+                    img = a
+                else:
+                    img = to_disp(to_lin(a) * (1 - mix) + to_lin(b) * mix)
             else:
                 a = smooth(p)
                 img = img * (1 - a) + fr * a
@@ -503,11 +692,16 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
             lum = img @ LUMA
             small = cv2.resize(lum, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
             lb = cv2.resize(cv2.GaussianBlur(small, (0, 0), cl["sigma"] * W / 4), (W, H), interpolation=cv2.INTER_LINEAR)
-            img = img + (cl["amount"] * (lum - lb) * (0.25 + lum * (1 - np.clip(lum, 0, 1)) * 3))[..., None]
+            lc = np.clip(lum, 0, 1)
+            img = img + (cl["amount"] * (lum - lb) * (0.05 + lc * (1 - lc) * 3))[..., None]   # midtones only: highlights keep their roll-off
         sh = fin.get("sharpen")
         if sh:
             lum = img @ LUMA
             img = img + (sh["amount"] * (lum - cv2.GaussianBlur(lum, (0, 0), sh["sigma"] * S)))[..., None]
+        ro = fin.get("rolloff")
+        if ro:  # a soft shoulder after the sharpening: no new flat whites
+            kn = ro.get("knee", 0.9)
+            img = np.where(img > kn, kn + (1 - kn) * np.tanh((img - kn) / (1 - kn)), img)
         img *= vign
         for tl in titles:
             tl.draw(img, t)
