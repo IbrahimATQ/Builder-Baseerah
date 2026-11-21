@@ -5,14 +5,23 @@ Spec: data/sound3.json (written by data/sound3.py). Every film time in it is a n
 sheet (data/cuesheet3.json), resolved HERE, at mix time, so that a re-run follows any nudge of the picture:
     "@latch", "@latch+0.15", "@climax-1.5"     an event of the cue sheet (+- seconds)
     "@cup", "@cup.film_in", "@open.start"      a shot (its first visible frame) or one of its attributes
+    "@open~2.5"                                the film time at which shot `open` shows source second 2.5
     "@duration"                                the film's length
+    "@music_return"                            derived here if the cue sheet has no such event: the first
+                                               non-zero sample of the score after the latch's dead stop (measured
+                                               on the score file), else turn_right (compose3's rule)
 Top level:
   {"cuesheet": "cuesheet3.json" (relative to the spec), "duration": "@duration", "buses": ["city", ...],
    "score": {"file", "gain_db", "auto": {"t0", "t1", "city_under_db"}, "end_fade": [t0, t1]}
             (used only if the file exists at mix time: the score is composed in parallel; "auto" sets the score's
             gain so that the city stem sits `city_under_db` under it in that window, i.e. at the climax),
-   "music_ducks": [[t0, t1, dB]], "ceiling_db": -2.0, "targets": {"mix": -14.0, "sfx_only": -16.0},
-   "sections": [[name, t0, t1]], "elements": [...]}
+   "music_ducks": [[t0, t1, dB, attack s, release s]] (the score dipped under a story sound; attack before t0,
+            release after t1; default 0.3 s each),
+   "music_keys": [[t, dB]] (a ride on the score alone: its balance against the sound in one part of the film),
+   "mix_keys": [[t, dB]] (a fader ride on everything - every stem and the score alike, so the stems still sum to
+            the mix - that narrows the film's loudness range for a phone speaker),
+   "ceiling_db": -2.0, "limiter_release_s": 0.2, "targets": {"mix": -14.0, "sfx_only": -16.0},
+   "sections": [[name, t0, t1]], "story_qc": {...}, "elements": [...]}
 An element is one sound on one bus (stem):
   "id", "bus", "what", "file", "licence"
   where it comes from in the file and where it lies in the film, one of:
@@ -25,45 +34,59 @@ An element is one sound on one bus (stem):
                                              [t1, f1]]} lays a library sound on the same curve
     "start", "end", "splice": [[in, out], ...], "xfade": s   pieces of one file joined by crossfades (room tone),
                                              looped if the pieces are shorter than the span
-  Time is never changed by resampling: "tempo" and every timemap are rendered with rubberband (pitch kept), one
-  render per constant-speed run, crossfaded across the speed ramps (sync error < 15 ms inside a ramp).
+  Time is never changed by resampling: "tempo" and every timemap are rendered with rubberband (pitch kept, the two
+  channels processed together so the stereo image stays coherent; its short window by default - less smearing and
+  pre-echo on water, steps and clicks - or "rb_window": "standard"), one render per constant-speed run, crossfaded
+  across the speed ramps.
   "pitch" (semitones, by resampling, for a library sound that should sound smaller), "repair": [[t0, t1, donor_t0]]
-  (source spans replaced by clean material of the same file), "notch": [Hz], "hp", "lp" (2nd order),
+  (source spans replaced by clean material of the same file), "notch": [Hz], "hp" ("hp_order", default 2), "lp"
+  (2nd order), "peq": [[Hz, dB, Q]] (peaking cuts/boosts),
+  "dethump": {"fc", "thr_db", "win"} (low-frequency bumps - handling, wind on the mic - held to the running median
+  of the band below fc + thr_db; everything above fc untouched),
   "detone": {"thr_db", "fmin", "fmax", "tlen"} (sustained tonal lines - street music, appliance whine - pulled
   down to the noise floor around them), "polarity": "flip_right", "width" (side gain), "pan" (-1..1),
   "reverb": {"rt60", "mix", "predelay"}, "slap": {"delays": [s], "gains_db": [dB], "lp": Hz} (facade reflections),
-  "rms_db" | "peak_db" (level of the processed sound before gain), "crest_db" (peaks held to RMS + this), "match": {"to": id, "at": t, "win": s} (gain
-  that makes this sound as loud just after `at` as `to` just before it: an inaudible hand-over between takes),
+  "rms_db" | "peak_db" (level of the processed sound before gain), "crest_db" (peaks held to RMS + this), "match":
+  {"to": id, "at": t, "win": s} (gain that makes this sound as loud just after `at` as `to` just before it: an
+  inaudible hand-over between takes),
   "gain_db", "gain_keys": [[t, dB]], "fade_in", "fade_out", "fade_shape": "gain" (sin^2) | "power" (sin: for a
   crossfade between two different takes),
   "lp_keys": [[t, Hz]], "lp_order": THE GLASS - a low-pass whose cutoff moves with film time (interpolated in
   log-frequency), applied as an STFT mask with a cutoff per 5 ms frame, so it sweeps without zipper noise;
-  >= 18 kHz is fully open (no filter at all),
-  "onset": t (the report measures the sound's onset against this film time; +-20 ms is in sync), "onset_mode",
-  "step": t (the report measures a level step of the sound, e.g. the clip's own jump, against this film time),
-  "skip_after": t (the element is left out if it would start after t: a drip that would cross a cut).
+  >= 18 kHz is fully open (no filter at all); in the same pass "shelf_keys": {"hz", "keys": [[t, dB]]} (a moving
+  high shelf) and "band_keys": {"lo", "hi", "keys": [[t, dB]]} (a moving band gain),
+  "onset": t (the report measures the sound's onset against this film time; +-20 ms is in sync; it also reports
+  the first moment within 10 dB of the sound's peak - where it is heard - which must fall in [-20, +60] ms),
+  "onset_mode", "step": t, "step_band": [lo, hi] (the report measures a level step of the sound in that band
+  against this film time), "skip_after": t (the element is left out if it would start after t: a drip that would
+  cross a cut).
 Outputs in OUT_DIR: mix.wav (score + sound; -14 LUFS, true peak <= -2 dBTP), sfx_only.wav (all but the score,
 -16 LUFS), one stem per bus <bus>.wav (float, before normalisation: the stems sum to the sound bus that sfx_only and
-the mix are made from), music_bus.wav (only with a score: the score after its gain, ducks and end fade, on the same
-scale, so stems + music_bus = the mix before its master gain and limiter), sound_report.json.
+the mix are made from), music_bus.wav (only with a score: the score after its gain, ducks, ride and end fade, on the
+same scale, so stems + music_bus = the mix before its master gain and limiter), sound_report.json (with the sha256
+of the score, the cue sheet and the spec it was made from, and the story QC).
 Usage: python pipeline/sound3.py data/sound3.json OUT_DIR [--no-score]
+       python pipeline/sound3.py --check OUT_DIR      is the render still current? (exit 1 if the score, the cue
+                                                      sheet or the spec changed since it was made)
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
 import subprocess
 import sys
+import time
 
 import numpy as np
 import pyloudnorm as pyln
 import soundfile as sf
-from scipy.ndimage import median_filter, uniform_filter
-from scipy.signal import butter, istft, iirnotch, resample_poly, sosfilt, stft, tf2sos
+from scipy.ndimage import convolve1d, median_filter, minimum_filter1d, uniform_filter, uniform_filter1d
+from scipy.signal import butter, istft, iirnotch, resample_poly, sosfilt, sosfiltfilt, stft, tf2sos, welch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from sound2 import SR, decode, env, limit, place, reverb, rms_db, true_peak_db  # noqa: E402  (the previous mixer)
+from sound2 import SR, decode, env, place, reverb, rms_db, true_peak_db  # noqa: E402  (the previous mixer)
 
 _CACHE: dict[str, np.ndarray] = {}
 
@@ -98,12 +121,14 @@ class Cues:
     def t(self, v) -> float:
         if isinstance(v, (int, float)):
             return float(v)
-        m = re.fullmatch(r"@([A-Za-z0-9_]+)(?:\.([a-z_]+))?\s*([+-]\s*\d+(?:\.\d+)?)?", v.strip())
+        m = re.fullmatch(r"@([A-Za-z0-9_]+)(?:\.([a-z_]+)|~(\d+(?:\.\d+)?))?\s*([+-]\s*\d+(?:\.\d+)?)?", v.strip())
         if not m:
             raise ValueError(f"bad time {v!r}")
-        ref, attr, off = m.groups()
+        ref, attr, srct, off = m.groups()
         if ref == "duration":
             base = self.duration
+        elif srct is not None:
+            base = self.film_at_src(ref, float(srct))
         elif attr:
             base = float(self.shots[ref][attr])
         elif ref in self.events:
@@ -115,7 +140,8 @@ class Cues:
         return base + (float(off.replace(" ", "")) if off else 0.0)
 
     def keys(self, ks):
-        return [[self.t(a), float(b)] for a, b in ks]
+        """Resolved [[film s, value]], sorted by time (a nudge of the picture can never fold a curve back)."""
+        return sorted([[self.t(a), float(b)] for a, b in ks], key=lambda k: k[0])
 
     def runs(self, sid: str) -> list[list[float]]:
         """The shot's speed curve as straight runs [film t0, film t1, ref film t, source t at ref, speed]: source(t) =
@@ -139,6 +165,16 @@ class Cues:
             return float(np.interp(t, ft, tab))
         r = self.runs(sid)[0 if t < ft[0] else -1]
         return r[3] + r[4] * (t - r[2])
+
+    def film_at_src(self, sid: str, s_: float) -> float:
+        """The film time at which shot `sid` shows source second s_ (the inverse of src)."""
+        s = self.shots[sid]
+        tab = np.asarray(s["src_at_frame"])
+        ft = (s["first_frame"] + np.arange(len(tab))) / self.fps
+        if tab[0] <= s_ <= tab[-1]:
+            return float(np.interp(s_, tab, ft))
+        r = self.runs(sid)[0 if s_ < tab[0] else -1]
+        return r[2] + (s_ - r[3]) / r[4]
 
     def check_runs(self, sid: str) -> float:
         """Largest gap (s) between the straight runs and the cue sheet's per-frame table, away from the ramps."""
@@ -164,10 +200,21 @@ def sos_filters(e: dict) -> list:
         b, a = iirnotch(hz, e.get("notch_q", 12.0), fs=SR)
         out.append(tf2sos(b, a))
     if e.get("hp"):
-        out.append(butter(2, e["hp"], "high", fs=SR, output="sos"))
+        out.append(butter(e.get("hp_order", 2), e["hp"], "high", fs=SR, output="sos"))
     if e.get("lp"):
         out.append(butter(2, e["lp"], "low", fs=SR, output="sos"))
+    for hz, db, q in e.get("peq", []):
+        out.append(peaking(hz, db, q))
     return out
+
+
+def peaking(hz: float, db: float, q: float) -> np.ndarray:
+    """RBJ peaking EQ biquad as one sos section (a narrow cut of one partial, e.g. the bell's minor third)."""
+    A, w0 = 10 ** (db / 40), 2 * np.pi * hz / SR
+    al = np.sin(w0) / (2 * q)
+    b = np.array([1 + al * A, -2 * np.cos(w0), 1 - al * A])
+    a = np.array([1 + al / A, -2 * np.cos(w0), 1 - al / A])
+    return tf2sos(b / a[0], a / a[0])
 
 
 def apply_sos(x: np.ndarray, sos_list: list) -> np.ndarray:
@@ -176,10 +223,13 @@ def apply_sos(x: np.ndarray, sos_list: list) -> np.ndarray:
     return x
 
 
-def rubberband(x: np.ndarray, tempo: float) -> np.ndarray:
-    """Pitch-preserving time stretch (librubberband through ffmpeg). tempo < 1 = slower/longer."""
+def rubberband(x: np.ndarray, tempo: float, window: str | None = None) -> np.ndarray:
+    """Pitch-preserving time stretch (librubberband through ffmpeg). tempo < 1 = slower/longer. The two channels are
+    processed together (channels=together: the same phase treatment on both, so the stereo image stays coherent
+    instead of turning phasey); window="short" smears transients and water less (less pre-echo)."""
+    af = f"rubberband=tempo={tempo:.6f}:channels=together" + (f":window={window}" if window else "")
     p = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-",
-                        "-af", f"rubberband=tempo={tempo:.6f}", "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"],
+                        "-af", af, "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"],
                        input=np.ascontiguousarray(x, dtype=np.float32).tobytes(), capture_output=True, check=True)
     return np.frombuffer(p.stdout, np.float32).reshape(-1, 2).astype(np.float64)
 
@@ -210,23 +260,105 @@ def detone(x: np.ndarray, thr_db: float = 1.5, fmin: float = 60.0, fmax: float =
                "max_reduction_db": round(float(red.max()), 1), "level_change_db": round(rms_db(y) - rms_db(x), 2)}
 
 
-def glass(a: np.ndarray, t0: float, keys: list[list[float]], order: int = 2) -> np.ndarray:
+def glass(a: np.ndarray, t0: float, keys: list[list[float]] | None, order: int = 2,
+          shelf: dict | None = None, band: dict | None = None) -> np.ndarray:
     """THE GLASS: a low-pass whose cutoff follows `keys` [[film s, Hz], ...] (log-interpolated, held outside).
     STFT mask, Butterworth magnitude of `order`, one cutoff per 256-sample frame (5.3 ms) under 75 % overlap-add,
-    so the sweep is smooth. Cutoffs from 12 to 18 kHz fade the filter out; >= 18 kHz is no filter at all."""
+    so the sweep is smooth. Cutoffs from 12 to 18 kHz fade the filter out; >= 18 kHz is no filter at all.
+    In the same pass: `shelf` {"hz", "keys": [[t, dB]]} a moving high shelf (half its gain at hz, 2nd-order slope)
+    and `band` {"lo", "hi", "keys": [[t, dB]]} a moving band gain (half its gain at lo and hi, 4th-order slopes)."""
     n_fft, hop = 1024, 256
     f, tt, Z = stft(a.T, SR, nperseg=n_fft, noverlap=n_fft - hop, boundary="even", padded=True)
-    tk = np.array([k[0] for k in keys])
-    hk = np.log(np.array([k[1] for k in keys]))
-    fc = np.exp(np.interp(t0 + tt, tk, hk))
-    H = 1.0 / np.sqrt(1.0 + (f[:, None] / fc[None, :]) ** (2 * order))
-    w = np.clip((np.log(18000.0) - np.log(fc)) / (np.log(18000.0) - np.log(12000.0)), 0.0, 1.0)
-    H = H ** w[None, :]
+    H = np.ones((len(f), len(tt)))
+    if keys:
+        tk = np.array([k[0] for k in keys])
+        hk = np.log(np.array([k[1] for k in keys]))
+        fc = np.exp(np.interp(t0 + tt, tk, hk))
+        H = 1.0 / np.sqrt(1.0 + (f[:, None] / fc[None, :]) ** (2 * order))
+        w = np.clip((np.log(18000.0) - np.log(fc)) / (np.log(18000.0) - np.log(12000.0)), 0.0, 1.0)
+        H = H ** w[None, :]
+    if shelf:
+        g = np.interp(t0 + tt, [k[0] for k in shelf["keys"]], [k[1] for k in shelf["keys"]])
+        r = (f / shelf["hz"]) ** 2
+        H = H * 10 ** ((r / (1 + r))[:, None] * g[None, :] / 20)
+    if band:
+        g = np.interp(t0 + tt, [k[0] for k in band["keys"]], [k[1] for k in band["keys"]])
+        lo, hi = (f / band["lo"]) ** 4, (f / band["hi"]) ** 4
+        H = H * 10 ** ((lo / (1 + lo) / (1 + hi))[:, None] * g[None, :] / 20)
     _, y = istft(Z * H[None], SR, nperseg=n_fft, noverlap=n_fft - hop, boundary=True)
     y = y.T[: len(a)]
     if len(y) < len(a):
         y = np.vstack([y, np.zeros((len(a) - len(y), 2))])
     return y
+
+
+def dethump(x: np.ndarray, x0: float, fc: float = 200.0, thr_db: float = 2.0, win: float = 1.5,
+            ref: list[float] | None = None, after: float | None = None, smooth: float = 0.010) -> tuple[np.ndarray, dict]:
+    """Low-frequency bumps (a hand on the phone, wind on the mic: bursts below ~150 Hz, mono, that the ear reads
+    as an edit bump) held down. The band below `fc` is split off with a zero-phase low-pass and its exact complement
+    (x = low + rest, so where nothing is reduced nothing changes); its envelope (`smooth` s, every 5 ms) is held to
+      - the running median over `win` s + `thr_db` (default), or
+      - with `ref` [src t0, t1] and `after` src t: from `after` on (0.2 s ramp in), the median level of the `ref`
+        span + `thr_db` (the band clamped to its level before a lean-out: thumps and the wind on the exposed mic go,
+        the city's own low end stays as it was);
+    look-ahead attack +-20 ms, release 60 ms. x0: the file time of x's first sample."""
+    low = sosfiltfilt(butter(4, fc, "low", fs=SR, output="sos"), x, axis=0)
+    rest = x - low
+    hop = int(0.005 * SR)
+    p = uniform_filter1d((low ** 2).mean(axis=1), max(int(smooth * SR), 1), mode="nearest")[::hop]
+    e = 10 * np.log10(p + 1e-20)
+    if ref is not None:
+        tf = x0 + (np.arange(len(e)) * hop + hop / 2) / SR
+        lvl = float(np.median(e[(tf >= ref[0]) & (tf <= ref[1])])) + thr_db
+        on = np.clip((tf - (after if after is not None else ref[1])) / 0.2, 0.0, 1.0)
+        gdb = np.minimum(0.0, lvl - e) * on
+    else:
+        med = median_filter(e, size=int(win / 0.005) | 1, mode="nearest")
+        gdb = np.minimum(0.0, med + thr_db - e)
+    gdb = minimum_filter1d(gdb, 9, mode="nearest")
+    g = 10 ** (gdb / 20)
+    rel = np.exp(-0.005 / 0.060)
+    for i in range(1, len(g)):
+        if g[i] > g[i - 1]:
+            g[i] = min(g[i], g[i - 1] * rel + (1 - rel))
+    gs = np.interp(np.arange(len(x)), np.arange(len(g)) * hop + hop / 2, g)
+    return rest + low * gs[:, None], {"max_reduction_db": round(float(-20 * np.log10(g.min() + 1e-12)), 1),
+                                      "share_reduced_over_1db_pct": round(float(100 * np.mean(g < 10 ** (-1 / 20))), 1)}
+
+
+def limit(a: np.ndarray, ceiling_db: float, release: float = 0.2) -> tuple[np.ndarray, np.ndarray]:
+    """Look-ahead true-peak limiter (4x oversampled detection): 4 ms look-ahead attack, `release` s one-pole
+    recovery (computed on 1 ms blocks; sound2's 40 ms release could pump with organ pedal in the mix). Returns
+    (limited, gain)."""
+    c = 10 ** (ceiling_db / 20)
+    up = np.max(np.abs(resample_poly(a, 4, 1, axis=0)), axis=1)
+    up = np.pad(up, (0, max(0, 4 * len(a) - len(up))))[: 4 * len(a)].reshape(-1, 4).max(axis=1)
+    need = np.minimum(1.0, c / np.maximum(up, 1e-9))
+    if need.min() >= 1.0:
+        return a, np.ones(len(a))
+    w = int(0.004 * SR)
+    g = minimum_filter1d(need, size=2 * w + 1, mode="nearest")
+    k = np.hanning(2 * w + 1)
+    k /= k.sum()
+    g = np.minimum(convolve1d(g, k, mode="nearest"), need)
+    B = 48
+    nb = -(-len(g) // B)
+    gb = np.pad(g, (0, nb * B - len(g)), constant_values=1.0).reshape(nb, B).min(axis=1)
+    rel = np.exp(-1.0 / (release * 1000.0))
+    for i in range(1, nb):
+        if gb[i] > gb[i - 1]:
+            gb[i] = min(gb[i], gb[i - 1] * rel + (1 - rel))
+    gi = np.interp(np.arange(len(g)), np.arange(nb) * B + B / 2, gb)
+    gain = np.minimum(gi, g)
+    return a * gain[:, None], gain
+
+
+def sha256(path: str) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def fc_at(keys: list[list[float]], t: float) -> float:
@@ -298,7 +430,7 @@ def repair(x: np.ndarray, x0: float, spans: list[list[float]]) -> np.ndarray:
 
 
 def render_runs(x: np.ndarray, x0: float, runs: list[list[float]], t_start: float, t_end: float,
-                xfade: float) -> np.ndarray:
+                xfade: float, window: str | None = None) -> np.ndarray:
     """Film [t_start, t_end] from source x (sample 0 = file time x0), following straight runs
     [film t0, film t1, ref film t, file t at ref, file seconds per film second]. One rubberband render per run
     (pitch kept), equal-power crossfades `xfade` long centred on the run boundaries (the speed ramps)."""
@@ -317,7 +449,7 @@ def render_runs(x: np.ndarray, x0: float, runs: list[list[float]], t_start: floa
         i0 = int(round((f_lo - pad * r - x0) * SR))
         i1 = i0 + int(round((n / SR + 2 * pad) * r * SR)) + 1
         seg = take(x, i0, i1)
-        y = seg if abs(r - 1.0) < 1e-4 else rubberband(seg, r)
+        y = seg if abs(r - 1.0) < 1e-4 else rubberband(seg, r, window)
         j0 = int(round(pad * SR))
         y = y[j0:j0 + n]
         if len(y) < n:
@@ -366,7 +498,9 @@ def onset_near(a: np.ndarray, t0: float, target: float, before: float = 0.12, af
     found in [target - before, target + after]; mode "level": the onset is the first moment in the window where the
     envelope comes within 20 dB of that peak (a click, a stream that starts, a bell blooming behind glass and reverb);
     mode "attack": the start of the steepest 2 ms rise of the 1 ms envelope in the 60 ms before the peak (a latch
-    whose handle clicks just before it, a cup whose light pre-touch precedes the contact)."""
+    whose handle clicks just before it, a cup whose light pre-touch precedes the contact).
+    Also reported: "heard" - the first moment within 10 dB of the peak (where the sound is actually heard; a soft
+    first contact 20 dB down is not), and its error, which must fall in [-20, +60] ms."""
     e = env_db(a)                                    # 1 ms frames
     sm = 10 * np.log10(uniform_filter(10 ** (e / 10), 5, mode="nearest") + 1e-14)
     i0 = max(int((target - before - t0) * 1000), 0)
@@ -381,8 +515,12 @@ def onset_near(a: np.ndarray, t0: float, target: float, before: float = 0.12, af
     else:
         on = i0 + int(np.argmax(sm[i0:pk + 1] >= sm[pk] - 20.0))
     to = t0 + on / 1000
+    on10 = i0 + int(np.argmax(sm[i0:pk + 1] >= sm[pk] - 10.0))
+    h_err = (t0 + on10 / 1000 - target) * 1000
     return {"onset": round(to, 4), "peak": round(t0 + pk / 1000, 4), "peak_dbfs_5ms": round(float(sm[pk]), 1),
-            "mode": mode, "error_ms": round((to - target) * 1000, 1), "in_sync": bool(abs(to - target) <= 0.020)}
+            "mode": mode, "error_ms": round((to - target) * 1000, 1), "in_sync": bool(abs(to - target) <= 0.020),
+            "heard": round(t0 + on10 / 1000, 4), "heard_error_ms": round(h_err, 1),
+            "heard_in_sync": bool(-20.0 <= h_err <= 60.0)}
 
 
 # ---- one element --------------------------------------------------------------------------------------------------
@@ -447,6 +585,8 @@ def render_element(e: dict, cues: Cues, sp_dir: str, peers: dict) -> tuple[np.nd
     x = apply_sos(x, sos_filters(e))
     if e.get("detone") is not None and e.get("detone") is not False:
         x, info["detone"] = detone(x, **(e["detone"] if isinstance(e["detone"], dict) else {}))
+    if e.get("dethump"):   # after detone: its reference level is measured on what is heard
+        x, info["dethump"] = dethump(x, x0, **e["dethump"])
     if e.get("polarity") == "flip_right":
         x[:, 1] *= -1
     if e.get("mono") == "left":
@@ -457,7 +597,8 @@ def render_element(e: dict, cues: Cues, sp_dir: str, peers: dict) -> tuple[np.nd
         x = resample_poly(x, 1000, int(round(1000 * p)), axis=0)
         x0 /= p
         runs = [[T0, T1, Tr, fr / p, r / p] for T0, T1, Tr, fr, r in runs]
-    a = render_runs(x, x0, runs, t_start, t_end, cues.ramp)
+    w = e.get("rb_window", "short")
+    a = render_runs(x, x0, runs, t_start, t_end, cues.ramp, None if w == "standard" else w)
     k = p if p != 1.0 else 1.0
     info["runs"] = [[round(max(T0, t_start), 3), round(min(T1, t_end), 3), round((fr + r * (max(T0, t_start) - Tr)) * k, 4),
                      round(r * k, 4)] for T0, T1, Tr, fr, r in runs if T1 > t_start and T0 < t_end]
@@ -467,7 +608,7 @@ def render_element(e: dict, cues: Cues, sp_dir: str, peers: dict) -> tuple[np.nd
         a *= 10 ** ((e["rms_db"] - rms_db(act)) / 20)
     if "crest_db" in e:   # tame a hot recording's spikes: peaks held to RMS + crest_db (look-ahead limiter)
         act = a[np.abs(a).max(axis=1) > 0] if np.any(a) else a
-        a = limit(a, rms_db(act) + e["crest_db"])
+        a = limit(a, rms_db(act) + e["crest_db"], 0.04)[0]
     if "peak_db" in e:
         a *= 10 ** ((e["peak_db"] - 20 * np.log10(np.abs(a).max() + 1e-12)) / 20)
     a *= fades(len(a), e.get("fade_in", 0.005), e.get("fade_out", 0.02), e.get("fade_shape", "gain"))[:, None]
@@ -492,8 +633,11 @@ def render_element(e: dict, cues: Cues, sp_dir: str, peers: dict) -> tuple[np.nd
     a *= 10 ** (g / 20)
     if e.get("gain_keys"):
         a *= keyed(cues.keys(e["gain_keys"]), t_start, len(a))[:, None]
-    if e.get("lp_keys"):
-        a = glass(a, t_start, cues.keys(e["lp_keys"]), e.get("lp_order", 2))
+    if e.get("lp_keys") or e.get("shelf_keys") or e.get("band_keys"):
+        sh = e.get("shelf_keys")
+        bd = e.get("band_keys")
+        a = glass(a, t_start, cues.keys(e["lp_keys"]) if e.get("lp_keys") else None, e.get("lp_order", 2),
+                  dict(sh, keys=cues.keys(sh["keys"])) if sh else None, dict(bd, keys=cues.keys(bd["keys"])) if bd else None)
     a = pan(a, e.get("pan", 0.0), e.get("width"))
     return a, t_start, info
 
@@ -518,7 +662,243 @@ def short_term(a: np.ndarray, win: float = 3.0, hop: float = 0.5) -> tuple[np.nd
     return np.array(cs), np.array(ls)
 
 
+def inputs_of(spec_p: str, cues_p: str, score_p: str | None, have_score: bool) -> dict:
+    """What a render was made from: path, sha256, size and mtime of the spec, the cue sheet and the score."""
+    out = {}
+    for k, p in (("spec", spec_p), ("cuesheet", cues_p), ("score", score_p if have_score else None)):
+        if p and os.path.exists(p):
+            st = os.stat(p)
+            out[k] = {"file": os.path.abspath(p), "sha256": sha256(p), "size": st.st_size,
+                      "mtime": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(st.st_mtime))}
+    return out
+
+
+def check(out: str) -> int:
+    """Is the render in OUT still current? Compares the stored sha256 of its inputs with the files now."""
+    rp = json.load(open(os.path.join(out, "sound_report.json"), encoding="utf-8"))
+    stale = []
+    for k, v in rp.get("inputs", {}).items():
+        if not os.path.exists(v["file"]):
+            stale.append(f"{k}: {v['file']} is gone")
+        elif sha256(v["file"]) != v["sha256"]:
+            stale.append(f"{k}: {v['file']} changed since the render ({v['mtime']})")
+    sc = rp.get("score", {})
+    if sc.get("file") and not sc.get("present") and os.path.exists(sc["file"]):
+        stale.append(f"score: {sc['file']} exists now but the render has no score")
+    print(json.dumps({"render": os.path.join(out, "mix.wav"), "rendered_at": rp.get("rendered_at"),
+                      "stale": bool(stale), "why": stale}, indent=1))
+    return 1 if stale else 0
+
+
+def music_return(cues: Cues, score: np.ndarray | None) -> tuple[float, str]:
+    """When the music comes back after the latch: the cue sheet's event if it has one; else measured on the score
+    (the first sample above -90 dBFS after the dead stop); else compose3's rule (turn_right since the 23:36 score;
+    latch + 2.6 s before it)."""
+    if "music_return" in cues.events:
+        return cues.events["music_return"], "cue sheet event"
+    lt = cues.events["latch"]
+    if score is not None:
+        i0, i1 = int((lt + 0.1) * SR), min(int((lt + 6.0) * SR), len(score))
+        live = np.flatnonzero(np.abs(score[i0:i1]).max(axis=1) > 10 ** (-90 / 20))
+        quiet = np.abs(score[i0:i0 + int(0.3 * SR)]).max() < 10 ** (-90 / 20)
+        if quiet and len(live):
+            return (i0 + live[0]) / SR, "measured on the score: first sample above -90 dBFS after the dead stop"
+    if "turn_right" in cues.events:
+        return cues.events["turn_right"], "turn_right (compose3's rule; no score to measure)"
+    return lt + 2.6, "latch + 2.6 s (no score to measure)"
+
+
+# ---- the story QC: does each beat do what the story says, measured on the stems as mixed ---------------------------
+FC3 = 1000 * 2 ** (np.arange(-10, 12) / 3)     # one-third-octave centres, 100 Hz .. 12.7 kHz
+
+
+def kw_power(meter, x: np.ndarray) -> np.ndarray:
+    """K-weighted power per sample (BS.1770 channel sum), for ungated momentary and short-term loudness. The
+    K-filter runs along time on each channel (pyloudnorm's filter objects filter along the LAST axis: handed an
+    (N, 2) array they would filter across the two channels and overstate the loudness by ~3.5 dB)."""
+    xf = np.array(x, dtype=np.float64, copy=True)
+    for ch in range(xf.shape[1]):
+        for fl in meter._filters.values():
+            xf[:, ch] = fl.apply_filter(xf[:, ch])
+    return (xf ** 2).sum(axis=1)
+
+
+def loud_curve(p: np.ndarray, win: float, hop: float = 0.05) -> tuple[np.ndarray, np.ndarray]:
+    """(centres s, LUFS) of `win`-second windows every `hop` s from K-weighted power p."""
+    w, h = int(win * SR), int(hop * SR)
+    c = np.concatenate([[0.0], np.cumsum(p)])
+    i = np.arange(0, len(p) - w + 1, h)
+    return (i + w / 2) / SR, -0.691 + 10 * np.log10((c[i + w] - c[i]) / w + 1e-20)
+
+
+def lev_curve(x: np.ndarray, win: float = 0.1, hop: float = 0.01) -> tuple[np.ndarray, np.ndarray]:
+    """(centres s, dBFS) of the RMS of `win`-second windows every `hop` s."""
+    pw = np.maximum(uniform_filter1d((np.asarray(x, dtype=np.float64) ** 2).mean(axis=1), int(win * SR),
+                                     mode="constant"), 0.0)
+    i = np.arange(0, len(pw), int(hop * SR))
+    return i / SR, 10 * np.log10(pw[i] + 1e-20)
+
+
+def bands3(x: np.ndarray) -> np.ndarray:
+    s = np.asarray(x, dtype=np.float64).mean(axis=1)
+    w = np.hanning(len(s))
+    P = np.abs(np.fft.rfft(s * w)) ** 2 / (w ** 2).sum()
+    f = np.fft.rfftfreq(len(s), 1 / SR)
+    return np.array([10 * np.log10(P[(f >= c / 2 ** (1 / 6)) & (f < c * 2 ** (1 / 6))].sum() + 1e-20) for c in FC3])
+
+
+def story_qc(q: dict, cues: Cues, buses: dict, mus: np.ndarray, peers: dict, mix: dict, meter, ride) -> dict:
+    out: dict = {}
+    T = cues.t
+    med = lambda tc, v, a, b: float(np.median(v[(tc >= a) & (tc <= b)]))
+    city = buses["city"]
+    fx = sum(buses.values())
+    if "flood" in q:   # the latch: the city floods in at once, at full range, with no dip and no riser
+        f = q["flood"]
+        lt, op, sc_, (s0, s1) = T(f["latch"]), T(f["open"]), T(f["sash_clear"]), [T(x) for x in f["street"]]
+        tc, lv = lev_curve(city[int((lt - 1) * SR):int((lt + 4) * SR)])
+        tc += lt - 1
+        before = med(tc, lv, lt - 0.5 + 0.05, lt - 0.05)
+        k = (tc >= lt + 0.05) & (tc <= lt + 0.55)
+        dip = float(lv[k].min() - before)
+        after = med(tc, lv, op + 1.0, T("@music_return"))
+        rise = after - before
+        kk = tc >= lt
+        t10 = float(tc[kk][np.argmax(lv[kk] >= before + 0.1 * rise)])
+        t90 = float(tc[kk][np.argmax(lv[kk] >= before + 0.9 * rise)])
+        m = city[int((lt - 1) * SR):int((s1 + 0.5) * SR)].mean(axis=1)
+        fq, ts, Z = stft(m, SR, nperseg=SR // 2, noverlap=SR // 2 - SR // 20, boundary=None, padded=False)
+        P = np.abs(Z) ** 2
+        share = 10 * np.log10(P[fq > 4000].sum(axis=0) / (P[fq > 40].sum(axis=0) + 1e-30) + 1e-20)
+        ts = ts + lt - 1
+        street = med(ts, share, s0, s1)
+        sh = lambda t: float(share[np.argmin(np.abs(ts - t))])
+        out["flood"] = {"city_100ms_dip_after_latch_db": round(dip, 2), "dip_ok": dip >= -1.0,
+                        "rise_db": round(rise, 1), "rise_10pct_after_open_s": round(t10 - op, 3),
+                        "rise_10_90_s": round(t90 - t10, 3), "rise_ok": (t90 - t10) <= 0.6 and t10 <= op + 0.1,
+                        "hf4k_share_street_db": round(street, 1),
+                        "hf4k_share_behind_glass_db": round(med(ts, share, lt - 1.0, lt), 1),
+                        "hf4k_share_at_open+0.5_db": round(sh(op + 0.5), 1),
+                        "hf4k_share_at_sash_clear_db": round(sh(sc_), 1),
+                        "hf_ok": sh(op + 0.5) >= street - 6 and sh(sc_) >= street - 3}
+    if "bells_vs_city" in q:
+        b = q["bells_vs_city"]
+        a_, b_ = T(b["window"][0]), T(b["window"][1])
+        i0, i1 = int((a_ - 0.3) * SR), int((b_ + 0.3) * SR)
+        tc, Lc = loud_curve(kw_power(meter, city[i0:i1]), 0.4)
+        _, Lb = loud_curve(kw_power(meter, buses["bell"][i0:i1]), 0.4)
+        tc += i0 / SR
+        k = (tc >= a_) & (tc <= b_)
+        d = Lc[k] - Lb[k]
+        out["bells_vs_city"] = {"window": [round(a_, 3), round(b_, 3)], "city_minus_bell_min_lu": round(float(d.min()), 1),
+                                "ok": float(d.min()) >= b.get("min_lu", -3.0)}
+    for bid in q.get("no_swell", []):
+        if bid not in peers:
+            continue
+        a, t0 = peers[bid]
+        on = T(q["onsets"][bid])
+        tc, lv = lev_curve(a)
+        tc += t0
+        first = float(lv[(tc >= on) & (tc <= on + 0.7)].max())
+        later = float(lv[tc > on + 0.7].max())
+        out.setdefault("no_swell", {})[bid] = {"first_max_db": round(first, 1), "later_max_over_first_db":
+                                               round(later - first, 2), "ok": later - first <= 1.0}
+    if "lean" in q:   # he leans out: the city doubles in the mids, not as a low thump that pumps the limiter
+        cd = T(q["lean"]["t"])
+        lo = sosfilt(butter(4, 150, "low", fs=SR, output="sos"), city[int((cd - 2) * SR):int((cd + 2) * SR)], axis=0)
+        tl, ll = lev_curve(lo, 0.02, 0.02)
+        tl += cd - 2
+        base = med(tl, ll, cd - 1.4, cd - 0.4)
+        pk = float(ll[(tl >= cd - 0.4) & (tl <= cd + 0.8)].max())
+        pk0 = float(ll[(tl >= cd - 1.4) & (tl <= cd - 0.4)].max())   # the texture's own 20 ms peaks before the lean
+        mid = sosfilt(butter(4, [500, 6000], "bandpass", fs=SR, output="sos"), city[int((cd - 2) * SR):int((cd + 2) * SR)], axis=0)
+        r = lambda a_, b_: rms_db(mid[int((a_ - cd + 2) * SR):int((b_ - cd + 2) * SR)])
+        step = r(cd + 0.2, cd + 1.2) - r(cd - 1.2, cd - 0.2)
+        gr = float(mix["_gr"][int((cd - 0.3) * SR):int((cd + 0.9) * SR)].max())
+        # pass: no 20 ms peak below 150 Hz more than 4 dB over the median before the lean - or, where the city's own
+        # low end already peaks higher than that before the lean (20 ms frames of a 100 Hz-wide band fluctuate by
+        # 5-7 dB), no more than 1 dB over its own largest peak there: no thump beyond the texture
+        out["lean"] = {"lf150_peak_over_median_db": round(pk - base, 1),
+                       "lf150_baseline_peak_over_median_db": round(pk0 - base, 1),
+                       "lf_ok": pk - base <= max(4.0, pk0 - base + 1.0),
+                       "mid_500_6k_step_db": round(step, 1), "step_ok": step >= 3.0,
+                       "limiter_reduction_db": round(gr, 2), "limiter_ok": gr <= 0.5}
+    if q.get("masking"):   # each story sound against (score + everything else), one-third-octave bands
+        rows = []
+        whole = fx + mus
+        for sid, ev, a_, b_ in q["masking"]:
+            if sid not in peers:
+                continue
+            el, t0 = peers[sid]
+            t = T(ev)
+            i0, i1 = int((t + a_) * SR), int((t + b_) * SR)
+            tgt = take(el, i0 - int(round(t0 * SR)), i1 - int(round(t0 * SR))) * ride(np.arange(i0, i1) / SR)[:, None]
+            snr = bands3(tgt) - bands3(whole[i0:i1] - tgt)
+            rows.append({"id": sid, "window_s": [a_, b_], "bands_over_3db": int((snr >= 3).sum()),
+                         "best_band_hz": int(round(FC3[snr.argmax()])), "best_snr_db": round(float(snr.max()), 1),
+                         "ok": int((snr >= 3).sum()) >= 2})
+        out["masking"] = rows
+    if "hum" in q:
+        h = q["hum"]
+        rows = {}
+        for a_, b_ in h["ranges"]:
+            x = buses[h["bus"]][int(T(a_) * SR):int(T(b_) * SR)].mean(axis=1)
+            fq, P = welch(x, SR, nperseg=SR, noverlap=SR // 2)
+            pr = {}
+            for fr in h["freqs"]:
+                k = int(np.argmin(np.abs(fq - fr)))
+                nb = np.r_[P[k - 12:k - 3], P[k + 4:k + 13]]
+                pr[str(fr)] = round(float(10 * np.log10(P[k - 1:k + 2].max() / np.median(nb))), 1)
+            rows[f"{a_}..{b_}"] = pr
+        worst = max(v for r_ in rows.values() for v in r_.values())
+        out["hum"] = {"prominence_db": rows, "worst_db": worst, "ok": worst <= 4.0}
+    if "loudness" in q:
+        L = q["loudness"]
+        p = kw_power(meter, mix["_x"])
+        ts, st = loud_curve(p, 3.0, 0.1)
+        _, mo = loud_curve(p, 0.4, 0.1)
+        g = st[st > -70]
+        g = g[g > 10 * np.log10(np.mean(10 ** (g / 10))) - 20]
+        lra = float(np.percentile(g, 95) - np.percentile(g, 10))
+        mins = []
+        for a_, b_, lim in L["st_min"]:
+            k = (ts >= T(a_)) & (ts <= T(b_))
+            mins.append({"range": [a_, b_], "min_lufs": round(float(st[k].min()), 1), "at": round(float(ts[k][st[k].argmin()]), 1),
+                         "limit": lim, "ok": float(st[k].min()) >= lim})
+        out["loudness"] = {"lra_lu": round(lra, 1), "lra_ok": lra <= L["lra_max"], "short_term_max_lufs": round(float(st.max()), 1),
+                           "short_term_max_at": round(float(ts[st.argmax()]), 1), "st_max_ok": float(st.max()) <= L["st_max"],
+                           "momentary_max_lufs": round(float(mo.max()), 1), "short_term_min": mins,
+                           "limiter_max_reduction_db": mix["limiter_max_reduction_db"],
+                           "limiter_ok": mix["limiter_max_reduction_db"] <= L.get("limiter_max_db", 2.0)}
+    if "return" in q and np.any(mus):   # the organ comes back: under the city at first, never far over it
+        r = q["return"]
+        t0 = T(r["t"])
+        tc, Lc = loud_curve(kw_power(meter, city), 3.0, 0.1)
+        _, Lm = loud_curve(kw_power(meter, mus), 3.0, 0.1)
+        k1 = (tc >= t0) & (tc <= t0 + r["first"])
+        k2 = (tc >= T(r["street"][0])) & (tc <= T(r["street"][1]))
+        d1, d2 = float((Lm - Lc)[k1].max()), float((Lm - Lc)[k2].max())
+        out["return"] = {"t": round(t0, 3), "score_minus_city_first_max_lu": round(d1, 1), "first_ok": d1 <= r["first_max_lu"],
+                         "score_minus_city_street_max_lu": round(d2, 1), "street_ok": d2 <= r["street_max_lu"]}
+    def flags(v, path=""):
+        if isinstance(v, dict):
+            for k_, x in v.items():
+                if k_.endswith("ok") and isinstance(x, (bool, np.bool_)):
+                    yield f"{path}{k_}", bool(x)
+                else:
+                    yield from flags(x, f"{path}{k_}.")
+        elif isinstance(v, list):
+            for i, x in enumerate(v):
+                yield from flags(x, f"{path}{x.get('id', i) if isinstance(x, dict) else i}.")
+    failed = [k_ for k_, ok in flags(out) if not ok]
+    out["failed"] = failed
+    out["all_ok"] = not failed
+    return out
+
+
 def main() -> None:
+    if sys.argv[1] == "--check":
+        sys.exit(check(sys.argv[2]))
     spec_p, out = sys.argv[1:3]
     no_score = "--no-score" in sys.argv
     os.makedirs(out, exist_ok=True)
@@ -528,7 +908,16 @@ def main() -> None:
     D = cues.t(sp.get("duration", "@duration"))
     N = int(round(D * SR))
     buses = {b: np.zeros((N, 2)) for b in sp["buses"]}
-    rep: dict = {"cuesheet": os.path.relpath(cues.path, sp_dir), "duration": D, "elements": [], "sync": [],
+    sc = sp.get("score") or {}
+    have_score = bool(sc.get("file")) and os.path.exists(sc["file"]) and not no_score
+    t_start_run = time.time()
+    inputs = inputs_of(os.path.abspath(spec_p), cues.path, sc.get("file"), have_score)
+    score_raw = decode(sc["file"])[:N] if have_score else None
+    mr, mr_how = music_return(cues, score_raw)
+    cues.events.setdefault("music_return", mr)
+    rep: dict = {"cuesheet": os.path.relpath(cues.path, sp_dir), "duration": D,
+                 "rendered_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t_start_run)), "inputs": inputs,
+                 "derived_events": {"music_return": {"t": round(mr, 4), "how": mr_how}}, "elements": [], "sync": [],
                  "speed_runs_vs_cuesheet_max_err_ms": {sid: round(cues.check_runs(sid) * 1000, 2)
                                                        for sid, s in cues.shots.items() if s.get("segs")}}
     peers: dict = {}
@@ -548,8 +937,8 @@ def main() -> None:
                "level": {k: e[k] for k in ("rms_db", "peak_db") if k in e},
                "rms_dbfs_placed": round(rms_db(a[np.abs(a).max(axis=1) > 1e-7]) if np.any(a) else -120.0, 1),
                "peak_dbfs_placed": round(20 * np.log10(np.abs(a).max() + 1e-12), 1)}
-        for k in ("tempo", "pitch", "timemap", "splice", "repair", "notch", "hp", "lp", "pan", "reverb", "slap",
-                  "gain_keys", "lp_keys"):
+        for k in ("tempo", "pitch", "timemap", "splice", "repair", "notch", "hp", "hp_order", "lp", "peq", "pan",
+                  "reverb", "slap", "gain_keys", "lp_keys", "shelf_keys", "band_keys", "rb_window"):
             if k in e:
                 row[k] = e[k]
         row.update({k: v for k, v in info.items() if k != "runs"})
@@ -560,10 +949,12 @@ def main() -> None:
         if e.get("onset") is not None:
             tgt = cues.t(e["onset"])
             s = onset_near(a, t0, tgt, e.get("onset_before", 0.12), e.get("onset_after", 0.25), e.get("onset_mode", "level"))
-            rep["sync"].append({"id": e["id"], "event": e["onset"], "target": round(tgt, 4), **s})
+            rep["sync"].append({"id": e["id"], "bus": e["bus"], "event": e["onset"], "target": round(tgt, 4), **s})
         if e.get("step") is not None:   # a level step that belongs to the picture (he leans out: the city doubles)
             tgt = cues.t(e["step"])
-            e_ = env_db(a, 0.05)
+            sb = e.get("step_band")
+            a_b = a if not sb else sosfilt(butter(4, sb, "bandpass", fs=SR, output="sos"), a, axis=0)
+            e_ = env_db(a_b, 0.05)
             sm = np.convolve(e_, np.ones(5) / 5, mode="same")           # 250 ms
             i0, i1 = max(int((tgt - 1.0 - t0) / 0.05), 5), min(int((tgt + 1.0 - t0) / 0.05), len(sm) - 6)
             d = sm[i0 + 5:i1 + 5] - sm[i0 - 5:i1 - 5]                     # 0.5 s after minus 0.5 s before
@@ -571,6 +962,7 @@ def main() -> None:
             before = float(np.mean(e_[max(i0 + k - 30, 0):i0 + k - 5]))
             after = float(np.mean(e_[i0 + k + 5:i0 + k + 30]))
             rep["sync"].append({"id": e["id"], "event": e["step"], "target": round(tgt, 4), "kind": "level step",
+                                "band_hz": sb,
                                 "step_at": round(t0 + (i0 + k) * 0.05, 3), "step_db": round(after - before, 1),
                                 "error_ms": round((t0 + (i0 + k) * 0.05 - tgt) * 1000, 0)})
         rep["elements"].append(row)
@@ -579,16 +971,14 @@ def main() -> None:
         i0, i1 = int(cues.t(t0) * SR), int(cues.t(t1) * SR)
         for b in buses.values():
             b[i0:i1] *= 10 ** (db / 20)
-    fx = sum(buses.values())
     # ---- the score (optional) ----
-    sc = sp.get("score") or {}
     mus = np.zeros((N, 2))
-    have_score = bool(sc.get("file")) and os.path.exists(sc["file"]) and not no_score
     meter = pyln.Meter(SR)
     rep["score"] = {"file": sc.get("file"), "present": have_score}
+    tt = np.arange(N) / SR
     if have_score:
-        m = decode(sc["file"])[:N]
-        place(mus, m, 0.0)
+        place(mus, score_raw, 0.0)
+        del score_raw
         g = sc.get("gain_db", 0.0)
         if sc.get("auto"):
             au = sc["auto"]
@@ -600,15 +990,64 @@ def main() -> None:
                                     "city_lufs": round(Lc, 2), "city_under_db": au["city_under_db"]}
         mus *= 10 ** (g / 20)
         rep["score"]["gain_db"] = round(g, 2)
-        tt = np.arange(N) / SR
-        for t0, t1, db in sp.get("music_ducks", []):
-            t0, t1, r = cues.t(t0), cues.t(t1), 0.3
-            w = np.clip(np.minimum((tt - (t0 - r)) / r, ((t1 + r) - tt) / r), 0, 1)
+        rep["score"]["ducks_resolved"] = []
+        for d in sp.get("music_ducks", []):   # [t0, t1, dB, attack, release]: dips under story sounds (cosine ramps)
+            t0, t1, db = cues.t(d[0]), cues.t(d[1]), float(d[2])
+            ra, rr = (float(d[3]), float(d[4])) if len(d) >= 5 else (0.3, 0.3)
+            w = np.clip(np.minimum((tt - (t0 - ra)) / ra, ((t1 + rr) - tt) / rr), 0, 1)
+            w = 0.5 - 0.5 * np.cos(np.pi * w)
             mus *= (1 - w * (1 - 10 ** (db / 20)))[:, None]
+            rep["score"]["ducks_resolved"].append([round(t0, 3), round(t1, 3), db, ra, rr])
+        if sp.get("music_keys"):   # a ride on the score alone (its balance against the sound), [[t, dB]]
+            mk_ = cues.keys(sp["music_keys"])
+            mus *= (10 ** (np.interp(tt, [k[0] for k in mk_], [k[1] for k in mk_]) / 20))[:, None]
+            rep["score"]["music_keys_resolved"] = [[round(t, 3), db] for t, db in mk_]
         if sc.get("end_fade"):
             a_, b_ = cues.t(sc["end_fade"][0]), cues.t(sc["end_fade"][1])
             w = np.clip((b_ - tt) / max(b_ - a_, 1e-3), 0, 1) ** 2
             mus *= w[:, None]
+    # ---- the fader ride (every stem and the score alike: the stems still sum to the mix) ----
+    if sp.get("mix_keys"):
+        mk = cues.keys(sp["mix_keys"])
+        ride = 10 ** (np.interp(tt, [k[0] for k in mk], [k[1] for k in mk]) / 20)[:, None]
+        for b in buses:
+            buses[b] *= ride
+        mus *= ride
+        rep["mix_keys_resolved"] = [[round(t, 3), db] for t, db in mk]
+        del ride
+    fx = sum(buses.values())
+    rel_s = sp.get("limiter_release_s", 0.2)
+    tg = sp.get("targets", {"mix": -14.0, "sfx_only": -16.0})
+    if have_score and sp.get("music_peak_db") is not None:
+        # the score's own peaks (timpani, brass accents) held on the music bus alone, at the level the master will
+        # put them, so the master limiter does not duck the city with them. The limiter takes loudness off the
+        # climax, so the "auto" balance (city N dB under the score there) is re-measured on the limited score and
+        # the score's gain corrected until it holds (<= 4 passes)
+        raw_mus = mus
+        au = sc.get("auto")
+        extra = 0.0
+        for _ in range(4):
+            cur = raw_mus * 10 ** (extra / 20)
+            g0 = 10 ** ((tg["mix"] - meter.integrated_loudness(fx + cur)) / 20)
+            lim, mg = limit(cur * g0, sp["music_peak_db"], sp.get("music_peak_release_s", 0.15))
+            mus = lim / g0
+            if not au:
+                break
+            i0, i1 = int(cues.t(au["t0"]) * SR), int(cues.t(au["t1"]) * SR)
+            short = (meter.integrated_loudness(buses[au.get("bus", "city")][i0:i1]) + au["city_under_db"]
+                     - meter.integrated_loudness(mus[i0:i1]))
+            if short < 0.2:
+                break
+            extra += short
+        mgr = -20 * np.log10(np.maximum(mg, 1e-9))
+        rep["score"]["gain_db"] = round(rep["score"]["gain_db"] + extra, 2)
+        rep["score"]["bus_limiter"] = {"ceiling_dbfs_after_master": sp["music_peak_db"],
+                                       "gain_added_to_hold_auto_db": round(extra, 2),
+                                       "max_reduction_db": round(float(mgr.max()), 2),
+                                       "at_s": round(float(np.argmax(mgr) / SR), 2),
+                                       "seconds_over_1db": round(float((mgr > 1).sum() / SR), 2),
+                                       "seconds_over_3db": round(float((mgr > 3).sum() / SR), 2)}
+        del lim, mg, mgr, raw_mus, cur
 
     def master(x: np.ndarray, lufs: float, name: str) -> dict:
         x = x.copy()
@@ -617,21 +1056,21 @@ def main() -> None:
         g = lufs - meter.integrated_loudness(x)
         src = x
         for _ in range(6):   # the limiter takes a little loudness: converge on the target
-            x = limit(src * 10 ** (g / 20), sp.get("ceiling_db", -2.0))
+            x, gain = limit(src * 10 ** (g / 20), sp.get("ceiling_db", -2.0), rel_s)
             err = lufs - meter.integrated_loudness(x)
             if abs(err) < 0.05:
                 break
             g += err
         else:
-            x = limit(src * 10 ** (g / 20), sp.get("ceiling_db", -2.0))
+            x, gain = limit(src * 10 ** (g / 20), sp.get("ceiling_db", -2.0), rel_s)
         sf.write(os.path.join(out, name), x.astype(np.float32), SR, subtype="PCM_24")
-        pre = np.abs(src * 10 ** (g / 20)).max(axis=1)
-        live = pre > 10 ** (-40 / 20)    # gain reduction where there is signal (not the ratio of two near-zeros)
-        red = 20 * np.log10(np.maximum(np.abs(x).max(axis=1)[live], 1e-9) / pre[live]) if live.any() else np.zeros(1)
+        gr = -20 * np.log10(np.maximum(gain, 1e-9))
         return {"file": name, "lufs": round(meter.integrated_loudness(x), 2), "true_peak_dbtp": round(true_peak_db(x), 2),
-                "gain_db": round(g, 2), "limiter_max_reduction_db": round(float(-red.min()), 2), "_x": x}
+                "gain_db": round(g, 2), "limiter_release_s": rel_s, "limiter_max_reduction_db": round(float(gr.max()), 2),
+                "limiter_max_at_s": round(float(np.argmax(gr) / SR), 2),
+                "limiter_seconds_over_1db": round(float(np.mean(gr > 1.0) * len(gr) / SR), 2),
+                "limiter_seconds_over_2db": round(float(np.mean(gr > 2.0) * len(gr) / SR), 2), "_x": x, "_gr": gr}
 
-    tg = sp.get("targets", {"mix": -14.0, "sfx_only": -16.0})
     mix = master(fx + mus, tg["mix"], "mix.wav")
     sfo = master(fx, tg["sfx_only"], "sfx_only.wav")
     for b, a in buses.items():
@@ -640,9 +1079,9 @@ def main() -> None:
         sf.write(os.path.join(out, "music_bus.wav"), mus.astype(np.float32), SR, subtype="FLOAT")
     elif os.path.exists(os.path.join(out, "music_bus.wav")):
         os.remove(os.path.join(out, "music_bus.wav"))
-    rep["mix"] = {k: v for k, v in mix.items() if k != "_x"}
+    rep["mix"] = {k: v for k, v in mix.items() if not k.startswith("_")}
     rep["mix"]["with_score"] = have_score
-    rep["sfx_only"] = {k: v for k, v in sfo.items() if k != "_x"}
+    rep["sfx_only"] = {k: v for k, v in sfo.items() if not k.startswith("_")}
     rep["stems"] = {b: f"{b}.wav" for b in buses}
     # ---- per-section loudness (in the mix's scale: stems and score x the mix's master gain) ----
     gm = 10 ** (mix["gain_db"] / 20)
@@ -728,6 +1167,18 @@ def main() -> None:
         rel = (tc >= cues.t("@bell4")) & (tc <= cues.t("@end"))
         qc["score_minus_city_release_db"] = [round(float(v), 1) for v in (Lm[rel] - Lc[rel])[::2]]
         qc["city_never_buried"] = bool(diff.max() <= 14.0)
+    if sp.get("story_qc"):
+        mk = cues.keys(sp["mix_keys"]) if sp.get("mix_keys") else [[0.0, 0.0]]
+        ride_f = lambda t: 10 ** (np.interp(t, [k[0] for k in mk], [k[1] for k in mk]) / 20)
+        qc["story"] = story_qc(sp["story_qc"], cues, buses, mus, peers, mix, meter, ride_f)
+    # close sounds (foley, kitchen; level mode) must be HEARD within [-20, +60] ms of their event; far bells bloom
+    # through reverb and glass and an "attack" onset is measured on its contact, so those are reported only
+    qc["audible_onsets_within_-20_+60ms"] = all(s.get("heard_in_sync") for s in rep["sync"] if s.get("onset") is not None
+                                                and s.get("bus") in ("foley", "kitchen") and s.get("mode") == "level")
+    now = inputs_of(os.path.abspath(spec_p), cues.path, sc.get("file"), have_score)
+    qc["stale"] = any(now.get(k, {}).get("sha256") != v["sha256"] for k, v in inputs.items())
+    if qc["stale"]:
+        print("WARNING: an input changed while mixing (score, cue sheet or spec): re-run", file=sys.stderr)
     rep["qc"] = qc
     json.dump(rep, open(os.path.join(out, "sound_report.json"), "w", encoding="utf-8"), indent=1, ensure_ascii=False,
               default=lambda o: o.item() if hasattr(o, "item") else str(o))

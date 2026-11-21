@@ -8,7 +8,8 @@ Per output frame (24 fps, 2160x3840 or a fraction of it):
     than ~1.6 prep frames (a timelapse or a speed ramp), every prep frame inside its shutter interval is
     averaged in linear light: real motion blur, people becoming streaks. Otherwise the nearest real frame is
     shown, whole. A constant prep_t is a freeze frame.
-  * MOVE: "move": {"keys": [[film_t, z, cx, cy], ...]} eased between keys, or {"z": [a, b], "cx", "cy"}.
+  * MOVE: "move": {"keys": [[film_t, z, cx, cy(, rot)], ...], "interp": "ease" | "pchip" | "linear"}, or
+    {"z": [a, b], "cx", "cy"}. "shutter_synth": 0.5 adds a 180-degree film shutter's motion blur to real-time shots.
   * PER-SHOT LOOK KEYS: "ev_keys" (exposure, stops), "sat_keys" (saturation multiplier), "defocus" (lens blur
     radius in px at 4K, with bokeh from the highlights), "streak" (anamorphic flare on highlights),
     "key_green" (an LED glow taken out), "light" (a soft window of light that follows a subject).
@@ -271,12 +272,17 @@ class Overlay:
         self.p.wait()
 
 
-def warp(img: np.ndarray, z: float, cx: float, cy: float, dx_px: float = 0.0) -> np.ndarray:
-    if abs(z - 1) < 1e-4 and abs(cx - 0.5) < 1e-4 and abs(cy - 0.5) < 1e-4 and abs(dx_px) < 0.01:
+def warp(img: np.ndarray, z: float, cx: float, cy: float, dx_px: float = 0.0, rot: float = 0.0) -> np.ndarray:
+    """Framing: the point (cx, cy) of the picture (frame fractions) goes to the centre, scaled by z, then the whole
+    frame is turned by `rot` degrees about its centre (counter-clockwise on screen for positive values)."""
+    if abs(z - 1) < 1e-4 and abs(cx - 0.5) < 1e-4 and abs(cy - 0.5) < 1e-4 and abs(dx_px) < 0.01 and abs(rot) < 1e-4:
         return img
     H, W = img.shape[:2]
-    M = np.array([[z, 0, W / 2 - z * cx * W + dx_px], [0, z, H / 2 - z * cy * H]], np.float32)
-    return cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+    M = np.array([[z, 0, W / 2 - z * cx * W + dx_px], [0, z, H / 2 - z * cy * H], [0, 0, 1]], np.float64)
+    if abs(rot) >= 1e-4:
+        R = np.vstack([cv2.getRotationMatrix2D((W / 2, H / 2), rot, 1.0), [0, 0, 1]])
+        M = R @ M
+    return cv2.warpAffine(img, M[:2].astype(np.float32), (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
 
 
 def dir_blur(img: np.ndarray, length: float) -> np.ndarray:
@@ -466,7 +472,14 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
         kf = int(math.floor(kpos))
         w = kpos - kf
         if abs(span - 1) <= 0.02 or w < 0.03 or w > 0.97 or not s.get("blend", True):
-            fr = rd.frame(int(round(kpos)))
+            k_ = int(round(kpos))
+            fr = rd.frame(k_)
+            ss = s.get("shutter_synth")
+            if ss and rd.k == k_ and rd.prev is not None:
+                # a real-time shot from a phone (short daylight exposure): give fast moves the blur of a film
+                # shutter of `ss` frame intervals (0.5 = 180 degrees), along each pixel's own motion, so a pan does
+                # not strobe at 24 fps; still pictures are untouched
+                fr = flow_smear(fr, rd._small(rd.prev), rd._small(fr), 2, ss)
         else:                            # slower than real time: the two real frames around this moment, mixed
             fr = rd.blend(kf, w)
     else:
@@ -540,14 +553,28 @@ def shot_frame(s: dict, rd: Reader, tm: Timing, t: float, fps: int, S: float, W:
             warm = np.array(lt.get("tint", [1.0, 0.985, 0.95]), np.float32)
             fr = to_disp(to_lin(fr) * (1 + m * ((2 ** ev_l) * warm - 1)))
     mv = s.get("move", {})
+    rot = 0.0
     if "keys" in mv:
+        # [t, z, cx, cy(, rot)]; "interp": "ease" (default: each key eased in and out), "pchip" (one smooth curve
+        # through the keys, no stops at the keys) or "linear" (for keys that track a measured drift frame by frame)
         ks = sorted(mv["keys"])
-        z, cx, cy = (keyed([[k[0], k[i]] for k in ks], t) for i in (1, 2, 3))
+        comp = lambda i: [[k[0], k[i] if len(k) > i else 0.0] for k in ks]
+        mode = mv.get("interp", "ease")
+        if mode in ("pchip", "linear") and len(ks) >= 2:
+            tt = np.array([k[0] for k in ks])
+            tq = min(max(t, tt[0]), tt[-1])
+            vals = []
+            for i in (1, 2, 3, 4):
+                v = np.array([q[1] for q in comp(i)])
+                vals.append(float(PchipInterpolator(tt, v)(tq)) if mode == "pchip" and len(ks) > 2 else float(np.interp(tq, tt, v)))
+            z, cx, cy, rot = vals
+        else:
+            z, cx, cy, rot = (keyed(comp(i), t) for i in (1, 2, 3, 4))
     else:
         k = (t - s["start"]) / max(s["end"] - s["start"], 1e-3)
         z0, z1 = mv.get("z", [1.0, 1.0])
         z, cx, cy = z0 + (z1 - z0) * min(max(k, -0.3), 1.3), mv.get("cx", 0.5), mv.get("cy", 0.5)
-    fr = warp(fr, z, cx, cy)
+    fr = warp(fr, z, cx, cy, rot=rot)
     kg = s.get("key_green")
     if kg:
         g_ = fr[..., 1] - np.maximum(fr[..., 0], fr[..., 2])

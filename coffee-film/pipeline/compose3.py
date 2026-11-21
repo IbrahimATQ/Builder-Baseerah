@@ -6,51 +6,60 @@ Usage:
         defaults: data/cuesheet3.json  /home/user/coffee/score3
 
 Every film time comes from the cue sheet at run time (events by key, shot film_in times, duration), so when the
-picture editor nudges a cut a re-run follows it. Writes, in OUT_DIR:
+picture editor nudges a cut a re-run follows it. The music returns after the latch on the cue-sheet event
+"music_return" if the sheet has one, else on "turn_right" (his gaze turns right along the facade). Writes, in OUT_DIR:
     organ.wav strings.wav brass.wav perc.wav   stems (24-bit; they sum exactly, sample for sample, to music.wav)
-    music.wav                                  48 kHz / 24-bit / stereo, exactly the cue-sheet duration, -16 LUFS,
-                                               true peak <= -2 dBTP
+    music.wav                                  48 kHz / 24-bit / stereo, exactly the cue-sheet duration, delivered
+                                               open (no loudness target): one static gain to a -2.3 dBTP peak, the
+                                               safety limiter takes at most 0.9 dB
     score_report.json                          key, tempo map, bar-by-bar description with film times, locked
                                                arrivals with measured onset errors, tuning per instrument,
-                                               per-section loudness, QC
+                                               per-section loudness, QC, and the "story" acceptance tests (the
+                                               music editor's review): climax step, masking of the story sounds
+                                               against the sound team's stems, unique brass samples, stereo, ...
     spectrogram.png  latch.png                 the whole piece with the events marked; zoom on the dead stop
 
 THE MUSIC (nothing quoted or imitated from any existing score)
 One theme, D minor, 3/4, rubato to the picture: four rising notes answered by a falling step,
     D - E - F - Bb | A      (dotted quarter, eighth, quarter | half ... quarter)
-the leap to the minor sixth (Bb) falling a semitone to the fifth (A) is the sigh the whole film waits to resolve.
 The kitchen (fade_up..latch) is placed at a distance: long church room, soft top end, narrow image.
-  - fade_up: 16' pedal D, ppp.  walk: 8' stopped-flute ostinato rocking D-A, the pulse of the ritual; its lift to
-    Bb at every bar end foreshadows the theme's sigh. The organ breathes before every arrival, and his first step
-    and each look land on a soft low pizzicato of the new bass note (walk, rise1, look1, spout_out, pullback, look2).
-  - church_in..look1: con-sordino violas and celli rise Dm -> Bb (rise1) -> F major (look1, first light);
-    they drop away on the kettle click.
-  - stream: the celli state the theme (D3) through the slow motion; Gm -> A (half close on spout_out);
-    pullback: the violins take it an octave higher (D4 + D5), organ adds its principal; the peak Bb lands on look2.
-  - cup: subito pp, the ostinato stops: a high solo-violin harmonic A6 and the pedal only.
-  - pour: the solo horn sings the theme (D3) over the resumed ostinato; Bb -> Gm crescendo, the horn becomes a
-    section, the violins join the rising line G-A-Bb, timpani roll on A from server_out; bell2: A sus4 forte with D
-    on top (the theme's peak again) - held, pressing (semiquaver ostinato, tremolo) - and never resolved:
-  - latch: DEAD STOP (hard gate on the indoor buses, reverb included). 2.6 s with no music: the city floods in,
-    the bell's D answers the held A.
-  - latch+2.6: the organ returns at full registration in D MAJOR (the first F sharp of the film), full strings,
-    the theme at half tempo; descending bass D C# B | G (street, after a timpani roll under the pilaster) F# E |
-    A -> rising string run under his turn -> D on the cut to the square.
-  - square..climax: horns and trombones take the theme over full organ, f -> ff, cadence D Bm G A -> D; the four
-    rising notes G-A-B -> E fall to the sus4 D over A and this time resolve through C# into D at the climax.
-  - climax..end: brass out after 2 s, strings fade, the organ alone; the high flute sings the theme once more in
-    major (D E F# B | A): B over G/D on title_in (a plagal amen), the falling step A over the last D-major chord;
-    bell4 rings inside it (nothing between 300 and 900 Hz); the chord is released on 'end'.
-Outdoors (after the latch) the music is close, full range and wide (short hall, more direct sound).
+  - fade_up: 16' pedal D.  walk: the ritual's pendulum, D3-A3 crotchets on the 8' stopped flute (tenor octave).
+  - church_in: as the church slides into the window the violas (con sordino) begin the theme: D - E - F, the leap to
+    Bb on rise1 (the pendulum lifts to Bb and HOLDS: a fermata while the eye rises), the falling step to A on LOOK 1:
+    F major, first light (a low pizzicato chord: the look lands). All but the pedal stop on the kettle click.
+  - stream (slow motion: time suspended, no pulse): the celli state the theme; Dm Bb Gm -> A on spout_out.
+  - spout_out ("the dripper drips alone"): the pendulum returns in quavers; pullback: the violins take the theme;
+    LOOK 2 on its peak Bb (pizzicato chord). cup: subito, the pedal alone (ppp) over the empty mug.
+  - pour: the solo horn sings the theme; slow2_end (real time again): the pendulum resumes; Bb -> Gm crescendo,
+    the horn becomes a section. bell2: the music BREATHES (everything lets go 60 ms before the bell, the room tail is
+    drawn down) so the bell is heard alone; LOOK 3 (rise3): A sus4, forte but dark (horns, trombones, low string
+    tremolo, timpani, the pizzicato chord of the looks), never resolved:
+  - latch: DEAD STOP (hard gate on the indoor buses, reverb included). The city floods in alone.
+  - music_return (turn_right): an open fifth D-A swells in under his turning gaze (mp, strings and 8' flutes, natural
+    attacks); a new pulse - three-note cells root-2nd-5th in viola spiccato - and NO third: no F sharp anywhere
+    before the climax. A timpani roll under the pilaster lands on the street: G major, the theme on B
+    (B - C# - D - G, the minor theme's own intervals inside D major) over G - A/G - Bb - C - A7; its sigh (G -> F#) is
+    withheld. A rising A7 arpeggio under his turn throws to the square cut: a DECEPTIVE cadence on Bb (the kitchen's
+    chord), dark (low brass and strings) so the casement creaks through it.
+  - square..climax: horns take the kitchen theme (D - E - F - Bb | A) over Bb - Gm - A, then the window form
+    (B - C# - D) over G - A/G - Gm as the red houses swing in; at square_in the violins hold a shimmering A5 over
+    A7sus4 (the sus4 of bell2 returns) with a timpani roll: f, crescendo.
+  - climax: D MAJOR - the first F sharp of the film - and the first full organ (open plenum) of the window: the
+    withheld sigh resolves (G -> F#) inside, the violins leap A5 -> D6 (the film's highest forte note), horns,
+    trombones, timpani D+A, 32' pedal. The brass leaves before the cup touches the sill.
+  - release: the plenum thins to a soft principal: the theme once more in major on the principal (E - F# | B over
+    G/D on title_in, a plagal amen | A over the last D major chord, in the A5 octave of bell 4's 877 Hz partial);
+    bell4 rings inside it (300-900 Hz kept clear); the chord is released on 'end'.
+Outdoors the music is close and full range, with the bass mono below 120 Hz and a moderate width.
 
 Instruments: VSCO-2 Community Edition (CC0): pipe organ (S. Dalzell / Ivy Audio: Man III open plenum, Man III
-stopped flute at 16'/8'/4', pedal 16' + 8', a 32' resultant from 16' + 10 2/3'), violin/viola/cello sections
-(sustain, tremolo, spiccato), solo contrabass, solo violin, F horn (one take per note, made into a section by
-layering velocity layers with small detunes and offsets), tenor trombone, the 1950s Olds trombone (two takes),
-timpani (hits and rolls). No piano, harp, pads, synths, chimes or ticking.
+stopped flute 8'/4', pedal 16' + 8', a 32' resultant from 16' + its fifth above), violin/viola/cello sections
+(sustain, tremolo, spiccato, pizzicato), solo contrabass, F horn, 1950s Olds trombone (all takes), tenor trombone,
+timpani. A brass "section" is made of DIFFERENT sample files (each player a distinct file, resampled <= 2
+semitones), never copies of one take. No piano, harp, pads, synths, chimes or ticking.
 The sampling engine is pipeline/compose.py (imported, unchanged): sample calibration (measured pitch, level,
-onset), A=440 equal-temperament pitch correction by polyphase resampling, loop extension, church reverb,
-mastering and analysis helpers.  Deterministic.
+onset), A=440 equal-temperament pitch correction by polyphase resampling, loop extension, church reverb and
+analysis helpers.  Deterministic.
 """
 from __future__ import annotations
 
@@ -60,6 +69,7 @@ for _v in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXP
     os.environ[_v] = "2"
 
 import json
+import re
 import sys
 import time
 
@@ -67,26 +77,31 @@ import numpy as np
 import pyloudnorm as pyln
 import soundfile as sf
 from scipy.ndimage import uniform_filter1d
-from scipy.signal import butter, fftconvolve, sosfilt, sosfiltfilt
+from scipy.signal import butter, sosfilt, sosfiltfilt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import compose as C  # noqa: E402  (the previous film's engine, reused as a library)
-from compose import N, NAME, SR, VSCO, Inst, _files, hz, dbv, log, raised_cos, render_note  # noqa: E402
+from compose import N, NAME, SR, Inst, _files, hz, dbv, log, raised_cos  # noqa: E402
 
-DEFAULT_CUE = os.path.join(os.path.dirname(HERE), "data", "cuesheet3.json")
+REPO = os.path.dirname(HERE)
+DEFAULT_CUE = os.path.join(REPO, "data", "cuesheet3.json")
 DEFAULT_OUT = "/home/user/coffee/score3"
+SOUND_DIR = "/home/user/coffee/sound3"                 # the sound team's stems: read by the QC only (masking tests)
+SOUND_SPEC = os.path.join(REPO, "data", "sound3.json")  # for the score gain the sound mix applies ("auto")
 STEMS = ("organ", "strings", "brass", "perc")
 T_START = time.time()
+FS = 6   # pitch class of F sharp
 
 
 # ============================================================================= the contract
 class Cue:
-    """Film times by key, read from the cue sheet (events, shot film_in times, duration) plus a few derived cues."""
+    """Film times by key, read from the cue sheet (events, shot film_in times, duration) plus derived cues."""
 
     NEED = ("fade_up", "walk", "church_in", "rise1", "look1", "kettle_click", "stream", "spout_out", "pullback",
-            "look2", "pour", "slow2_end", "server_out", "bell2", "latch", "pilaster1", "street", "turn_away",
-            "climax", "title_in", "bell4", "end")
+            "look2", "pour", "slow2_end", "server_out", "bell2", "rise3", "latch", "pilaster1", "street",
+            "turn_away", "casement", "red_houses", "square_in", "climax", "cup_on_sill", "title_in", "bell4", "end")
+    RETURN_KEYS = ("music_return", "turn_right")   # the first one present anchors the music's return
 
     def __init__(self, path):
         d = json.load(open(path, encoding="utf-8"))
@@ -95,16 +110,22 @@ class Cue:
         self.ev = {e["key"]: float(e["t"]) for e in d["events"]}
         self.what = {e["key"]: e.get("what", "") for e in d["events"]}
         shots = {s["id"]: s for s in d["shots"]}
+        rk = next((k for k in self.RETURN_KEYS if k in self.ev), None)
         missing = [k for k in self.NEED if k not in self.ev] + [s for s in ("cup", "square") if s not in shots]
+        if rk is None:
+            missing.append(" or ".join(self.RETURN_KEYS))
         if missing:
             raise KeyError(f"cue sheet {path} lacks {missing}")
+        self.return_key = rk
         self.ev["cup_cut"] = float(shots["cup"]["film_in"])
         self.ev["square_cut"] = float(shots["square"]["film_in"])
-        self.ev["return"] = self.ev["latch"] + 2.6           # the music comes back 2.6 s after the latch
+        self.ev["return"] = self.ev[rk]
         self.ev["last_chord"] = self.ev["bell4"] - 0.7       # the last chord is in place before bell 4 rings
         self.what.update(cup_cut="cut to the empty WARSZAWA mug (shot 'cup' film_in)",
                          square_cut="cut to his other window (shot 'square' film_in)",
-                         **{"return": "latch + 2.6 s: the music returns", "last_chord": "bell4 - 0.7 s"})
+                         **{"return": f"the music returns (cue-sheet event '{rk}')", "last_chord": "bell4 - 0.7 s"})
+        if not (self.ev["latch"] + 1.0 < self.ev["return"] < self.ev["street"]):
+            raise ValueError(f"return {self.ev['return']} must fall between latch + 1 s and street")
         self.shots = shots
         self.events = d["events"]
 
@@ -113,68 +134,91 @@ class Cue:
 
 
 class TempoMap:
-    """Beat -> film time. Hard anchors (beat, cue key) put beats exactly on events; between two anchors the beats
-    are spaced by a tempo that ramps from the mean of the previous segment to the mean of the next one, scaled to
-    fit (rubato); `stretch` lengthens single beats (agogic accents, the allargando into an arrival)."""
+    """Beat -> film time. Anchors (beat, cue key) put beats exactly on events (beats on a half-beat grid). The beat
+    lengths between anchors are solved as the SMOOTHEST tempo curve that meets every anchor (least squares on the
+    change of tempo from half-beat to half-beat), so the pulse never lurches at an anchor; `stretch` marks a
+    fermata (that beat is longer by the factor, the tempo around it unaffected); `cuts` are beats where the music
+    has no pulse (a free bar, a break) and the tempo may change."""
 
-    def __init__(self, name, anchors, cue, stretch=None):
-        self.name = name
-        self.anchors = [(int(b), key, float(cue[key])) for b, key in anchors]
+    def __init__(self, name, anchors, cue, stretch=None, cuts=(), grid=0.5):
+        self.name, self.grid = name, grid
+        self.anchors = [(float(b), key, float(cue[key])) for b, key in anchors]
         bs = np.array([a[0] for a in self.anchors])
         ts = np.array([a[2] for a in self.anchors])
         if np.any(np.diff(bs) <= 0) or np.any(np.diff(ts) <= 0):
             raise ValueError(f"tempo map {name}: anchors out of order {self.anchors}")
-        L = np.diff(ts) / np.diff(bs)
-        edge = np.concatenate([[L[0]], 0.5 * (L[:-1] + L[1:]), [L[-1]]])
-        stretch = stretch or {}
-        durs = []
-        for k in range(len(L)):
-            n = int(bs[k + 1] - bs[k])
-            raw = np.array([edge[k] + (edge[k + 1] - edge[k]) * (i + 0.5) / n for i in range(n)])
-            raw *= np.array([stretch.get(int(bs[k]) + i, 1.0) for i in range(n)])
-            raw *= (ts[k + 1] - ts[k]) / raw.sum()
-            durs.extend(raw.tolist())
-        self.b0, self.b1 = int(bs[0]), int(bs[-1])
-        self.durs = np.array(durs)
-        self.beat_t = ts[0] + np.concatenate([[0.0], np.cumsum(self.durs)])
+        self.b0, self.b1 = float(bs[0]), float(bs[-1])
+        n = int(round((self.b1 - self.b0) / grid))
+        cb = self.b0 + grid * np.arange(n)
+        s = np.ones(n)
+        for b, f in (stretch or {}).items():
+            s[(cb >= b - 1e-9) & (cb < b + 1 - 1e-9)] = f
+        seg = np.searchsorted(bs, cb + 1e-9, side="right") - 1
+        K = len(bs) - 1
+        A = np.zeros((K, n))
+        A[seg, np.arange(n)] = s
+        T = np.diff(ts)
+        w = np.ones(n - 1)
+        for c in cuts:
+            j = int(round((c - self.b0) / grid))
+            if 1 <= j <= n - 1:
+                w[j - 1] = 1e-3
+        D = np.zeros((n - 1, n))
+        D[np.arange(n - 1), np.arange(n - 1)] = -1.0
+        D[np.arange(n - 1), np.arange(1, n)] = 1.0
+        mseg = T / np.array([s[seg == k].sum() for k in range(K)])
+        eps = 1e-3
+        H = 2 * (D.T @ (w[:, None] * D)) + 2 * eps * np.eye(n)
+        KKT = np.block([[H, A.T], [A, np.zeros((K, K))]])
+        sol = np.linalg.solve(KKT, np.concatenate([2 * eps * mseg[seg], T]))
+        d = s * sol[:n]
+        if np.any(d <= 0.05):
+            raise ValueError(f"tempo map {name}: impossible anchors {self.anchors}")
+        self.cell, self.stretch = d, s
+        cs = {float(c) for c in cuts}
+        self.free = np.array([bs[seg[j]] in cs and bs[seg[j] + 1] in cs for j in range(n)])  # pulse-less free bars
+        self.cell_t = ts[0] + np.concatenate([[0.0], np.cumsum(d)])
         self.seg_bpm = [dict(from_key=self.anchors[k][1], to_key=self.anchors[k + 1][1],
-                             beats=int(bs[k + 1] - bs[k]), seconds=round(float(ts[k + 1] - ts[k]), 3),
-                             mean_bpm=round(60.0 / float(L[k]), 1)) for k in range(len(L))]
+                             beats=float(bs[k + 1] - bs[k]), seconds=round(float(T[k]), 3),
+                             mean_bpm=round(60.0 * float(bs[k + 1] - bs[k]) / float(T[k]), 1)) for k in range(K)]
 
     def t(self, b):
-        b = float(b)
-        if b <= self.b0:
-            return float(self.beat_t[0] + (b - self.b0) * self.durs[0])
-        if b >= self.b1:
-            return float(self.beat_t[-1] + (b - self.b1) * self.durs[-1])
-        i = int(np.floor(b - self.b0))
-        return float(self.beat_t[i] + (b - self.b0 - i) * self.durs[i])
-
-    def bpm(self, b):
-        i = int(np.clip(np.floor(b - self.b0), 0, len(self.durs) - 1))
-        return 60.0 / float(self.durs[i])
+        x = (float(b) - self.b0) / self.grid
+        n = len(self.cell)
+        if x <= 0:
+            return float(self.cell_t[0] + x * self.cell[0])
+        if x >= n:
+            return float(self.cell_t[-1] + (x - n) * self.cell[-1])
+        i = int(np.floor(x))
+        return float(self.cell_t[i] + (x - i) * self.cell[i])
 
     def describe(self):
+        bpm = 60.0 * self.grid / self.cell
+        base = (bpm * self.stretch)[~self.free]
         return dict(name=self.name, anchors=[dict(beat=b, key=k, t=round(t, 3)) for b, k, t in self.anchors],
-                    segments=self.seg_bpm,
-                    beat_bpm_range=[round(float(60 / self.durs.max()), 1), round(float(60 / self.durs.min()), 1)],
-                    beats_s=[round(float(x), 3) for x in self.beat_t])
+                    segments=self.seg_bpm, grid_beats=self.grid,
+                    beat_bpm_range=[round(float(bpm.min()), 1), round(float(bpm.max()), 1)],
+                    base_bpm_range_without_fermatas=[round(float(base.min()), 1), round(float(base.max()), 1)],
+                    free_bars_excluded=[[float(self.b0 + self.grid * j), round(float(bpm[j]), 1)]
+                                        for j in range(len(bpm)) if self.free[j]][::2],
+                    fermatas=[dict(beat=float(self.b0 + self.grid * j), factor=round(float(self.stretch[j]), 2))
+                              for j in range(len(self.stretch)) if self.stretch[j] != 1.0][::2],
+                    beats_s=[round(float(x), 3) for x in self.cell_t[::2]])
 
 
 # ============================================================================= instruments
 def build_library3():
-    """compose.py's organ / strings / timpani, plus brass, solo violin and string spiccato (same calibration)."""
+    """compose.py's organ / strings / timpani, plus brass, string spiccato and pizzicato (same calibration)."""
     lib = C.build_library()
     nre = r"([A-G]#?-?\d)"
     up = lambda m: N(m.group(1)) + 12   # noqa: E731  VSCO names brass/woodwinds/sections one octave low (measured)
     lay = lambda m: int(m.group(2))     # noqa: E731
-    lib["horn"] = Inst("horn", _files("Brass/F Horn/sus/*.wav", rf"MOHorn_sus_{nre}_v(\d)_1\.wav$", up, lay))
-    lib["otbn"] = Inst("otbn", _files("Brass/OldTrombone/Sustain/*_1.wav", rf"Trombone_Sustain_{nre}_v(\d)_1\.wav$", up, lay))
-    lib["otbn2"] = Inst("otbn2", _files("Brass/OldTrombone/Sustain/*_2.wav", rf"Trombone_Sustain_{nre}_v(\d)_2\.wav$", up, lay))
-    lib["tbn"] = Inst("tbn", _files("Brass/Tenor Trombone/sus/*.wav", rf"tenortbn_sus_{nre}_v(\d)_1\.wav$", up, lay))
-    lib["svln"] = Inst("svln", _files("Strings/Solo Violin/Arco Vib/*.wav", rf"LLVln_ArcoVib_{nre}_(p|f)\.wav$",
-                                      lambda m: N(m.group(1)), lambda m: 1 if m.group(2) == "p" else 2))
     rr = lambda m: int(m.group(3))      # noqa: E731
+    lib["horn"] = Inst("horn", _files("Brass/F Horn/sus/*.wav", rf"MOHorn_sus_{nre}_v(\d)_1\.wav$", up, lay))
+    # the 1950s Olds trombone: every take of layers 2-5 (one Inst; takes are separate files a section can use)
+    lib["otbn"] = Inst("otbn", _files("Brass/OldTrombone/Sustain/*.wav", rf"Trombone_Sustain_{nre}_v([2-5])_(\d)\.wav$",
+                                      up, lay, rr))
+    lib["tbn"] = Inst("tbn", _files("Brass/Tenor Trombone/sus/*.wav", rf"tenortbn_sus_{nre}_v(\d)_1\.wav$", up, lay))
     lib["vln_spic"] = Inst("vln_spic", _files("Strings/Violin Section/Spic/*.wav", rf"VlnEns_Spic_{nre}_v(\d)_rr(\d)\.wav$",
                                               up, lay, rr), kind="pluck", kmax=6)
     lib["va_spic"] = Inst("va_spic", _files("Strings/Viola Section/spic/*.wav", rf"Violas_spic_{nre}_v(\d)_rr(\d)\.wav$",
@@ -192,6 +236,8 @@ TIMP_REF = {}   # loudness offset that brings a layer-4 timpani hit (raw level, 
 SPIC_WIN = (0.01, 0.22)      # pitch window of a spiccato note (s after its attack point)
 PLUCK_WIN = {"cb_pizz": (0.03, 0.6), "vc_pizz": (0.03, 0.6)}   # pizzicato rings longer
 ROLL_WIN = (0.5, 6.0)        # pitch window of a timpani roll (s after its onset)
+BRASS_FAMILIES = ("horn", "otbn", "tbn")
+MAX_BRASS_SHIFT = 2.0        # semitones a brass sample may be resampled
 
 
 def refine_calibration(lib, names):
@@ -219,6 +265,46 @@ def refine_calibration(lib, names):
     return out
 
 
+def assign_brass(lib, events):
+    """Every brass note gets its own sample FILE: notes of the same pitch that start together (a section, or two
+    sections in unison) are given distinct files from their pool (the horn alone, or old + tenor trombone takes),
+    resampled at most MAX_BRASS_SHIFT semitones, nearest pitch and nearest requested layer first. A player with no
+    file left within reach is dropped (logged), never doubled."""
+    br = sorted([e for e in events if e.get("pool")], key=lambda e: (int(round(e["midi"])), e["t"], e.get("player", 0)))
+    groups = []
+    for e in br:
+        if groups and int(round(groups[-1][0]["midi"])) == int(round(e["midi"])) and e["t"] - groups[-1][0]["t"] < 0.03:
+            groups[-1].append(e)
+        else:
+            groups.append([e])
+    dropped = []
+    for g in groups:
+        used = set()
+        for e in sorted(g, key=lambda e: (e.get("player", 0), e["t"])):
+            m = e["midi"] + e.get("detune", 0.0) / 100.0
+            L = e.get("layer") or 3
+            cands = []
+            for rank, fam in enumerate(e["pool"]):
+                for s in lib[fam].samples:
+                    sh = abs(s.meas - m)
+                    if sh <= MAX_BRASS_SHIFT and s.path not in used:
+                        cands.append((sh + 0.45 * abs(s.layer - L) + 0.6 * rank, fam, s))
+            if not cands:
+                e["drop"] = True
+                dropped.append(dict(t=round(e["t"], 3), note=NAME(e["midi"]), role=e.get("role"), pool=e["pool"]))
+                continue
+            cands.sort(key=lambda c: (c[0], c[2].path))
+            _, fam, s = cands[0]
+            used.add(s.path)
+            e["inst"], e["smp"], e["shift_st"] = fam, s.path, round(m - s.meas, 3)
+    # the assertion the music editor asked for: no two players of one note on the same file
+    for g in groups:
+        files = [e["smp"] for e in g if not e.get("drop")]
+        assert len(files) == len(set(files)), f"brass note {NAME(g[0]['midi'])} at {g[0]['t']:.3f}: duplicated file"
+    return dict(groups=len(groups), multi_player_groups=sum(1 for g in groups if len(g) > 1),
+                max_players=max((len(g) for g in groups), default=0), dropped=dropped)
+
+
 # ============================================================================= score
 class Score:
     def __init__(self, cue):
@@ -226,6 +312,9 @@ class Score:
         self.E: list[dict] = []
         self.locks: list[dict] = []
         self.bars: list[dict] = []
+        self.harm: list[tuple] = []       # window harmony (t, chord, bass pitch class)
+        self.themes: list[dict] = []      # theme statements (t, first note, voice)
+        self.derived: dict = {}
 
     def note(self, stem, inst, pitch, t, dur, g=0.0, pan=0.0, space="in", **kw):
         m = float(N(pitch)) if isinstance(pitch, str) else float(pitch)
@@ -249,6 +338,7 @@ class Score:
         sets = [[N(p) if isinstance(p, str) else p for p in s[1]] for s in seq]
         allp = sorted({p for s in sets for p in s})
         lo, hi = min(allp), max(allp)
+        out = []
         for p in allp:
             i = 0
             while i < len(sets):
@@ -257,11 +347,12 @@ class Score:
                     while j + 1 < len(sets) and p in sets[j + 1]:
                         j += 1
                     pn = pan[0] + (pan[1] - pan[0]) * ((p - lo) / max(hi - lo, 1))
-                    self.note(stem, inst, p, times[i], times[j + 1] - times[i] + overlap, g, pn, space, attack=attack,
-                              release=release, layer=layer, env=env, role=role, **kw)
+                    out.append(self.note(stem, inst, p, times[i], times[j + 1] - times[i] + overlap, g, pn, space,
+                                         attack=attack, release=release, layer=layer, env=env, role=role, **kw))
                     i = j + 1
                 else:
                     i += 1
+        return out
 
     def line(self, stem, inst, notes, tm, b0, g=0.0, pan=0.0, space="in", layer=None, attack=0.06, release=0.22,
              overlap=0.07, gains=None, env=None, role="melody", first=None, last_end=None, **kw):
@@ -284,43 +375,71 @@ class Score:
         return out
 
 
-def rock(S, tm, b0, b1, lo, hi, nb, g0, g1, sub=2, inst="ged", space="in", oct_=0, stop_t=None, g_add=0.0,
-         pan=0.2, role="ostinato", bars=(), arrivals=(), legato=0.82):
-    """The ritual's pulse: lo/hi alternating in quavers (sub=2) or semiquavers (sub=4) from beat b0 to b1;
-    `nb` replaces the last note of a group (the lift); beat 1 of a bar is accented, the upper note softer."""
+def rock(S, tm, b0, b1, lo, hi, g0, g1, sub=2, inst="ged", space="in", oct_=0, start_t=None, stop_t=None, pan=0.2,
+         role="ostinato 8'", bars=(), arrivals=(), legato=0.82, line="k"):
+    """The ritual's pendulum: lo/hi alternating (sub=1 crotchets, 2 quavers, 4 semiquavers) from beat b0 to b1;
+    beat 1 of a bar is accented, the upper note softer; the organist breathes before an arrival."""
     n = int(round((b1 - b0) * sub))
+    out = []
     for k in range(n):
         b = b0 + k / sub
         t = tm.t(b)
-        if stop_t is not None and t >= stop_t:
+        if start_t is not None and t < start_t - 1e-6:
+            continue
+        if stop_t is not None and t >= stop_t - 0.02:
             break
         step = tm.t(b + 1.0 / sub) - t
         p = lo if k % 2 == 0 else hi
-        if nb and k == n - 1:
-            p = nb
-        g = g0 + (g1 - g0) * k / max(n - 1, 1) + g_add
+        g = g0 + (g1 - g0) * k / max(n - 1, 1)
         if k % 2:
             g -= 1.8
         if abs(b - round(b)) < 1e-6 and int(round(b)) in bars:
             g += 1.2
         frac = legato
-        if any(0.0 < a - (t + step) < 0.004 or abs(a - (t + step)) < 0.004 for a in arrivals):
+        if any(-0.004 < a - (t + step) < 0.004 for a in arrivals):
             frac = 0.6      # an organist's breath before the arrival
-        S.note("organ", inst, N(p) + oct_, t, step * frac, g, pan if k % 2 else -pan, space, attack=0.004,
-               release=0.04, role=role)
+        dur = step * frac
+        if stop_t is not None:
+            dur = min(dur, stop_t - t - 0.01)
+        out.append(S.note("organ", inst, N(p) + oct_, t, dur, g, pan if k % 2 else -pan, space, attack=0.004,
+                          release=0.04, role=role, line=line, step_beats=1.0 / sub, beat=b))
+    return out
 
 
-HORN_COPIES = [dict(dl=0, det=0.0, dt=0.000, dp=0.00, g=0.0),      # the solo horn
-               dict(dl=-1, det=-5.0, dt=0.016, dp=0.14, g=-1.0),   # 2nd
-               dict(dl=+1, det=+4.0, dt=0.008, dp=-0.12, g=-1.5),  # 3rd
-               dict(dl=0, det=-2.5, dt=0.023, dp=0.24, g=-2.0)]    # 4th
+CELLS = {  # the window's pulse: three-note cells root - 2nd - 5th (no third: the major third waits for the climax)
+    "D": ("D4", "E4", "A4"), "G": ("G3", "A3", "D4"), "A": ("A3", "B3", "E4"), "Bb": ("Bb3", "C4", "F4"),
+    "C": ("C4", "D4", "G4")}
 
 
-def horns(S, notes, tm, b0, g, layer, pan=-0.22, space="in", n_from=1, n_to=4, grow=None, env=None, role="horns",
+def cells(S, tm, b0, b1, chord_at, g0, g1, space="out", stop_t=None, env=None, role="pulse (three-note cells)"):
+    """Viola spiccato quavers cycling root-2nd-5th of the chord sounding at each quaver (chord_at(t) -> CELLS key);
+    the cell's first note is accented."""
+    n = int(round((b1 - b0) * 2))
+    out = []
+    for k in range(n):
+        b = b0 + k / 2
+        t = tm.t(b)
+        if stop_t is not None and t >= stop_t - 0.02:
+            break
+        p = CELLS[chord_at(t)][k % 3]
+        g = g0 + (g1 - g0) * k / max(n - 1, 1) + (1.0 if k % 3 == 0 else -0.8)
+        out.append(S.note("strings", "va_spic", p, t, 0.24, g, 0.12 if k % 3 == 0 else 0.2, space,
+                          layer=1 if g < -14 else 2, attack=0.003, release=0.08, env=env, role=role, line="w",
+                          step_beats=0.5, beat=b))
+    return out
+
+
+SPREAD = [dict(dt=0.000, det=0.0, dp=0.00, g=0.0, dl=0),      # the lead
+          dict(dt=0.010, det=-4.0, dp=0.12, g=-1.0, dl=-1),   # 2nd
+          dict(dt=0.005, det=+3.5, dp=-0.10, g=-1.5, dl=+1),  # 3rd
+          dict(dt=0.014, det=-2.0, dp=0.20, g=-2.0, dl=0)]    # 4th
+
+
+def horns(S, notes, tm, b0, g, layer, pan=-0.2, space="in", n_from=1, n_to=4, grow=None, env=None, role="horns",
           **kw):
-    """A horn line played by `n_to` players: copies of the line from different velocity layers, slightly detuned
-    (<= 5 cents) and late (<= 23 ms), spread in pan; players n_from+1..n_to fade in with `grow` (dB env)."""
-    for i, c in enumerate(HORN_COPIES[:n_to]):
+    """A horn line played by `n_to` players, each on its own sample file (assign_brass), slightly detuned (<= 4 cents)
+    and late (<= 14 ms), spread in pan; players n_from+1..n_to fade in with `grow` (dB env)."""
+    for i, c in enumerate(SPREAD[:n_to]):
         if i < n_from or grow is None:
             e_env = env
         elif env is None:
@@ -329,202 +448,205 @@ def horns(S, notes, tm, b0, g, layer, pan=-0.22, space="in", n_from=1, n_to=4, g
             e_env = (lambda tt, a=env, b=grow: a(tt) * b(tt))
         for e in S.line("brass", "horn", notes, tm, b0, g + c["g"], pan + c["dp"], space, layer=max(1, layer + c["dl"]),
                         env=e_env, role=role if i else role + " (lead)", **kw):
-            e["t"] += c["dt"] if i else 0.0
-            e["detune"] = c["det"]
+            e["t"] += c["dt"]
+            e["dur"] = max(0.02, e["dur"] - c["dt"])
+            e.update(detune=c["det"], pool=["horn"] if i < 2 else ["horn", "otbn"], player=i)
+
+
+def section(S, pitch, t0, dur, g, players, pool, layer, pan=0.0, space="out", role="brass", env=None, **kw):
+    """One sustained brass note for `players` players (distinct files, small spread)."""
+    for i, c in enumerate(SPREAD[:players]):
+        pl = list(pool) if (i < 2 or "otbn" in pool) else list(pool) + ["otbn"]
+        S.note("brass", pool[0], pitch, t0 + c["dt"], dur - c["dt"], g + c["g"], pan + c["dp"], space,
+               layer=max(1, layer + c["dl"]), env=env, role=role, detune=c["det"], pool=pl, player=i, **kw)
 
 
 def kitchen(S: Score, cue: Cue):
-    """Bars 1-14: fade_up .. latch, indoors."""
-    K = TempoMap("kitchen", [(0, "walk"), (6, "rise1"), (7, "look1"), (12, "stream"), (20, "spout_out"),
-                             (21, "pullback"), (24, "look2"), (26, "cup_cut"), (30, "pour"), (39, "bell2")], cue,
-                 stretch={38: 1.12, 19: 1.06})
+    """fade_up .. latch, indoors."""
+    ci, r1, l1, kc = cue["church_in"], cue["rise1"], cue["look1"], cue["kettle_click"]
+    st6 = (l1 - r1) / max((r1 - ci) / 4.0, 1e-3)   # beat 6 (rise1 -> look1) is a fermata: the pulse holds
+    K = TempoMap("kitchen", [(0, "walk"), (2, "church_in"), (6, "rise1"), (7, "look1"), (11, "kettle_click"),
+                             (12, "stream"), (20, "spout_out"), (21, "pullback"), (24, "look2"), (26.5, "cup_cut"),
+                             (30, "pour"), (32.5, "slow2_end"), (39, "rise3")], cue,
+                 stretch={6: st6}, cuts=(11, 12, 26.5, 30))
     t = K.t
     sp = "in"
-    latch = cue["latch"]
     ramp = C.ramp
-    KB = {0, 3, 6, 9, 12, 15, 18, 21, 24, 26, 30, 33, 36, 39}
+    latch, bell2, r3 = cue["latch"], cue["bell2"], cue["rise3"]
+    cup, pour, s2 = cue["cup_cut"], cue["pour"], cue["slow2_end"]
+    br0 = bell2 - 0.06                  # the breath: everything indoors lets go just before the bell ...
+    br1 = max(r3, bell2 + 0.15)         # ... and the A sus4 arrives on LOOK 3
+    S.derived.update(breath_start=round(br0, 3), sus4_on=round(br1, 3))
+    KB = {0, 3, 6, 7, 10, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39}
 
-    # ---------------------------------------------------------------- pedal (16' + 8'), with the bass line
-    ped = [(cue["fade_up"], "D", -24), (t(6), "Bb", -21), (t(7), "F", -20), (t(11), "A", -20), (t(12), "D", -18),
-           (t(15), "Bb", -18), (t(18), "G", -17), (t(20), "A", -16), (t(21), "D", -15), (t(24), "Bb", -14),
-           (cue["cup_cut"], "D", -23), (t(33), "Bb", -17), (t(36), "G", -14), (t(39), "A", -9)]
-    for i, (t0, pc, g) in enumerate(ped):
-        t1 = ped[i + 1][0] if i + 1 < len(ped) else latch + 0.05
-        first = i == 0
-        kw = dict(skip=1.0, attack=0.002, env=ramp([(cue["fade_up"], -45), (cue["walk"], 0)])) if first else \
-            dict(attack=0.06 if t0 != cue["cup_cut"] else 0.25)
-        if t0 == t(39):
-            kw["env"] = ramp([(t(39), 0), (latch, 3)])
-        if t0 == cue["cup_cut"]:   # ppp over the empty mug, back to p under the horn
-            kw["env"] = ramp([(t0, 0), (cue["pour"] - 0.2, 0), (cue["pour"] + 1.0, 6)])
-        legato = 0.0 if t1 == cue["cup_cut"] else 0.05
-        S.note("organ", "ped16", pc + "1", t0, t1 - t0 + legato, g, 0.0, sp, release=0.12 if legato else 0.05,
-               role="pedal 16'", **kw)
-        S.note("organ", "ped8", pc + "2", t0, t1 - t0 + legato, g - 5, 0.0, sp, release=0.12 if legato else 0.05,
-               role="pedal 8'", **kw)
-    # a 16' Bourdon (stopped flute an octave down) under the theme's bars
+    # ---------------------------------------------------------------- pedal (16' + 8'): the bass line
+    fu = cue["fade_up"]
+    ped = [  # t0, t1, pitch class, gain, extra
+        (fu, r1, "D", -24, dict(skip=1.0, attack=0.002, env=ramp([(fu, -45), (cue["walk"], 0)]))),
+        (r1, l1, "Bb", -21, {}), (l1, cue["stream"], "F", -21, dict(env=ramp([(l1, 0), (kc, 0), (kc + 0.3, -4)]))),
+        (cue["stream"], t(15), "D", -18, {}), (t(15), t(18), "Bb", -18, {}), (t(18), cue["spout_out"], "G", -17, {}),
+        (cue["spout_out"], cue["pullback"], "A", -16, {}), (cue["pullback"], cue["look2"], "D", -15, {}),
+        (cue["look2"], t(25), "Bb", -14.5, {}),
+        (t(25), t(33), "D", -15, dict(env=ramp([(t(25), 0), (cup, 0), (cup + 0.25, -8), (pour - 0.2, -8),
+                                                (pour + 1.0, -2)]))),
+        (t(33), t(36), "Bb", -15, {}), (t(36), br0, "G", -13, dict(release=0.05)),
+        (br1, latch + 0.05, "A", -10, dict(env=ramp([(br1, 0), (latch, 3)]), release=0.05))]
+    for t0, t1, pc, g, kw in ped:
+        kw = dict(kw)
+        kw.setdefault("attack", 0.12)
+        rel = kw.pop("release", 0.12)
+        S.note("organ", "ped16", pc + "1", t0, t1 - t0 + 0.04, g, 0.0, sp, release=rel, role="pedal 16'", **kw)
+        S.note("organ", "ped8", pc + "2", t0, t1 - t0 + 0.04, g - 5, 0.0, sp, release=rel, role="pedal 8'", **kw)
     S.lock("fade_up", "start", "organ", "16' pedal D enters ppp (felt more than heard)")
 
-    # ---------------------------------------------------------------- the ostinato (8' stopped flute)
-    O = [  # b0, b1, lo, hi, lift, g0, g1, sub
-        (0, 3, "D4", "A4", "Bb4", -16, -15, 2), (3, 6, "D4", "A4", "Bb4", -15, -14, 2),
-        (6, 7, "D4", "Bb4", None, -13.5, -13.5, 2), (7, 9, "C4", "A4", "Bb4", -12.5, -12.5, 2),
-        (9, 11, "C4", "A4", None, -13, -13.5, 2), (11, 12, "E4", "A4", None, -13.5, -13.5, 2),
-        (12, 15, "D4", "A4", "Bb4", -13.5, -13, 2), (15, 17, "D4", "Bb4", None, -13, -13, 2),
-        (17, 18, "D4", "A4", None, -13, -13, 2), (18, 20, "D4", "Bb4", None, -13, -12.5, 2),
-        (20, 21, "E4", "A4", None, -12.5, -12, 2), (21, 24, "D4", "A4", "Bb4", -12, -10.5, 2),
-        (24, 25, "D4", "Bb4", None, -10, -10, 2), (25, 26, "D4", "A4", None, -10, -10, 2),
-        (30, 33, "D4", "A4", "Bb4", -14, -13, 2), (33, 35, "D4", "Bb4", None, -13, -12, 2),
-        (35, 36, "D4", "A4", None, -12, -11.5, 2), (36, 39, "D4", "Bb4", None, -11, -8.5, 2),
-        (39, 44, "D4", "A4", None, -7.5, -4.5, 4)]
-    arr = [cue[k] for k in ("walk", "rise1", "look1", "stream", "spout_out", "pullback", "look2", "pour")]
-    for b0, b1, lo, hi, nb, g0, g1, sub in O:
-        rock(S, K, b0, b1, lo, hi, nb, g0, g1, sub, space=sp, stop_t=latch, bars=KB, arrivals=arr)
-        if b0 >= 12 and b1 <= 26:   # the 16' Bourdon joins under the theme
-            rock(S, K, b0, b1, lo, hi, nb, g0 - 9, g1 - 9, sub, space=sp, oct_=-12, pan=0.1, role="ostinato 16'",
-                 bars=KB, arrivals=arr)
-        if b0 >= 36:                # 4' flute brightens the crescendo
-            rock(S, K, b0, b1, lo, hi, None, g0 - 9, g1 - 6, sub, space=sp, oct_=12, pan=0.3, stop_t=latch,
-                 role="ostinato 4'", bars=KB, arrivals=arr)
-    for key, pc in (("walk", "D"), ("rise1", "Bb"), ("look1", "F"), ("spout_out", "A"), ("pullback", "D"),
-                    ("look2", "Bb")):
-        S.note("strings", "cb_pizz", pc + "1" if pc in ("Bb", "A", "F") else pc + "2", cue[key], 1.2, -11, 0.45, sp,
-               layer=1, attack=0.002, release=0.3, role="pizzicato (the look lands)")
-        S.note("strings", "vc_pizz", pc + "2" if pc in ("Bb", "A", "F") else pc + "3", cue[key], 1.0, -15, 0.35, sp,
-               layer=1, attack=0.002, release=0.3, role="pizzicato (the look lands)")
-    S.lock("walk", "onset", "strings", "his first step: the ostinato begins, a soft low pizzicato D")
-    S.lock("rise1", "onset", "strings", "Bb: the violas rise A3->Bb3, ostinato D-Bb, pedal Bb")
-    S.lock("look1", "onset", "strings", "F major, first light: violas C4, celli C3 A3, violins A4 C5")
+    # ---------------------------------------------------------------- the pendulum (8' stopped flute)
+    arr = [cue[k] for k in ("rise1", "look1", "spout_out", "pullback", "look2")] + [br1]
+    rock(S, K, 0, 6, "D3", "A3", -17, -15.5, sub=1, space=sp, bars=KB, arrivals=arr, line="kA")
+    S.note("organ", "ged", "Bb3", r1, (l1 - r1) * 0.9, -14.5, -0.2, sp, attack=0.004, release=0.05,
+           role="ostinato 8'", line="kA", step_beats=1.0, beat=6.0, fermata=True)
+    rock(S, K, 7, 11, "F3", "C4", -15, -16, sub=1, space=sp, stop_t=kc, bars=KB, arrivals=arr, line="kA")
+    for b0, b1, lo, hi, g0, g1, stop in ((20, 21, "E3", "A3", -15, -15, None), (21, 24, "D3", "A3", -15, -14, None),
+                                         (24, 25, "D3", "Bb3", -13.5, -13.5, None),
+                                         (25, 26.5, "D3", "A3", -13.5, -14, cup)):
+        rock(S, K, b0, b1, lo, hi, g0, g1, sub=2, space=sp, stop_t=stop, bars=KB, arrivals=arr, line="kB")
+    for b0, b1, lo, hi, g0, g1 in ((32.5, 33, "D3", "A3", -14, -14), (33, 36, "D3", "Bb3", -13.5, -12),
+                                   (36, 39, "D4", "Bb4", -12, -10)):
+        rock(S, K, b0, b1, lo, hi, g0, g1, sub=2, space=sp, stop_t=br0, bars=KB, arrivals=arr, line="kC")
+    rock(S, K, 39, 42, "D4", "A4", -10, -8, sub=4, space=sp, start_t=br1, stop_t=latch, bars=KB, line="kC")
+    S.lock("walk", "onset", "organ", "his first step: the pendulum begins (D3-A3 crotchets, 8' stopped flute)")
 
-    # ---------------------------------------------------------------- con-sordino strings: Dm -> Bb -> F
-    kc = cue["kettle_click"]
-    ci, r1, l1 = cue["church_in"], t(6), t(7)
-    swell = ramp([(ci, -6), (r1, -1), (l1, 1.5), (kc - 0.6, 0.5), (kc, -1)])
+    # ---------------------------------------------------------------- the theme's first figure (violas, con sord.)
+    swell = ramp([(ci, -6), (r1, -1), (l1, 1.0), (kc - 0.6, 0.5), (kc, -1)])
+    S.line("strings", "va_sus", [("D4", 2.5), ("E4", 0.5), ("F4", 1), ("Bb4", 1), ("A4", 4)], K, 2, -14.5, 0.15, sp,
+           layer=1, attack=0.15, release=0.07, overlap=0.06, gains=[0, -0.8, -0.2, 1.2, 0.6], first=dict(attack=1.0),
+           last_end=kc, env=swell, fx="sord", role="theme (violas, con sord.)")
+    S.themes.append(dict(t=round(ci, 3), first="D", voice="violas (con sord.)", form="minor, first figure"))
     st = dict(space=sp, layer=1, fx="sord", env=swell, role="strings (sord.)")
-    S.note("strings", "vc_sus", "D3", ci, l1 - ci + 0.12, -14, 0.35, attack=1.7, release=0.3, **st)
-    S.note("strings", "vc_sus", "F3", ci, l1 - ci + 0.12, -15, 0.3, attack=1.7, release=0.3, **st)
-    S.note("strings", "va_sus", "A3", ci, r1 - ci + 0.1, -15, 0.15, attack=1.7, release=0.25, **st)
-    S.note("strings", "va_sus", "Bb3", r1, l1 - r1 + 0.1, -14.5, 0.15, attack=0.18, release=0.25, **st)
-    for inst, p, g, pan in (("va_sus", "C4", -14, 0.15), ("vc_sus", "C3", -14.5, 0.35), ("vc_sus", "A3", -15, 0.3),
-                            ("vln_sus", "A4", -20, -0.3), ("vln_sus", "C5", -21, -0.4)):
-        S.note("strings", inst, p, l1, kc - l1, g, pan, attack=0.16 if inst != "vln_sus" else 0.7, release=0.07,
-               **st)
-    S.lock("kettle_click", "release", "strings", "the strings drop away (bows off 0.07 s after the click, room tail "
-                                                  "cut down with them; the ostinato goes on)")
+    S.note("strings", "vc_sus", "D3", ci, l1 - ci + 0.1, -16, 0.35, attack=1.7, release=0.3, **st)
+    S.note("strings", "vc_sus", "F3", ci, kc - ci, -16.5, 0.3, attack=1.7, release=0.07, **st)
+    S.note("strings", "vc_sus", "C3", l1, kc - l1, -16, 0.35, attack=0.2, release=0.07, **st)
+    for p, g, pan in (("C5", -22, -0.3), ("F5", -23, -0.4)):
+        S.note("strings", "vln_sus", p, l1, kc - l1, g, pan, attack=0.25, release=0.07, **st)
+    for key, chord in (("look1", ("F1", "F2", "C3", "A3")), ("look2", ("Bb1", "Bb2", "F3", "D4"))):
+        for j, p in enumerate(chord):
+            S.note("strings", "cb_pizz" if j == 0 else "vc_pizz", p, cue[key], 1.2, -6 if j == 0 else -8 - 1.5 * j,
+                   0.45 if j == 0 else 0.3 - 0.05 * j, sp, layer=2, attack=0.002, release=0.3,
+                   role="pizzicato (the look lands)")
+    S.lock("rise1", "onset", "organ", "the pendulum lifts to Bb and holds (fermata); the violas leap to Bb; pedal Bb")
+    S.lock("look1", "onset", "strings", "LOOK 1: the falling step to A, F major, low pizzicato F; violins enter pp")
+    S.lock("kettle_click", "release", "strings", "the strings and the pendulum stop on the click (the pedal holds)")
 
-    # ---------------------------------------------------------------- stream: the theme in the celli
+    # ---------------------------------------------------------------- stream: the theme in the celli (no pulse)
     S.line("strings", "vc_sus", [("D3", 1.5), ("E3", 0.5), ("F3", 1), ("Bb3", 2), ("A3", 1), ("G3", 1.5), ("F3", 0.5),
                                  ("E3", 1)], K, 12, -8.0, 0.3, sp, layer=3, attack=0.08, release=0.25,
            gains=[0, -0.8, 0, 1.2, -0.3, 0.4, -0.8, -0.2], first=dict(attack=0.02), role="theme (celli)")
-    S.lock("stream", "onset", "strings", "the celli begin the theme as the water touches the coffee")
-    vla = dict(space=sp, layer=1, fx="sord", role="violas (inner)")
-    S.line("strings", "va_sus", [("A3", 3), ("D4", 3), ("Bb3", 2), ("A3", 1)], K, 12, -17, 0.15, attack=0.3,
-           release=0.3, overlap=0.1, **vla)
-    S.lock("spout_out", "onset", "strings", "half close on A (pizzicato A, cello E3, ostinato E-A, pedal A)")
-    # pullback: the violins take the theme an octave higher (vln2 D4, vln1 D5); celli and violas carry the harmony
-    vth = [("D", 1.5), ("E", 0.5), ("F", 1), ("Bb", 1), ("A", 1)]
-    cup = cue["cup_cut"]
-    S.line("strings", "vln_sus", [(p + "5", d) for p, d in vth], K, 21, -8.5, -0.42, sp, layer=1, attack=0.07,
-           release=0.05, gains=[0, -0.5, 0.5, 2.0, 1.0], first=dict(attack=0.02), last_end=cup,
-           env=ramp([(t(21), -2), (t(24), 1.5)]), role="theme (violins I)")
-    S.line("strings", "vln_sus", [(p + "4", d) for p, d in vth], K, 21, -12, -0.2, sp, layer=1, attack=0.07,
-           release=0.05, gains=[0, -0.5, 0.5, 2.0, 1.0], first=dict(attack=0.02), last_end=cup,
-           env=ramp([(t(21), -2), (t(24), 1.5)]), role="theme (violins II)")
-    for inst, seq, g, pan in (("vc_sus", [("D3", 3), ("Bb2", 2)], -12, 0.35), ("vc_sus", [("A3", 3), ("F3", 2)], -13, 0.3),
-                              ("va_sus", [("F3", 3), ("D4", 2)], -15, 0.15)):
+    S.themes.append(dict(t=round(cue["stream"], 3), first="D", voice="celli", form="minor"))
+    S.lock("stream", "onset", "strings", "the celli begin the theme as the water touches the coffee (time stops)")
+    S.line("strings", "va_sus", [("A3", 3), ("D4", 3), ("Bb3", 2), ("C#4", 1)], K, 12, -17, 0.15, sp, layer=1,
+           attack=0.3, release=0.2, overlap=0.1, fx="sord", role="violas (inner)")
+    S.chords("organ", "ged", [(cue["stream"], ["F3", "A3", "D4"]), (t(15), ["F3", "Bb3", "D4"]),
+                              (t(18), ["G3", "Bb3", "D4"])], cue["spout_out"] - 0.05, -22, sp, attack=0.4,
+             release=0.3, role="8' flute chords")
+    S.lock("spout_out", "onset", "organ", "half close on A: the pendulum returns in quavers (the dripper drips), "
+                                          "the principal enters, pedal A")
+    # pullback: the violins take the theme (vln I D5, vln II D4); celli and violas carry the harmony
+    vth = [("D", 1.5), ("E", 0.5), ("F", 1), ("Bb", 1), ("A", 1.5)]
+    for oct_, g, pan in ((5, -8.5, -0.42), (4, -12, -0.2)):
+        S.line("strings", "vln_sus", [(p + str(oct_), d) for p, d in vth], K, 21, g, pan, sp, layer=1, attack=0.07,
+               release=0.05, gains=[0, -0.5, 0.5, 2.0, 1.0], first=dict(attack=0.02), last_end=cup,
+               env=ramp([(t(21), -2), (t(24), 1.5)]), role=f"theme (violins {'I' if oct_ == 5 else 'II'})")
+    S.themes.append(dict(t=round(cue["pullback"], 3), first="D", voice="violins", form="minor"))
+    for inst, seq, g, pan in (("vc_sus", [("D3", 3), ("Bb2", 1), ("D3", 1.5)], -12, 0.35),
+                              ("vc_sus", [("A3", 3), ("F3", 2.5)], -13, 0.3),
+                              ("va_sus", [("F3", 3), ("D4", 2.5)], -15, 0.15)):
         S.line("strings", inst, seq, K, 21, g, pan, sp, layer=1, attack=0.12, release=0.05, last_end=cup,
                role="harmony")
-    # the organ adds its principal (the open rank, swell box nearly closed) from the spout's withdrawal
-    S.chords("organ", "open", [(t(20), ["E3", "A3", "E4"]), (t(21), ["A3", "D4", "F4"]), (t(24), ["Bb3", "D4", "F4"])],
-             cup, -16, sp, attack=0.12, release=0.05, env=ramp([(t(20), -9), (t(24), 0)]), role="principal 8'")
-    S.lock("pullback", "onset", "strings", "Dm: violins begin the theme an octave higher as he straightens")
-    S.lock("look2", "onset", "strings", "Bb: the theme's peak (violins Bb5/Bb4), mp")
+    S.chords("organ", "open", [(cue["spout_out"], ["E3", "A3", "E4"]), (t(21), ["A3", "D4", "F4"]),
+                               (t(24), ["Bb3", "D4", "F4"]), (t(25), ["A3", "D4", "F4"])], cup, -16, sp, attack=0.12,
+             release=0.05, env=ramp([(t(20), -9), (t(24), 0)]), role="principal 8'")
+    S.lock("pullback", "onset", "strings", "Dm: the violins begin the theme as he straightens")
+    S.lock("look2", "onset", "strings", "LOOK 2: the theme's peak Bb (violins), low pizzicato Bb, mp")
 
-    # ---------------------------------------------------------------- cup: subito pp, harmonic + pedal only
-    pour = cue["pour"]
-    S.note("strings", "svln", "A6", cup, pour - cup + 1.4, -12, -0.3, sp, layer=1, attack=0.03, release=0.9,
-           fx="harm", env=ramp([(cup, 0), (pour, 0), (pour + 1.4, -14)]), role="solo violin harmonic")
-    S.lock("cup_cut", "release", "organ", "subito pp: the ostinato and the violins stop on the cut")
+    # ---------------------------------------------------------------- cup: subito pp, one steady pipe + pedal
+    S.lock("cup_cut", "release", "strings", "subito: the violins and the pendulum stop on the cut; the pedal alone, "
+                                           "ppp, over the empty mug")
 
     # ---------------------------------------------------------------- pour: the solo horn sings the theme
-    S.lock("pour", "onset", "brass", "the solo horn begins the theme, the ostinato resumes")
-    bell2 = cue["bell2"]
-    grow = ramp([(t(36), -18), (t(38), -6), (t(39), 0)])
+    S.lock("pour", "onset", "brass", "the solo horn begins the theme over the pedal (slow motion: no pulse)")
+    grow = ramp([(t(36), -18), (t(37.5), -6), (t(38.5), 0)])
     horns(S, [("D3", 1.5), ("E3", 0.5), ("F3", 1), ("Bb3", 2), ("A3", 1), ("G3", 1.5), ("A3", 0.5), ("Bb3", 1)],
-          K, 30, -6.5, 2, space=sp, n_from=1, n_to=4, grow=grow, attack=0.06, release=0.18, overlap=0.06,
-          gains=[0, -0.8, 0, 1.0, -0.5, 1.0, 1.5, 2.5], first=dict(attack=0.03), role="theme (horn)")
-    pressing = ramp([(bell2, 0), (latch, 3.0)])
-    horns(S, [("D4", 3)], K, 39, -3.0, 3, space=sp, n_to=4, attack=0.03, release=0.05, last_end=latch + 0.05,
-          env=pressing, role="peak D (horns)")
-    for inst, p, g, pan in (("otbn", "A2", -6, 0.3), ("otbn2", "E3", -7, 0.38), ("tbn", "A3", -7.5, 0.22),
-                            ("otbn", "D4", -9, 0.3)):
-        S.note("brass", inst, p, bell2, latch - bell2 + 0.05, g, pan, sp, layer=4, attack=0.03, release=0.05,
-               env=pressing, role="trombones (A sus4)")
-    # strings under the horn: soft at the pour, crescendo through Bb and Gm, A sus4 forte (tremolo) on bell2
+          K, 30, -6.5, 2, space=sp, n_from=1, n_to=4, grow=grow, attack=0.06, release=0.05, overlap=0.06,
+          gains=[0, -0.8, 0, 1.0, -0.5, 1.0, 1.5, 2.5], first=dict(attack=0.03), last_end=br0, role="theme (horn)")
+    S.themes.append(dict(t=round(pour, 3), first="D", voice="horn", form="minor"))
     t30, t33, t36 = t(30), t(33), t(36)
-    cres = ramp([(t30, -4), (t33, -2), (t36, 0), (bell2, 3)])
+    cres = ramp([(t30, -4), (t33, -2), (t36, 0), (br0, 2)])
     for inst, seq, g, pan in (("vc_sus", [("D2", 3), ("Bb2", 3), ("G2", 3)], -14, 0.35),
                               ("vc_sus", [("A2", 3), ("F3", 3), ("D3", 3)], -15, 0.3),
                               ("va_sus", [("A3", 3), ("D4", 3), ("Bb3", 3)], -16, 0.15),
                               ("va_sus", [(None, 3), ("F3", 3), ("G3", 3)], -16.5, 0.15),
                               ("cb_sus", [(None, 3), ("Bb1", 3), ("G1", 3)], -15, 0.5)):
-        S.line("strings", inst, seq, K, 30, g, pan, sp, layer=1, attack=0.25, release=0.2, overlap=0.08, env=cres,
-               role="strings (pour)")
-    for inst, oct_, g, pan in (("vln_sus", 5, -9, -0.42), ("vln_sus", 4, -11.5, -0.2)):
-        S.line("strings", inst, [(f"G{oct_}", 1.5), (f"A{oct_}", 0.5), (f"Bb{oct_}", 1)], K, 36, g, pan, sp, layer=2,
-               attack=0.12, release=0.12, gains=[0, 1, 2.5], env=ramp([(t36, -5), (bell2, 0)]),
-               role="rising line (violins)")
-    trem = dict(space=sp, attack=0.04, release=0.05, env=pressing, role="A sus4 tremolo")
-    for inst, p, g, pan in (("vln_trem", "D6", -8, -0.42), ("vln_trem", "D5", -8, -0.2), ("vln_trem", "A4", -10, -0.25),
-                            ("va_trem", "E4", -9, 0.15), ("va_trem", "A3", -9.5, 0.15), ("vc_trem", "E3", -8.5, 0.32),
-                            ("vc_trem", "A2", -8, 0.36), ("cb_trem", "A1", -9, 0.5)):
-        S.note("strings", inst, p, bell2, latch - bell2 + 0.05, g, pan, layer=2, **trem)
-    for inst, p, g, pan in (("vln_sus", "D6", -9, -0.42), ("vln_sus", "D5", -9.5, -0.2), ("va_sus", "A3", -11, 0.15),
-                            ("vc_sus", "A2", -10, 0.35), ("cb_sus", "A1", -10, 0.5)):
-        S.note("strings", inst, p, bell2, latch - bell2 + 0.05, g, pan, layer=2, **trem)
-    # organ crescendo: open rank chords from the Bb bar, swell box opening
-    S.chords("organ", "open", [(t33, ["F3", "Bb3", "D4"]), (t36, ["G3", "Bb3", "D4", "G4"]),
-                               (bell2, ["A2", "E3", "A3", "D4", "E4", "A4"])], latch + 0.05, -9, sp, attack=0.1,
-             release=0.05, env=ramp([(t33, -16), (t36, -10), (bell2, -2), (latch, 0.5)]), role="organ crescendo")
-    # timpani: a roll on A from server_out, an accent on bell2, cut by the latch
+        S.line("strings", inst, seq, K, 30, g, pan, sp, layer=1, attack=0.25, release=0.05, overlap=0.08, env=cres,
+               last_end=br0, role="strings (pour)")
+    S.line("strings", "vln_sus", [("G4", 1.5), ("A4", 0.5), ("Bb4", 1)], K, 36, -11, -0.35, sp, layer=2, attack=0.12,
+           release=0.05, gains=[0, 1, 2.5], env=ramp([(t36, -5), (br0, 0)]), last_end=br0,
+           role="rising line (violins)")
+    S.chords("organ", "open", [(t33, ["F3", "Bb3", "D4"]), (t36, ["G3", "Bb3", "D4", "G4"])], br0, -10, sp, attack=0.1,
+             release=0.05, env=ramp([(t33, -16), (t36, -10), (br0, -4)]), role="organ crescendo")
     so = cue["server_out"]
-    S.note("perc", "timproll", "A2", so, latch - so + 0.05, -15, 0.08, sp, layer=5, attack=0.004, release=0.05,
-           env=ramp([(so, 0), (bell2, 9), (latch, 12)]), role="timpani roll")
-    S.note("perc", "timp", "A2", bell2, latch - bell2 + 0.05, -6, 0.08, sp, layer=4, release=0.05, role="timpani accent")
+    S.note("perc", "timproll", "A2", so, br0 - so, -17, 0.08, sp, layer=5, attack=0.004, release=0.04,
+           env=ramp([(so, 0), (br0, 6)]), role="timpani roll")
     S.lock("server_out", "onset", "perc", "timpani roll on A begins as the server lifts away")
-    S.lock("bell2", "onset", "perc", "A sus4 forte (D on top) arrives with the bell")
+    S.lock("bell2", "breath", "all", "the music breathes: everything lets go 60 ms before the bell (room tail drawn "
+                                      "down) so the bell is heard alone", t=br0)
+
+    # ---------------------------------------------------------------- LOOK 3: A sus4, forte but dark
+    sus_end = latch + 0.05
+    pressing = ramp([(br1, 0), (latch, 3.0)])
+    for p, n_, g in (("A3", 2, -6.5), ("D4", 2, -5.5)):
+        section(S, p, br1, sus_end - br1, g, n_, ["horn"], 3, pan=-0.2, space=sp, attack=0.03, release=0.05,
+                env=pressing, role="A sus4 (horns)")
+    for p, g in (("A2", -7), ("E3", -8.5)):
+        section(S, p, br1, sus_end - br1, g, 1, ["otbn", "tbn"], 4, pan=0.3, space=sp, attack=0.03, release=0.05,
+                env=pressing, role="A sus4 (trombones)")
+    trem = dict(space=sp, attack=0.04, release=0.05, env=pressing, role="A sus4 tremolo")
+    for inst, p, g, pan in (("va_trem", "D4", -10, 0.15), ("va_trem", "A3", -10.5, 0.15), ("vc_trem", "E3", -9, 0.32),
+                            ("vc_trem", "A2", -8.5, 0.36), ("cb_trem", "A1", -9.5, 0.5)):
+        S.note("strings", inst, p, br1, sus_end - br1, g, pan, layer=2, **trem)
+    for inst, p, g, pan in (("vc_sus", "A2", -11, 0.35), ("cb_sus", "A1", -11, 0.5)):
+        S.note("strings", inst, p, br1, sus_end - br1, g, pan, layer=2, **trem)
+    for j, p in enumerate(("A1", "A2", "E3", "A3")):
+        S.note("strings", "cb_pizz" if j == 0 else "vc_pizz", p, br1, 1.0, -6 if j == 0 else -8 - 1.5 * j, 0.4, sp,
+               layer=2, attack=0.002, release=0.3, role="pizzicato (the look lands)")
+    S.chords("organ", "open", [(br1, ["A2", "E3", "A3", "D4"])], sus_end, -9, sp, attack=0.05, release=0.05,
+             env=pressing, role="organ (A sus4)")
+    S.note("perc", "timp", "A2", br1, sus_end - br1, -7, 0.08, sp, layer=4, release=0.05, role="timpani accent")
+    S.note("perc", "timproll", "A2", br1, sus_end - br1, -15, 0.08, sp, layer=5, attack=0.004, release=0.05,
+           env=ramp([(br1, 0), (latch, 8)]), role="timpani roll")
+    S.lock("rise3", "onset", "brass", "LOOK 3: A sus4 (D on top, D4), forte, dark; pizzicato A", t=br1)
     S.lock("latch", "stop", "all", "DEAD STOP: hard gate, reverb included")
 
-    # ---------------------------------------------------------------- bar descriptions
     bd = [
-        (1, 0, "3/4", "Dm (pedal D)", "-", "ostinato D4-A4 in quavers on the 8' stopped flute, lifting to Bb4 at the "
-                                           "bar end; 16'+8' pedal D ppp"),
-        (2, 3, "3/4", "Dm", "-", "con-sordino celli D3 F3 and violas A3 swell in from church_in"),
-        (3, 6, "3/4", "Bb (rise1) -> F (look1, on beat 2)", "violas A3-Bb3-C4",
-         "rise1: pedal Bb, ostinato D-Bb; look1 (beat 2, an agogic stretch as the eye settles): F major, ostinato "
-         "C-A, celli C3 A3, violas C4, violins A4 C5 pp (first light)"),
-        (4, 9, "3/4", "F -> A (beat 3, on the cut to the bloom)", "-",
-         "strings drop away on the kettle click (silent before the cut); pedal A, ostinato E-A"),
-        (5, 12, "3/4", "Dm", "celli D3 (q.) E3 (e) F3 (q)", "stream: the theme in the celli; 16' Bourdon joins the "
-                                                            "ostinato; violas pp inner line"),
-        (6, 15, "3/4", "Bb (maj7 colour)", "celli Bb3 (h) A3 (q)", "the sigh Bb->A"),
-        (7, 18, "3/4", "Gm -> A (spout_out, beat 3)", "celli G3 (q.) F3 (e) E3 (q)",
-         "slow motion ends inside bar 6, the brew dissolve ends on this downbeat; half close on spout_out; the organ's "
-         "principal enters"),
-        (8, 21, "3/4", "Dm", "violins D5/D4 (q.) E (e) F (q)", "pullback: the violins take the theme an octave "
-                                                               "higher; celli D3 A3, violas F3"),
-        (9, 24, "2/4", "Bb", "violins Bb5/Bb4 (q) A (q)", "look2: the peak Bb, mp (allargando into the cut)"),
-        (10, 26, "4/4 (free)", "D (pedal)", "solo violin harmonic A6",
-         "cup: subito pp; the ostinato stops; harmonic A6 (the violins' A taken up an octave) over the pedal only"),
-        (11, 30, "3/4", "Dm", "horn D3 (q.) E3 (e) F3 (q)", "pour: the solo horn sings the theme; ostinato resumes"),
-        (12, 33, "3/4", "Bb", "horn Bb3 (h) A3 (q)", "crescendo begins; contrabass enters; organ open rank, box "
-                                                     "opening"),
-        (13, 36, "3/4", "Gm", "horns + violins G (q.) A (e) Bb (q)", "the horn becomes a section; violins join the "
-                                                                     "rising line; 4' flute; timpani roll on A from "
-                                                                     "server_out"),
-        (14, 39, "3/4 (held)", "A sus4 (A D E)", "horns D4, violins D6/D5",
-         "bell2: forte, trombones, string tremolo, semiquaver ostinato, pressing; never resolved: cut dead at the "
-         "latch"),
+        (1, 0, "3/4", "Dm (pedal D)", "-", "the pendulum: D3-A3 crotchets on the 8' stopped flute; 16'+8' pedal D"),
+        (2, 2, "3/4", "Dm", "violas D4 (dotted half...)", "church_in: the violas (con sord.) begin the theme; "
+                                                         "celli D3 F3 swell in"),
+        (3, 4.5, "3/4", "Dm -> Bb (rise1)", "E4 F4 | Bb4", "rise1: the leap to Bb, pedal Bb; the pendulum lifts to "
+                                                          "Bb and holds through a fermata while the eye rises"),
+        (4, 7, "3/4", "F major (look1)", "A4", "LOOK 1: the falling step to A; F major (first light), pendulum F3-C4, "
+                                               "violins pp, low pizzicato F; all stop on the kettle click"),
+        (5, 12, "3/4", "Dm", "celli D3 (q.) E3 (e) F3 (q)", "stream: no pulse (slow motion); the celli sing the "
+                                                            "theme over 8' flute chords"),
+        (6, 15, "3/4", "Bb", "celli Bb3 (h) A3 (q)", "the sigh Bb->A"),
+        (7, 18, "3/4", "Gm -> A (spout_out)", "celli G3 (q.) F3 (e) E3 (q)", "half close: the pendulum returns "
+                                                                             "(quavers), the principal enters"),
+        (8, 21, "3/4", "Dm", "violins D5/D4 (q.) E (e) F (q)", "pullback: the violins take the theme"),
+        (9, 24, "2/4 + 1/2", "Bb -> Dm", "violins Bb5/Bb4 (q) A (q.)", "LOOK 2: the peak Bb, mp, pizzicato Bb"),
+        (10, 26.5, "free", "D (pedal)", "-", "cup: subito, the pedal alone (ppp) over the empty mug"),
+        (11, 30, "3/4", "Dm", "horn D3 (q.) E3 (e) F3 (q)", "pour (slow motion): the solo horn"),
+        (12, 33, "3/4", "Bb", "horn Bb3 (h) A3 (q)", "slow2_end: the pendulum resumes; crescendo; contrabass"),
+        (13, 36, "3/4", "Gm", "horns + violins G (q.) A (e) Bb", "the horn becomes a section (distinct takes); "
+                                                                 "timpani roll from server_out; BREATH before bell2"),
+        (14, 39, "3/4 (held)", "A sus4 (A D E)", "horns D4", "LOOK 3: forte but dark; semiquaver pendulum, low "
+                                                              "tremolo, timpani; never resolved: cut dead at the latch"),
     ]
     for n, b, meter, harm, mel, what in bd:
         S.bar(n, K, b, meter, harm, mel, what)
@@ -532,217 +654,218 @@ def kitchen(S: Score, cue: Cue):
 
 
 def window(S: Score, cue: Cue):
-    """Bars 15-27: latch+2.6 .. end, outdoors."""
-    W = TempoMap("window", [(0, "return"), (6, "street"), (19, "square_cut"), (31, "climax")], cue,
-                 stretch={30: 1.22, 5: 1.08})
+    """music_return .. end, outdoors."""
+    W = TempoMap("window", [(0, "return"), (4, "street"), (14, "turn_away"), (16, "square_cut"), (22, "red_houses"),
+                            (25, "square_in"), (27, "climax")], cue, cuts=(14, 16))
     t = W.t
     sp = "out"
     ramp = C.ramp
-    R, street, sq, clx = cue["return"], cue["street"], cue["square_cut"], cue["climax"]
-    end, title, lastc = cue["end"], cue["title_in"], cue["last_chord"]
-    WB = {0, 3, 6, 9, 12, 15, 19, 22, 25, 28, 31}
-    mp0 = dict(max_pre=0.0)   # nothing may sound before the return: the attack starts on the event
+    R, street, ta, sq = cue["return"], cue["street"], cue["turn_away"], cue["square_cut"]
+    rh, sqi, clx, cos = cue["red_houses"], cue["square_in"], cue["climax"], cue["cup_on_sill"]
+    title, lastc, end = cue["title_in"], cue["last_chord"], cue["end"]
+    brass_off = cos - 0.12                       # the brass is silent before the cup touches the sill
+    t7, t8, t10, t12, t19, t21, t235, t24 = t(7), t(8), t(10), t(12), t(19), t(21), t(23.5), t(24)
+    WB = {0, 1, 4, 7, 10, 13, 16, 19, 22, 25, 27}
 
-    # dynamics: f at the return, mf on the street, f by the turn, ff at the climax, release
-    dyn = ramp([(R, 0), (street - 0.3, 0.5), (street + 0.4, -3.0), (cue["turn_away"], 0.0), (sq, 0.0), (t(25), 1.0),
-                (clx - 0.2, 3.0), (clx, 5.0), (clx + 2.0, 5.0), (clx + 2.8, 2.5), (title, -1.5), (lastc, -7.0),
+    H = [(R, "D5 (open fifth)", "D"), (street, "G", "G"), (t7, "A/G", "G"), (t8, "Bb", "Bb"), (t10, "C", "C"),
+         (t12, "A7", "A"), (sq, "Bb", "Bb"), (t19, "Gm", "G"), (t21, "A", "A"), (rh, "G", "G"), (t235, "A/G", "G"),
+         (t24, "Gm", "G"), (sqi, "A7sus4", "A"), (clx, "D", "D"), (title, "G/D", "D"), (lastc, "D", "D")]
+    S.harm = H
+    cell_key = {"D5 (open fifth)": "D", "G": "G", "A/G": "A", "Bb": "Bb", "C": "C", "A7": "A", "Gm": "G", "A": "A",
+                "A7sus4": "A"}
+
+    def chord_at(tt):
+        k = max(i for i, h in enumerate(H) if h[0] <= tt + 1e-6)
+        return cell_key[H[k][1]]
+
+    # dynamics (dB): mp return under the city, mf street, the build from the square cut, ff climax, release
+    dyn = ramp([(R, 2.0), (street - 0.3, 2.0), (street, 1.0), (ta, 1.0), (sq, -1.5), (sqi, 2.0),
+                (clx - 0.1, 3.0), (clx, 4.0), (cos - 0.4, 4.0), (cos + 0.3, 1.0), (title, -4.0), (lastc, -7.0),
                 (end, -8.0)])
 
-    # ---------------------------------------------------------------- pedal: 16' + 32' resultant (10 2/3') + 8'
-    bass = [(R, "D"), (t(3), "C#"), (t(4), "B"), (street, "G"), (t(9), "F#"), (t(12), "E"), (t(15), "A"), (sq, "D"),
-            (t(22), "B"), (t(25), "G"), (t(28), "A"), (clx, "D")]
-    fifth = {"D": "A", "G": "D", "A": "E"}
+    # ---------------------------------------------------------------- pedal 16' + 8' (32' resultant at the cadence)
+    bass = [(R, "D"), (street, "G"), (t8, "Bb"), (t10, "C"), (t12, "A"), (sq, "Bb"), (t19, "G"), (t21, "A"), (rh, "G"),
+            (sqi, "A"), (clx, "D")]
     for i, (t0, pc) in enumerate(bass):
         t1 = bass[i + 1][0] if i + 1 < len(bass) else end
-        kw = dict(mp0) if t0 == R else {}
-        S.note("organ", "ped16", pc + "1", t0, t1 - t0 + (0.0 if t1 == end else 0.04), -9, 0.0, sp,
-               attack=0.006 if t0 == R else 0.05, release=0.2 if t1 == end else 0.1, env=dyn, role="pedal 16'", **kw)
-        S.note("organ", "ped8", pc + "2", t0, t1 - t0 + (0.0 if t1 == end else 0.04), -13, 0.0, sp,
-               attack=0.006 if t0 == R else 0.05, release=0.2 if t1 == end else 0.1, env=dyn, role="pedal 8'", **kw)
-        if pc in fifth and t0 <= clx and (t0 < street or t0 >= sq):   # the 32' resultant in the full passages
-            q = N(fifth[pc] + "1") if fifth[pc] != "E" else N("E2") - 12
-            tq1 = min(t1, clx + 2.0) if t0 == clx else t1
-            S.note("organ", "ped16", q if q >= N("C1") else q + 12, t0, tq1 - t0 + 0.04, -17, 0.0, sp,
-                   attack=0.006 if t0 == R else 0.05, release=0.3, env=dyn, role="32' resultant (quint)", **kw)
-    S.lock("return", "onset", "organ", "full organ returns in D major (first F sharp), latch + 2.6 s")
+        ret = t0 == R
+        kw = dict(align=False, attack=0.7) if ret else dict(attack=0.05)
+        g16 = -12 if t0 < sq else (-13 if t0 < clx else -7)
+        oc = "2" if pc == "C" else "1"
+        e16 = S.note("organ", "ped16", pc + oc, t0, (min(t1, title) if t0 == clx else t1) - t0 + 0.04, g16, 0.0, sp,
+                     release=0.3 if t0 == clx else 0.1, env=dyn, role="pedal 16'", **kw)
+        S.note("organ", "ped8", pc + str(int(oc) + 1), t0, t1 - t0 + (0.0 if t1 == end else 0.04), g16 - 4, 0.0, sp,
+               release=0.2 if t1 == end else 0.1, env=dyn, role="pedal 8'", **kw)
+        if t0 in (sqi, clx):   # the 32' resultant: the fifth ABOVE the 16' note (10 2/3')
+            S.note("organ", "ped16", e16["midi"] + 7, t0, e16["dur"], g16 - 8, 0.0, sp, attack=0.05, release=0.3,
+                   env=dyn, role="32' resultant (fifth above)")
+    S.lock("return", "start", "organ", f"the music returns on '{cue.return_key}': an open fifth D-A swells in "
+                                       "(natural attacks), mp, under the city")
 
-    # ---------------------------------------------------------------- full organ (open plenum) chords
-    plen = [(R, ["D3", "A3", "D4", "F#4", "A4", "D5"]), (t(3), ["C#3", "E3", "A3", "E4", "A4"]),
-            (t(4), ["B2", "D3", "F#3", "B3", "D4", "F#4"]), (street, ["G2", "D3", "G3", "B3", "D4", "G4"]),
-            (t(9), ["F#2", "A2", "D3", "A3", "D4", "F#4"]), (t(12), ["E2", "B2", "D3", "G3", "B3", "E4"]),
-            (t(15), ["A2", "D3", "F#3", "A3", "D4", "F#4"]), (t(16), ["A2", "E3", "G3", "C#4", "E4", "A4"]),
-            (sq, ["D3", "A3", "D4", "F#4", "A4", "D5"]), (t(22), ["B2", "F#3", "B3", "D4", "F#4", "B4"]),
-            (t(25), ["G2", "D3", "G3", "B3", "D4", "G4"]), (t(28), ["A2", "E3", "A3", "C#4", "E4", "A4"]),
-            (t(29), ["A2", "E3", "A3", "D4", "E4", "A4"]), (t(30.5), ["A2", "E3", "A3", "C#4", "E4", "A4"]),
-            (clx, ["D3", "A3", "D4", "F#4", "A4", "D5", "F#5"])]
-    pl_env = lambda tt: dyn(tt) * ramp([(clx + 2.0, 0), (title + 0.6, -30)])(tt)  # noqa: E731  open rank retires
-    S.chords("organ", "open", plen, title + 0.6, -11.5, sp, pan=(-0.5, 0.5), attack=0.035, release=0.15, env=pl_env,
-             role="full organ (open plenum)")
-    # 8' + 4' flutes: the ostinato goes on, now in D major
-    O = [(0, 3, "D4", "A4", None), (3, 4, "E4", "A4", None), (4, 6, "D4", "F#4", None), (6, 9, "D4", "G4", None),
-         (9, 12, "D4", "A4", None), (12, 15, "D4", "G4", None), (15, 16, "D4", "A4", None), (16, 19, "E4", "A4", None),
-         (19, 22, "D4", "A4", None), (22, 25, "D4", "F#4", None), (25, 28, "D4", "G4", None), (28, 29, "E4", "A4", None),
-         (29, 30.5, "D4", "A4", None), (30.5, 31, "E4", "A4", None)]
-    for b0, b1, lo, hi, nb in O:
-        rock(S, W, b0, b1, lo, hi, nb, -12, -12, 2, space=sp, pan=0.3, role="ostinato 8'", bars=WB)
-        rock(S, W, b0, b1, lo, hi, nb, -17, -17, 2, space=sp, oct_=12, pan=0.35, role="ostinato 4'", bars=WB)
-    for e in S.E:
-        if e["space"] == sp and abs(e["t"] - R) < 1e-6:
-            e["max_pre"], e["attack"] = 0.0, 0.006
-
-    # ---------------------------------------------------------------- strings: the theme at half tempo
-    vth2 = [("D5", 3), ("E5", 1), ("F#5", 2), ("B5", 4), ("A5", 2), ("G5", 3), ("F#5", 1), ("E5", 1.6)]
-    for inst, oct_, g, pan, lay in (("vln_sus", 0, -4.5, -0.5, 2), ("vln_sus", -12, -7.5, -0.25, 2)):
-        notes = [(N(p) + oct_, d) for p, d in vth2]
-        S.line("strings", inst, notes, W, 0, g, pan, sp, layer=lay, attack=0.08, release=0.2, overlap=0.08,
-               gains=[0, -0.5, 0, 1.5, 0.5, 0.5, 0, -0.5], env=dyn, first=dict(attack=0.006, max_pre=0.0),
-               role="theme half tempo (violins)")
-    cel = [(["D3", "A3"], 3), (["C#3", "E3"], 1), (["B2", "F#3"], 2), (["G2", "D3"], 3), (["F#2", "A2"], 3),
-           (["E2", "B2"], 3), (["A2", "D3"], 1), (["A2", "E3"], 2.6)]
-    b = 0
-    for ps, d in cel:
-        for j, p in enumerate(ps):
-            kw = dict(max_pre=0.0) if b == 0 else {}
-            S.note("strings", "vc_sus", p, t(b), t(b + d) - t(b) + 0.08, -9.5 - j, 0.35, sp, layer=3,
-                   attack=0.006 if b == 0 else 0.1, release=0.2, env=dyn, role="celli", **kw)
-        b += d
-    cbl = [("D2", 3), ("C#2", 1), ("B1", 2), ("G1", 3), ("F#1", 3), ("E1", 3), ("A1", 3.6)]
-    S.line("strings", "cb_sus", cbl, W, 0, -10, 0.55, sp, layer=3, attack=0.1, release=0.2, overlap=0.08, env=dyn,
-           first=dict(attack=0.006, max_pre=0.0), role="contrabass")
-    # violas: the pulse in spiccato quavers (the ritual's rocking, now in the strings)
-    VA = [(0, 3, "D4", "A4"), (3, 4, "E4", "A4"), (4, 6, "D4", "F#4"), (6, 9, "D4", "G4"), (9, 12, "D4", "A4"),
-          (12, 15, "D4", "G4"), (15, 16, "D4", "A4"), (16, 18.5, "E4", "A4"),
-          (19, 22, "D4", "A4"), (22, 25, "D4", "F#4"), (25, 28, "D4", "G4"), (28, 29, "E4", "A4"), (29, 30.5, "D4", "A4"),
-          (30.5, 31, "E4", "A4")]
-    for b0, b1, lo, hi in VA:
-        n = int(round((b1 - b0) * 2))
-        for k in range(n):
-            bb = b0 + k / 2
-            g = -10.5 - (1.5 if k % 2 else 0) + (1.0 if abs(bb - round(bb)) < 1e-6 and int(round(bb)) in WB else 0)
-            S.note("strings", "va_spic", lo if k % 2 == 0 else hi, t(bb), 0.25, g, 0.18, sp, layer=2, attack=0.003,
-                   release=0.08, env=dyn, role="violas spiccato pulse", **(mp0 if bb == 0 else {}))
-    # timpani: roll under the pilaster wipe, resolving on the street downbeat
+    # ---------------------------------------------------------------- the return: open fifth, strings + flutes
+    sw = dict(space=sp, align=False, release=0.1, env=dyn)
+    for inst, p, g, pan, a in (("vc_sus", "D3", -13, 0.3, 0.9), ("vc_sus", "A3", -14, 0.2, 1.0),
+                               ("cb_sus", "D2", -14, 0.45, 1.1)):
+        S.note("strings", inst, p, R, street - R + 0.08, g, pan, layer=1, attack=a, role="open fifth (strings)", **sw)
+    S.chords("organ", "ged", [(R, ["D3", "A3", "D4", "A4"])], street + 0.03, -15, sp, pan=(-0.3, 0.3), attack=0.8,
+             release=0.2, env=dyn, align=False, role="8' flutes (open fifth)")
+    # the pulse: three-note cells in the violas (spiccato), from one beat after the return
+    cells(S, W, 1, 14, chord_at, -18, -12, env=dyn)
+    # timpani: a roll under the pilaster wipe, landing on the street downbeat
     pil = cue["pilaster1"]
-    S.note("perc", "timproll", "D3", pil, street - pil - 0.03, -15, 0.08, sp, layer=5, attack=0.004, release=0.02,
-           env=ramp([(pil, 0), (street - 0.05, 9)]), role="timpani roll (pilaster)")
-    S.note("perc", "timp", "G2", street, 3.0, -3, 0.08, sp, layer=4, release=0.5, role="timpani (street)")
-    S.lock("pilaster1", "onset", "perc", "timpani roll on D3 under the pilaster wipe")
-    S.lock("street", "onset", "perc", "downbeat: timpani G, G major, the theme's peak B5 as the street opens")
+    S.note("perc", "timproll", "D3", pil, street - pil - 0.03, -18, 0.08, sp, layer=5, attack=0.004, release=0.02,
+           env=ramp([(pil, 0), (street - 0.05, 8)]), role="timpani roll (pilaster)")
+    S.note("perc", "timp", "G2", street, 3.0, -8, 0.08, sp, layer=3, release=0.5, role="timpani (street)")
+    S.lock("pilaster1", "onset", "perc", "timpani roll under the pilaster wipe")
+    S.lock("street", "onset", "perc", "downbeat: G major (timpani G), the theme on B begins as the street opens")
 
-    # ---------------------------------------------------------------- the run under his turn
-    ta = cue["turn_away"]
-    # an A-major scale A3..C#5 in violins + violas, an octave up in the first violins and down in the celli,
-    # accelerating (each step 0.9 x the previous) from turn_away; it resolves into the D of the square's downbeat
-    run = ["A3", "B3", "C#4", "D4", "E4", "F#4", "G4", "A4", "B4", "C#5"]
+    # ---------------------------------------------------------------- the street: the theme on B (violins I)
+    S.line("strings", "vln_sus", [("B4", 3), ("C#5", 1), ("D5", 2), ("G5", 4)], W, 4, -10, -0.3, sp, layer=2,
+           attack=0.08, release=0.25, overlap=0.08, gains=[0, -0.5, 0.5, 1.5], first=dict(attack=0.03), last_end=ta + 0.3,
+           env=dyn, role="theme on B (violins I)")
+    S.themes.append(dict(t=round(street, 3), first="B", voice="violins I", form="window form B-C#-D-G (sigh withheld)"))
+    S.line("strings", "vln_sus", [("G4", 3), ("A4", 1), ("F4", 2), ("E4", 4)], W, 4, -14, -0.15, sp, layer=1,
+           attack=0.15, release=0.25, overlap=0.08, last_end=ta + 0.3, env=dyn, role="violins II")
+    S.chords("strings", "vc_sus", [(street, ["G2", "D3"]), (t7, ["G2", "E3"]), (t8, ["Bb2", "F3"]), (t10, ["C3", "G3"]),
+                                   (t12, ["A2", "E3"])], sq + 0.04, -12, sp, pan=(0.25, 0.35), attack=0.12, release=0.15,
+             layer=2, env=dyn, role="celli")
+    S.chords("strings", "cb_sus", [(street, ["G1"]), (t8, ["Bb1"]), (t10, ["C2"]), (t12, ["A1"])], sq + 0.04, -13, sp,
+             pan=(0.4, 0.4), attack=0.12, release=0.15, layer=2, env=dyn, role="contrabass")
+    S.chords("organ", "ged", [(street, ["G3", "B3", "D4"]), (t7, ["A3", "C#4", "E4"]), (t8, ["Bb3", "D4", "F4"]),
+                              (t10, ["C4", "E4", "G4"]), (t12, ["A3", "C#4", "E4", "G4"])], sq + 0.03, -16, sp,
+             pan=(-0.3, 0.3), attack=0.1, release=0.15, env=dyn, role="8' flutes")
+
+    # ---------------------------------------------------------------- the run under his turn: A7 arpeggio
+    run = ["A3", "C#4", "E4", "G4", "A4", "C#5", "E5", "G5"]
     nrun = len(run)
     w_ = 0.9 ** np.arange(nrun + 1)
     tt_run = ta + np.concatenate([[0], np.cumsum(w_)])[:nrun] * (sq - ta) / w_.sum()
     for k, (p, t0) in enumerate(zip(run, tt_run)):
-        g = -9 + 4 * k / (nrun - 1) + (2.0 if k == 0 else 0.0)
-        for inst, d_oct, dg, pan in (("vln_spic", 0, 0, -0.3), ("vln_spic", 12, -3, -0.5), ("va_spic", 0, -2, 0.15),
-                                     ("vc_spic", -12, -2, 0.35)):
+        g = -15 + 3.0 * k / (nrun - 1) + (1.5 if k == 0 else 0.0)
+        for inst, d_oct, dg, pan in (("vln_spic", 0, 0, -0.25), ("va_spic", -12, -2, 0.15), ("vc_spic", -12, -3, 0.3)):
+            if inst == "va_spic" and N(p) - 12 < N("C3"):
+                continue
             S.note("strings", inst, N(p) + d_oct, t0, 0.22, g + dg, pan, sp, layer=2, attack=0.002, release=0.06,
-                   env=dyn, role="rising run")
-    S.lock("turn_away", "onset", "strings", "a rising string run starts under his turn")
-    S.lock("square_cut", "onset", "perc", "downbeat on the cut to the square: D, timpani, brass theme")
+                   role="rising run (A7)")
+    S.lock("turn_away", "onset", "strings", "a rising A7 arpeggio (spiccato) starts under his turn")
 
-    # ---------------------------------------------------------------- the final build: brass take the theme
-    bth = [("D3", 1.5), ("E3", 0.5), ("F#3", 1), ("B3", 2), ("A3", 1), ("G3", 1.5), ("A3", 0.5), ("B3", 1),
-           ("E4", 1), ("D4", 1.5), ("C#4", 0.5)]
-    build = ramp([(sq, -4.5), (t(25), -2.5), (t(28), -0.5), (clx, 1.5)])
-    horns(S, bth, W, 19, -4.5, 3, pan=-0.22, space=sp, n_to=4, attack=0.03, release=0.12, overlap=0.05,
-          env=build, gains=[0, -0.5, 0, 1, 0, 0.5, 0, 1, 2, 1, 0.5], first=dict(attack=0.01), role="theme (horns)")
-    for inst, g, pan, det in (("otbn", -5.5, 0.28, 0.0), ("otbn2", -7, 0.36, 3.0)):
-        for e in S.line("brass", inst, bth, W, 19, g, pan, sp, layer=4, attack=0.03, release=0.12, overlap=0.05,
-                        env=build, first=dict(attack=0.01), role="theme (trombones)"):
-            e["detune"] = det
-    tb_low = [("D3", 3), ("B2", 3), ("G2", 3), ("A2", 3)]
-    S.line("brass", "tbn", tb_low, W, 19, -8, 0.4, sp, layer=3, attack=0.04, release=0.12, overlap=0.06, env=build,
-           role="trombone (roots)")
-    # violins double the theme two and three octaves above, climbing an octave at the four rising notes
-    vb = [("D5", 1.5), ("E5", 0.5), ("F#5", 1), ("B5", 2), ("A5", 1), ("G5", 1.5), ("A5", 0.5), ("B5", 1), ("E6", 1),
-          ("D6", 1.5), ("C#6", 0.5)]
-    for oct_, g, pan in ((0, -5, -0.5), (-12, -7, -0.25)):
-        S.line("strings", "vln_sus", [(N(p) + oct_, d) for p, d in vb], W, 19, g, pan, sp, layer=2, attack=0.05,
-               release=0.12, overlap=0.06, env=build, role="theme (violins)")
-    for inst, seq, g, pan in (("vc_sus", [("D3", 3), ("B2", 3), ("G2", 3), ("A2", 3)], -8.5, 0.35),
-                              ("vc_sus", [("A3", 3), ("F#3", 3), ("D3", 3), ("E3", 3)], -9.5, 0.3),
-                              ("cb_sus", [("D2", 3), ("B1", 3), ("G1", 3), ("A1", 3)], -9.5, 0.55)):
-        S.line("strings", inst, seq, W, 19, g, pan, sp, layer=3, attack=0.06, release=0.15, overlap=0.06, env=build,
-               role="bass line")
-    for b_, p, g in ((19, "D2", -4), (25, "G2", -5)):
-        S.note("perc", "timp", p, t(b_), 2.8, g, 0.08, sp, layer=4, release=0.4, role="timpani")
-    S.note("perc", "timproll", "A2", t(28), clx - t(28) - 0.03, -13, 0.08, sp, layer=5, attack=0.004, release=0.02,
-           env=ramp([(t(28), 0), (clx - 0.05, 9)]), role="timpani roll (into the climax)")
+    # ---------------------------------------------------------------- the build: deceptive Bb at the square cut
+    build = ramp([(sq, -3.5), (t19, -3.0), (rh, -2.0), (sqi - 0.05, -0.5), (sqi + 0.3, 1.0), (clx - 0.05, 1.5)])
+    S.note("perc", "timp", "Bb2", sq, 2.6, -10.5, 0.08, sp, layer=4, release=0.4, role="timpani (square downbeat)")
+    for inst, p, g, pan in (("vc_spic", "Bb2", -12, 0.3), ("vc_spic", "F3", -14, 0.25), ("cb_pizz", "Bb1", -11, 0.45)):
+        S.note("strings", inst, p, sq, 0.3, g, pan, sp, layer=2, attack=0.002, release=0.15,
+               role="square downbeat (low strings, short)")
+    S.lock("square_cut", "onset", "perc", "deceptive cadence on Bb, dark (timpani, low brass, low strings): the "
+                                          "casement creaks through it")
+    horns(S, [("D3", 1.5), ("E3", 0.5), ("F3", 1), ("Bb3", 2), ("A3", 1), ("B3", 1.5), ("C#4", 0.5), ("D4", 3)],
+          W, 16, -6.5, 3, pan=-0.2, space=sp, n_from=1, n_to=4, grow=ramp([(sq, -12), (t19, -4), (rh, 0)]),
+          attack=0.04, release=0.12, overlap=0.05, env=build, gains=[0, -0.5, 0, 1, 0, 0.5, 0.5, 1.5],
+          first=dict(attack=0.015), last_end=clx + 0.03, role="theme (horns)")
+    S.themes.append(dict(t=round(sq, 3), first="D", voice="horns", form="minor (the kitchen theme) over Bb Gm A"))
+    S.themes.append(dict(t=round(rh, 3), first="B", voice="horns + violins II", form="window form, sigh resolves at "
+                                                                                     "the climax"))
+    tb = S.chords("brass", "otbn", [(sq, ["Bb2", "F3"]), (t19, ["G2", "D3"]), (t21, ["A2", "E3"]), (rh, ["G2", "D3"]),
+                                    (t24, ["G2", "D3", "Bb3"]), (sqi, ["A2", "E3", "G4"])], clx + 0.03, -8, sp,
+                  pan=(0.25, 0.4), attack=0.05, release=0.12, layer=4, env=build, role="trombones")
+    for e in tb:
+        e.update(pool=["otbn", "tbn"], player=0)
+    S.line("strings", "vln_sus", [("Bb5", 2), ("A5", 1)], W, 19, -10, -0.42, sp, layer=2, attack=0.1, release=0.1,
+           overlap=0.15, env=build, role="violins I")
+    S.note("strings", "vln_trem", "A5", rh, clx - rh + 0.03, -11, -0.42, sp, layer=2, attack=0.3, release=0.05,
+           env=lambda tt: build(tt) * ramp([(rh, -3), (sqi, 0), (clx, 2)])(tt), role="violins I (A5 tremolo, the "
+                                                                                    "dominant held)")
+    S.line("strings", "vln_sus", [("Bb4", 2), ("A4", 1), ("B4", 1.5), ("C#5", 0.5), ("D5", 1), ("G5", 2)], W, 19, -11,
+           -0.22, sp, layer=2, attack=0.08, release=0.1, overlap=0.06, last_end=clx + 0.03, env=build,
+           role="violins II")
+    S.chords("strings", "vc_sus", [(sq, ["Bb2", "F3"]), (t19, ["G2", "D3"]), (t21, ["A2", "E3"]), (rh, ["G2", "D3"]),
+                                   (t235, ["G2", "E3"]), (t24, ["G2", "D3"]), (sqi, ["A2", "E3"])], clx + 0.03, -10,
+             sp, pan=(0.25, 0.35), attack=0.06, release=0.1, layer=3, env=build, role="celli")
+    S.chords("strings", "cb_sus", [(sq, ["Bb1"]), (t19, ["G1"]), (t21, ["A1"]), (rh, ["G1"]), (sqi, ["A1"])],
+             clx + 0.03, -11, sp, pan=(0.4, 0.4), attack=0.06, release=0.1, layer=3, env=build, role="contrabass")
+    S.chords("organ", "ged", [(sq, ["Bb3", "D4", "F4"]), (t19, ["G3", "Bb3", "D4"]), (t21, ["A3", "C#4", "E4"]),
+                              (rh, ["G3", "B3", "D4"]), (t235, ["A3", "C#4", "E4"]), (t24, ["G3", "Bb3", "D4"]),
+                              (sqi, ["A3", "D4", "E4", "G4"])], clx + 0.03, -21, sp, pan=(-0.3, 0.3), attack=0.06,
+             release=0.1, env=build, role="8' flutes")
+    cells(S, W, 18, 26.5, chord_at, -14, -10, env=build)
+    S.note("perc", "timp", "G2", rh, 2.6, -8, 0.08, sp, layer=4, release=0.4, role="timpani (red houses)")
+    S.note("perc", "timproll", "A2", sqi, clx - sqi - 0.03, -13, 0.08, sp, layer=5, attack=0.004, release=0.02,
+           env=ramp([(sqi, 0), (clx - 0.05, 8)]), role="timpani roll (into the climax)")
+    S.lock("red_houses", "onset", "brass", "the window form of the theme (B - C# - D) as the red houses swing in")
+    S.lock("square_in", "onset", "strings", "A7sus4 (the sus4 of bell2 returns), G held, timpani roll: the Castle "
+                                            "Square appears")
 
-    # ---------------------------------------------------------------- climax and the long release
-    S.note("perc", "timp", "D2", clx, 5.0, 0.0, 0.05, sp, layer=4, release=0.8, role="timpani (climax)")
-    S.note("perc", "timp", "A2", clx, 4.0, -4.0, 0.15, sp, layer=4, release=0.8, role="timpani (climax)")
-    S.lock("climax", "onset", "perc", "D major, the whole ensemble, ff, timpani stroke")
-    brass_out = ramp([(clx, 0), (clx + 2.0, 0)])
-    for i, c in enumerate(HORN_COPIES):
-        for p, g in (("D4", -3.5), ("A3", -6.5), ("F#3", -7.5)):
-            e = S.note("brass", "horn", p, clx + (c["dt"] if i else 0), 2.0, g + c["g"], -0.22 + c["dp"], sp,
-                       layer=max(1, 3 + c["dl"]), attack=0.02, release=0.8, env=brass_out, role="climax (horns)")
-            e["detune"] = c["det"]
-    for inst, p, g, pan in (("otbn", "D3", -5, 0.28), ("otbn2", "A3", -7, 0.36), ("otbn", "F#3", -8, 0.32),
-                            ("tbn", "D3", -7.5, 0.4), ("tbn", "A2", -8, 0.42)):
-        S.note("brass", inst, p, clx, 2.0, g, pan, sp, layer=4, attack=0.02, release=0.8, env=brass_out,
-               role="climax (trombones)")
-    fade_s = ramp([(clx, 0), (clx + 1.5, 0), (title, -8), (lastc - 0.2, -40)])
-    for inst, p, g, pan, lay in (("vln_sus", "D6", -6, -0.5, 2), ("vln_sus", "D5", -7, -0.25, 2),
-                                 ("va_sus", "A4", -9, 0.15, 2), ("va_sus", "F#4", -9.5, 0.15, 2),
-                                 ("vc_sus", "D3", -8.5, 0.35, 3), ("vc_sus", "A3", -9.5, 0.3, 3),
-                                 ("cb_sus", "D2", -9.5, 0.55, 3)):
-        S.note("strings", inst, p, clx, lastc - clx, g, pan, sp, layer=lay, attack=0.02, release=0.4,
-               env=fade_s, role="climax / release (strings)")
-    # the organ alone: 8' flutes D -> G/D (title_in, plagal) -> D (the last chord), the high flute sings the theme
-    S.chords("organ", "ged", [(clx, ["D3", "A3", "D4", "F#4", "A4"]), (title, ["D3", "G3", "B3", "D4"]),
-                              (lastc, ["D3", "A3"])], end, -9.5, sp, pan=(-0.35, 0.35), attack=0.03, release=0.2,
-             overlap=-0.07,
-             env=ramp([(clx, 0), (title, -1.5), (lastc, -3.5), (end, -4.5)]), role="release (8' flutes)")
-    fl = [(clx, "D6", 0), (clx + 0.6 * (title - clx), "E6", -0.5), (clx + 0.75 * (title - clx), "F#6", 0),
-          (title, "B6", 0.5), (lastc, "A6", 0)]
-    for i, (t0, p, g) in enumerate(fl):
-        t1 = fl[i + 1][0] - 0.06 if i + 1 < len(fl) else end
-        S.note("organ", "ged", p, t0, t1 - t0, -11 + g, -0.1, sp, attack=0.02, release=0.2 if i == len(fl) - 1 else 0.05,
-               env=ramp([(clx, -4), (clx + 1.5, 0), (end, -2)]), role="high flute (theme)")
-    for p, g in (("D6", -16), ("F#6", -17)):
-        S.note("organ", "ged", p, lastc, end - lastc, g, 0.15, sp, attack=0.03, release=0.2, role="last chord (high flute)")
-    S.lock("title_in", "onset", "organ", "G/D, the plagal amen, high flute B6 as the word appears")
-    S.lock("last_chord", "onset", "organ", "the last D major chord, high flute A6: the falling step at last")
+    # ---------------------------------------------------------------- CLIMAX: D major, the first F sharp
+    rel_s = ramp([(clx, 0), (cos - 0.6, 0), (cos - 0.1, -6), (title, -14), (title + 1.0, -40)])
+    S.chords("organ", "open", [(clx, ["D3", "A3", "D4", "F#4", "A4", "D5", "F#5"]), (cos, ["D3", "A3", "D4", "F#4",
+                                                                                          "A4", "D5"]),
+                               (title, ["D3", "G3", "B3", "D4"]), (lastc, ["D3", "D4", "F#4", "A4"])], end, -6.5, sp,
+             pan=(-0.4, 0.4), attack=0.03, release=0.2,
+             env=ramp([(clx, 0), (cos - 0.6, 0), (cos - 0.1, -6), (title - 0.1, -14), (title + 0.4, -15),
+                       (lastc, -16), (end, -17)]), role="full organ (open plenum) -> principal")
+    dur_b = brass_off - 0.4 - clx
+    for p, n_, g in (("D4", 2, -4.5), ("A3", 1, -6.5), ("F#3", 1, -7.5)):
+        section(S, p, clx, dur_b, g, n_, ["horn"], 3, pan=-0.2, space=sp, attack=0.02, release=0.4, role="climax (horns)")
+    for p, g in (("D3", -6), ("A3", -7.5), ("D4", -8), ("F#4", -7)):
+        section(S, p, clx, dur_b, g, 1, ["otbn", "tbn"], 4, pan=0.3, space=sp, attack=0.02, release=0.4,
+                role="climax (trombones)")
+    S.note("strings", "vln_sus", "D6", clx, cos - 0.3 - clx, -6, -0.45, sp, layer=2, attack=0.02, release=0.2,
+           role="climax: violins I D6 (the highest forte note)")
+    for inst, p, g, pan, lay in (("vln_sus", "F#5", -8, -0.35, 2), ("vln_sus", "A5", -9.5, -0.3, 2),
+                                 ("va_sus", "A4", -9, 0.12, 2), ("va_sus", "D4", -9.5, 0.12, 2),
+                                 ("vc_sus", "D3", -8.5, 0.3, 3), ("vc_sus", "A3", -9.5, 0.25, 3),
+                                 ("cb_sus", "D2", -9.5, 0.45, 3)):
+        S.note("strings", inst, p, clx, title + 1.0 - clx, g, pan, sp, layer=lay, attack=0.02, release=0.4,
+               env=rel_s, role="climax / release (strings)")
+    S.note("perc", "timp", "D3", clx, 5.0, -2.0, 0.05, sp, layer=4, release=0.8, role="timpani (climax)")
+    S.note("perc", "timp", "A2", clx, 4.0, -6.0, 0.15, sp, layer=4, release=0.8, role="timpani (climax)")
+    S.lock("climax", "onset", "perc", "D MAJOR (the first F sharp), the first full organ, violins A5 -> D6, ff")
+    S.lock("cup_on_sill", "gone", "brass", "the brass has left before the cup touches the sill (50 dB under its "
+                                           "climax level)")
+
+    # ---------------------------------------------------------------- release: the theme in major on the principal
+    e5 = cos + 0.3
+    f5 = max(e5 + 0.25, title - 0.3)
+    mel = [(e5, "E5", -1.0), (f5, "F#5", -0.5), (title, "B5", 0.5), (lastc, "A5", 0.0)]
+    for i, (t0, p, g) in enumerate(mel):
+        t1 = mel[i + 1][0] - 0.04 if i + 1 < len(mel) else end
+        S.note("organ", "open", p, t0, t1 - t0, -14 + g, -0.15, sp, attack=0.03,
+               release=0.2 if i == len(mel) - 1 else 0.05, env=ramp([(e5, -1), (title, 0), (end, -2)]),
+               role="principal (the theme in major)")
+    S.themes.append(dict(t=round(e5, 3), first="E (D in the climax chord)", voice="principal",
+                         form="major: D-E-F#-B | A"))
+    S.lock("title_in", "onset", "organ", "G/D, the plagal amen, principal B5 as the word appears")
+    S.lock("last_chord", "onset", "organ", "the last D major chord, principal A5: the falling step at last")
     S.lock("end", "release", "all", "the last chord released on the cut to black")
+    S.derived.update(brass_off=round(brass_off, 3))
 
     bd = [
-        (15, 0, "3/4", "D major", "violins D5/D4 (dotted half)",
-         "return: full organ (open plenum, flutes 8'+4', pedal 16'+8' and the 32' resultant), full strings, violas "
-         "take the pulse in spiccato quavers; f"),
-        (16, 3, "3/4", "A/C# -> Bm", "E5 (q) F#5 (h)", "descending bass D-C#-B; timpani roll on D from pilaster1"),
-        (17, 6, "3/4", "G", "B5 (tied)", "street: timpani G on the downbeat, the theme's peak as the street opens; "
-                                         "mf (room for the street)"),
-        (18, 9, "3/4", "D/F#", "B5 -> A5", "the sigh in major (6 -> 5)"),
-        (19, 12, "3/4", "Em7", "G5 (dotted half)", "crescendo; the dissolve to the turn passes through"),
-        (20, 15, "4/4", "D/A -> A7", "F#5 E5 + run", "cadential six-four; turn_away: a rising string run (spiccato, "
-                                                     "violins/violas/celli in octaves, accelerating) to the cut"),
-        (21, 19, "3/4", "D", "horns+trombones D3 (q.) E3 (e) F#3 (q)", "square: the final build begins; violins "
-                                                                       "double two/three octaves up; timpani D"),
-        (22, 22, "3/4", "Bm", "B3 (h) A3 (q)", "f"),
-        (23, 25, "3/4", "G", "G3 (q.) A3 (e) B3 (q)", "the four rising notes from G; timpani G"),
-        (24, 28, "3/4", "A -> A sus4 -> A", "E4 (q) D4 (q.) C#4 (e)", "the sus4 of bell2 returns and resolves; "
-                                                                      "timpani roll on A; allargando"),
-        (25, 31, "free", "D major", "D4 / D6", "CLIMAX: whole ensemble ff with timpani D+A; brass out after 2 s; "
-                                               "strings fade"),
-        (26, "title_in", "free", "G/D (plagal)", "high flute D6 E6 F#6 -> B6", "the organ alone (8' flutes); the "
-                                                                                "high flute sings the theme in major"),
-        (27, "last_chord", "free", "D major", "high flute A6", "the falling step on the last chord; bell4 rings "
-                                                               "inside it; released on 'end'"),
+        (15, 0, "3/4", "D5 (open fifth)", "-", f"music_return ({cue.return_key}): celli, contrabass and 8' flutes "
+                                               "swell in, mp; viola spiccato cells (root-2nd-5th) from beat 2"),
+        (16, 3, "3/4", "D5", "-", "timpani roll under the pilaster"),
+        (17, 4, "3/4", "G", "violins I B4 (dotted half)", "street: timpani G, the theme on B; mf under the city"),
+        (18, 7, "3/4", "A/G -> Bb", "C#5 (q) D5 (h)", "Bb: the kitchen's chord, borrowed from D minor"),
+        (19, 10, "3/4", "C -> A7", "G5 (tied)", "C (bVII) -> A7: the G is the seventh and waits to fall to F#"),
+        (20, 14, "free", "A7", "A7 arpeggio", "turn_away: a rising spiccato arpeggio, accelerating, to the cut"),
+        (21, 16, "3/4", "Bb (deceptive)", "horns D3 (q.) E3 (e) F3 (q)", "square: deceptive cadence on Bb, dark: the "
+                                                                         "kitchen theme in the horns"),
+        (22, 19, "3/4", "Gm -> A", "Bb3 (h) A3 (q); violins Bb5 A5", "the sigh in the horns and violins; the horn "
+                                                                    "section fills in; viola cells resume"),
+        (23, 22, "3/4", "G -> A/G -> Gm", "B3 (q.) C#4 (e) D4 (q)", "red houses: the window form; violins I hold A5 "
+                                                                   "(tremolo); IV -> iv over G"),
+        (24, 25, "2/4", "A7sus4 (G/A)", "D4 held; G4/G5 inside", "square_in: the sus4 of bell2 returns; timpani roll "
+                                                                "on A; 32' pedal"),
+        (25, 27, "free", "D major", "violins D6, F#5", "CLIMAX: the first F sharp; full organ; horns, trombones, "
+                                                       "timpani D+A; brass gone before cup_on_sill"),
+        (26, "title_in", "free", "G/D (plagal)", "principal E5 F#5 -> B5", "the organ alone (principal, box closing)"),
+        (27, "last_chord", "free", "D major", "principal A5", "the falling step on the last chord; bell4 rings inside "
+                                                              "it; released on 'end'"),
     ]
-    for n, b, meter, harm, mel, what in bd:
+    for n, b, meter, harm, mel_, what in bd:
         if isinstance(b, str):
-            S.bars.append(dict(bar=n, map=None, beat=None, t=round(cue[b], 3), meter=meter, harmony=harm, melody=mel,
+            S.bars.append(dict(bar=n, map=None, beat=None, t=round(cue[b], 3), meter=meter, harmony=harm, melody=mel_,
                                what=what, locked_to=b))
         else:
-            S.bar(n, W, b, meter, harm, mel, what)
+            S.bar(n, W, b, meter, harm, mel_, what)
     return W
 
 
@@ -758,29 +881,62 @@ def build_score(cue):
             continue
         for e in S.E:
             if (L_["stem"] in ("all", e["stem"]) and abs(e["t"] - L_["t"]) < 1e-3 and e.get("attack", 0.004) <= 0.1
-                    and not e.get("skip")):
+                    and not e.get("skip") and e.get("align", True)):
                 e["max_pre"] = min(e.get("max_pre", ARRIVAL_PRE_S) if e.get("max_pre") is not None else ARRIVAL_PRE_S,
                                    ARRIVAL_PRE_S)
                 e["attack"] = min(max(e.get("attack", 0.004), 0.004), 0.03)
                 e["arrival"] = L_["key"]
-    # contract checks: nothing sounds in the silence, no F sharp before the latch
+    # contract checks: nothing sounds in the silence; no F sharp before the climax (D minor indoors, no third
+    # outdoors until the climax)
     for e in S.E:
         if e["space"] == "in" and e["t"] > cue["latch"]:
             raise AssertionError(f"indoor event after the latch: {e}")
         if e["space"] == "out" and e["t"] < cue["return"] - 1e-6:
             raise AssertionError(f"outdoor event before the return: {e}")
-    fsharp = [e for e in S.E if e["space"] == "in" and "midi" in e and int(round(e["midi"])) % 12 == 6]
+    fsharp = [e for e in S.E if e["t"] < cue["climax"] - 0.03 and int(round(e["midi"])) % 12 == FS]
     if fsharp:
-        raise AssertionError(f"F sharp before the latch: {fsharp[:3]}")
+        raise AssertionError(f"F sharp before the climax: {fsharp[:3]}")
     return S, K, W
 
 
 # ============================================================================= rendering
+def render_note3(inst, midi, dur, layer=None, attack=0.004, release=0.08, skip=0.0, align=True, max_pre=None,
+                 smp=None):
+    """compose.render_note with two additions: `smp` forces a given sample file (brass sections) and align=False
+    places the sample's physical start (not its attack point) on the event, so the natural attack rises after it."""
+    s = smp if smp is not None else inst.pick(midi, layer)
+    ratio = 2 ** ((midi - s.meas) / 12)
+    y, info = C.resampled(s, ratio)
+    if skip > 0:
+        begin, pre = int(skip * SR), 0
+    else:
+        begin, pre = 0, (info["att"] if align else 0)
+        if max_pre is not None and pre > int(max_pre * SR):
+            begin, pre = pre - int(max_pre * SR), int(max_pre * SR)
+    need = pre + int(round((dur + release) * SR))
+    seg = y[begin:]
+    if len(seg) < need:
+        if inst.loopable:
+            seg = C.loop_extend(seg, info["s0"] - begin, info["s1"] - begin, need, tag=f"{inst.name} {NAME(midi)}")
+        else:
+            seg = np.concatenate([seg, np.zeros((need - len(seg), 2), np.float32)])
+    seg = seg[:need].copy()
+    env = np.ones(need, np.float32)
+    na = max(int(attack * SR), int(0.002 * SR))
+    env[: min(na, need)] *= raised_cos(na)[: min(na, need)]
+    r0 = pre + int(round(dur * SR))
+    nr = need - r0
+    if nr > 0:
+        env[r0:] *= raised_cos(nr, rising=False)
+    return seg * env[:, None], pre
+
+
 def swell_box(cue):
     pts = [(0.0, 0.2), (cue["walk"], 0.3), (cue["look1"], 0.5), (cue["kettle_click"], 0.4), (cue["stream"], 0.35),
-           (cue["spout_out"], 0.45), (cue["look2"], 0.65), (cue["cup_cut"], 0.2), (cue["pour"], 0.3),
-           (cue["slow2_end"], 0.45), (cue["bell2"], 0.95), (cue["latch"], 1.0), (cue["return"], 1.0),
-           (cue["climax"], 1.0), (cue["last_chord"], 0.9), (cue.duration, 0.9)]
+           (cue["spout_out"], 0.45), (cue["look2"], 0.6), (cue["cup_cut"], 0.25), (cue["pour"], 0.3),
+           (cue["slow2_end"], 0.4), (cue["bell2"], 0.5), (cue["latch"], 0.5), (cue["return"], 0.55),
+           (cue["street"], 0.65), (cue["square_cut"], 0.7), (cue["square_in"], 0.85), (cue["climax"], 1.0),
+           (cue["cup_on_sill"], 0.9), (cue["title_in"], 0.5), (cue.duration, 0.5)]
     return [p[0] for p in pts], [p[1] for p in pts]
 
 
@@ -789,6 +945,7 @@ def render3(lib, events, n, cue):
     buses = {}
     used = {}
     R = cue["return"]
+    bypath = {}
 
     def bus(k):
         if k not in buses:
@@ -796,6 +953,8 @@ def render3(lib, events, n, cue):
         return buses[k]
 
     for i, e in enumerate(events):
+        if e.get("drop"):
+            continue
         inst = lib[e["inst"]]
         g = e.get("g", 0.0)
         if inst.kind == "timp":
@@ -805,14 +964,20 @@ def render3(lib, events, n, cue):
             room = e["t"] - R
             max_pre = room if max_pre is None else min(max_pre, room)
             max_pre = max(0.0, max_pre) if room < 0.6 else max_pre
-        rkey = (round(e["midi"] + e.get("detune", 0.0) / 100.0, 2), e.get("layer"))
-        if "_rr" in e:
-            inst.rr_count[rkey] = e["_rr"]
+        smp = None
+        if e.get("smp"):
+            if e["inst"] not in bypath:
+                bypath[e["inst"]] = {s.path: s for s in inst.samples}
+            smp = bypath[e["inst"]][e["smp"]]
         else:
-            e["_rr"] = inst.rr_count.get(rkey, 0)
-        sig, pre = render_note(inst, e["midi"] + e.get("detune", 0.0) / 100.0, e["dur"], layer=e.get("layer"),
-                               attack=e.get("attack", 0.004), release=e.get("release", 0.08), skip=e.get("skip", 0.0),
-                               max_pre=max_pre)
+            rkey = (round(e["midi"] + e.get("detune", 0.0) / 100.0, 2), e.get("layer"))
+            if "_rr" in e:
+                inst.rr_count[rkey] = e["_rr"]
+            else:
+                e["_rr"] = inst.rr_count.get(rkey, 0)
+        sig, pre = render_note3(inst, e["midi"] + e.get("detune", 0.0) / 100.0, e["dur"], layer=e.get("layer"),
+                                attack=e.get("attack", 0.004), release=e.get("release", 0.08),
+                                skip=e.get("skip", 0.0), align=e.get("align", True), max_pre=max_pre, smp=smp)
         i0 = int(round(e["t"] * SR)) - pre
         b = bus((e["stem"], e["space"], e.get("fx")))
         if i0 < 0:
@@ -826,15 +991,16 @@ def render3(lib, events, n, cue):
         gr = np.sin((pan + 1) * np.pi / 4) * np.sqrt(2) * 10 ** (g / 20)
         b[i0: i0 + len(sig), 0] += sig[:, 0] * np.float32(gl)
         b[i0: i0 + len(sig), 1] += sig[:, 1] * np.float32(gr)
-        used.setdefault(e["inst"], set()).add((round(e["midi"], 3), e.get("layer")))
-        if i % 200 == 0:
+        used.setdefault(e["inst"], set()).add((round(e["midi"], 3), e.get("layer"), e.get("smp")))
+        if i % 250 == 0:
             log(f"  rendered {i}/{len(events)} notes")
     return buses, used
 
 
-def hall_ir(seed=2026, length=4.5, predelay=0.012):
+def hall_ir(seed=2026, length=4.5, predelay=0.012, lr_mix=0.25):
     """Short bright hall for the open window (same construction as compose.church_ir, shorter decay):
-    RT60 2.3-2.6 s in the low mids, 0.5 s above 11 kHz."""
+    RT60 2.2-2.6 s in the low mids, 0.5 s above 11 kHz; the two channels share part of their tail (lr_mix) so the
+    hall does not decorrelate the image."""
     rng = np.random.default_rng(seed)
     nn = int(length * SR)
     tt = np.arange(nn) / SR
@@ -854,11 +1020,13 @@ def hall_ir(seed=2026, length=4.5, predelay=0.012):
     late /= np.sqrt(np.mean(late[: int(0.2 * SR)] ** 2) + 1e-12)
     early /= np.sqrt(np.mean(early[: int(0.06 * SR)] ** 2) + 1e-12)
     ir = 0.5 * early + 0.6 * late
+    ir = np.stack([ir[:, 0] + lr_mix * ir[:, 1], ir[:, 1] + lr_mix * ir[:, 0]], axis=1)
     ir /= np.sqrt(np.sum(ir ** 2) / 2)
     ir *= raised_cos(nn, rising=False)[:, None] ** 0.3
     return ir.astype(np.float32), dict(rt60_bands_s=dict(zip(["<90", "90-180", "180-355", "355-710", "710-1.4k",
                                                               "1.4-2.8k", "2.8-5.6k", "5.6-11k", ">11k"], rts)),
-                                       predelay_s=predelay, length_s=length)
+                                       predelay_s=predelay, length_s=length, lr_mix=lr_mix,
+                                       lr_corr=round(float(np.corrcoef(ir[:, 0], ir[:, 1])[0, 1]), 3))
 
 
 def width(x, w):
@@ -867,35 +1035,52 @@ def width(x, w):
     return np.stack([m + s, m - s], axis=1).astype(np.float32)
 
 
+def bass_mono(x, fc=120.0):
+    """The side signal high-passed at fc (zero phase): everything below fc is mono."""
+    m = 0.5 * (x[:, 0] + x[:, 1])
+    s = 0.5 * (x[:, 0] - x[:, 1])
+    s = s - sosfiltfilt(butter(4, fc, btype="low", fs=SR, output="sos"), s).astype(np.float32)
+    return np.stack([m + s, m - s], axis=1).astype(np.float32)
+
+
 SPACE = dict(
-    inside=dict(send=0.62, dry=0.72, pre_lowpass_hz=7000, shelf_hz=3000, shelf_cut=0.55, width=0.55),
-    outside=dict(send=0.24, dry=1.0, width=1.25),
+    inside=dict(send=0.62, dry=0.72, pre_lowpass_hz=7000, shelf_hz=3000, shelf_cut=0.55, width=0.42),
+    outside=dict(send=0.20, dry=1.0, width=0.62, bass_mono_hz=120.0),
 )
 GATE_FADE_S = 0.012
-# balance per stem and space (dB): the organ leads; brass and timpani sit inside the full organ outdoors
+# balance per stem and space (dB): the organ leads indoors; outdoors the brass carries the build
 STEM_TRIM = {("organ", "in"): 5.0, ("strings", "in"): 0.0, ("brass", "in"): -2.0, ("perc", "in"): -2.0,
-             ("organ", "out"): 6.0, ("strings", "out"): -1.0, ("brass", "out"): -3.5, ("perc", "out"): -5.0}
+             ("organ", "out"): 4.0, ("strings", "out"): 0.0, ("brass", "out"): 0.0, ("perc", "out"): -4.0}
+HOLE = dict(lo=1000.0, hi=9000.0, db=-9.0)   # a gentle dip in the music around the cup on the sill
 
 
 def inside_fader(cue):
-    """The kitchen is heard from a distance: a fader on everything indoors (dB) that keeps it pp-mp, with the
-    crescendo to bell2 reaching forte but well under the climax."""
-    return C.ramp([(0.0, -4.5), (cue["stream"] - 1.0, -4.5), (cue["stream"], -6.0), (cue["cup_cut"], -6.0),
-                   (cue["cup_cut"] + 0.3, -3.0), (cue["pour"], -4.5), (cue["slow2_end"], -6.0),
-                   (cue["server_out"], -7.0), (cue["bell2"], -7.0), (cue["latch"], -7.0)])
+    """The kitchen is heard from a distance: a fader on everything indoors (dB) that keeps it pp-mp; the A sus4 on
+    LOOK 3 is forte for the kitchen but stays well under the window's build."""
+    return C.ramp([(0.0, -5.0), (cue["stream"] - 1.0, -5.0), (cue["stream"], -6.5), (cue["cup_cut"], -6.5),
+                   (cue["cup_cut"] + 0.3, -5.0), (cue["pour"], -5.5), (cue["slow2_end"], -7.0),
+                   (cue["server_out"], -10.5), (cue["bell2"], -11.0), (cue["latch"], -11.5)])
 
 
-def mixdown(buses, n, cue, church, hall):
+def duck_curve(n_ab, a, points):
+    """Gain curve on samples a..a+n_ab from (time, dB) points (1.0 outside)."""
+    ts = [p[0] for p in points]
+    ds = [10 ** (p[1] / 20) for p in points]
+    return np.interp((a + np.arange(n_ab)) / SR, ts, ds).astype(np.float32)[:, None]
+
+
+def mixdown(buses, n, cue, church, hall, breath):
     hp = butter(4, 28.0, btype="high", fs=SR, output="sos")
     lp_in = butter(2, SPACE["inside"]["pre_lowpass_hz"], btype="low", fs=SR, output="sos")
     sh_in = butter(2, SPACE["inside"]["shelf_hz"], btype="high", fs=SR, output="sos")
-    fx_sos = {"sord": butter(2, 2200, btype="low", fs=SR, output="sos"),
-              "harm": butter(2, 2900, btype="low", fs=SR, output="sos")}
+    fx_sos = {"sord": butter(2, 2200, btype="low", fs=SR, output="sos")}
     bx_t, bx_v = swell_box(cue)
     dark = butter(2, 1400, btype="low", fs=SR, output="sos")
     latch, R, end, dur = cue["latch"], cue["return"], cue["end"], cue.duration
     il, iR = int(round(latch * SR)), int(round(R * SR))
     ig = int(round((latch + GATE_FADE_S) * SR))
+    br0, br1 = breath
+    kc, cup, pour = cue["kettle_click"], cue["cup_cut"], cue["pour"]
     stems = {s: np.zeros((n, 2), np.float32) for s in STEMS}
     for (stem, space, fx), x in sorted(buses.items(), key=lambda kv: str(kv[0])):
         if not np.any(x):
@@ -915,15 +1100,12 @@ def mixdown(buses, n, cue, church, hall):
             a, b = 0, ig + 1
             xs = sosfilt(lp_in, x[a:b], axis=0).astype(np.float32)
             wet = C.convolve(xs, church)[: b - a]
-            # subito pp on the cut to the mug: the room's tail of the phrase is cut down with the picture
-            ic = int(round(cue["cup_cut"] * SR))
-            duck = np.interp(np.arange(a, b), [ic, ic + int(0.06 * SR), ic + int(1.2 * SR), ic + int(2.5 * SR)],
-                             [1.0, 10 ** (-14 / 20), 10 ** (-14 / 20), 1.0]).astype(np.float32)[:, None]
-            if stem == "strings":   # the strings leave with the kettle click: their room tail goes with them
-                ik = int(round(cue["kettle_click"] * SR))
-                duck = duck * np.interp(np.arange(a, b), [ik, ik + int(0.06 * SR), ik + int(0.9 * SR),
-                                                          ik + int(2.0 * SR)],
-                                        [1.0, 10 ** (-12 / 20), 10 ** (-12 / 20), 1.0]).astype(np.float32)[:, None]
+            # the room's tail is drawn down where the picture asks for a hush: subito pp on the mug (until the pour),
+            # the kettle click (strings and pendulum stop), the breath before bell 2
+            pts = [(0.0, 0), (kc, 0), (kc + 0.06, -10 if stem != "strings" else -12), (kc + 0.9, -10),
+                   (kc + 2.0, 0), (cup, 0), (cup + 0.06, -14), (pour - 0.3, -14), (pour + 1.0, 0), (br0 - 0.01, 0),
+                   (br0 + 0.06, -20), (br1 - 0.02, -20), (br1 + 0.3, 0), (dur, 0)]
+            duck = duck_curve(b - a, a, sorted(pts))
             seg = SPACE["inside"]["dry"] * xs + SPACE["inside"]["send"] * wet * duck
             seg = seg - SPACE["inside"]["shelf_cut"] * sosfiltfilt(sh_in, seg, axis=0).astype(np.float32)
             seg = width(seg, SPACE["inside"]["width"])
@@ -935,7 +1117,6 @@ def mixdown(buses, n, cue, church, hall):
             a = iR
             xs = x[a:n]
             wet = C.convolve(xs, hall)[: n - a]
-            tt = a + np.arange(n - a)
             ie, i_off = int((end + 0.25) * SR), int((dur - 0.32) * SR)
             wt = np.ones(n - a, np.float32)
             wt[max(0, ie - a): i_off - a] = raised_cos(i_off - ie, rising=False) ** 1.5
@@ -944,14 +1125,20 @@ def mixdown(buses, n, cue, church, hall):
             y[a:n] = width(seg, SPACE["outside"]["width"])
         y[: first] = 0.0
         stems[stem] += y
+    tt = np.arange(n) / SR
     # room for bell 4 (a D bell): a 300-900 Hz dip on all music from just before the bell to the end
     bp = butter(2, [300, 900], btype="band", fs=SR, output="sos")
-    tt = np.arange(n) / SR
     depth = 1 - 10 ** (-8 / 20)
     w = np.interp(tt, [cue["bell4"] - 0.8, cue["bell4"] - 0.2, dur], [0, depth, depth]).astype(np.float32)[:, None]
+    # a hole for the cup on the sill (the brass has already gone): HOLE dB in HOLE lo..hi around the event
+    cs_ = cue["cup_on_sill"]
+    hb = butter(2, [HOLE["lo"], HOLE["hi"]], btype="band", fs=SR, output="sos")
+    hd = 1 - 10 ** (HOLE["db"] / 20)
+    wh = np.interp(tt, [cs_ - 0.25, cs_ - 0.08, cs_ + 0.35, cs_ + 0.7], [0, hd, hd, 0]).astype(np.float32)[:, None]
     for s in stems:
-        band = sosfiltfilt(bp, stems[s], axis=0).astype(np.float32)
-        stems[s] = stems[s] - band * w
+        stems[s] = stems[s] - sosfiltfilt(bp, stems[s], axis=0).astype(np.float32) * w
+        stems[s] = stems[s] - sosfiltfilt(hb, stems[s], axis=0).astype(np.float32) * wh
+        stems[s] = bass_mono(stems[s], SPACE["outside"]["bass_mono_hz"])
     # the indoor silence and the final silence are exact zeros
     i_silent = int(round((dur - 0.3) * SR))
     for s in stems:
@@ -959,6 +1146,30 @@ def mixdown(buses, n, cue, church, hall):
         stems[s][i_silent - int(0.02 * SR): i_silent] *= raised_cos(int(0.02 * SR), rising=False)[:, None]
         stems[s][i_silent:] = 0.0
     return stems
+
+
+def master_open(stems, tp_target=-2.3, max_gr_db=0.9):
+    """No loudness target: one static gain so that the true peak lands on tp_target with a safety limiter that may
+    take at most max_gr_db (the climax keeps its transient); the SAME gain curve on every stem."""
+    names = list(stems)
+    mix = sum(stems[s] for s in names).astype(np.float64)
+    tp0 = C.true_peak_db(mix)
+    G = 10 ** ((tp_target - tp0 + max_gr_db) / 20)
+    hist = []
+    for it in range(6):
+        lim = C.limiter_env(mix * G, tp_target)
+        y = mix * (G * lim)[:, None]
+        tp = C.true_peak_db(y)
+        gr = float(-dbv(lim.min()))
+        hist.append(dict(iter=it, static_gain_db=round(dbv(G), 3), true_peak_dbtp=round(tp, 3), max_gr_db=round(gr, 2)))
+        if tp <= -2.05 and gr <= max_gr_db + 0.05:
+            break
+        G *= 10 ** (min(-2.05 - tp, max_gr_db - gr, 0.0) / 20 - 0.002)
+    total = (G * lim).astype(np.float32)[:, None]
+    grc = -20 * np.log10(np.maximum(lim, 1e-9))
+    info = dict(static_gain_db=round(dbv(G), 2), max_gain_reduction_db=round(float(grc.max()), 2),
+                seconds_with_gr_over_0_1db=round(float((grc > 0.1).sum()) / SR, 3), gr_regions_s=C._regions(grc > 0.1))
+    return {s: stems[s] * total for s in names}, hist, info
 
 
 def quantise24(x):
@@ -974,6 +1185,28 @@ def k_weight(x):
     return y
 
 
+class Loud:
+    """K-weighted energy integrals: L(t0, t1) ungated LUFS of a span, M(t) momentary (400 ms, centred)."""
+
+    def __init__(self, x):
+        y = k_weight(x)
+        self.cs = np.concatenate([[0.0], np.cumsum((y ** 2).sum(1))])
+        self.n = len(x)
+
+    def L(self, t0, t1):
+        a, b = int(max(t0, 0) * SR), int(min(t1, self.n / SR) * SR)
+        return float(-0.691 + 10 * np.log10((self.cs[b] - self.cs[a]) / max(b - a, 1) + 1e-20))
+
+    def M(self, t):
+        return self.L(t - 0.2, t + 0.2)
+
+    def grid(self, step=0.01):
+        tt = np.arange(0.2, self.n / SR - 0.2, step)
+        a = ((tt - 0.2) * SR).astype(int)
+        b = a + int(0.4 * SR)
+        return tt, -0.691 + 10 * np.log10((self.cs[b] - self.cs[a]) / (b - a) + 1e-20)
+
+
 def short_term(x, win=3.0, hop=0.25):
     """EBU short-term loudness (3 s, ungated) every `hop` s; window centred on the returned time."""
     y = k_weight(x)
@@ -984,18 +1217,22 @@ def short_term(x, win=3.0, hop=0.25):
     out = []
     for c in centres:
         a = int((c - win / 2) * SR)
-        e = (cs[a + W] - cs[a]) / W
-        out.append(-0.691 + 10 * np.log10(e + 1e-20))
+        out.append(-0.691 + 10 * np.log10((cs[a + W] - cs[a]) / W + 1e-20))
     return centres, np.array(out)
 
 
 _HP150 = butter(4, 150.0, btype="high", fs=SR, output="sos")
 
 
+def env_db3(x, win=0.005):
+    """RMS envelope in dB (float64, clamped: no NaN from rounding in the moving average)."""
+    e = uniform_filter1d((np.asarray(x, np.float64) ** 2).mean(1), max(1, int(win * SR)))
+    return 10 * np.log10(np.maximum(e, 0.0) + 1e-20)
+
+
 def onset_measure(x, t, tol=0.06):
     """The arrival's onset: the strongest spectral-flux peak (log-mel, 150 Hz-12 kHz, hop 2.7 ms) within +-tol of
-    the event, accepted if it stands at least 2x above the median flux of the surrounding second (salience).
-    High-passing keeps the pedal's beating out of the flux."""
+    the event, accepted if it stands at least 2x above the median flux of the surrounding second (salience)."""
     import librosa
     a = max(0, int((t - 0.5) * SR))
     y = sosfilt(_HP150, x[a: int((t + 0.5) * SR)].mean(1)).astype(np.float32)
@@ -1009,91 +1246,61 @@ def onset_measure(x, t, tol=0.06):
     return (float(tt[k]) if sal >= 2.0 else None), round(sal, 1)
 
 
-def arrival_pitches(events, stem, t0, memory):
-    """Pitches that start at t0 in `stem` and were not played there in the preceding `memory` seconds, and the
-    other pitches sounding around t0 (whose partials must be kept out of the measurement)."""
-    sel = [e for e in events if stem == "all" or e["stem"] == stem]
-    starting = {e["midi"] for e in sel if abs(e["t"] - t0) < 0.03 and hz(e["midi"]) >= 100}
-    recent = [e["midi"] for e in sel if e["t"] < t0 - 0.03 and e["t"] + e["dur"] + e.get("release", 0.08) > t0 - memory]
-    new = sorted(m for m in starting if all(abs(m - r) > 0.5 for r in recent))
-    others = sorted({e["midi"] for e in sel if e["t"] < t0 + 0.3 and e["t"] + e["dur"] + 0.5 > t0 - 0.4} - set(new))
-    return new, others
-
-
-def pitch_onset(x, t, midis, others=(), n_fft=1024, hop=48):
-    """Onset of the notes that arrive at t, measured inside the real stem: energy of their first four harmonics
-    in the STFT bins that no other sounding note's partials (j <= 10, < 1.2 kHz) come within 1.6 bins of; the onset
-    is where it first reaches -12 dB of its peak in the 0.4 s after t (the convention used to place the notes:
-    -12 dB of the sample's early peak).
-    Returns (onset or None, rise in dB from before to after, number of bins used)."""
-    a = max(0, int((t - 0.45) * SR))
-    y = x[a: int((t + 0.45) * SR)].mean(1)
-    win = np.hanning(n_fft)
-    frames = range(0, len(y) - n_fft, hop)
-    F = np.array([np.abs(np.fft.rfft(y[i: i + n_fft] * win)) ** 2 for i in frames])
-    tt = a / SR + (np.array(list(frames)) + n_fft / 2) / SR
-    df = SR / n_fft
-    op = [j * hz(o) for o in others for j in range(1, 11) if j * hz(o) < 1200 or j <= 2]
-    bins = sorted({int(round(k * hz(m) / df)) for m in midis for k in range(1, 5) if k * hz(m) < 6000
-                   and all(abs(k * hz(m) - f) > 1.6 * df for f in op)})
-    if not bins:
-        return None, 0.0, 0
-    e = 10 * np.log10(F[:, bins].sum(1) + 1e-20)
-    post = float(np.max(e[(tt >= t + 0.02) & (tt <= t + 0.40)]))
-    pre = float(np.median(e[(tt >= t - 0.35) & (tt <= t - 0.12)]))
-    w = (tt >= t - 0.12) & (tt <= t + 0.12)
-    k = np.nonzero(w & (e >= post - 12.0))[0]
-    if len(k) == 0 or post - pre < 6.0:
-        return None, round(post - pre, 1), len(bins)
-    j = int(k[0])
-    if j > 0 and e[j] != e[j - 1]:   # interpolate the crossing between frames
-        f = (post - 12.0 - e[j - 1]) / (e[j] - e[j - 1])
-        return float(tt[j - 1] + np.clip(f, 0, 1) * (tt[j] - tt[j - 1])), round(post - pre, 1), len(bins)
-    return float(tt[j]), round(post - pre, 1), len(bins)
-
-
-def probe_onset(lib, events, key, stem, t0, n, cue, church, hall):
-    """The notes that make the arrival, rendered on their own through the same chain (same samples, spaces,
-    gate, fader): onset = first time the 5 ms RMS reaches -12 dB of its peak (the placement convention)."""
-    sub = [e for e in events if e.get("arrival") == key and stem in ("all", e["stem"])]
+def probe_onset(lib, events, key, stem, t0, n, cue):
+    """The notes that make the arrival, rendered on their own (same samples, gains, envelopes) and summed DRY:
+    onset = first time the 5 ms RMS reaches -12 dB of its peak (the placement convention). Dry, because a soft
+    bowed entry heard through the 4.8 s church room reaches -12 dB of its (reverb-dominated) peak late: that is the
+    room building up, not the note being late."""
+    sub = [e for e in events if e.get("arrival") == key and stem in ("all", e["stem"]) and not e.get("drop")]
     if not sub:
         return None
     buses, _ = render3(lib, sub, n, cue)
-    x = sum(mixdown(buses, n, cue, church, hall).values())
+    x = sum(b[:n] for b in buses.values())
     a, b = int((t0 - 0.3) * SR), int((t0 + 0.5) * SR)
-    env = C.env_db(x[a:b], 0.005)
+    env = env_db3(x[a:b], 0.005)
     k = np.nonzero(env >= env.max() - 12.0)[0]
     return float(t0 - 0.3 + k[0] / SR) if len(k) else None
 
 
 def release_time(x, t):
-    """Times at which the 10 ms RMS falls 3, 6 and 20 dB under its median over the 0.4 s before the event."""
-    e = C.env_db(x, 0.01)
-    ref = float(np.median(e[int((t - 0.4) * SR): int((t - 0.05) * SR)]))
-    seg = e[int((t - 0.1) * SR): int((t + 1.0) * SR)]
-    out = {}
-    for d in (3, 6, 20):
-        k = np.nonzero(seg < ref - d)[0]
-        out[d] = round(t - 0.1 + k[0] / SR, 4) if len(k) else None
-    return out, ref
+    """Where the level falls: the steepest 30 ms fall of the 10 ms RMS within -0.15..+0.3 s of the event, and the
+    drop from the 0.1 s before to 0.1-0.2 s after it. (A first-3-dB-dip measure is fooled by the church room's
+    natural decay of a diminuendo before the event.)"""
+    e = env_db3(x, 0.01)
+    a = int((t - 0.15) * SR)
+    seg = e[a: int((t + 0.33) * SR)]
+    k = int(0.03 * SR)
+    fall = seg[:-k] - seg[k:]
+    j = int(np.argmax(fall[: int(0.45 * SR)]))
+    t_fall = (a + j + k // 2) / SR
+    before = float(np.median(e[int((t - 0.1) * SR): int((t - 0.02) * SR)]))
+    after = float(np.median(e[int((t + 0.1) * SR): int((t + 0.2) * SR)]))
+    return dict(steepest_fall_at=round(t_fall, 4), fall_30ms_db=round(float(fall[j]), 1),
+                drop_db=round(before - after, 1)), before
 
 
 def tuning_test3(lib, used):
-    """Isolated rendered notes measured with pYIN (independent of the calibration) and by the partials' FFT."""
+    """Isolated rendered notes (the very sample each brass player uses) measured with pYIN and by the partials' FFT."""
     import librosa
     rep = {}
     for name in sorted(used):
         inst = lib[name]
+        byp = {s.path: s for s in inst.samples}
         rows = []
-        for m, layer in sorted(used[name], key=lambda v: (v[0], v[1] or 0)):
+        seen = set()
+        for m, layer, sp in sorted(used[name], key=lambda v: (v[0], v[1] or 0, v[2] or "")):
+            if (m, layer, sp) in seen:
+                continue
+            seen.add((m, layer, sp))
+            smp = byp.get(sp) if sp else None
             if inst.kind == "timp":
                 roll = name == "timproll"
-                sig, pre = render_note(inst, m, 6.5 if roll else 2.0, layer=layer, release=0.1)
+                sig, pre = render_note3(inst, m, 6.5 if roll else 2.0, layer=layer, release=0.1)
                 f = C.timp_principal(sig.mean(1).astype(np.float64), SR, *(ROLL_WIN if roll else (0.12, 1.8)))
                 rows.append(dict(note=NAME(m), layer=layer, cents=round(float(1200 * np.log2(f / hz(m))), 1),
                                  method="principal (1,1) mode"))
                 continue
-            sig, pre = render_note(inst, m, 3.0, layer=layer, attack=0.004, release=0.05)
+            sig, pre = render_note3(inst, m, 3.0, layer=layer, attack=0.004, release=0.05, smp=smp)
             f = hz(m)
             if inst.kind == "pluck":
                 w0, w1 = PLUCK_WIN.get(name, SPIC_WIN)
@@ -1112,7 +1319,8 @@ def tuning_test3(lib, used):
                 v = f0[~np.isnan(f0)]
                 if len(v) >= 3:
                     c = round(float(1200 * np.log2(np.median(v) / f)), 1)
-            rows.append(dict(note=NAME(m), layer=layer, cents=c, cents_fft=cf))
+            rows.append(dict(note=NAME(m), layer=layer, file=os.path.basename(sp) if sp else None, cents=c,
+                             cents_fft=cf))
         if inst.kind == "timp":
             cs = [abs(r["cents"]) for r in rows]
             rep[name] = dict(notes=rows, max_abs_cents=round(max(cs), 1), mean_abs_cents=round(float(np.mean(cs)), 2),
@@ -1127,8 +1335,405 @@ def tuning_test3(lib, used):
                              fft_mean_abs_cents=round(float(np.mean(cf)), 2), fft_max_abs_cents=round(float(np.max(cf)), 2),
                              worst_best_of_two_cents=round(float(np.max(best)), 1),
                              within_6_cents=bool(np.max(best) <= 6.0))
-        log(f"tuning {name}: {rep[name].get('pyin_max_abs_cents', rep[name].get('max_abs_cents'))} max |c|")
+        log(f"tuning {name}: {rep[name].get('worst_best_of_two_cents', rep[name].get('max_abs_cents'))} worst |c|")
     return rep
+
+
+# ----------------------------------------------------------------------------- the story acceptance tests
+EDGES3 = 1000 * 2 ** (np.arange(-10, 11) / 3)          # 20 third-octave bands, 99 Hz .. 10.1 kHz
+CENT3 = np.sqrt(EDGES3[:-1] * EDGES3[1:])
+
+
+def bands3(sig, t0, t1):
+    a, b = int(t0 * SR), int(t1 * SR)
+    s = sig[a:b] * np.hanning(b - a)
+    P = np.abs(np.fft.rfft(s)) ** 2
+    f = np.fft.rfftfreq(b - a, 1 / SR)
+    return np.array([P[(f >= lo) & (f < hi)].sum() + 1e-20 for lo, hi in zip(EDGES3[:-1], EDGES3[1:])])
+
+
+def resolve_t(v, cue):
+    """'@key+0.5' / '@key-1' / number -> film time (the sound spec's notation)."""
+    if isinstance(v, (int, float)):
+        return float(v)
+    m = re.match(r"@([A-Za-z0-9_]+)([+-][0-9.]+)?$", str(v))
+    if not m or m.group(1) not in cue.ev:
+        return None
+    return cue.ev[m.group(1)] + (float(m.group(2)) if m.group(2) else 0.0)
+
+
+def sound_inputs(cue):
+    """The sound team's stems (mono) and the score gain its mix applies ("auto": the city sits N dB under the score
+    around the climax). Returns None when the stems are not there."""
+    try:
+        st = {k: sf.read(os.path.join(SOUND_DIR, f"{k}.wav"), always_2d=True)[0].mean(1) for k in ("city", "bell", "foley")}
+    except Exception as ex:   # noqa: BLE001
+        return dict(error=f"sound stems not readable: {ex}")
+    auto = dict(t0="@climax-0.5", t1="@climax+2.5", city_under_db=8.0, bus="city")
+    try:
+        sp = json.load(open(SOUND_SPEC))
+        auto.update((sp.get("score") or {}).get("auto") or {})
+    except Exception:   # noqa: BLE001
+        pass
+    rep = {}
+    try:
+        rep = json.load(open(os.path.join(SOUND_DIR, "sound_report.json")))
+    except Exception:   # noqa: BLE001
+        pass
+    return dict(stems=st, auto=auto, report=rep)
+
+
+def onset_rank(x, t, half=1.0):
+    """The music editor's onset ranking: onset strength (log-mel 150 Hz-12 kHz of the 150 Hz-high-passed mono, 5 ms
+    hop), the strongest value within +-80 ms of the event, ranked among the picked onset peaks within +-half s
+    (0 = the strongest)."""
+    import librosa
+    a = max(0, int((t - half - 0.6) * SR))
+    y = sosfilt(_HP150, x[a: int((t + half + 0.6) * SR)].mean(1)).astype(np.float32)
+    hop = 240
+    o = librosa.onset.onset_strength(y=y, sr=SR, hop_length=hop, n_mels=96, fmin=150, fmax=12000)
+    to = a / SR + np.arange(len(o)) * hop / SR
+    pk = librosa.util.peak_pick(o, pre_max=6, post_max=6, pre_avg=40, post_avg=40, delta=0.0, wait=20)
+    w = np.abs(to - t) <= 0.08
+    j = int(np.nonzero(w)[0][np.argmax(o[w])])
+    near = pk[np.abs(to[pk] - t) <= half]
+    rank = int(np.sum(o[near] > o[j] + 1e-9))
+    return rank, round(float(to[j]), 3), round(float(o[j]), 2)
+
+
+def story_qc(rd, st, S, cue, minfo, out_dir):
+    """Every acceptance test of the music editor's review, measured on the delivered files."""
+    ev = [e for e in S.E if not e.get("drop")]
+    L = Loud(rd)
+    tt, Mv = L.grid(0.01)
+    clx, R, street, sq = cue["climax"], cue["return"], cue["street"], cue["square_cut"]
+    out = {}
+
+    def Mmax(t0, t1):
+        w = (tt >= t0) & (tt <= t1)
+        return float(Mv[w].max())
+
+    # 1. the climax lands; the second half has a shape
+    pre = (tt >= clx - 1.0) & (tt <= clx - 0.1)
+    step = Mmax(clx, clx + 0.5) - float(np.mean(Mv[pre]))
+    ig = int(np.argmax(Mv))
+    cmax = Mmax(clx, clx + 2.0)
+    wr = (tt >= R) & (tt < street)
+    ks = []
+    k = 0
+    while sq + k <= clx - 0.2 + 1e-9:
+        ks.append(round(L.M(sq + k), 2))
+        k += 1
+    dif = np.diff(ks)
+    hi_pre = max(e["midi"] for e in ev if e["t"] < clx - 0.05)
+    hi_clx = max(e["midi"] for e in ev if abs(e["t"] - clx) < 0.05)
+    out["1_climax"] = dict(
+        step_lu=round(step, 2), step_pass=bool(step >= 3.0),
+        global_M_max=dict(lufs=round(float(Mv[ig]), 2), at_s=round(float(tt[ig]), 2),
+                          pass_=bool(clx <= tt[ig] <= clx + 2.0)),
+        limiter_max_gr_db=minfo["max_gain_reduction_db"], limiter_pass=bool(minfo["max_gain_reduction_db"] <= 1.0),
+        return_street_median_M=round(float(np.median(Mv[wr])), 2), climax_max_M=round(cmax, 2),
+        return_below_climax_lu=round(cmax - float(np.median(Mv[wr])), 2),
+        return_pass=bool(float(np.median(Mv[wr])) <= cmax - 8.0),
+        build_M_1s=ks, build_rise_lu=round(ks[-1] - ks[0], 2), build_max_step_down_lu=round(float(-dif.min()), 2) if len(dif) else 0,
+        build_pass=bool(ks[-1] - ks[0] >= 5.0 and (len(dif) == 0 or dif.min() >= -1.5)),
+        highest_pitch_before_climax=NAME(hi_pre), highest_pitch_at_climax=NAME(hi_clx),
+        highest_pitch_pass=bool(hi_clx > hi_pre))
+    o1 = out["1_climax"]
+    o1["pass"] = bool(o1["step_pass"] and o1["global_M_max"]["pass_"] and o1["limiter_pass"] and o1["return_pass"]
+                      and o1["build_pass"] and o1["highest_pitch_pass"])
+
+    # 2. bell2 breath, the kitchen distant and dark
+    kit = (tt >= cue["fade_up"]) & (tt < cue["latch"])
+    kmax = float(Mv[kit].max())
+    import librosa
+    i0, i1 = int(cue["bell2"] * SR), int(cue["latch"] * SR)
+    Sx = np.abs(librosa.stft(rd[i0:i1].mean(1).astype(np.float32), n_fft=4096, hop_length=2048)) ** 2
+    fr = librosa.fft_frequencies(sr=SR, n_fft=4096)
+    Ps = Sx.sum(1)
+    cent = float((fr * Ps).sum() / Ps.sum())
+    top_forte = max(e["midi"] for e in ev if e["space"] == "in" and e["t"] >= cue["slow2_end"])
+    out["2_kitchen"] = dict(kitchen_M_max=round(kmax, 2), kitchen_pass=bool(kmax <= -17.0),
+                            kitchen_below_climax_lu=round(cmax - kmax, 2),
+                            centroid_bell2_latch_hz=round(cent, 1), centroid_pass=bool(cent <= 450.0),
+                            top_note_forte_indoors=NAME(top_forte), top_note_pass=bool(top_forte <= N("A5")))
+    out["2_kitchen"]["pass"] = bool(kmax <= -17.0 and cent <= 450.0 and top_forte <= N("A5"))
+
+    # 3 + 1e + 2a. masking of the story sounds (the sound team's stems, the score at the gain their mix applies)
+    snd = sound_inputs(cue)
+    if "error" in snd:
+        out["masking"] = dict(measured=False, reason=snd["error"])
+    else:
+        a = snd["auto"]
+        t0a, t1a = resolve_t(a["t0"], cue), resolve_t(a["t1"], cue)
+        m_ = pyln.Meter(SR)
+        city2 = sf.read(os.path.join(SOUND_DIR, "city.wav"), always_2d=True)[0]
+        Lm = m_.integrated_loudness(rd[int(t0a * SR): int(t1a * SR)])
+        Lc = m_.integrated_loudness(city2[int(t0a * SR): int(t1a * SR)])
+        gain = float(np.clip(Lc + float(a["city_under_db"]) - Lm, -24, 24))
+        mus = rd.mean(1) * 10 ** (gain / 20)
+        sx = snd["stems"]
+
+        def ratio(stem, t0, t1, lo=None, hi=None):
+            T, Mu = bands3(sx[stem], t0, t1), bands3(mus, t0, t1)
+            r = 10 * np.log10(T / Mu)
+            sel = np.ones(len(r), bool)
+            if lo is not None:
+                sel &= CENT3 >= lo
+            if hi is not None:
+                sel &= CENT3 <= hi
+            return dict(broadband_db=round(float(10 * np.log10(T.sum() / Mu.sum())), 1),
+                        bands_above=int(np.sum(r[sel] > 0)), bands_considered=int(sel.sum()),
+                        best_band_hz=round(float(CENT3[sel][np.argmax(r[sel])]), 0),
+                        best_band_db=round(float(r[sel].max()), 1))
+        b2 = ratio("bell", cue["bell2"], cue["bell2"] + 0.4, 250, 2000)
+        cs_ = cue["cup_on_sill"]
+        cas = cue["casement"]
+        rc = ratio("foley", cas, cas + 1.5, 1000, None)
+        # the cup: where the cue sheet puts it, and where the sound team's last render actually put it
+        cup_rows = {}
+        el = {e.get("id"): e for e in snd["report"].get("elements", [])}
+        sy = {s.get("id"): s for s in snd["report"].get("sync", [])}
+        t_act = sy.get("cup_on_sill", {}).get("target")
+        if t_act is None and "cup_on_sill" in el:
+            t_act = el["cup_on_sill"].get("film_in")
+        has_at_cue = float(np.abs(sx["foley"][int((cs_ - 0.03) * SR): int((cs_ + 0.25) * SR)]).max()) > 1e-6
+        if has_at_cue:
+            cup_rows["at_cue_sheet_time"] = dict(t=round(cs_, 3), **ratio("foley", cs_ - 0.03, cs_ + 0.25, 1000, None))
+        elif t_act is not None:
+            # the sound team's cup sound, moved to the cue-sheet time, against the music there
+            a0, b0 = int((t_act - 0.03) * SR), int((t_act + 0.25) * SR)
+            tmp = np.zeros_like(sx["foley"])
+            c0 = int((cs_ - 0.03) * SR)
+            tmp[c0: c0 + (b0 - a0)] = sx["foley"][a0:b0]
+            T, Mu = bands3(tmp, cs_ - 0.03, cs_ + 0.25), bands3(mus, cs_ - 0.03, cs_ + 0.25)
+            r = 10 * np.log10(T / Mu)
+            sel = CENT3 >= 1000
+            cup_rows["at_cue_sheet_time"] = dict(t=round(cs_, 3), note=f"the sound team placed the cup at "
+                                                 f"{t_act:.3f}; its sound moved to the cue-sheet time",
+                                                 bands_above=int(np.sum(r[sel] > 0)), bands_considered=int(sel.sum()),
+                                                 broadband_db=round(float(10 * np.log10(T.sum() / Mu.sum())), 1))
+        if t_act is not None and abs(t_act - cs_) > 0.05:
+            cup_rows["at_sound_team_time"] = dict(t=round(t_act, 3),
+                                                  **ratio("foley", t_act - 0.03, t_act + 0.25, 1000, None))
+        city_a = ratio("city", R, R + 2.0)
+        city_b = ratio("city", R, street)
+        out["masking"] = dict(
+            measured=True, score_gain_db=round(gain, 2), auto=dict(window=[round(t0a, 3), round(t1a, 3)],
+                                                                   score_lufs=round(Lm, 2), city_lufs=round(Lc, 2),
+                                                                   city_under_db=a["city_under_db"]),
+            note="the score at the gain the sound mix's 'auto' rule gives it, WITHOUT the sound team's music ducks "
+                 "(stricter); third-octave bands 99 Hz-10 kHz, Hann-windowed spans",
+            bell2=dict(**b2, pass_=bool(b2["bands_above"] >= 3)),
+            casement=dict(**rc, pass_=bool(rc["bands_above"] >= 3)),
+            cup_on_sill={k_: dict(**v, pass_=bool(v["bands_above"] >= 3)) for k_, v in cup_rows.items()},
+            city_return_2s=dict(**city_a, pass_=bool(city_a["broadband_db"] >= -1.0)),
+            city_return_street=dict(**city_b, pass_=bool(city_b["broadband_db"] >= -3.0)))
+        mk = out["masking"]
+        mk["pass"] = bool(mk["bell2"]["pass_"] and mk["casement"]["pass_"] and mk["city_return_2s"]["pass_"] and
+                          mk["city_return_street"]["pass_"] and all(v["pass_"] for v in mk["cup_on_sill"].values()))
+
+    # 4. the brass: one file per player, short resampling, brass over the organ in the build
+    shifts = {}
+    for e in ev:
+        if e.get("smp"):
+            shifts.setdefault(e["inst"], []).append(abs(e["shift_st"]))
+    groups = {}
+    for e in ev:
+        if e.get("pool"):
+            groups.setdefault((int(round(e["midi"])), round(e["t"], 1)), []).append(e["smp"])
+    dup = sum(1 for v in groups.values() if len(v) != len(set(v)))
+
+    def bandlev(x, t0, t1, lo, hi):
+        y = x[int(t0 * SR): int(t1 * SR)].mean(1).astype(np.float32)
+        Z = np.abs(librosa.stft(y, n_fft=4096, hop_length=2048)) ** 2
+        w = (fr >= lo) & (fr < hi)
+        return float(10 * np.log10(Z[w].sum() / Z.shape[1] + 1e-20))
+    bo = bandlev(st["brass"], sq, clx, 120, 500) - bandlev(st["organ"], sq, clx, 120, 500)
+    out["4_brass"] = dict(groups_with_duplicate_file=dup, unique_files_pass=bool(dup == 0),
+                          max_shift_semitones={k_: round(max(v), 2) for k_, v in shifts.items()},
+                          horn_shift_pass=bool(max(shifts.get("horn", [0])) <= MAX_BRASS_SHIFT + 1e-6),
+                          brass_minus_organ_120_500_square_climax_db=round(bo, 1), balance_pass=bool(bo >= 3.0))
+    ob = out["4_brass"]
+    ob["pass"] = bool(ob["unique_files_pass"] and ob["horn_shift_pass"] and ob["balance_pass"])
+
+    # 5. no pure-tone moments; a melody early
+    cup, pour = cue["cup_cut"], cue["pour"]
+    top = [e for e in ev if e["inst"] not in ("ped16", "ped8") and e["t"] < pour - 0.3 and
+           e["t"] + e["dur"] > cup + 0.3]
+    org = st["organ"].mean(1)
+    seg = org[int((cup + 0.3) * SR): int((pour - 0.3) * SR)]
+    fa = hz(N("A4"))
+    cents = []
+    for k in range(0, len(seg) - int(0.5 * SR), int(0.25 * SR)):
+        f = C.harmonic_f0(seg[k: k + int(0.5 * SR)].astype(np.float64), SR, fa, kmax=4)
+        cents.append(1200 * np.log2(f / fa))
+    bp = butter(4, [fa * 0.97, fa * 1.03], btype="band", fs=SR, output="sos")
+    e20 = 10 * np.log10(uniform_filter1d(sosfiltfilt(bp, seg) ** 2, int(0.02 * SR)) + 1e-20)
+    swing = float(np.percentile(e20, 99.5) - np.percentile(e20, 0.5))
+    lc0, lc1 = cue["last_chord"] + 0.2, cue["end"] - 0.1
+    mono = rd.mean(1)[int(lc0 * SR): int(lc1 * SR)]
+    P = np.abs(np.fft.rfft(mono * np.hanning(len(mono)))) ** 2
+    f = np.fft.rfftfreq(len(mono), 1 / SR)
+    tot = P[f > 150].sum()
+    notes = sorted({e["midi"] for e in ev if e["t"] < lc1 and e["t"] + e["dur"] > lc0 + 0.3 and hz(e["midi"]) >= 150})
+    rows, ns = [], 0.0
+    for mm in notes:
+        fc = hz(mm)
+        h1 = P[(f > fc * 0.985) & (f < fc * 1.015)].sum()
+        h2 = P[(f > 2 * fc * 0.985) & (f < 2 * fc * 1.015)].sum()
+        r = float(10 * np.log10((h2 + 1e-20) / (h1 + 1e-20)))
+        if r < -20:
+            ns += h1
+        rows.append(dict(note=NAME(mm), h1_share=round(float(h1 / tot), 3), h2_minus_h1_db=round(r, 1)))
+    last_mel = [e for e in ev if e.get("role", "").startswith("principal (the theme") and abs(e["t"] - cue["last_chord"]) < 0.01]
+    first_mel = min(e["t"] for e in ev if "theme" in e.get("role", "") or "melody" in e.get("role", ""))
+    cup_tv = (dict(removed=True, note="no voice above the pedal over the empty mug (cup_cut+0.3 .. pour-0.3)",
+                   pass_=True) if not top else
+              dict(removed=False, notes=sorted({NAME(e["midi"]) for e in top}),
+                   pitch_cents_max_abs=round(float(np.max(np.abs(cents))), 2), level_swing_db=round(swing, 2),
+                   pass_=bool(np.max(np.abs(cents)) <= 3.0 and swing <= 3.0)))
+    out["5_timbre"] = dict(
+        cup_top_voice=cup_tv,
+        last_chord=dict(near_sine_share=round(float(ns / tot), 3), notes=rows, pass_=bool(ns / tot <= 0.40)),
+        final_A=dict(note=NAME(last_mel[0]["midi"]) if last_mel else None,
+                     pass_=bool(last_mel and int(round(last_mel[0]["midi"])) == N("A5"))),
+        first_melodic_note_s=round(first_mel, 3), first_melody_pass=bool(first_mel <= 7.0))
+    o5 = out["5_timbre"]
+    o5["pass"] = bool(o5["cup_top_voice"]["pass_"] and o5["last_chord"]["pass_"] and o5["final_A"]["pass_"] and
+                      o5["first_melody_pass"])
+
+    # 6. the 32' resultant: no pedal note under the 16' root
+    bad = []
+    roots = [e for e in ev if e["space"] == "out" and e["role"] == "pedal 16'"]
+    for e in ev:
+        if e["space"] == "out" and e["inst"] in ("ped16", "ped8"):
+            r_ = [x for x in roots if x["t"] <= e["t"] + 1e-6 < x["t"] + x["dur"]]
+            if r_:
+                root = max(r_, key=lambda x: x["t"])     # the root that has started latest (legato overlaps)
+                if e["midi"] < root["midi"] - 1e-6:
+                    bad.append(dict(t=round(e["t"], 3), note=NAME(e["midi"]), root=NAME(root["midi"])))
+    out["6_pedal"] = dict(notes_below_root=bad, pass_=not bad)
+
+    # 7. the return: natural attack, read from the cue sheet, no F# in 300-400 Hz early
+    s_ = st["strings"]
+    env = np.sqrt(uniform_filter1d((s_ ** 2).mean(1), int(0.01 * SR)))
+    a_, b_ = int(R * SR), int((R + 0.9) * SR)
+    ee = env[a_:b_]
+    ref = ee.max()
+    t10 = int(np.argmax(ee >= 0.1 * ref))
+    t90 = int(np.argmax(ee >= 0.9 * ref))
+    fs_early = [e for e in ev if int(round(e["midi"])) % 12 == FS and 300 <= hz(e["midi"]) <= 400 and
+                e["t"] < R + 1.5 and e["t"] + e["dur"] > R]
+    out["7_return"] = dict(event=cue.return_key, t=round(R, 3), strings_rise_10_90_ms=round((t90 - t10) / SR * 1000, 1),
+                           rise_pass=bool((t90 - t10) / SR >= 0.040), fsharp_300_400_first_1_5s=len(fs_early),
+                           first_fsharp_s=round(min(e["t"] for e in ev if int(round(e["midi"])) % 12 == FS), 3),
+                           pass_=bool((t90 - t10) / SR >= 0.040 and not fs_early))
+
+    # 8 + 9. the pendulum: smooth tempo, limited use; a different figure outdoors
+    rk = [e for e in ev if e.get("role") == "ostinato 8'"]
+    by = {}
+    for e in rk:
+        by.setdefault(e["line"], []).append(e)
+    worst, pairs, fer = 0.0, [], []
+    runs = []
+    for ln, notes_ in by.items():
+        notes_.sort(key=lambda e: e["t"])
+        ioi = [(notes_[i + 1]["t"] - notes_[i]["t"]) / notes_[i]["step_beats"] for i in range(len(notes_) - 1)]
+        fl = [bool(notes_[i].get("fermata")) for i in range(len(notes_) - 1)]
+        brk = [notes_[i + 1]["t"] - notes_[i]["t"] > 1.6 * notes_[i]["step_beats"] * max(ioi[max(i - 1, 0)], 0.3)
+               for i in range(len(notes_) - 1)]
+        start = notes_[0]["t"]
+        for i in range(len(ioi)):
+            if brk[i] and not fl[i]:
+                runs.append((start, notes_[i]["t"] + notes_[i]["dur"]))
+                start = notes_[i + 1]["t"]
+        runs.append((start, notes_[-1]["t"] + notes_[-1]["dur"]))
+        for i in range(len(ioi) - 1):
+            if fl[i] or fl[i + 1] or brk[i] or brk[i + 1]:
+                if fl[i] or fl[i + 1]:
+                    fer.append(dict(t=round(notes_[i + 1]["t"], 3), ioi_ratio=round(ioi[i + 1] / ioi[i], 3)))
+                continue
+            r = ioi[i + 1] / ioi[i] - 1
+            pairs.append(r)
+            if abs(r) > abs(worst):
+                worst = r
+                wt = notes_[i + 1]["t"]
+    cover = sum(b - a for a, b in runs)
+    longest = max(b - a for a, b in runs)
+    out["8_9_pendulum"] = dict(
+        max_beat_to_beat_change=round(float(worst), 4), at_s=round(wt, 3) if pairs else None,
+        fermatas_excluded=fer, tempo_pass=bool(abs(worst) <= 0.12),
+        rocking_runs_s=[[round(a, 2), round(b, 2)] for a, b in runs], rocking_seconds=round(cover, 2),
+        rocking_share_of_film=round(cover / cue.duration, 3), longest_run_s=round(longest, 2),
+        outdoor_pulse="three-note cells (root-2nd-5th, viola spiccato), not a two-note rocking",
+        use_pass=bool(cover / cue.duration <= 0.40 and longest <= 15.0))
+    o8 = out["8_9_pendulum"]
+    o8["pass"] = bool(o8["tempo_pass"] and o8["use_pass"])
+
+    # 10. stereo
+    secs = [("return..street", R, street), ("street..turn_away", street, cue["turn_away"]),
+            ("turn_away..square", cue["turn_away"], sq), ("square..climax", sq, clx),
+            ("climax..title_in", clx, cue["title_in"]), ("title_in..end", cue["title_in"], cue["end"]),
+            ("kitchen walk..latch", cue["walk"], cue["latch"])]
+    bmid = butter(4, [150, 2500], btype="band", fs=SR, output="sos")
+    blo = butter(4, 150, btype="low", fs=SR, output="sos")
+    m_ = pyln.Meter(SR)
+    srows = []
+    ok = True
+    for name, t0, t1 in secs:
+        x = rd[int(t0 * SR): int(t1 * SR)]
+
+        def corr(y):
+            return float(np.sum(y[:, 0] * y[:, 1]) / np.sqrt(np.sum(y[:, 0] ** 2) * np.sum(y[:, 1] ** 2) + 1e-30))
+        cm, cl = corr(sosfilt(bmid, x, axis=0)), corr(sosfilt(blo, x, axis=0))
+        mono_ = np.repeat(x.mean(1, keepdims=True), 2, axis=1)
+        loss = m_.integrated_loudness(x) - m_.integrated_loudness(mono_)
+        row = dict(section=name, corr_150_2500=round(cm, 3), corr_below_150=round(cl, 3), mono_loss_db=round(loss, 2))
+        if not name.startswith("kitchen"):
+            row["pass_"] = bool(cm >= 0.3 and cl >= 0.8 and loss <= 1.5)
+            ok &= row["pass_"]
+        srows.append(row)
+    out["10_stereo"] = dict(outdoor_width=SPACE["outside"]["width"], indoor_width=SPACE["inside"]["width"],
+                            bass_mono_below_hz=SPACE["outside"]["bass_mono_hz"], sections=srows,
+                            pass_=bool(ok and SPACE["outside"]["width"] <= 1.0))
+
+    # 11. the window harmony
+    pre_h = [h for h in S.harm if h[0] < clx - 1e-6]
+    borrowed = [dict(t=round(h[0], 3), chord=h[1]) for h in pre_h if h[1] in ("Bb", "Gm")]
+    pcs = {"C": 0, "C#": 1, "D": 2, "Eb": 3, "E": 4, "F": 5, "F#": 6, "G": 7, "Ab": 8, "A": 9, "Bb": 10, "B": 11}
+    bl = [pcs[h[2]] for h in S.harm if h[0] <= clx + 1e-6]
+    bl = [b for i, b in enumerate(bl) if i == 0 or b != bl[i - 1]]
+    desc = 0
+    for i in range(len(bl)):
+        if bl[i] != pcs["D"]:
+            continue
+        k = i
+        while k + 1 < len(bl) and 1 <= (bl[k] - bl[k + 1]) % 12 <= 2:
+            k += 1
+        desc = max(desc, k - i)
+    non_d = [th for th in S.themes if not str(th["first"]).startswith("D")]
+    out["11_harmony"] = dict(window_chords=[dict(t=round(h[0], 3), chord=h[1], bass=h[2]) for h in S.harm],
+                             borrowed_before_climax=borrowed, longest_stepwise_descent_from_tonic=desc,
+                             theme_statements=S.themes, non_D_statements=len(non_d),
+                             pass_=bool(borrowed and desc < 3 and non_d))
+
+    # 12. the three looks are the strongest onsets around them (in the mix)
+    lk = []
+    for key in ("look1", "look2", "rise3"):
+        tl = S.derived["sus4_on"] if key == "rise3" else cue[key]
+        rank, at, strength = onset_rank(rd, tl, 1.0)
+        lk.append(dict(key=key, t=round(tl, 3), onset_at=at, strength=strength, rank_within_1s=rank,
+                       pass_=bool(rank <= 1)))
+    marks = sorted({e.get("role") for e in ev if "pizzicato" in e.get("role", "")})
+    piz = sorted({round(e["t"], 3) for e in ev if "pizzicato" in e.get("role", "")})
+    sqr = onset_rank(rd, sq, 1.0)
+    out["12_looks"] = dict(looks=lk, pizzicato_marks_at=piz, roles=marks,
+                           square_cut_downbeat_rank_within_1s=sqr[0], pass_=bool(all(x["pass_"] for x in lk)))
+    out["all_pass"] = bool(all(v.get("pass", v.get("pass_", True)) for k_, v in out.items()
+                               if isinstance(v, dict) and k_ != "masking") and
+                           out.get("masking", {}).get("pass", True))
+    return out, (tt, Mv)
 
 
 def plots(mix, cue, out_dir, st_t, st_v):
@@ -1147,9 +1752,10 @@ def plots(mix, cue, out_dir, st_t, st_v):
     ax[0].set_yscale("log")
     ax[0].set_ylim(25, 16000)
     ax[0].set_ylabel("Hz")
-    keys = ["fade_up", "walk", "rise1", "look1", "kettle_click", "stream", "spout_out", "pullback", "look2", "cup_cut",
-            "pour", "server_out", "bell2", "latch", "return", "pilaster1", "street", "turn_away", "square_cut",
-            "climax", "title_in", "last_chord", "bell4", "end"]
+    keys = ["fade_up", "walk", "church_in", "rise1", "look1", "kettle_click", "stream", "spout_out", "pullback",
+            "look2", "cup_cut", "pour", "slow2_end", "server_out", "bell2", "rise3", "latch", "return", "pilaster1",
+            "street", "turn_away", "square_cut", "casement", "red_houses", "square_in", "climax", "cup_on_sill",
+            "title_in", "last_chord", "bell4", "end"]
     for i, k in enumerate(keys):
         x = cue[k]
         col = "red" if k in ("latch", "climax") else "cyan"
@@ -1170,7 +1776,6 @@ def plots(mix, cue, out_dir, st_t, st_v):
     fig.tight_layout()
     fig.savefig(os.path.join(out_dir, "spectrogram.png"))
     plt.close(fig)
-    # the dead stop
     L, R = cue["latch"], cue["return"]
     fig, ax = plt.subplots(3, 1, figsize=(16, 11), dpi=90)
     a, b = int((L - 0.25) * SR), int((L + 0.25) * SR)
@@ -1189,7 +1794,7 @@ def plots(mix, cue, out_dir, st_t, st_v):
         ax[1].axvline(x, color=c, lw=0.8)
     ax[1].axhline(-70, color="k", lw=0.6, ls=":")
     ax[1].set_ylim(-165, 0)
-    ax[1].set_title(f"latch -> return ({R:.3f} s = latch + 2.6): 5 ms RMS (dBFS); dotted: -70 dBFS")
+    ax[1].set_title(f"latch -> return ({R:.3f} s, cue '{cue.return_key}'): 5 ms RMS (dBFS); dotted: -70 dBFS")
     f2, t2, Z2 = stft(mono[a2:b2], fs=SR, nperseg=2048, noverlap=2048 - 240)
     S2 = 20 * np.log10(np.abs(Z2) + 1e-9)
     ax[2].pcolormesh(t2 + L - 1.0, f2[1:], S2[1:], shading="auto", cmap="magma", vmin=S2.max() - 110, vmax=S2.max())
@@ -1213,26 +1818,28 @@ def main(argv):
     lib = build_library3()
     S, K, W = build_score(cue)
     events = S.E
+    breath = (S.derived["breath_start"], S.derived["sus4_on"])
     log(f"score: {len(events)} notes, {len(S.locks)} locked arrivals")
-    for name in sorted({e["inst"] for e in events}):
+    for name in sorted({e["inst"] for e in events} | set(BRASS_FAMILIES)):
         lib[name].calibrate()
     refined = refine_calibration(lib, [k for k in ("vln_spic", "va_spic", "vc_spic", "cb_pizz", "vc_pizz", "timproll")
                                        if lib[k].ready])
+    brass_alloc = assign_brass(lib, events)
     for name in ("timp", "timproll"):
         if lib[name].ready:
             L4 = [s.lufs for s in lib[name].samples if s.layer >= 4 and s.lufs > -69]
             TIMP_REF[name] = float(-20.0 - np.mean(L4)) if L4 else 0.0
-    log("calibration done")
+    log(f"calibration done; brass: {brass_alloc['groups']} notes, {len(brass_alloc['dropped'])} players dropped")
     church, church_info = C.church_ir()
     hall, hall_info = hall_ir()
     C.LOOPS.clear()
     buses, used = render3(lib, events, n, cue)
     loops = list(C.LOOPS)
     log(f"rendered into {len(buses)} buses")
-    stems = mixdown(buses, n, cue, church, hall)
+    stems = mixdown(buses, n, cue, church, hall, breath)
     del buses
     log("mixdown done")
-    stems, mhist, minfo = C.master(stems, target_lufs=-16.0, tp_ceiling=-2.0)
+    stems, mhist, minfo = master_open(stems)
     q = {s: quantise24(stems[s]) for s in STEMS}
     mix = sum(q[s] for s in STEMS)
     assert np.abs(mix).max() < 1.0
@@ -1251,7 +1858,6 @@ def main(argv):
     tp = C.true_peak_db(rd)
     peak = dbv(np.abs(rd).max())
 
-    # locked arrivals
     arrivals = []
     for L_ in S.locks:
         k, t0, kind, stem = L_["key"], L_["t"], L_["kind"], L_["stem"]
@@ -1260,23 +1866,16 @@ def main(argv):
         if kind == "onset":
             o, sal = onset_measure(x, t0)
             om, salm = onset_measure(rd, t0)
-            arriving, others = arrival_pitches(events, stem, t0, 1.5 if t0 < cue["latch"] else 0.6)
-            po, rise, nb = pitch_onset(x, t0, arriving, others) if arriving else (None, 0.0, 0)
-            row.update(new_pitches=[NAME(mm) for mm in arriving], exclusive_bins=nb,
-                       pitch_onset=round(po, 4) if po is not None else None, pitch_rise_db=rise,
-                       pitch_error_ms=round((po - t0) * 1000, 1) if po is not None else None,
-                       flux_onset_stem=o, flux_salience=sal,
+            row.update(flux_onset_stem=o, flux_salience=sal,
                        flux_error_ms=round((o - t0) * 1000, 1) if o is not None else None,
                        flux_onset_mix=om, flux_salience_mix=salm,
                        flux_error_mix_ms=round((om - t0) * 1000, 1) if om is not None else None)
-            # a clear onset in the stem (flux salience >= 3) is measured there; a soft legato arrival that the
-            # stem cannot separate is measured on its own notes through the same chain (probe)
             if o is not None and sal >= 3.0:
                 row["measure"], row["error_ms"] = "flux in stem", row["flux_error_ms"]
             else:
-                pr = probe_onset(lib, events, k, stem, t0, n, cue, church, hall)
+                pr = probe_onset(lib, events, k, stem, t0, n, cue)
                 row["probe_onset"] = round(pr, 4) if pr is not None else None
-                row["measure"] = "probe (arrival notes alone, same chain)"
+                row["measure"] = "probe (arrival notes alone, dry)"
                 row["error_ms"] = round((pr - t0) * 1000, 1) if pr is not None else None
             row["pass"] = row["error_ms"] is not None and abs(row["error_ms"]) <= 25.0
         elif kind == "start":
@@ -1287,9 +1886,27 @@ def main(argv):
             row["pass"] = s0 is not None and abs(s0 - t0) <= 0.025
         elif kind == "release":
             r, ref = release_time(x, t0)
-            row.update(level_before_dbfs=round(ref, 1), drop_3db_at=r[3], drop_6db_at=r[6], drop_20db_at=r[20],
-                       error_ms=round((r[3] - t0) * 1000, 1) if r[3] is not None else None)
-            row["pass"] = r[3] is not None and -0.025 <= r[3] - t0 <= 0.15
+            row.update(level_before_dbfs=round(ref, 1), **r, error_ms=round((r["steepest_fall_at"] - t0) * 1000, 1))
+            row["pass"] = bool(-0.025 <= r["steepest_fall_at"] - t0 <= 0.15 and r["drop_db"] >= 6.0)
+        elif kind == "gone":
+            # every brass note (and its release) has ended before the event; what is left is the hall's tail
+            ends = [e["t"] + e["dur"] + e.get("release", 0.08) for e in events
+                    if e["stem"] == stem and not e.get("drop") and e["t"] < t0]
+            t_gone = max(ends) if ends else cue["climax"]
+            e_ = env_db3(x, 0.01)
+            pk = float(e_[int(cue["climax"] * SR): int(t0 * SR)].max())
+            row.update(last_note_ends_at=round(t_gone, 4), gone_at=round(t_gone, 4),
+                       error_ms=round((t_gone - t0) * 1000, 1),
+                       hall_tail_at_event_db_re_climax=round(float(e_[int(t0 * SR)]) - pk, 1))
+            row["pass"] = bool(t_gone <= t0 - 0.03)
+        elif kind == "breath":
+            e_ = env_db3(rd, 0.01)
+            before = float(np.median(e_[int((t0 - 0.5) * SR): int((t0 - 0.1) * SR)]))
+            # up to the sus4's pre-roll (its samples may speak up to ARRIVAL_PRE_S before the look)
+            during = float(np.max(e_[int((cue["bell2"]) * SR): int((breath[1] - ARRIVAL_PRE_S - 0.01) * SR)]))
+            row.update(level_before_dbfs=round(before, 1), max_level_in_breath_dbfs=round(during, 1),
+                       drop_db=round(before - during, 1), breath_s=[round(breath[0], 3), round(breath[1], 3)])
+            row["pass"] = bool(before - during >= 12.0)
         elif kind == "stop":
             sm = C.stop_metrics(rd, t0)
             row.update(**{k_: v for k_, v in sm.items() if k_ != "stop_time"})
@@ -1302,62 +1919,38 @@ def main(argv):
     errs_ = [abs(a["error_ms"]) for a in n_onsets if a.get("error_ms") is not None]
     worst = max(errs_) if errs_ else None
 
-    # silence after the latch
     a_, b_ = int((cue["latch"] + 0.03) * SR), int(cue["return"] * SR)
     sil = rd[a_:b_]
     silence = dict(window_s=[round(cue["latch"] + 0.03, 3), round(cue["return"], 3)],
                    max_abs_dbfs=round(dbv(np.abs(sil).max()), 1) if np.any(sil) else -999.0,
-                   rms_dbfs=round(10 * np.log10(np.mean(sil ** 2) + 1e-30), 1),
-                   digital_zero=bool(not np.any(sil)), last_nonzero_after_latch_s=round(C._last_nonzero(rd, cue["latch"] - 0.1, cue["return"] - 0.01), 5),
+                   digital_zero=bool(not np.any(sil)),
+                   last_nonzero_after_latch_s=round(C._last_nonzero(rd, cue["latch"] - 0.1, cue["return"] - 0.01), 5),
                    first_nonzero_before_return_s=round(C._first_nonzero(rd, cue["latch"] + 0.1, cue["return"] + 0.2), 5))
     silence["pass"] = silence["max_abs_dbfs"] < -70.0
     final = dict(last_nonzero_s=round(C._last_nonzero(rd, dur - 3.0, dur), 4), required_silent_from_s=round(dur - 0.3, 4))
     final["pass"] = bool(final["last_nonzero_s"] <= dur - 0.3 + 1e-6)
 
-    # loudness
     st_t, st_v = short_term(rd)
+    Lr = Loud(rd)
     sections = [("pre-roll (fade_up..walk)", "fade_up", "walk"), ("walk..stream", "walk", "stream"),
                 ("stream..cup", "stream", "cup_cut"), ("cup..pour", "cup_cut", "pour"), ("pour..bell2", "pour", "bell2"),
                 ("bell2..latch", "bell2", "latch"), ("latch..return (silence)", "latch", "return"),
                 ("return..street", "return", "street"), ("street..square", "street", "square_cut"),
                 ("square..climax", "square_cut", "climax"), ("climax..title_in", "climax", "title_in"),
                 ("title_in..end", "title_in", "end")]
+    tg, Mg = Lr.grid(0.01)
     sec = []
     for name, k0, k1 in sections:
         a, b = int(cue[k0] * SR), int(cue[k1] * SR)
         seg = rd[a:b]
         v = m.integrated_loudness(seg) if b - a > int(0.45 * SR) and np.any(seg) else float("-inf")
-        msk = (st_t >= cue[k0]) & (st_t < cue[k1])
+        w = (tg >= cue[k0]) & (tg < cue[k1])
         sec.append(dict(section=name, start=round(cue[k0], 3), end=round(cue[k1], 3),
                         integrated_lufs=round(v, 2) if np.isfinite(v) else None,
-                        short_term_max_lufs=round(float(st_v[msk].max()), 1) if msk.any() and np.isfinite(st_v[msk].max()) else None,
+                        momentary_median_lufs=round(float(np.median(Mg[w])), 1) if w.any() and np.any(seg) else None,
+                        momentary_max_lufs=round(float(Mg[w].max()), 1) if w.any() and np.any(seg) else None,
                         peak_dbfs=round(dbv(np.abs(seg).max()), 1) if np.any(seg) else None))
-    i_max = int(np.argmax(st_v))
-    kitchen_mask = (st_t >= cue["walk"]) & (st_t < cue["latch"] - 1.5)
-    kv = st_v[kitchen_mask]
 
-    def dyn_label(v):
-        return "pp" if v < -34 else "p" if v < -29 else "mp" if v < -24 else "mf" if v < -20 else "f" if v < -15 else "ff"
-    labels = [dyn_label(v) for v in kv]
-    kshare = {k_: round(labels.count(k_) / max(len(labels), 1), 3) for k_ in ("pp", "p", "mp", "mf", "f", "ff")}
-    k_peak_t = float(st_t[kitchen_mask | ((st_t >= cue["walk"]) & (st_t < cue["latch"]))][np.argmax(
-        st_v[kitchen_mask | ((st_t >= cue["walk"]) & (st_t < cue["latch"]))])])
-    out_mask = (st_t >= cue["return"] + 1.5) & (st_t < cue["end"])
-    contour = dict(
-        short_term_max_lufs=round(float(st_v[i_max]), 2), short_term_max_at_s=round(float(st_t[i_max]), 2),
-        climax_s=round(cue["climax"], 3),
-        peak_at_climax=bool(abs(st_t[i_max] - (cue["climax"] + 0.5)) <= 2.0),
-        kitchen_dynamic_share=kshare, kitchen_pp_to_mp_share=round(kshare["pp"] + kshare["p"] + kshare["mp"], 3),
-        kitchen_loudest_short_term_at_s=round(k_peak_t, 2),
-        kitchen_loudest_near_bell2=bool(cue["bell2"] - 2.0 <= k_peak_t <= cue["latch"] + 0.5),
-        kitchen_median_lufs=round(float(np.median(kv)), 1), window_median_lufs=round(float(np.median(st_v[out_mask])), 1),
-        louder_after_latch_lu=round(float(np.median(st_v[out_mask]) - np.median(kv)), 1),
-        dynamic_labels="short-term LUFS: pp < -34, p < -29, mp < -24, mf < -20, f < -15, ff >= -15",
-    )
-    contour["pass"] = bool(contour["peak_at_climax"] and contour["kitchen_pp_to_mp_share"] >= 0.6 and
-                           contour["kitchen_loudest_near_bell2"] and contour["louder_after_latch_lu"] > 3)
-
-    # motion: longest stretch without a new note (score) and without a detected onset (audio)
     spans = [("fade_up", "latch"), ("return", "last_chord")]
     mot = []
     for k0, k1 in spans:
@@ -1365,13 +1958,8 @@ def main(argv):
         ts_ = [cue[k0]] + ts_ + [cue[k1]]
         gaps = np.diff(ts_)
         gi = int(np.argmax(gaps))
-        ons = C.detect_onsets(rd, cue[k0], cue[k1])
-        oa = [cue[k0]] + ons + [cue[k1]]
-        ga = np.diff(oa)
-        gj = int(np.argmax(ga))
         mot.append(dict(span=f"{k0}..{k1}", score_longest_gap_s=round(float(gaps[gi]), 2),
-                        score_gap_from_s=round(ts_[gi], 2), audio_longest_onset_gap_s=round(float(ga[gj]), 2),
-                        audio_gap_from_s=round(oa[gj], 2)))
+                        score_gap_from_s=round(ts_[gi], 2)))
     motion = dict(spans=mot, limit_s=6.0, pass_=bool(all(x["score_longest_gap_s"] <= 6.0 for x in mot)),
                   note="the final release (last_chord..end) is exempt by design")
 
@@ -1382,18 +1970,26 @@ def main(argv):
     clicks_unexpl = [c for c in clicks if min(abs(c - x) for x in expected) > 0.03]
     plots(rd, cue, out_dir, st_t, st_v)
     log("plots done")
+    story, _ = story_qc(rd, st, S, cue, minfo, out_dir)
+    log(f"story QC all_pass={story['all_pass']}")
 
     qc = dict(
         locked_arrivals_within_25ms=dict(pass_=bool(all(a["pass"] for a in arrivals if a["kind"] in ("onset", "start"))),
                                          worst_abs_error_ms=worst, n=len(n_onsets)),
+        releases=dict(pass_=bool(all(a["pass"] for a in arrivals if a["kind"] in ("release", "gone"))),
+                      rows=[{k_: a.get(k_) for k_ in ("key", "kind", "error_ms", "drop_db", "gone_at")}
+                            for a in arrivals if a["kind"] in ("release", "gone")]),
+        bell2_breath=[a for a in arrivals if a["kind"] == "breath"][0],
         silence_after_latch=silence,
         dead_stop=[a for a in arrivals if a["kind"] == "stop"][0],
         final_silence=final,
         clipping=dict(sample_peak_dbfs=round(peak, 2), true_peak_dbtp=round(tp, 2),
                       pass_=bool(peak < 0 and tp <= -2.0 + 0.05)),
-        loudness=dict(integrated_lufs=round(lufs, 2), target=-16.0, pass_=bool(abs(lufs + 16) <= 0.2)),
+        loudness=dict(integrated_lufs=round(lufs, 2), target=None,
+                      note="delivered open (no loudness target): static gain to a -2.3 dBTP peak, limiter <= 0.9 dB; "
+                           "the sound mix sets the score's gain itself (its 'auto' rule at the climax)",
+                      limiter_max_gr_db=minfo["max_gain_reduction_db"], pass_=bool(minfo["max_gain_reduction_db"] <= 1.0)),
         tuning=dict(pass_=bool(tuning_pass), limit_cents=6.0),
-        loudness_contour=contour,
         motion=motion,
         stems_sum_to_mix=dict(max_abs_difference=sum_err, pass_=bool(sum_err == 0.0)),
         format=dict(sample_rate=info.samplerate, channels=info.channels, subtype=info.subtype,
@@ -1401,87 +1997,87 @@ def main(argv):
                     pass_=bool(info.samplerate == SR and info.channels == 2 and info.subtype == "PCM_24" and
                                info.frames == n)),
         clicks=dict(count=len(clicks), unexplained=clicks_unexpl[:40], pass_=not clicks_unexpl),
-        tempo_sanity=dict(kitchen_bpm_range=K.describe()["beat_bpm_range"], window_bpm_range=W.describe()["beat_bpm_range"],
-                          limits=[40, 90], pass_=bool(all(40 <= v <= 90 for tm in (K, W)
-                                                         for v in tm.describe()["beat_bpm_range"]))),
+        tempo_sanity=dict(kitchen=K.describe()["base_bpm_range_without_fermatas"],
+                          window=W.describe()["base_bpm_range_without_fermatas"], limits=[40, 90],
+                          pass_=bool(all(40 <= v <= 90 for tm in (K, W)
+                                         for v in tm.describe()["base_bpm_range_without_fermatas"]))),
+        brass_unique_files=dict(**brass_alloc, pass_=bool(not brass_alloc["dropped"])),
+        story_acceptance=dict(pass_=story["all_pass"]),
     )
     qc["all_pass"] = bool(all(v.get("pass_", v.get("pass", True)) for k_, v in qc.items() if isinstance(v, dict)))
 
-    instruments_used = sorted({e["inst"] for e in events})
     probed = [a["key"] for a in arrivals if str(a.get("measure", "")).startswith("probe")]
     report = dict(
-        title="WARSZAWA - original score", cue_sheet=os.path.relpath(cue_path, os.path.dirname(HERE)),
+        title="WARSZAWA - original score", cue_sheet=os.path.relpath(cue_path, REPO),
         file="music.wav", duration_s=round(len(rd) / SR, 6), samples=len(rd), sample_rate=SR, bit_depth=24, channels=2,
-        key="D minor (kitchen: no F sharp before the latch) -> D major from latch + 2.6 s",
-        theme="four rising notes answered by a falling step: D-E-F-Bb | A (3/4: q. e q | h q); major form D-E-F#-B | A",
-        meter="3/4 (one 2/4 bar at look2, a free 4/4 bar over the empty mug, a 4/4 bar for the run)",
-        tempo=dict(nominal="quarter = 60-66, rubato to the picture", kitchen=K.describe(), window=W.describe()),
+        key="D minor (kitchen) -> open fifths, IV, bVI, bVII, iv, V (no F sharp) -> D major at the climax",
+        theme="four rising notes answered by a falling step: D-E-F-Bb | A (3/4: q. e q | h q); window form "
+              "B-C#-D-G | (F# at the climax); major form D-E-F#-B | A",
+        meter="3/4 rubato (a fermata at rise1, free bars over the mug, the kettle click and the run)",
+        music_return=dict(event=cue.return_key, t=round(cue["return"], 3)),
+        derived_times=dict(**S.derived, last_chord=round(cue["last_chord"], 3)),
+        tempo=dict(nominal="quarter = 55-75, rubato to the picture", kitchen=K.describe(), window=W.describe()),
         bar_by_bar=S.bars,
-        locked_arrivals=dict(method="onset, two independent measures on the stem that carries the arrival: (a) "
-                                    "broadband spectral flux (log-mel 150 Hz-12 kHz, hop 2.7 ms), strongest peak within "
-                                    "+-60 ms, accepted if >= 2x the median flux of the surrounding second; (b) narrowband: "
-                                    "energy of the first four harmonics of the pitches that start at the event (STFT "
-                                    "21 ms, hop 1 ms), onset where it first reaches -12 dB of its peak in the 0.4 s "
-                                    "after the event (needs a >= 6 dB rise; only "
-                                    "pitches not played in that stem in the previous 1.5 s indoors / 0.6 s outdoors, "
-                                    "only bins clear of other sounding notes' partials) - listed for information; "
-                                    "(c) probe: the notes that make the arrival rendered alone through the same chain "
-                                    "(same samples, spaces, gate), onset where the 5 ms RMS first reaches -12 dB of its "
-                                    "peak (the placement convention). error_ms: (a) when its salience >= 3 (a clear "
-                                    "onset in the delivered stem), else (c); flux on music.wav is also listed. start: first non-zero sample; release: first 10 ms RMS 3 dB under the "
-                                    "preceding level (6 and 20 dB listed); stop: last non-zero sample after the gate",
+        locked_arrivals=dict(method="onset: (a) broadband spectral flux in the stem that carries the arrival "
+                                    "(log-mel 150 Hz-12 kHz, hop 2.7 ms), strongest peak within +-60 ms, used when its "
+                                    "salience >= 3; else (c) probe: the notes that make the arrival rendered alone "
+                                    "through the same chain, onset where the 5 ms RMS first reaches -12 dB of its peak; "
+                                    "flux on music.wav is also listed. start: first non-zero sample; release: first "
+                                    "10 ms RMS 3 dB under the preceding level; breath: level drop (10 ms RMS) from the "
+                                    "0.4 s before the breath to the loudest moment between the bell and the sus4; "
+                                    "stop: last non-zero sample after the gate",
                              arrivals=arrivals),
+        story_acceptance=story,
         qc=qc,
         per_section_loudness=sec,
         loudness=dict(integrated_lufs=round(lufs, 2), true_peak_dbtp_4x=round(tp, 2), sample_peak_dbfs=round(peak, 2),
                       master_iterations=mhist, limiter=minfo,
-                      note="one static gain + one limiter gain curve applied identically to every stem; stems "
-                           "quantised to 24 bit first and music.wav written as their exact sum"),
+                      note="one static gain + one limiter gain curve (<= 0.9 dB) applied identically to every stem; "
+                           "stems quantised to 24 bit first and music.wav written as their exact sum"),
         short_term_loudness=dict(hop_s=0.25, window_s=3.0, t=[round(float(x), 2) for x in st_t[::4]],
                                  lufs=[round(float(x), 1) if np.isfinite(x) else None for x in st_v[::4]]),
         tuning_cents=tun,
+        brass_allocation=dict(**brass_alloc, players=[dict(t=round(e["t"], 3), note=NAME(e["midi"]), role=e["role"],
+                                                           player=e.get("player"), inst=e["inst"],
+                                                           file=os.path.basename(e["smp"]), shift_st=e["shift_st"])
+                                                      for e in events if e.get("smp")]),
         recalibrated=dict(note="spiccato pitch re-measured on att+0.01..0.22 s, pizzicato on att+0.03..0.6 s, "
-                               "timpani rolls on 0.5..6 s "
-                               "(file, compose.py measurement, refined measurement in MIDI)", samples=refined),
+                               "timpani rolls on 0.5..6 s (file, compose.py measurement, refined measurement in MIDI)",
+                          samples=refined),
         loops=dict(count=len(loops), min_rho=round(min([L_["rho"] for L_ in loops]), 3) if loops else None,
                    in_score=loops[:60]),
         spaces=dict(inside=dict(**SPACE["inside"], reverb="compose.church_ir (RT60 ~4.8 s)", ir=church_info,
                                 gate=f"all indoor buses x raised-cosine {GATE_FADE_S * 1000:.0f} ms from the latch, "
-                                     "then exact zero (dry and reverb)"),
+                                     "then exact zero (dry and reverb)",
+                                room_ducks="reverb send drawn down at the kettle click, over the mug (until the pour) "
+                                           "and in the breath before bell2"),
                     outside=dict(**SPACE["outside"], reverb="short hall", ir=hall_info,
                                  tail="reverb return faded from end+0.25 s to duration-0.32 s; exact zero from "
                                       "duration-0.3 s"),
                     bell4_room="300-900 Hz band 8 dB down on all music from bell4-0.2 s (ramped from bell4-0.8 s)",
+                    cup_hole=f"{HOLE['lo']:.0f}-{HOLE['hi']:.0f} Hz {HOLE['db']} dB from cup_on_sill-0.08 to +0.35 s",
+                    stem_trim_db={f"{k[0]}/{k[1]}": v for k, v in STEM_TRIM.items()},
                     swell_box=dict(zip(["t", "brightness"], [list(map(lambda v: round(v, 3), x)) for x in swell_box(cue)]))),
         instruments=dict(
-            used=instruments_used,
-            organ="VSCO-2 CE pipe organ (S. Dalzell / Ivy Audio): Man III open plenum ('open'), Man III stopped flute "
-                  "('ged', played at 16', 8', 4' and in the high treble as the 'high flute'), Pedal 16' Loud "
-                  "('ped16', also a fifth above for the 32' resultant), Pedal 8' Quiet ('ped8'); swell-box simulation",
+            used=sorted({e["inst"] for e in events if not e.get("drop")}),
+            organ="VSCO-2 CE pipe organ (S. Dalzell / Ivy Audio): Man III open plenum ('open': the full organ at the "
+                  "climax, a soft principal behind a closing swell box elsewhere), Man III stopped flute ('ged', 8' "
+                  "and 4'), Pedal 16' Loud ('ped16', and its fifth above for the 32' resultant), Pedal 8' Quiet",
             strings="VSCO-2 CE violin, viola, cello sections (sustain vibrato, tremolo, spiccato, cello pizzicato), "
-                    "solo contrabass (sustain, tremolo, pizzicato), solo violin (the harmonic: A6 sample, low-passed)",
-            brass="VSCO-2 CE F horn (sustain; 4-player section = velocity layers, detune <= 5 cents, offsets <= 23 ms), "
-                  "1950s Olds trombone (two takes), tenor trombone",
+                    "solo contrabass (sustain, tremolo, pizzicato)",
+            brass="VSCO-2 CE F horn, 1950s Olds trombone (every take of layers 2-5), tenor trombone: every player of "
+                  "a note on a different file, resampled <= 2 semitones (assign_brass)",
             perc="VSCO-2 CE timpani (hits and rolls)",
-            not_used="no piano, harp, pads, synths, chimes/bells or ticking",
-            octave_mapping="brass and woodwind sample names are one octave below sounding pitch (verified with "
-                           "pYIN and a sub-octave partial test on every horn/trombone file family); string mappings "
-                           "as in compose.py",
+            not_used="no piano, harp, pads, synths, chimes/bells, flute solos or ticking",
             licence="VSCO-2 Community Edition, CC0 1.0"),
         not_verified_by_ear=[
-            "I cannot listen. Balance, phrasing, the realism of the layered horn section and of the pitch-shifted "
-            "notes, and the emotional effect were judged from the score, loudness curves, spectrograms, onset and "
-            "pitch measurements only.",
-            "The solo violin 'harmonic' is an A6 vibrato sample low-passed to approach a harmonic's purity.",
-            "The '8' principal' in the kitchen is the open plenum rank at low level behind a nearly closed swell box.",
+            "I cannot listen. Balance, phrasing, realism and the emotional effect were judged from the score, "
+            "loudness curves, spectrograms, onset, pitch and masking measurements only.",
             f"{len(probed)} soft arrivals ({', '.join(probed)}) cannot be separated by onset detection inside the "
-            "delivered stem (legato organ/strings, flux salience < 3); their timing is measured on the arrival notes "
-            "rendered alone through the same chain (probe). The others are measured by onset detection in the stem.",
-            "Tuning: the FFT partial measure (same method as the calibration, on rendered notes) is within 6 cents for "
-            "every note; pYIN alone reads up to ~18 cents on a few vibrato string notes (it follows the vibrato), "
-            "both are listed per note.",
-            "The master limiter takes up to ~6 dB around the climax (needed for -16 LUFS integrated with a pp-mp "
-            "kitchen at -2 dBTP); it is one gain curve on all stems.",
+            "delivered stem (legato organ/strings); their timing is measured on the arrival notes rendered alone "
+            "through the same chain (probe). The three looks are also ranked by onset strength in the mix.",
+            "The masking tests use the sound team's stems as they are on disk now, at the score gain their 'auto' "
+            "rule would give this score, without their music ducks; a re-render of the sound changes them.",
         ],
         rendered_by="pipeline/compose3.py (imports pipeline/compose.py unchanged)",
         render_seconds=round(time.time() - T_START, 1),

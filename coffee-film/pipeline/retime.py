@@ -5,6 +5,8 @@ the edit asks for (data/cuesheet3.json, shots[].src_at_frame).
 For every film frame of a shot marked "retime": the wanted position in the prepared stretch (prep frame index =
 (source seconds - stretch start) * 30) is
   * a real frame when it lies within 0.03 of one: that frame, untouched (the 0.8x parts of the shot are all real);
+  * inside a slow-motion stretch, a real frame is mixed half and half with RIFE's prediction of it from its two
+    neighbours, so it is as smooth as the predicted frames around it;
   * otherwise an in-between frame predicted by RIFE v4.26 (pipeline/slowmo.py: the official IFNet arithmetic, MIT
     licence, run on the CPU) at the exact timestep between its two real neighbours: no blending, no ghosting
     from mixing two frames, and the speed changes are as smooth as the eased curve in the cue sheet.
@@ -51,21 +53,32 @@ def main() -> None:
     net = load_model(WEIGHTS)
     ip = Interpolator(net, scale)
     enc = Encoder(out, w, h, fps, "x264", 10)
-    frames = {}          # the two most recent real frames
-    gen = decode_frames(src, lo, hi + 1)
+    frames = {}          # the three most recent real frames
+    gen = decode_frames(src, lo, min(hi + 1, n_src - 1))
     manifest, times = [], []
 
     def real(k: int):
         while k not in frames:
             i, img = next(gen)
             frames[i] = img
-            for old in [q for q in frames if q < i - 1]:
+            for old in [q for q in frames if q < i - 2]:
                 del frames[old]
         return frames[k]
 
+    snapped = [abs(p - round(p)) <= SNAP for p in pos]
     for j, p in enumerate(pos):
         k = int(round(p))
-        if abs(p - k) <= SNAP:
+        if snapped[j]:
+            slow = (j > 0 and not snapped[j - 1]) or (j + 1 < len(pos) and not snapped[j + 1])
+            if slow and 0 < k < n_src - 1:
+                # a real frame among predicted ones: it would look crisper (and noisier) than its neighbours and
+                # tick three times a second; mixed half and half with the prediction from its own two neighbours,
+                # it keeps its content and gets their smoothness
+                fm, fp = real(k - 1), real(k + 1)
+                y = next(ip.iter_between(fm, fp, [0.5], key_a=k - 1, key_b=k + 1))
+                enc.write(0.5 * real(k) + 0.5 * y)
+                manifest.append({"film_frame": shot["first_frame"] + j, "prep_pos": round(p, 4), "real": True, "smoothed": True})
+                continue
             enc.write(real(k))
             manifest.append({"film_frame": shot["first_frame"] + j, "prep_pos": round(p, 4), "real": True})
             continue

@@ -34,15 +34,18 @@ RAMP = 0.30      # seconds over which a speed change is eased (a box filter on t
 # shot's first visible frame is at the dissolve's start, the outgoing shot's last visible frame at its end.
 SHOTS = [
     {"id": "black_in", "black": True, "dur": 1.0},
-    {"id": "walk", "clip": "IMG_5420", "prep": "k_walk", "segs": [(0.0, 9.2, 0.8)], "trans": {"type": "cut"}},
-    {"id": "bloom", "clip": "IMG_5421", "prep": "bloom", "segs": [(1.2, 1.9, 0.8), (1.9, 1.9 + 14 / 6, 0.5), (1.9 + 14 / 6, 5.9, 0.8)],
+    {"id": "walk", "clip": "IMG_5420", "prep": "k_walk", "segs": [(0.6, 8.8, 0.8)], "trans": {"type": "cut"}},
+    {"id": "bloom", "clip": "IMG_5421", "prep": "bloom", "segs": [(1.2, 1.9, 0.8), (1.9, 1.9 + 14 / 6, 0.5), (1.9 + 14 / 6, 5.1, 0.8)],
      "trans": {"type": "cut"}, "retime": True},
-    {"id": "brew", "clip": "IMG_5421", "prep": "k_brew", "segs": [(15.2, 15.2 + 233 * 0.8 / FPS, 0.8)], "trans": {"type": "dissolve", "dur": 1.0}},
-    {"id": "cup", "clip": "IMG_5422", "prep": "k_cup", "segs": [(0.0, 3.0, 0.8), (3.0, 4.5, 0.5), (4.5, 4.5 + 212 * 0.8 / FPS, 0.8)],
+    # (review 1: the dissolve lands on the finished, dripping bed: no second kettle, and "later" reads)
+    {"id": "brew", "clip": "IMG_5421", "prep": "k_brew", "segs": [(18.4, 18.4 + 137 * 0.8 / FPS, 0.8)], "trans": {"type": "dissolve", "dur": 0.75}},
+    {"id": "cup", "clip": "IMG_5422", "prep": "k_cup", "segs": [(1.0, 2.6, 0.8), (2.6, 2.6 + 5 / 6, 0.5), (2.6 + 5 / 6, 4.5 + 212 * 0.8 / FPS, 0.8)],
      "trans": {"type": "cut"}, "retime": True},
-    {"id": "open", "clip": "IMG_5417", "prep": "w_open", "segs": [(0.0, 12.1, 0.8)], "trans": {"type": "cut"}},
-    {"id": "turn", "clip": "IMG_5417", "prep": "w_turn", "segs": [(27.2, 27.2 + 127 * 0.8 / FPS, 0.8)], "trans": {"type": "dissolve", "dur": 1.0}},
-    {"id": "square", "clip": "IMG_5416", "prep": "w_square", "segs": [(4.1, 20.6, 0.8)], "trans": {"type": "cut"}},
+    {"id": "open", "clip": "IMG_5417", "prep": "w_open", "segs": [(0.0, 11.3, 0.8)], "trans": {"type": "cut"}},
+    {"id": "turn", "clip": "IMG_5417", "prep": "w_turn", "segs": [(27.2, 27.2 + 87 * 0.8 / FPS, 0.8)], "trans": {"type": "dissolve", "dur": 1.0}},
+    # (review 1: the turn is cut where his own pilaster fills the frame, and the square comes in with the casement
+    # already crossing: a wipe into a wipe, not a jump inside one view)
+    {"id": "square", "clip": "IMG_5416", "prep": "w_square", "segs": [(4.4, 20.6, 0.8)], "trans": {"type": "cut"}},
     {"id": "black_out", "black": True, "dur": 44 / FPS},
 ]
 
@@ -58,12 +61,12 @@ SRC_EVENTS = [
     ("walk", 6.5, "look1", "LOOK 1: settled on the church behind the closed glass"),
     ("bloom", 1.85, "stream", "the thin stream touches the coffee"),
     ("bloom", 4.3, "slow1_end", "the slow motion ends"),
-    ("brew", 17.8, "spout_out", "the spout withdraws; the dripper drips alone"),
-    ("brew", 18.6, "pullback", "he straightens: the camera draws back and tilts up"),
+    ("brew", 18.4, "spout_out", "the brew is done: the dripper drips alone (the shot dissolves in here)"),
+    ("brew", 19.4, "pullback", "he straightens: the camera draws back and tilts up"),
     ("brew", 21.0, "look2", "LOOK 2: the church fills the window"),
     ("cup", 2.4, "server_in", "the glass server tips in"),
     ("cup", 3.3, "pour", "the coffee touches the printed city"),
-    ("cup", 4.6, "slow2_end", "the slow motion ends"),
+    ("cup", 2.6 + 5 / 6, "slow2_end", "the slow motion ends (the glug at src 3.53-3.66 plays at 0.8x on real frames)"),
     ("cup", 5.2, "hand", "his hand appears"),
     ("cup", 9.0, "server_out", "the server lifts away; the cup is full"),
     ("cup", 9.75, "bell2", "a bell through the glass"),
@@ -74,15 +77,15 @@ SRC_EVENTS = [
     ("open", 6.0, "street", "the long street opens below"),
     ("open", 9.5, "street_settled", "the view settles on the street"),
     ("turn", 29.66, "turn_away", "he turns away from the street"),
-    ("turn", 30.05, "pilaster2", "the pilaster rushes past the lens"),
-    ("turn", 31.0, "sill", "the sill and the medallion on the house opposite"),
-    ("square", 4.3, "casement", "the outer casement swings across"),
+    ("turn", 30.0, "pilaster2", "the pilaster rushes past the lens: the cut is inside it"),
+    ("square", 4.4, "casement", "his other window: the outer casement swings across"),
     ("square", 5.5, "city_doubles", "he leans out: the city doubles (the clip's own sound jumps)"),
     ("square", 6.1, "casement_clear", "the casement is clear"),
     ("square", 9.0, "red_houses", "the red houses swing in"),
     ("square", 11.5, "square_in", "the Castle Square appears"),
     ("square", 12.5, "volute", "the stone volute slides in like a curtain"),
-    ("square", 13.0, "climax", "CLIMAX: settled on the square behind the volute"),
+    ("square", 13.0, "climax", "CLIMAX: the most open view of the Castle Square, the volute top left"),
+    ("square", 14.5, "settle", "the stone has closed in like a curtain; the frame stops"),
 ]
 # cues in film time that are not tied to a frame (sound-led)
 FILM_EVENTS = [
