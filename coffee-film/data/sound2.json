@@ -1,0 +1,200 @@
+{
+ "duration": 37.5,
+ "beds": [
+  {
+   "id": "cold_pour",
+   "file": "/home/user/coffee/raw/IMG_5422.MOV",
+   "src_in": 3.64,
+   "start": 0.0,
+   "end": 2.0,
+   "tempo": 0.8,
+   "hp": 120,
+   "notch": [
+    50,
+    100,
+    150
+   ],
+   "rms_db": -21.0,
+   "fade_in": 0.35,
+   "fade_out": 0.006
+  },
+  {
+   "id": "room_reveal",
+   "file": "/home/user/coffee/raw/IMG_5417.MOV",
+   "src_in": 0.0,
+   "start": 3.0,
+   "end": 4.2,
+   "tempo": 0.8,
+   "hp": 80,
+   "rms_db": -40.0,
+   "fade_in": 0.02,
+   "fade_out": 0.5
+  },
+  {
+   "id": "city",
+   "file": "/home/user/coffee/raw/IMG_5417.MOV",
+   "src_in": 6.0,
+   "start": 3.3,
+   "end": 13.5,
+   "hp": 90,
+   "rms_db": -31.0,
+   "fade_in": 0.7,
+   "fade_out": 0.008,
+   "gain_keys": [
+    [
+     3.3,
+     0.0
+    ],
+    [
+     7.0,
+     0.0
+    ],
+    [
+     13.4,
+     3.0
+    ]
+   ]
+  },
+  {
+   "id": "city_fast",
+   "file": "/home/user/coffee/raw/IMG_5417.MOV",
+   "src_in": 12.0,
+   "start": 6.6,
+   "end": 13.5,
+   "tempo": 1.6,
+   "hp": 120,
+   "rms_db": -33.0,
+   "fade_in": 0.6,
+   "fade_out": 0.008,
+   "gain_keys": [
+    [
+     6.6,
+     -2.0
+    ],
+    [
+     13.4,
+     3.0
+    ]
+   ]
+  },
+  {
+   "id": "square_fast",
+   "file": "/home/user/coffee/raw/IMG_5416.MOV",
+   "src_in": 6.0,
+   "start": 10.9,
+   "end": 13.5,
+   "tempo": 2.0,
+   "hp": 140,
+   "rms_db": -31.0,
+   "fade_in": 0.25,
+   "fade_out": 0.008,
+   "gain_keys": [
+    [
+     10.9,
+     -1.0
+    ],
+    [
+     13.4,
+     3.0
+    ]
+   ]
+  },
+  {
+   "id": "kettle",
+   "file": "/home/user/coffee/raw/IMG_5421.MOV",
+   "src_in": 5.1,
+   "start": 15.0,
+   "end": 21.0,
+   "tempo": 0.8,
+   "hp": 150,
+   "notch": [
+    50,
+    100,
+    150
+   ],
+   "rms_db": -33.0,
+   "fade_in": 0.6,
+   "fade_out": 0.03
+  },
+  {
+   "id": "pour",
+   "file": "/home/user/coffee/raw/IMG_5422.MOV",
+   "src_in": 3.2,
+   "start": 21.0,
+   "end": 31.55,
+   "tempo": 0.8,
+   "hp": 120,
+   "notch": [
+    50,
+    100,
+    150
+   ],
+   "rms_db": -22.0,
+   "fade_in": 0.02,
+   "fade_out": 0.9,
+   "gain_keys": [
+    [
+     21.0,
+     0.0
+    ],
+    [
+     26.0,
+     0.0
+    ],
+    [
+     27.2,
+     -2.5
+    ],
+    [
+     29.0,
+     -2.5
+    ],
+    [
+     30.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "room_end",
+   "file": "/home/user/coffee/raw/IMG_5420.MOV",
+   "src_in": 5.48,
+   "start": 31.0,
+   "end": 36.5,
+   "tempo": 0.8,
+   "hp": 100,
+   "notch": [
+    50,
+    100,
+    150
+   ],
+   "rms_db": -42.0,
+   "fade_in": 1.0,
+   "fade_out": 0.01
+  },
+  {
+   "id": "city_glass",
+   "file": "/home/user/coffee/raw/IMG_5417.MOV",
+   "src_in": 20.0,
+   "start": 31.3,
+   "end": 36.5,
+   "hp": 150,
+   "lp": 1800,
+   "rms_db": -42.0,
+   "fade_in": 1.2,
+   "fade_out": 0.01
+  }
+ ],
+ "cues": [],
+ "ticks": null,
+ "score": {
+  "file": "/home/user/coffee/score/music.wav",
+  "gain_db": 0.0
+ },
+ "silence": [
+  [
+   36.75,
+   37.5
+  ]
+ ]
+}
