@@ -267,6 +267,9 @@ class Inst:
                     s.sub16 = sub_octave_level(seg_m, sr, hz(s.nominal))
         # level normalisation to a smooth trend over pitch (per layer)
         if self.normalise:
+            lay_mean = {L: np.mean([s.lufs for s in self.samples if s.layer == L and s.lufs > -69])
+                        for L in sorted({s.layer for s in self.samples})}
+            softest = min(lay_mean.values())
             for L in sorted({s.layer for s in self.samples}):
                 grp = [s for s in self.samples if s.layer == L and s.lufs > -69]
                 if len(grp) >= 3:
@@ -278,7 +281,8 @@ class Inst:
                         keep = np.abs(r) < max(2.5 * np.median(np.abs(r)), 1.0)
                         if keep.sum() >= 3:
                             c = np.polyfit(m[keep], v[keep], 1)
-                    lay_off = np.mean(v) - np.mean([s.lufs for s in self.samples if s.lufs > -69])
+                    # louder layers keep part of their extra level (raw differences include recording gain)
+                    lay_off = float(np.clip(0.35 * (lay_mean[L] - softest), 0.0, 7.0))
                     for s in grp:
                         trend = np.polyval(c, s.meas)
                         # level -> instrument reference, keep the natural tilt (half of it) and layer offset
