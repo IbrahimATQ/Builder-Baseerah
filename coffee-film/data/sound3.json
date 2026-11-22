@@ -14,13 +14,30 @@
   "auto": {
    "t0": "@climax-0.5",
    "t1": "@climax+2.5",
-   "city_under_db": 6.5,
+   "city_under_db": 8.0,
    "bus": "city"
   },
   "end_fade": [
    "@end+0.25",
    "@end+1.35"
-  ]
+  ],
+  "match_duration_tol_s": 0.041666666666666664
+ },
+ "flood_match": {
+  "bus": "city",
+  "window": [
+   "@open+0.1",
+   "@open+1.6"
+  ],
+  "margin_db": 0.5,
+  "max_db": 6.0,
+  "attack": [
+   "@latch",
+   "@open+0.05"
+  ],
+  "hold_to": "@music_return",
+  "release_s": 2.0,
+  "fallback_bar_s": 2.0
  },
  "music_ducks": [
   [
@@ -59,16 +76,28 @@
    0.0
   ],
   [
-   "@red_houses+1.0",
+   "@red_houses",
    0.0
   ],
   [
-   "@square_in",
-   -1.5
+   "@red_houses+1.5",
+   -1.0
+  ],
+  [
+   "@volute",
+   -1.0
+  ],
+  [
+   "@climax-0.3",
+   1.0
+  ],
+  [
+   "@title_in+1.0",
+   1.0
   ],
   [
    "@bell4",
-   -1.0
+   0.0
   ],
   [
    "@end",
@@ -76,18 +105,22 @@
   ]
  ],
  "limiter_release_s": 0.2,
- "music_peak_db": -4.0,
+ "music_peak_db": -2.0,
  "music_peak_release_s": 0.3,
+ "music_makeup_max_db": 1.0,
  "notes": [
   "IMG_5417 and IMG_5416 carry a street musician (sustained notes in A and D major, A = 437-439 Hz, +20-30 dB over the noise in 16k-point spectra). Under the organ score and through the kitchen glass that would be a second, unrelated music, so every city bed is detoned: sustained tonal lines are pulled down to the noise floor around them (tonal prominence 20.9 -> 11.9 dB, the noise baseline; footsteps, voices' breath and the air are kept).",
   "The kitchen clips' tracks have mains hum (50/100/150 Hz, +17-36 dB) and appliance lines (100, 161, 179, 223, 299, 401 Hz); the mains line sits at 49.3 Hz in these clips. Notched at 49.3, 50, 100-250, 223 and 300 Hz and detoned from 40 Hz: every line is now within 4 dB of its neighbours. IMG_5421's handling knock (src 4.02-5.02) and a tick at src 19.93-20.33 are replaced by clean material of the same clip. IMG_5422's own track is not used.",
   "Speed: the clips' own sound follows the cue sheet's speed curve (0.8x, 0.5x, eased ramps) through rubberband, pitch kept; library textures under the slow motion are laid on the same curve (rate 1.25: real speed where the picture is at 0.8x, 0.625x in the 0.5x stretch). Nothing is slowed by resampling; only the drips and the kettle's set-down are pitched (by resampling, to make them smaller or heavier) and they are not time-locked to frames. Rubberband processes the two channels together (apart, it decorrelated the water: L/R 0.95 -> 0.42) and uses its short window (less smear; pre-echo on a click 8-10 ms at 0.625-0.8x, about 14 ms at 0.5x). The steady first stream is not stretched at all.",
-  "Set-downs: the metal kettle on its base is Mixkit 2934 pitched down 2 semitones (a dull contact; the brief had 3148), set down left, where the spout leaves frame (IMG_5421 src 0-17). The glass server's set-down (3148) is left out: under the score's build it stayed masked even 8 dB up, and it is not a story beat. The cup on the stone sill is 2933, at the cue sheet's cup_on_sill (the score's brass is off just before it; +2.5 dB).",
+  "Set-downs: the locked edit has no kettle in the brew (the morph dissolve lands on the finished, dripping bed), so the kettle's set-down and the later pour are gone; the first stream and the dripper's own first take fade across the dissolve and are gone by spout_out. The glass server's set-down (3148) is left out: under the score's build it stayed masked even 8 dB up, and it is not a story beat. The cup on the stone sill is 2933, at the cue sheet's cup_on_sill.",
   "turn_away -> sill: the catalogue has no cloth rustle; nothing is added (the street runs on, continuous).",
-  "The score is placed at 0 if its file exists at mix time; its gain is set so that the city stem sits 6.5 dB under it at the climax (window climax-0.5 .. climax+2.5); it is faded out from end+0.25 to end+1.35 so that the city is the last sound. It is ducked 6 dB for 1.5 s from its return after the latch (the city's first moment at full range is heard; the organ grows out of it). Its own accents are held on its bus at -4 dBFS after the master (release 0.3 s), so the master limiter does not duck the city with them.",
+  "The score is placed at 0 if its file exists at mix time AND is as long as the film (one frame of tolerance: a score composed to an earlier cut is not mixed); its gain is set so that the city stem sits 8 dB under it at the climax (window climax-0.5 .. climax+2.5; the square itself is 1.5 dB up there now); it is faded out from end+0.25 to end+1.35 so that the city is the last sound. It is ducked 6 dB for 1.5 s from its return after the latch (the city's first moment at full range is heard; the organ grows out of it). Its own accents are held on its bus at the master's ceiling (-2 dBFS after the master, release 0.3 s; it was -4 with up to 4.8 dB of make-up to hold the climax balance: on the 23:36 score that took the climax's 4.3 dB lift down to 0.3 dB - review 1), and the make-up is capped at 1 dB.",
+  "Review 1 (the score must ARRIVE at the climax): measured on the mix, 2 s around the climax must be >= 3 dB over the 4 s before square_in. The ride gives 2 dB of it (-1 dB before the square, +1 dB through the climax); the square's own sound +1.5 dB and its air +3.5 dB at the most open view; and the master gives up loudness (from -14 down to at most -16 LUFS, in 0.5 dB steps) before its limiter takes the lift away.",
+  "Review 2 (the flood): the glass is gone at the cut to the window (7 kHz on the cut frame, open 0.3 s later) and the city is at the open street's level on the cut frame, +3 dB 0.2 s later; with a score, the city's first 1.5 s after the cut is made at least as loud as the score's last bar before the latch (flood_match: the city bus lifted from the latch, held to the music's return, released over 2 s).",
   "The score is ridden 2 dB down in the kitchen (music_keys; the step is in its silence after the latch): with the 23:36 score the kitchen music sat 4-7 dB higher against the water and the kettle than before.",
   "Before the latch the city behind the glass is not heard under the score's forte (about 18 LU under it): it is texture in the kitchen's quiet moments, not a voice pressing on the pane.",
-  "Fader ride (mix_keys): the quiet kitchen (walk, bloom, brew, the hush) +6 dB, back to 0 over the first 2 s of the pour (the score's build to the latch is left as composed); the climax -1.5 dB: the loudness range fits a phone speaker (LRA 18 -> 13 LU) and the climax is still the loudest moment. Limiter release 200 ms (40 ms pumped under organ pedal)."
+  "Fader ride (mix_keys): the quiet kitchen (walk, bloom, brew, the empty mug) +6 dB, back to 0 over the first 2 s of the pour (the score's build to the latch is left as composed); -1 dB from the red houses to the volute, +1 dB through the climax to the title, then 0: the loudness range fits a phone speaker and the climax is the arrival of the second half. Limiter release 200 ms (40 ms pumped under organ pedal).",
+  "The kitchen is long and quiet: it stays alive but distant - the room's own tone, the clips' own sound, the kettle, the water, and the city behind the glass, which on the short empty mug only steps back to 22 dB under its open level (it was 32 dB under: a hole) and comes closer as LOOK 3 pushes into the pane (2.1 kHz, 10.5 dB under at the latch)."
  ],
  "glass_report": [
   "city_glass",
@@ -98,6 +131,18 @@
  "targets": {
   "mix": -14.0,
   "sfx_only": -16.0
+ },
+ "arrival": {
+  "pre": [
+   "@square_in-4.0",
+   "@square_in"
+  ],
+  "climax": [
+   "@climax-1.0",
+   "@climax+1.0"
+  ],
+  "min_db": 3.0,
+  "mix_min": -16.0
  },
  "sections": [
   [
@@ -158,6 +203,16 @@
   [
    "square_build",
    "@square",
+   "@square_in"
+  ],
+  [
+   "pre_square_4s",
+   "@square_in-4.0",
+   "@square_in"
+  ],
+  [
+   "volute",
+   "@square_in",
    "@climax"
   ],
   [
@@ -186,6 +241,24 @@
     "@turn.start"
    ]
   },
+  "flood_vs_score": {
+   "window": [
+    "@open+0.1",
+    "@open+1.6"
+   ],
+   "min_lu": 0.0
+  },
+  "arrival": {
+   "pre": [
+    "@square_in-4.0",
+    "@square_in"
+   ],
+   "climax": [
+    "@climax-1.0",
+    "@climax+1.0"
+   ],
+   "min_db": 3.0
+  },
   "bells_vs_city": {
    "window": [
     "@open+0.5",
@@ -206,8 +279,8 @@
   },
   "masking": [
    [
-    "kettle_down",
-    "@spout_out+0.55",
+    "drip1",
+    "@spout_out+0.30",
     0.0,
     0.08
    ],
@@ -297,7 +370,7 @@
     [
      "@cup",
      "@pour",
-     -32.0
+     -30.0
     ]
    ]
   },
@@ -340,7 +413,7 @@
    "xfade": 0.8,
    "tempo": 0.8,
    "start": "@black_in",
-   "end": "@open+0.6",
+   "end": "@open+1.2",
    "hp": 60,
    "detone": {},
    "rms_db": -33.5,
@@ -383,11 +456,11 @@
     ],
     [
      "@cup",
-     -32
+     -22
     ],
     [
-     "@hand",
-     -32
+     "@pour",
+     -22
     ],
     [
      "@server_out",
@@ -403,22 +476,22 @@
     ],
     [
      "@latch",
-     -12
-    ],
-    [
-     "@latch+0.14",
      -10.5
     ],
     [
-     "@latch+0.24",
-     -5
+     "@latch",
+     -10.5
     ],
     [
-     "@open+0.35",
+     "@latch+0.06",
+     -8
+    ],
+    [
+     "@open",
      0
     ],
     [
-     "@open+0.6",
+     "@open+0.2",
      3
     ]
    ],
@@ -453,28 +526,32 @@
     ],
     [
      "@latch",
-     1800
+     2100
     ],
     [
-     "@latch+0.14",
-     2200
+     "@latch",
+     2100
     ],
     [
-     "@latch+0.24",
-     4000
+     "@latch+0.06",
+     2800
     ],
     [
-     "@open+0.4",
-     9500
+     "@open",
+     7000
     ],
     [
-     "@open+1.0",
+     "@open+0.12",
+     12000
+    ],
+    [
+     "@open+0.3",
      19000
     ]
    ],
    "lp_order": 2,
    "fade_in": 0.25,
-   "fade_out": 0.6,
+   "fade_out": 0.9,
    "fade_shape": "power"
   },
   {
@@ -488,7 +565,7 @@
     50.0
    ],
    "start": "@black_in",
-   "end": "@open+0.6",
+   "end": "@open+1.2",
    "hp": 80,
    "detone": {},
    "rms_db": -39.5,
@@ -531,11 +608,11 @@
     ],
     [
      "@cup",
-     -32
+     -22
     ],
     [
-     "@hand",
-     -32
+     "@pour",
+     -22
     ],
     [
      "@server_out",
@@ -551,22 +628,22 @@
     ],
     [
      "@latch",
-     -12
-    ],
-    [
-     "@latch+0.14",
      -10.5
     ],
     [
-     "@latch+0.24",
-     -5
+     "@latch",
+     -10.5
     ],
     [
-     "@open+0.35",
+     "@latch+0.06",
+     -8
+    ],
+    [
+     "@open",
      0
     ],
     [
-     "@open+0.6",
+     "@open+0.2",
      3
     ]
    ],
@@ -601,28 +678,32 @@
     ],
     [
      "@latch",
-     1800
+     2100
     ],
     [
-     "@latch+0.14",
-     2200
+     "@latch",
+     2100
     ],
     [
-     "@latch+0.24",
-     4000
+     "@latch+0.06",
+     2800
     ],
     [
-     "@open+0.4",
-     9500
+     "@open",
+     7000
     ],
     [
-     "@open+1.0",
+     "@open+0.12",
+     12000
+    ],
+    [
+     "@open+0.3",
      19000
     ]
    ],
    "lp_order": 2,
    "fade_in": 0.25,
-   "fade_out": 0.6,
+   "fade_out": 0.9,
    "width": 0.8,
    "fade_shape": "power"
   },
@@ -636,7 +717,7 @@
     "shot": "open"
    },
    "start": "@open",
-   "end": "@square+0.3",
+   "end": "@square+0.15",
    "hp": 50,
    "detone": {},
    "rms_db": -33.5,
@@ -644,22 +725,22 @@
    "lp_keys": [
     [
      "@latch",
-     1800
+     2100
     ],
     [
-     "@latch+0.14",
-     2200
+     "@latch+0.06",
+     2800
     ],
     [
-     "@latch+0.24",
-     4000
+     "@open",
+     7000
     ],
     [
-     "@open+0.4",
-     9500
+     "@open+0.12",
+     12000
     ],
     [
-     "@open+1.0",
+     "@open+0.3",
      19000
     ],
     [
@@ -673,6 +754,18 @@
     [
      "@pilaster1+0.4",
      19000
+    ],
+    [
+     "@pilaster2-0.3",
+     19000
+    ],
+    [
+     "@pilaster2",
+     5000
+    ],
+    [
+     "@square",
+     4500
     ]
    ],
    "shelf_keys": {
@@ -695,22 +788,18 @@
    "gain_keys": [
     [
      "@latch",
-     -7
-    ],
-    [
-     "@latch+0.14",
      -5.5
     ],
     [
-     "@latch+0.24",
-     0
+     "@latch+0.06",
+     -3
     ],
     [
-     "@open+0.35",
+     "@open",
      5
     ],
     [
-     "@open+0.6",
+     "@open+0.2",
      8
     ],
     [
@@ -740,10 +829,18 @@
     [
      "@street",
      0
+    ],
+    [
+     "@pilaster2-0.3",
+     0
+    ],
+    [
+     "@pilaster2",
+     -2.0
     ]
    ],
-   "fade_in": 0.6,
-   "fade_out": 0.6,
+   "fade_in": 1.2,
+   "fade_out": 0.3,
    "fade_shape": "power"
   },
   {
@@ -776,7 +873,7 @@
    "timemap": {
     "shot": "square"
    },
-   "start": "@square-0.3",
+   "start": "@square-0.15",
    "end": "@duration",
    "hp": 50,
    "detone": {},
@@ -809,15 +906,38 @@
     "to": "city_open",
     "at": "@square",
     "win": 1.0,
-    "gap": 0.3
+    "gap": 0.2,
+    "gap_to": 0.6
    },
-   "fade_in": 0.6,
+   "fade_in": 0.3,
    "fade_out": 1.75,
    "fade_shape": "power",
    "step": "@city_doubles",
    "step_band": [
     500,
     6000
+   ],
+   "gain_keys": [
+    [
+     "@square_in",
+     0
+    ],
+    [
+     "@volute",
+     0.5
+    ],
+    [
+     "@climax",
+     1.5
+    ],
+    [
+     "@climax+1.0",
+     1.5
+    ],
+    [
+     "@settle",
+     0.5
+    ]
    ]
   },
   {
@@ -848,11 +968,27 @@
     ],
     [
      "@square_in",
-     0
+     -1.5
+    ],
+    [
+     "@volute",
+     -0.5
+    ],
+    [
+     "@climax",
+     2.0
+    ],
+    [
+     "@climax+1.0",
+     2.0
+    ],
+    [
+     "@settle",
+     -0.5
     ],
     [
      "@end",
-     0
+     -0.5
     ]
    ],
    "fade_in": 1.5,
@@ -939,14 +1075,14 @@
   {
    "id": "bloom_own",
    "bus": "kitchen",
-   "what": "the dripper's own sound (IMG_5421), in sync through the slow motion; handling knock at src 4.05-5.0 replaced",
+   "what": "the dripper's own sound (IMG_5421), in sync through the slow motion; handling knock at src 4.05-5.0 replaced; gone by the end of the morph dissolve",
    "file": "/home/user/coffee/raw/IMG_5421.MOV",
    "licence": "the commissioner's own recording (iPhone clip)",
    "timemap": {
     "shot": "bloom"
    },
    "start": "@bloom",
-   "end": "@bloom.film_out",
+   "end": "@spout_out",
    "rb_window": "short",
    "repair": [
     [
@@ -957,7 +1093,8 @@
    ],
    "rms_db": -56.0,
    "fade_in": 0.03,
-   "fade_out": 1.0,
+   "fade_out": 0.75,
+   "fade_shape": "power",
    "notch": [
     49.3,
     50,
@@ -976,7 +1113,7 @@
   {
    "id": "brew_own",
    "bus": "kitchen",
-   "what": "the dripper later (IMG_5421), in sync; a handling tick at src 19.95-20.3 replaced",
+   "what": "the dripping bed later (IMG_5421), in sync; three handling bumps replaced",
    "file": "/home/user/coffee/raw/IMG_5421.MOV",
    "licence": "the commissioner's own recording (iPhone clip)",
    "timemap": {
@@ -988,13 +1125,24 @@
     [
      19.93,
      20.33,
-     21.3
+     18.6
+    ],
+    [
+     20.36,
+     20.56,
+     19.05
+    ],
+    [
+     21.45,
+     21.68,
+     19.3
     ]
    ],
    "rb_window": "short",
    "rms_db": -56.0,
-   "fade_in": 1.0,
+   "fade_in": 0.75,
    "fade_out": 0.02,
+   "fade_shape": "power",
    "notch": [
     49.3,
     50,
@@ -1117,7 +1265,7 @@
     3.2,
     "@stream"
    ],
-   "end": "@bloom.film_out",
+   "end": "@spout_out",
    "hp": 160,
    "lp": 12000,
    "detone": {},
@@ -1125,33 +1273,11 @@
    "crest_db": 12.0,
    "width": 0.5,
    "fade_in": 0.006,
-   "fade_out": 1.0,
+   "fade_out": 0.75,
    "fade_shape": "power",
    "onset": "@stream",
    "onset_before": 0.05,
    "onset_after": 0.15
-  },
-  {
-   "id": "stream_later",
-   "bus": "foley",
-   "what": "the stream, later: the last pours, until the spout withdraws",
-   "file": "/home/user/coffee/sfx/1318_water_pour_light_stream.wav",
-   "licence": "Mixkit 1318 'Water pour light stream' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
-   "src": [
-    24.8,
-    33.0
-   ],
-   "start": "@brew",
-   "end": "@spout_out+0.05",
-   "hp": 160,
-   "lp": 12000,
-   "detone": {},
-   "rms_db": -38.0,
-   "crest_db": 16.0,
-   "width": 0.5,
-   "fade_in": 1.0,
-   "fade_out": 0.12,
-   "fade_shape": "power"
   },
   {
    "id": "bloom_fizz",
@@ -1168,13 +1294,13 @@
     ]
    },
    "start": "@stream+0.25",
-   "end": "@brew.start",
+   "end": "@spout_out",
    "rb_window": "short",
    "hp": 1800,
    "rms_db": -55.0,
    "width": 0.7,
    "fade_in": 1.2,
-   "fade_out": 1.0
+   "fade_out": 0.75
   },
   {
    "id": "bloom_bubble1",
@@ -1231,33 +1357,6 @@
    "pan": 0.0
   },
   {
-   "id": "kettle_down",
-   "bus": "foley",
-   "what": "kettle set down off-screen (left, where the spout withdraws)",
-   "file": "/home/user/coffee/sfx/2934_bowl_put_in_table.wav",
-   "licence": "Mixkit 2934 'Bowl put in table' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
-   "src": [
-    0.0,
-    0.3
-   ],
-   "sync": [
-    0.004,
-    "@spout_out+0.55"
-   ],
-   "pitch": -2.0,
-   "hp": 90,
-   "lp": 6000,
-   "peak_db": -23.0,
-   "reverb": {
-    "rt60": 0.45,
-    "mix": 0.25,
-    "predelay": 0.008
-   },
-   "pan": -0.4,
-   "fade_out": 0.08,
-   "onset": "@spout_out+0.55"
-  },
-  {
    "id": "drip1",
    "bus": "foley",
    "what": "a single drip into the glass server",
@@ -1269,12 +1368,12 @@
    ],
    "sync": [
     7.136,
-    "@spout_out+0.4"
+    "@spout_out+0.3"
    ],
    "pitch": 4.0,
    "hp": 900,
    "lp": 14000,
-   "peak_db": -35.0,
+   "peak_db": -30.0,
    "reverb": {
     "rt60": 0.3,
     "mix": 0.18,
@@ -1297,12 +1396,12 @@
    ],
    "sync": [
     1.09,
-    "@spout_out+1.05"
+    "@spout_out+0.95"
    ],
    "pitch": 4.5,
    "hp": 900,
    "lp": 14000,
-   "peak_db": -35.6,
+   "peak_db": -30.6,
    "reverb": {
     "rt60": 0.3,
     "mix": 0.18,
@@ -1325,12 +1424,12 @@
    ],
    "sync": [
     2.708,
-    "@spout_out+1.75"
+    "@spout_out+1.65"
    ],
    "pitch": 3.5,
    "hp": 900,
    "lp": 14000,
-   "peak_db": -36.2,
+   "peak_db": -31.2,
    "reverb": {
     "rt60": 0.3,
     "mix": 0.18,
@@ -1353,12 +1452,12 @@
    ],
    "sync": [
     3.394,
-    "@spout_out+2.6"
+    "@spout_out+2.45"
    ],
    "pitch": 4.0,
    "hp": 900,
    "lp": 14000,
-   "peak_db": -36.8,
+   "peak_db": -31.8,
    "reverb": {
     "rt60": 0.3,
     "mix": 0.18,
@@ -1381,12 +1480,12 @@
    ],
    "sync": [
     1.453,
-    "@spout_out+3.6"
+    "@spout_out+3.35"
    ],
    "pitch": 5.0,
    "hp": 900,
    "lp": 14000,
-   "peak_db": -37.4,
+   "peak_db": -32.4,
    "reverb": {
     "rt60": 0.3,
     "mix": 0.18,
@@ -1409,12 +1508,12 @@
    ],
    "sync": [
     6.616,
-    "@spout_out+4.75"
+    "@spout_out+4.3"
    ],
    "pitch": 4.0,
    "hp": 900,
    "lp": 14000,
-   "peak_db": -38.0,
+   "peak_db": -33.0,
    "reverb": {
     "rt60": 0.3,
     "mix": 0.18,
@@ -1437,12 +1536,12 @@
    ],
    "sync": [
     7.136,
-    "@spout_out+6.0"
+    "@spout_out+5.3"
    ],
    "pitch": 3.0,
    "hp": 900,
    "lp": 14000,
-   "peak_db": -38.6,
+   "peak_db": -33.6,
    "reverb": {
     "rt60": 0.3,
     "mix": 0.18,
@@ -1524,7 +1623,7 @@
     "shot": "cup",
     "fit": [
      [
-      "@slow2_end-0.5",
+      "@slow2_end",
       0.55
      ],
      [
@@ -1533,7 +1632,7 @@
      ]
     ]
    },
-   "start": "@slow2_end-0.5",
+   "start": "@slow2_end",
    "end": "@server_out-0.05",
    "rb_window": "short",
    "hp": 150,
@@ -1557,7 +1656,7 @@
      5
     ]
    ],
-   "fade_in": 0.7,
+   "fade_in": 0.8,
    "fade_out": 0.15
   },
   {
@@ -1663,7 +1762,7 @@
   {
    "id": "casement",
    "bus": "foley",
-   "what": "the outer casement swings away, its hinge creaks",
+   "what": "the outer casement swings in from the right, its hinge creaks",
    "file": "/home/user/coffee/sfx/1163_door_creak_opened_by_the_wind.wav",
    "licence": "Mixkit 1163 'Door creak opened by the wind' (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree)",
    "src": [
@@ -1679,7 +1778,7 @@
    "peak_db": -19.0,
    "fade_in": 0.03,
    "fade_out": 0.35,
-   "pan": -0.25,
+   "pan": 0.25,
    "onset": "@casement",
    "slap": {
     "delays": [
@@ -1708,7 +1807,8 @@
     "@cup_on_sill"
    ],
    "hp": 200,
-   "peak_db": -15.5,
+   "crest_db": 20.0,
+   "peak_db": -18.5,
    "fade_in": 0.003,
    "fade_out": 0.12,
    "pan": -0.15,
@@ -1768,6 +1868,10 @@
     [
      "@rise3",
      1800
+    ],
+    [
+     "@latch",
+     2100
     ]
    ],
    "onset": "@bell1",
@@ -1828,22 +1932,26 @@
     ],
     [
      "@latch",
-     1800
+     2100
     ],
     [
-     "@latch+0.14",
-     2200
+     "@latch",
+     2100
     ],
     [
-     "@latch+0.24",
-     4000
+     "@latch+0.06",
+     2800
     ],
     [
-     "@open+0.4",
-     9500
+     "@open",
+     7000
     ],
     [
-     "@open+1.0",
+     "@open+0.12",
+     12000
+    ],
+    [
+     "@open+0.3",
      19000
     ]
    ],
@@ -1887,22 +1995,22 @@
    "lp_keys": [
     [
      "@latch",
-     1800
+     2100
     ],
     [
-     "@latch+0.14",
-     2200
+     "@latch+0.06",
+     2800
     ],
     [
-     "@latch+0.24",
-     4000
+     "@open",
+     7000
     ],
     [
-     "@open+0.4",
-     9500
+     "@open+0.12",
+     12000
     ],
     [
-     "@open+1.0",
+     "@open+0.3",
      19000
     ]
    ],
