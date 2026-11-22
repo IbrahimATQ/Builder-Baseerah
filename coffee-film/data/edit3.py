@@ -41,10 +41,10 @@ SHOTS = [
     {"id": "brew", "clip": "IMG_5421", "prep": "k_brew", "segs": [(18.4, 18.4 + 137 * 0.8 / FPS, 0.8)], "trans": {"type": "dissolve", "dur": 0.75}},
     {"id": "cup", "clip": "IMG_5422", "prep": "k_cup", "segs": [(1.0, 2.6, 0.8), (2.6, 2.6 + 5 / 6, 0.5), (2.6 + 5 / 6, 4.5 + 212 * 0.8 / FPS, 0.8)],
      "trans": {"type": "cut"}, "retime": True},
-    {"id": "open", "clip": "IMG_5417", "prep": "w_open", "segs": [(0.0, 11.3, 0.8)], "trans": {"type": "cut"}},
-    {"id": "turn", "clip": "IMG_5417", "prep": "w_turn", "segs": [(27.2, 27.2 + 87 * 0.8 / FPS, 0.8)], "trans": {"type": "dissolve", "dur": 1.0}},
-    # (review 1: the turn is cut where his own pilaster fills the frame, and the square comes in with the casement
-    # already crossing: a wipe into a wipe, not a jump inside one view)
+    {"id": "open", "clip": "IMG_5417", "prep": "w_open", "segs": [(0.0, 12.1, 0.8)], "trans": {"type": "cut"}},
+    {"id": "turn", "clip": "IMG_5417", "prep": "w_turn", "segs": [(27.2, 27.2 + 89 * 0.8 / FPS, 0.8)], "trans": {"type": "dissolve", "dur": 1.0}},
+    # (review 1: the turn is cut where his own pilaster fills the frame (no street left), and the square comes in on the
+    # house opposite just before his casement swings across it: a wipe into a wipe, not a jump inside one view)
     {"id": "square", "clip": "IMG_5416", "prep": "w_square", "segs": [(4.4, 20.6, 0.8)], "trans": {"type": "cut"}},
     {"id": "black_out", "black": True, "dur": 44 / FPS},
 ]
@@ -58,10 +58,10 @@ SRC_EVENTS = [
     ("walk", 1.0, "walk", "his first step along the counter"),
     ("walk", 2.6, "church_in", "the brick church slides into the window at left"),
     ("walk", 5.5, "rise1", "the eye rises to the window"),
-    ("walk", 6.5, "look1", "LOOK 1: settled on the church behind the closed glass"),
+    ("walk", 6.5, "look1", "LOOK 1: settled on the window, the roofs and a sliver of the church, behind the closed glass"),
     ("bloom", 1.85, "stream", "the thin stream touches the coffee"),
     ("bloom", 4.3, "slow1_end", "the slow motion ends"),
-    ("brew", 18.4, "spout_out", "the brew is done: the dripper drips alone (the shot dissolves in here)"),
+    ("brew", 19.0, "spout_out", "the dissolve has ended: the brew is done, the dripper drips alone"),
     ("brew", 19.4, "pullback", "he straightens: the camera draws back and tilts up"),
     ("brew", 21.0, "look2", "LOOK 2: the church fills the window"),
     ("cup", 2.4, "server_in", "the glass server tips in"),
@@ -78,7 +78,7 @@ SRC_EVENTS = [
     ("open", 9.5, "street_settled", "the view settles on the street"),
     ("turn", 29.66, "turn_away", "he turns away from the street"),
     ("turn", 30.0, "pilaster2", "the pilaster rushes past the lens: the cut is inside it"),
-    ("square", 4.4, "casement", "his other window: the outer casement swings across"),
+    ("square", 4.5, "casement", "his other window: the outer casement swings in from the right"),
     ("square", 5.5, "city_doubles", "he leans out: the city doubles (the clip's own sound jumps)"),
     ("square", 6.1, "casement_clear", "the casement is clear"),
     ("square", 9.0, "red_houses", "the red houses swing in"),

@@ -1,7 +1,7 @@
 {
  "title": "WARSZAWA",
  "fps": 24,
- "duration": 75.5,
+ "duration": 76.58333333333333,
  "ramp_s": 0.3,
  "shots": [
   {
@@ -1011,14 +1011,14 @@
    "segs": [
     [
      0.0,
-     11.3,
+     12.1,
      0.8
     ]
    ],
    "film_in": 36.666666666666664,
-   "film_out": 50.791666666666664,
+   "film_out": 51.791666666666664,
    "start": 36.666666666666664,
-   "end": 50.291666666666664,
+   "end": 51.291666666666664,
    "first_frame": 880,
    "src_at_frame": [
     0.0,
@@ -1360,7 +1360,31 @@
     11.2,
     11.23333,
     11.26667,
-    11.3
+    11.3,
+    11.33333,
+    11.36667,
+    11.4,
+    11.43333,
+    11.46667,
+    11.5,
+    11.53333,
+    11.56667,
+    11.6,
+    11.63333,
+    11.66667,
+    11.7,
+    11.73333,
+    11.76667,
+    11.8,
+    11.83333,
+    11.86667,
+    11.9,
+    11.93333,
+    11.96667,
+    12.0,
+    12.03333,
+    12.06667,
+    12.1
    ]
   },
   {
@@ -1374,15 +1398,15 @@
    "segs": [
     [
      27.2,
-     30.1,
+     30.166666666666664,
      0.8
     ]
    ],
-   "film_in": 49.791666666666664,
-   "film_out": 53.416666666666664,
-   "start": 50.291666666666664,
-   "end": 53.416666666666664,
-   "first_frame": 1195,
+   "film_in": 50.791666666666664,
+   "film_out": 54.5,
+   "start": 51.291666666666664,
+   "end": 54.5,
+   "first_frame": 1219,
    "src_at_frame": [
     27.2,
     27.23333,
@@ -1471,7 +1495,9 @@
     30.0,
     30.03333,
     30.06667,
-    30.1
+    30.1,
+    30.13333,
+    30.16667
    ]
   },
   {
@@ -1488,11 +1514,11 @@
      0.8
     ]
    ],
-   "film_in": 53.416666666666664,
-   "film_out": 73.66666666666667,
-   "start": 53.416666666666664,
-   "end": 73.66666666666667,
-   "first_frame": 1282,
+   "film_in": 54.5,
+   "film_out": 74.75,
+   "start": 54.5,
+   "end": 74.75,
+   "first_frame": 1308,
    "src_at_frame": [
     4.4,
     4.43333,
@@ -1986,10 +2012,10 @@
   {
    "id": "black_out",
    "black": true,
-   "film_in": 73.66666666666667,
-   "film_out": 75.5,
-   "start": 73.66666666666667,
-   "end": 75.5
+   "film_in": 74.75,
+   "film_out": 76.58333333333333,
+   "start": 74.75,
+   "end": 76.58333333333333
   }
  ],
  "events": [
@@ -2027,7 +2053,7 @@
   {
    "t": 8.375,
    "key": "look1",
-   "what": "LOOK 1: settled on the church behind the closed glass",
+   "what": "LOOK 1: settled on the window, the roofs and a sliver of the church, behind the closed glass",
    "shot": "walk",
    "src": 6.5
   },
@@ -2051,11 +2077,11 @@
    "src": 4.3
   },
   {
-   "t": 17.125,
+   "t": 17.875,
    "key": "spout_out",
-   "what": "the brew is done: the dripper drips alone (the shot dissolves in here)",
+   "what": "the dissolve has ended: the brew is done, the dripper drips alone",
    "shot": "brew",
-   "src": 18.4
+   "src": 19.0
   },
   {
    "t": 18.375,
@@ -2166,92 +2192,92 @@
    "src": 9.5
   },
   {
-   "t": 52.867,
+   "t": 53.867,
    "key": "turn_away",
    "what": "he turns away from the street",
    "shot": "turn",
    "src": 29.66
   },
   {
-   "t": 53.292,
+   "t": 54.292,
    "key": "pilaster2",
    "what": "the pilaster rushes past the lens: the cut is inside it",
    "shot": "turn",
    "src": 30.0
   },
   {
-   "t": 53.417,
+   "t": 54.625,
    "key": "casement",
-   "what": "his other window: the outer casement swings across",
+   "what": "his other window: the outer casement swings in from the right",
    "shot": "square",
-   "src": 4.4
+   "src": 4.5
   },
   {
-   "t": 54.792,
+   "t": 55.875,
    "key": "city_doubles",
    "what": "he leans out: the city doubles (the clip's own sound jumps)",
    "shot": "square",
    "src": 5.5
   },
   {
-   "t": 55.542,
+   "t": 56.625,
    "key": "casement_clear",
    "what": "the casement is clear",
    "shot": "square",
    "src": 6.1
   },
   {
-   "t": 59.167,
+   "t": 60.25,
    "key": "red_houses",
    "what": "the red houses swing in",
    "shot": "square",
    "src": 9.0
   },
   {
-   "t": 62.292,
+   "t": 63.375,
    "key": "square_in",
    "what": "the Castle Square appears",
    "shot": "square",
    "src": 11.5
   },
   {
-   "t": 63.542,
+   "t": 64.625,
    "key": "volute",
    "what": "the stone volute slides in like a curtain",
    "shot": "square",
    "src": 12.5
   },
   {
-   "t": 64.167,
+   "t": 65.25,
    "key": "climax",
    "what": "CLIMAX: the most open view of the Castle Square, the volute top left",
    "shot": "square",
    "src": 13.0
   },
   {
-   "t": 65.667,
+   "t": 66.75,
    "key": "cup_on_sill",
    "what": "off screen: a cup set down on the stone sill"
   },
   {
-   "t": 66.042,
+   "t": 67.125,
    "key": "settle",
    "what": "the stone has closed in like a curtain; the frame stops",
    "shot": "square",
    "src": 14.5
   },
   {
-   "t": 66.617,
+   "t": 67.7,
    "key": "title_in",
    "what": "WARSZAWA fades into the sky above the castle"
   },
   {
-   "t": 69.317,
+   "t": 70.4,
    "key": "bell4",
    "what": "bell stroke 4 in open air, inside the last chord"
   },
   {
-   "t": 73.667,
+   "t": 74.75,
    "key": "end",
    "what": "cut to black on the release of the last chord"
   }

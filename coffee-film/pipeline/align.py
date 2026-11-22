@@ -6,8 +6,12 @@ ORB features on the static parts of the picture (RANSAC rejects what moves: wate
 framing (z, cx, cy of render2's warp) into B's: if a point x_A of A is x_B = s * x_A + t in B, then
 z_B = z_A / s and c_B = s * c_A + t.
 
-Usage: python align.py A.mp4 FRAME_A B.mp4 FRAME_B [zA cxA cyA]
-Prints JSON: s, t (pixels of the full frame), inlier count, and B's framing.
+With --roi x0,y0,x1,y1 (frame fractions of A) only features inside that box are matched: the subject plane, so an
+out-of-focus background with parallax does not pull the fit. The rotation is kept: B's framing gets `rot`
+(degrees, render2's warp convention), and c_B = s * R(theta) * c_A + t.
+
+Usage: python align.py A.mp4 FRAME_A B.mp4 FRAME_B [zA cxA cyA] [--roi x0,y0,x1,y1]
+Prints JSON: s, rotation, t (pixels of the full frame), inlier count, and B's framing.
 """
 from __future__ import annotations
 
@@ -26,11 +30,20 @@ def grab(path: str, k: int, W: int = 1080, H: int = 1920) -> np.ndarray:
 
 
 def main() -> None:
-    a_p, ka, b_p, kb = sys.argv[1], int(sys.argv[2]), sys.argv[3], int(sys.argv[4])
-    zA, cxA, cyA = (float(x) for x in sys.argv[5:8]) if len(sys.argv) >= 8 else (1.0, 0.5, 0.5)
+    args = sys.argv[1:]
+    roi = None
+    if "--roi" in args:
+        i = args.index("--roi"); roi = [float(x) for x in args[i + 1].split(",")]; del args[i:i + 2]
+    a_p, ka, b_p, kb = args[0], int(args[1]), args[2], int(args[3])
+    zA, cxA, cyA = (float(x) for x in args[4:7]) if len(args) >= 7 else (1.0, 0.5, 0.5)
     A, B = grab(a_p, ka), grab(b_p, kb)
     orb = cv2.ORB_create(6000)
-    ka_, da = orb.detectAndCompute(A, None)
+    mask = None
+    if roi:
+        mask = np.zeros_like(A)
+        h_, w_ = A.shape
+        mask[int(roi[1] * h_):int(roi[3] * h_), int(roi[0] * w_):int(roi[2] * w_)] = 255
+    ka_, da = orb.detectAndCompute(A, mask)
     kb_, db = orb.detectAndCompute(B, None)
     m = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True).match(da, db)
     pa = np.float32([ka_[x.queryIdx].pt for x in m])
@@ -41,10 +54,11 @@ def main() -> None:
     f = 2160 / A.shape[1]
     t = M[:, 2] * f                                  # in full-frame pixels
     cA = np.array([cxA * 2160, cyA * 3840])
-    cB = s * cA + t
+    cB = M[:, :2] @ cA + t
     out = {"s": round(s, 5), "rot_deg": round(rot, 3), "t_px": [round(float(t[0]), 1), round(float(t[1]), 1)],
            "inliers": int(inl.sum()), "matches": len(m),
-           "B_framing": {"z": round(zA / s, 4), "cx": round(float(cB[0] / 2160), 4), "cy": round(float(cB[1] / 3840), 4)}}
+           "B_framing": {"z": round(zA / s, 4), "cx": round(float(cB[0] / 2160), 4), "cy": round(float(cB[1] / 3840), 4),
+                         "rot": round(rot, 3)}}
     print(json.dumps(out))
 
 

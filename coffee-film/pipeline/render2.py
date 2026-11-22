@@ -13,7 +13,8 @@ Per output frame (24 fps, 2160x3840 or a fraction of it):
   * PER-SHOT LOOK KEYS: "ev_keys" (exposure, stops), "sat_keys" (saturation multiplier), "defocus" (lens blur
     radius in px at 4K, with bokeh from the highlights), "streak" (anamorphic flare on highlights),
     "key_green" (an LED glow taken out), "light" (a soft window of light that follows a subject).
-  * TRANSITIONS into a shot ("trans"): cut, dissolve, whip (a fast pan: both shots slide with directional
+  * TRANSITIONS into a shot ("trans"): cut, dissolve, morph (a dissolve whose two pictures are carried along their
+    optical flow toward each other, for two takes of one set-up), whip (a fast pan: both shots slide with directional
     motion blur, centred on the shot's start), black (the shot is black: "black": true).
   * OVERLAYS: real elements shot on black (steam, light leaks), screen-blended with black point, gain, tint,
     scale, position and a soft mask.
@@ -653,10 +654,10 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
     def window(i: int) -> tuple[float, float]:
         s = shots[i]
         tr = s.get("trans", {})
-        half = tr.get("dur", 0) / 2 if tr.get("type") in ("dissolve", "whip") else 0
+        half = tr.get("dur", 0) / 2 if tr.get("type") in ("dissolve", "whip", "morph") else 0
         nxt = shots[i + 1] if i + 1 < len(shots) else None
         ntr = nxt.get("trans", {}) if nxt else {}
-        nhalf = ntr.get("dur", 0) / 2 if ntr.get("type") in ("dissolve", "whip") else 0
+        nhalf = ntr.get("dur", 0) / 2 if ntr.get("type") in ("dissolve", "whip", "morph") else 0
         return s["start"] - half, s["end"] + nhalf
 
     for f in range(f0, f1):
@@ -727,6 +728,28 @@ def render_range(plan: dict, luts: str, out: str, f0: int, f1: int, scale: float
                     img = a
                 else:
                     img = to_disp(to_lin(a) * (1 - mix) + to_lin(b) * mix)
+            elif tr.get("type") == "morph":
+                # a dissolve between two takes of one set-up filmed from slightly different places (hand-held,
+                # minutes apart): the optical flow from the outgoing to the incoming picture is measured on every
+                # frame of the dissolve, and both pictures are carried along it toward each other while they mix,
+                # so the static things (the dripper, the server, the counter, the window) stay single and still
+                # instead of doubling; only what really changed (the coffee, the light) dissolves
+                a = smooth(p)
+                q = 4
+                ga = cv2.resize(np.clip(img @ LUMA, 0, 1), (W // q, H // q), interpolation=cv2.INTER_AREA)
+                gb = cv2.resize(np.clip(fr @ LUMA, 0, 1), (W // q, H // q), interpolation=cv2.INTER_AREA)
+                ga8, gb8 = (np.clip(g * 255, 0, 255).astype(np.uint8) for g in (ga, gb))
+                fl = cv2.calcOpticalFlowFarneback(ga8, gb8, None, 0.5, 5, tr.get("win", 41), 4, 7, 1.5, cv2.OPTFLOW_FARNEBACK_GAUSSIAN)
+                fl = cv2.GaussianBlur(fl, (0, 0), tr.get("smooth", 6.0))   # a smooth field: shapes move, they do not wobble
+                fl = cv2.resize(fl, (W, H), interpolation=cv2.INTER_LINEAR) * q
+                if (W, H) not in _GRID:
+                    _GRID.clear()
+                    _GRID[(W, H)] = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float32))
+                xx_, yy_ = _GRID[(W, H)]
+                A_ = cv2.remap(to_lin(img), xx_ - fl[..., 0] * a, yy_ - fl[..., 1] * a, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+                B_ = cv2.remap(to_lin(fr), xx_ + fl[..., 0] * (1 - a), yy_ + fl[..., 1] * (1 - a), cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+                img = to_disp(np.clip(A_ * (1 - a) + B_ * a, 0, None))
+                del A_, B_, fl
             else:   # a dissolve in linear light: the brighter picture leads, as light does
                 a = smooth(p)
                 img = to_disp(to_lin(img) * (1 - a) + to_lin(fr) * a)

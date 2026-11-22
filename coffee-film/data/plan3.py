@@ -18,7 +18,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 PREP = os.environ.get("COFFEE_PREP3", "/home/user/coffee/prep3")
 PREP_OLD = os.environ.get("COFFEE_PREP", "/home/user/coffee/prep")
-RETIME = os.environ.get("COFFEE_RETIME", "/home/user/coffee/retime")
+RETIME = os.environ.get("COFFEE_RETIME", "/home/user/coffee/retime2")
 CS = json.load(open(os.path.join(HERE, "cuesheet3.json"), encoding="utf-8"))
 SOURCES = {s["id"]: s for s in json.load(open(os.path.join(HERE, "sources.json"), encoding="utf-8"))["stretches"]}
 EV = {e["key"]: e["t"] for e in CS["events"]}
@@ -47,10 +47,11 @@ look = {"black": 0.0, "sat": 0.92, "shoulder": 0.86, "contrast": 1.1, "split": 0
         "warm_hi": [1.0, 0.97, 0.92], "cool_lo": [0.94, 0.985, 1.03], "reds": 1.06, "greens": 0.7, "blues": 0.88}
 # the back of the flat: dim, cool, the window holding its detail
 KITCHEN = {"ev": -0.45, "temp": -0.8, "tint": 0.4, "contrast": 1.14, "sat": 0.82, "split": 0.9, "led": 0.6,
-           "cool_lo": [0.9, 0.97, 1.06], "shoulder": 0.84}
+           "cool_lo": [0.9, 0.97, 1.06], "shoulder": 0.84, "black": 0.008}
 # the coffee: the one warm thing in the cold room (a warm light window lifts the dripper / the mug)
 BREW = {**KITCHEN, "ev": -0.3, "temp": -0.3, "sat": 0.88, "reds": 1.1}
-CUP = {**KITCHEN, "ev": -0.25, "temp": -0.2, "sat": 0.9, "reds": 1.12}
+# (IMG_5422's own white balance is green-cyan: the mug and the coffee are warmed back, the window kept clean)
+CUP = {**KITCHEN, "ev": 0.05, "temp": 0.6, "tint": 3.0, "sat": 0.9, "reds": 1.12, "split": 0.7, "warm_hi": [1.0, 1.0, 0.94]}
 # the front of the flat: daylight, natural ochre and brick, the overcast sky held
 CITY = {"ev": 0.05, "temp": 0.3, "tint": 0.4, "contrast": 1.1, "split": 0.5, "sat": 0.96, "reds": 1.08,
         "cool_lo": [0.95, 0.985, 1.03]}
@@ -64,9 +65,9 @@ def inside(keys):
     """Keep every framing inside the picture: the warp's window (centre cx, cy, zoom z) may not cross the frame's edge
     (the renderer would mirror the image there)."""
     out = []
-    for t, z, cx, cy in keys:
+    for t, z, cx, cy, *rot in keys:
         lo, hi = 0.5 / z, 1 - 0.5 / z
-        out.append([t, z, round(min(max(cx, lo), hi), 4), round(min(max(cy, lo), hi), 4)])
+        out.append([t, z, round(min(max(cx, lo), hi), 4), round(min(max(cy, lo), hi), 4), *rot])
     return out
 
 
@@ -75,46 +76,56 @@ def shot(sid: str, **kw) -> dict:
     if "move" in kw and "keys" in kw["move"]:
         kw["move"] = {**kw["move"], "keys": inside(kw["move"]["keys"])}
     return {"id": sid, "start": s["start"], "end": s["end"], **timing(sid),
-            **({"trans": s["trans"]} if s.get("trans", {}).get("type") == "dissolve" else {}), **kw}
+            **({"trans": s["trans"]} if s.get("trans", {}).get("type") in ("dissolve", "morph") else {}), **kw}
 
 
 shots = [
     {"id": "black_in", "black": True, "start": SH["black_in"]["start"], "end": SH["black_in"]["end"]},
-    # his eyes adjusting to the dark room: the window appears first, then the counter
+    # his eyes adjusting to the dark room: a true rise from black (finish "fades"), the window leading the counter
     shot("walk", grade=KITCHEN, denoise=DENOISE, acutance=ACUTANCE, key_green=LED,
          move={"keys": [[SH["walk"]["start"], 1.03, 0.5, 0.5], [SH["walk"]["end"], 1.05, 0.5, 0.48]]},
-         ev_keys=[[1.0, -4.0], [2.5, 0.0]]),
-    # the first water on the coffee; the slow motion is his attention narrowing to the thread of water
+         ev_keys=[[1.0, -2.5], [3.0, 0.0]]),
+    # the first water on the coffee; the slow motion is his attention narrowing to the thread of water (one push)
     shot("bloom", grade=BREW, denoise=DENOISE, acutance=ACUTANCE, key_green=LED,
-         move={"keys": [[SH["bloom"]["start"], 1.08, 0.5, 0.56], [EV["stream"], 1.09, 0.5, 0.56], [EV["slow1_end"], 1.15, 0.5, 0.58],
-                        [SH["brew"]["film_in"], 1.16, 0.5, 0.569], [SH["bloom"]["film_out"], 1.16, 0.5, 0.569]]},
+         move={"keys": [[SH["bloom"]["start"], 1.08, 0.5, 0.56], [SH["brew"]["film_in"], 1.16, 0.5, 0.569],
+                        [SH["bloom"]["film_out"], 1.16, 0.5, 0.569]]},
          light={"tint": WARM, "keys": [[0.0, 0.5, 0.62, 0.34, 0.2, 0.35], [8.0, 0.5, 0.62, 0.34, 0.2, 0.35]]}),
-    # same place, later: the last pours; he straightens and looks up (LOOK 2)
+    # same place, later: the brew is done, the dripper drips alone; he straightens and looks up (LOOK 2). Two takes of
+    # one hand-held set-up minutes apart: a morph dissolve carries both along their optical flow, so the dripper and the
+    # server stay single and still while the coffee changes (pipeline/align.py gave the starting framing)
     shot("brew", grade=BREW, denoise=DENOISE, acutance=ACUTANCE, key_green=LED,
-         # lined up on the dripper's static background for the dissolve (pipeline/align.py: bloom prep frame 150 vs k_brew 30,
-         # s 1.025, t (-70, -105) px: bloom held at z 1.16, cy 0.569 through the dissolve), then eased toward the pull-back
-         move={"keys": [[SH["brew"]["film_in"], 1.1317, 0.48, 0.5559], [SH["bloom"]["film_out"], 1.1317, 0.48, 0.5559], [EV["pullback"], 1.11, 0.49, 0.54],
+         trans={"type": "morph", "dur": SH["brew"]["trans"]["dur"], "win": 41, "smooth": 10.0},
+         move={"keys": [[SH["brew"]["film_in"], 1.1625, 0.5076, 0.5789], [EV["pullback"], 1.1625, 0.5076, 0.5789],
                         [SH["brew"]["end"], 1.05, 0.5, 0.5]]},
-         light={"tint": WARM, "keys": [[0.0, 0.5, 0.62, 0.34, 0.2, 0.35], [4.0, 0.5, 0.66, 0.3, 0.18, 0.3], [9.0, 0.5, 0.78, 0.24, 0.12, 0.15]]}),
-    # vessel to vessel under the same window: the empty mug, the coffee into the printed city, LOOK 3
+         light={"tint": WARM, "keys": [[0.0, 0.5, 0.62, 0.34, 0.2, 0.35], [2.0, 0.5, 0.66, 0.3, 0.18, 0.3], [5.4, 0.5, 0.78, 0.24, 0.12, 0.15]]}),
+    # vessel to vessel under the same window: the empty mug under the kitchen window (kept in frame: the window is the
+    # motif), a warm light on the printed WARSZAWA; the coffee into the printed city; then LOOK 3, the strongest: from
+    # the bell the camera pushes into the glass, so the latch cuts window to window
     shot("cup", grade=CUP, denoise=DENOISE, acutance=ACUTANCE, key_green=LED,
-         move={"keys": [[SH["cup"]["start"], 1.12, 0.5, 0.6], [EV["server_in"], 1.15, 0.5, 0.6], [EV["slow2_end"], 1.1, 0.5, 0.58],
-                        [EV["server_out"], 1.03, 0.5, 0.55], [SH["cup"]["end"], 1.02, 0.5, 0.52]]},
-         light={"tint": WARM, "keys": [[0.0, 0.5, 0.64, 0.3, 0.17, 0.4], [12.0, 0.5, 0.66, 0.3, 0.17, 0.35], [15.6, 0.5, 0.72, 0.26, 0.14, 0.15]]}),
-    # the latch: the old front window opens; the eye adapts from the dim kitchen as the sash clears
-    # (a slow push into the street once it settles, ending where the next shot's framing can match it exactly)
-    shot("open", grade=CITY, move={"keys": [[SH["open"]["start"], 1.04, 0.5, 0.5], [EV["street_settled"], 1.04, 0.5, 0.5],
-                                            [SH["turn"]["film_in"], 1.07, 0.53, 0.5], [SH["open"]["film_out"], 1.07, 0.53, 0.5]]},
-         ev_keys=[[SH["open"]["start"], -0.6], [EV["sash_clear"] - 0.6, -0.45], [EV["sash_clear"] + 0.4, 0.0]],
-         grad={"y0": 0.0, "y1": 0.3, "ev": -0.6}),
-    # same place, later; he turns away to the house opposite
+         move={"interp": "pchip",
+               "keys": [[SH["cup"]["start"], 1.06, 0.5, 0.47], [EV["server_in"], 1.06, 0.5, 0.47], [EV["slow2_end"], 1.05, 0.5, 0.48],
+                        [EV["server_out"], 1.03, 0.5, 0.5], [EV["bell2"], 1.03, 0.5, 0.5], [SH["cup"]["end"], 1.28, 0.45, 0.39]]},
+         light={"tint": WARM, "keys": [[0.0, 0.56, 0.71, 0.3, 0.15, 1.0], [EV["server_in"] - SH["cup"]["start"] + 0.45, 0.56, 0.71, 0.3, 0.15, 0.6],
+                                       [EV["rise3"] - SH["cup"]["start"], 0.5, 0.66, 0.3, 0.17, 0.35],
+                                       [SH["cup"]["end"] - SH["cup"]["start"], 0.5, 0.72, 0.26, 0.14, 0.15]]}),
+    # the latch: the old front window opens and the city floods in; the first daylight frame is not darker than the
+    # last kitchen frame, and the sky's graduated filter comes in only once the sash has cleared
+    # (a slow push into the street once it settles, ending where the next shot's framing matches it exactly)
+    shot("open", grade=CITY, shutter_synth=0.5,
+         move={"keys": [[SH["open"]["start"], 1.04, 0.5, 0.5], [EV["street_settled"], 1.04, 0.5, 0.5],
+                        [SH["turn"]["film_in"], 1.07, 0.53, 0.5], [SH["open"]["film_out"], 1.07, 0.53, 0.5]]},
+         ev_keys=[[SH["open"]["start"], 0.15], [EV["sash_clear"] - 0.6, 0.09], [EV["sash_clear"] + 0.6, 0.0]],
+         grad={"y0": 0.0, "y1": 0.3, "ev_keys": [[EV["sash_clear"], 0.0], [EV["sash_clear"] + 1.0, -0.6]]}),
+    # same place, later; he turns away, and the cut is inside his own pilaster's wipe
     # not stabilised (its fast turn made the stabiliser zoom 1.45x); through the dissolve its framing follows the hand's
     # drift so the buildings hold still under the open shot (pipeline/align.py, w_open frames 339/351/363 vs w_turn 18/30/42)
-    shot("turn", grade=CITY, move={"keys": [[SH["turn"]["film_in"], 1.085, 0.4601, 0.5217], [SH["turn"]["start"], 1.0827, 0.4832, 0.518],
-                                            [SH["open"]["film_out"], 1.0815, 0.5035, 0.515], [SH["turn"]["end"], 1.0815, 0.5035, 0.515]]},
-         grad={"y0": 0.0, "y1": 0.3, "ev": -0.6}),
-    # his other window: the casement, the gaze left, the Castle Square behind the volute
-    shot("square", grade=CITY,
+    shot("turn", grade=CITY,
+         move={"interp": "linear",
+               "keys": [[SH["turn"]["film_in"], 1.085, 0.4601, 0.5217], [SH["turn"]["start"], 1.0827, 0.4832, 0.518],
+                        [SH["open"]["film_out"], 1.0815, 0.5035, 0.515], [SH["turn"]["end"], 1.0815, 0.5035, 0.515]]},
+         grad={"y0": 0.0, "y1": 0.3, "ev_keys": [[EV["turn_away"], -0.6], [EV["pilaster2"], 0.0]]}),
+    # his other window: the casement, the gaze left, the Castle Square behind the volute (a film shutter on the pan)
+    shot("square", grade=CITY, shutter_synth=0.5,
          move={"keys": [[SH["square"]["start"], 1.12, 0.5, 0.5], [EV["casement_clear"], 1.04, 0.5, 0.5], [EV["climax"], 1.0, 0.5, 0.5],
                         [SH["square"]["end"], 1.04, 0.52, 0.5]]},
          grad={"y0": 0.0, "y1": 0.32, "ev": -0.7}),
@@ -135,12 +146,11 @@ titles = [
 overlays = []
 
 finish = {"bloom": {"threshold": 0.90, "gain": 0.10, "radius": 0.03, "tint": [1.0, 0.94, 0.86]},
-          "clarity": {"amount": 0.24, "sigma": 0.012}, "sharpen": {"amount": 0.4, "sigma": 1.0}, "rolloff": {"knee": 0.9},
-          "vignette": 0.16, "grain": {"amount": 0.011, "size": 1.0}, "fades": []}
+          "clarity": {"amount": 0.16, "sigma": 0.012}, "sharpen": {"amount": 0.4, "sigma": 1.0}, "rolloff": {"knee": 0.9},
+          "vignette": 0.16, "grain": {"amount": 0.011, "size": 1.0}, "fades": [[1.0, 2.25, "in"]]}
 
 # what the checks (pipeline/qc2.py) must accept: the black head and tail, the rise from black
-qc = {"black_ok": [[0.0, 1.6], [SH["black_out"]["start"], CS["duration"]]], "still_ok": [],
-      "cut_ok": [[0.95, 1.6]]}
+qc = {"black_ok": [[0.0, 1.6], [SH["black_out"]["start"], CS["duration"]]], "still_ok": [], "cut_ok": []}
 
 
 def build() -> dict:
