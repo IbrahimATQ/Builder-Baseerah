@@ -12,9 +12,20 @@ sheet (data/cuesheet3.json), resolved HERE, at mix time, so that a re-run follow
                                                on the score file), else turn_right (compose3's rule)
 Top level:
   {"cuesheet": "cuesheet3.json" (relative to the spec), "duration": "@duration", "buses": ["city", ...],
-   "score": {"file", "gain_db", "auto": {"t0", "t1", "city_under_db"}, "end_fade": [t0, t1]}
-            (used only if the file exists at mix time: the score is composed in parallel; "auto" sets the score's
+   "score": {"file", "gain_db", "auto": {"t0", "t1", "city_under_db"}, "end_fade": [t0, t1], "match_duration_tol_s"}
+            (used only if the file exists at mix time AND is as long as the film within match_duration_tol_s: the
+            score is composed in parallel, and one composed to an earlier cut is not mixed; "auto" sets the score's
             gain so that the city stem sits `city_under_db` under it in that window, i.e. at the climax),
+   "flood_match": {"bus", "window": [t0, t1], "margin_db", "max_db", "attack": [t0, t1], "hold_to", "release_s",
+            "fallback_bar_s"} (with a score: the bus lifted so that its loudness in `window` is at least the score's
+            last bar before the latch + margin - the bar from score_report.json's bar_by_bar when that report was made
+            for this cue sheet and length, else the last fallback_bar_s; the lift ramps in over `attack`, holds to
+            `hold_to` and is released over release_s),
+   "music_peak_db", "music_peak_release_s", "music_makeup_max_db" (the score's peaks held on its own bus at that
+            level after the master; the make-up that restores the "auto" balance after it is capped),
+   "arrival": {"pre": [t0, t1], "climax": [t0, t1], "min_db", "mix_min"} (the climax must be min_db louder than the
+            pre window, ungated K-weighted, on the mix: the master target steps down 0.5 dB at a time, to mix_min,
+            until its limiting no longer takes that away),
    "music_ducks": [[t0, t1, dB, attack s, release s]] (the score dipped under a story sound; attack before t0,
             release after t1; default 0.3 s each),
    "music_keys": [[t, dB]] (a ride on the score alone: its balance against the sound in one part of the film),
@@ -47,8 +58,8 @@ An element is one sound on one bus (stem):
   down to the noise floor around them), "polarity": "flip_right", "width" (side gain), "pan" (-1..1),
   "reverb": {"rt60", "mix", "predelay"}, "slap": {"delays": [s], "gains_db": [dB], "lp": Hz} (facade reflections),
   "rms_db" | "peak_db" (level of the processed sound before gain), "crest_db" (peaks held to RMS + this), "match":
-  {"to": id, "at": t, "win": s} (gain that makes this sound as loud just after `at` as `to` just before it: an
-  inaudible hand-over between takes),
+  {"to": id, "at": t, "win": s, "gap": s, "gap_to": s} (gain that makes this sound as loud in [at+gap, +win] as `to`
+  in [at-gap_to-win, at-gap_to]: an inaudible hand-over between takes),
   "gain_db", "gain_keys": [[t, dB]], "fade_in", "fade_out", "fade_shape": "gain" (sin^2) | "power" (sin: for a
   crossfade between two different takes),
   "lp_keys": [[t, Hz]], "lp_order": THE GLASS - a low-pass whose cutoff moves with film time (interpolated in
@@ -65,7 +76,8 @@ Outputs in OUT_DIR: mix.wav (score + sound; -14 LUFS, true peak <= -2 dBTP), sfx
 the mix are made from), music_bus.wav (only with a score: the score after its gain, ducks, ride and end fade, on the
 same scale, so stems + music_bus = the mix before its master gain and limiter), sound_report.json (with the sha256
 of the score, the cue sheet and the spec it was made from, and the story QC).
-Usage: python pipeline/sound3.py data/sound3.json OUT_DIR [--no-score]
+Usage: python pipeline/sound3.py data/sound3.json OUT_DIR [--no-score] [--score PATH] [--no-stems]
+       (--score: mix with another score file - a test; --no-stems: write only mix, sfx_only and the report)
        python pipeline/sound3.py --check OUT_DIR      is the render still current? (exit 1 if the score, the cue
                                                       sheet or the spec changed since it was made)
 """
@@ -625,8 +637,9 @@ def render_element(e: dict, cues: Cues, sp_dir: str, peers: dict) -> tuple[np.nd
         m = e["match"]
         ref = peers[m["to"]]
         at, win, gap = cues.t(m["at"]), m.get("win", 1.0), m.get("gap", 0.3)
+        gap_to = m.get("gap_to", gap)
         mine = take(a, int((at + gap - t_start) * SR), int((at + gap + win - t_start) * SR))
-        theirs = take(ref[0], int((at - gap - win - ref[1]) * SR), int((at - gap - ref[1]) * SR))
+        theirs = take(ref[0], int((at - gap_to - win - ref[1]) * SR), int((at - gap_to - ref[1]) * SR))
         g_match = rms_db(theirs) - rms_db(mine)
         g += g_match
         info["match_gain_db"] = round(g_match, 2)
@@ -684,7 +697,9 @@ def check(out: str) -> int:
             stale.append(f"{k}: {v['file']} changed since the render ({v['mtime']})")
     sc = rp.get("score", {})
     if sc.get("file") and not sc.get("present") and os.path.exists(sc["file"]):
-        stale.append(f"score: {sc['file']} exists now but the render has no score")
+        i = sf.info(sc["file"])
+        if abs(i.frames / i.samplerate - float(rp.get("duration", 0.0))) <= 1.0 / 24:
+            stale.append(f"score: {sc['file']} (as long as the film) exists now but the render has no score")
     print(json.dumps({"render": os.path.join(out, "mix.wav"), "rendered_at": rp.get("rendered_at"),
                       "stale": bool(stale), "why": stale}, indent=1))
     return 1 if stale else 0
@@ -739,6 +754,30 @@ def lev_curve(x: np.ndarray, win: float = 0.1, hop: float = 0.01) -> tuple[np.nd
     return i / SR, 10 * np.log10(pw[i] + 1e-20)
 
 
+def kmean(meter, x: np.ndarray, a: float, b: float, pre: float = 0.5) -> float:
+    """Ungated K-weighted loudness (LUFS) of film span [a, b] of x (the K-filter settles on `pre` s before a)."""
+    i0, i1 = int(round(a * SR)), int(round(b * SR))
+    j0 = max(i0 - int(pre * SR), 0)
+    p = kw_power(meter, take(x, j0, i1))[i0 - j0:]
+    return float(-0.691 + 10 * np.log10(np.mean(p) + 1e-20))
+
+
+def score_last_bar(score_file: str, cues: "Cues", latch: float, fallback: float) -> tuple[float, str]:
+    """Start of the score's last bar before the latch: from score_report.json's bar_by_bar (beside the score) when
+    that report was made for this film's length, else latch - fallback. A bar starting < 0.5 s before the latch (a
+    pickup) is skipped for the one before it."""
+    rp = os.path.join(os.path.dirname(score_file), "score_report.json")
+    try:
+        r = json.load(open(rp, encoding="utf-8"))
+        if abs(float(r.get("duration_s", -1)) - cues.duration) <= 1.0 / cues.fps:
+            ts = sorted(float(b["t"]) for b in r.get("bar_by_bar", []) if b.get("t") is not None and float(b["t"]) < latch - 0.5)
+            if ts:
+                return ts[-1], f"score_report.json bar_by_bar (bar at {ts[-1]:.3f})"
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    return latch - fallback, f"no score report for this cut: the last {fallback:.1f} s"
+
+
 def bands3(x: np.ndarray) -> np.ndarray:
     s = np.asarray(x, dtype=np.float64).mean(axis=1)
     w = np.hanning(len(s))
@@ -747,7 +786,8 @@ def bands3(x: np.ndarray) -> np.ndarray:
     return np.array([10 * np.log10(P[(f >= c / 2 ** (1 / 6)) & (f < c * 2 ** (1 / 6))].sum() + 1e-20) for c in FC3])
 
 
-def story_qc(q: dict, cues: Cues, buses: dict, mus: np.ndarray, peers: dict, mix: dict, meter, ride) -> dict:
+def story_qc(q: dict, cues: Cues, buses: dict, mus: np.ndarray, peers: dict, mix: dict, meter, ride,
+             score_file: str | None = None, sfo: dict | None = None) -> dict:
     out: dict = {}
     T = cues.t
     med = lambda tc, v, a, b: float(np.median(v[(tc >= a) & (tc <= b)]))
@@ -767,20 +807,53 @@ def story_qc(q: dict, cues: Cues, buses: dict, mus: np.ndarray, peers: dict, mix
         t10 = float(tc[kk][np.argmax(lv[kk] >= before + 0.1 * rise)])
         t90 = float(tc[kk][np.argmax(lv[kk] >= before + 0.9 * rise)])
         m = city[int((lt - 1) * SR):int((s1 + 0.5) * SR)].mean(axis=1)
-        fq, ts, Z = stft(m, SR, nperseg=SR // 2, noverlap=SR // 2 - SR // 20, boundary=None, padded=False)
+        fq, ts, Z = stft(m, SR, nperseg=SR // 10, noverlap=SR // 10 - SR // 50, boundary=None, padded=False)
         P = np.abs(Z) ** 2
         share = 10 * np.log10(P[fq > 4000].sum(axis=0) / (P[fq > 40].sum(axis=0) + 1e-30) + 1e-20)
         ts = ts + lt - 1
         street = med(ts, share, s0, s1)
         sh = lambda t: float(share[np.argmin(np.abs(ts - t))])
+        # pass (review 2: a flood, not a creep): no dip; 90 % of the rise within 0.35 s of the cut to the window; the
+        # highs (> 4 kHz share, 0.1 s windows) within 6 dB of the street's 0.1 s after the cut, within 3 dB by 0.5 s
         out["flood"] = {"city_100ms_dip_after_latch_db": round(dip, 2), "dip_ok": dip >= -1.0,
                         "rise_db": round(rise, 1), "rise_10pct_after_open_s": round(t10 - op, 3),
-                        "rise_10_90_s": round(t90 - t10, 3), "rise_ok": (t90 - t10) <= 0.6 and t10 <= op + 0.1,
+                        "rise_90pct_after_open_s": round(t90 - op, 3),
+                        "rise_10_90_s": round(t90 - t10, 3), "rise_ok": t90 <= op + 0.35 and t10 <= op + 0.1,
                         "hf4k_share_street_db": round(street, 1),
                         "hf4k_share_behind_glass_db": round(med(ts, share, lt - 1.0, lt), 1),
+                        "hf4k_share_at_open+0.1_db": round(sh(op + 0.1), 1),
                         "hf4k_share_at_open+0.5_db": round(sh(op + 0.5), 1),
                         "hf4k_share_at_sash_clear_db": round(sh(sc_), 1),
-                        "hf_ok": sh(op + 0.5) >= street - 6 and sh(sc_) >= street - 3}
+                        "hf_ok": sh(op + 0.1) >= street - 6 and sh(op + 0.5) >= street - 3 and sh(sc_) >= street - 3}
+    if "flood_vs_score" in q:   # review 2: the city floods in at least as loud as the score's last bar before the latch
+        f = q["flood_vs_score"]
+        lt = T("@latch")
+        w0, w1 = T(f["window"][0]), T(f["window"][1])
+        Lc = kmean(meter, city, w0, w1)
+        if score_file and np.any(mus):
+            bar0, how = score_last_bar(score_file, cues, lt, 2.0)
+            Lb = kmean(meter, mus, bar0, lt - 0.02)
+            out["flood_vs_score"] = {"score_last_bar": [round(bar0, 3), round(lt, 3)], "bar_from": how,
+                                     "city_minus_score_bar_lu": round(Lc - Lb, 2), "ok": Lc - Lb >= f.get("min_lu", 0.0)}
+        else:   # sfx only: the flood against the loudest 1.5 s of the kitchen's own sound before the latch
+            tc, lk = loud_curve(kw_power(meter, sum(buses.values())[:int(lt * SR)]), w1 - w0, 0.05)
+            out["flood_vs_score"] = {"no_score": True, "city_lufs": round(Lc, 2),
+                                     "city_minus_loudest_kitchen_1.5s_lu": round(Lc - float(lk.max()), 2),
+                                     "loudest_kitchen_at": round(float(tc[lk.argmax()]), 2)}
+    if "arrival" in q:   # review 1: the score ARRIVES at the climax - 2 s there >= min_db over the 4 s before square_in
+        a = q["arrival"]
+        p0, p1, c0, c1 = T(a["pre"][0]), T(a["pre"][1]), T(a["climax"][0]), T(a["climax"][1])
+        lift = lambda x: kmean(meter, x, c0, c1) - kmean(meter, x, p0, p1)
+        row = {"pre": [round(p0, 3), round(p1, 3)], "climax": [round(c0, 3), round(c1, 3)],
+               "mix_db": round(lift(mix["_x"]), 2), "city_bus_db": round(lift(city), 2)}
+        if sfo is not None:
+            row["sfx_only_db"] = round(lift(sfo["_x"]), 2)
+        if np.any(mus):
+            row["music_bus_db"] = round(lift(mus), 2)
+            row["ok"] = row["mix_db"] >= a["min_db"]
+        else:
+            row["no_score"] = "the score's arrival is measured once a score of this cut is mixed"
+        out["arrival"] = row
     if "bells_vs_city" in q:
         b = q["bells_vs_city"]
         a_, b_ = T(b["window"][0]), T(b["window"][1])
@@ -908,8 +981,21 @@ def main() -> None:
     D = cues.t(sp.get("duration", "@duration"))
     N = int(round(D * SR))
     buses = {b: np.zeros((N, 2)) for b in sp["buses"]}
-    sc = sp.get("score") or {}
+    sc = dict(sp.get("score") or {})
+    if "--score" in sys.argv:   # a test with another score file
+        sc["file"] = os.path.abspath(sys.argv[sys.argv.index("--score") + 1])
+    write_stems = "--no-stems" not in sys.argv
     have_score = bool(sc.get("file")) and os.path.exists(sc["file"]) and not no_score
+    score_why = None if have_score else ("--no-score" if no_score else f"{sc.get('file')} does not exist")
+    if have_score:   # a score composed to another cut is not mixed
+        si = sf.info(sc["file"])
+        sdur = si.frames / si.samplerate
+        if abs(sdur - D) > sc.get("match_duration_tol_s", 1.0 / 24):
+            have_score = False
+            score_why = (f"{sc['file']} is {sdur:.3f} s, the film is {D:.3f} s: composed to another cut, not mixed "
+                         "(sfx only)")
+    if score_why:
+        print("NO SCORE:", score_why, flush=True)
     t_start_run = time.time()
     inputs = inputs_of(os.path.abspath(spec_p), cues.path, sc.get("file"), have_score)
     score_raw = decode(sc["file"])[:N] if have_score else None
@@ -974,11 +1060,14 @@ def main() -> None:
     # ---- the score (optional) ----
     mus = np.zeros((N, 2))
     meter = pyln.Meter(SR)
-    rep["score"] = {"file": sc.get("file"), "present": have_score}
+    rep["score"] = {"file": sc.get("file"), "present": have_score, **({"why_not": score_why} if score_why else {})}
     tt = np.arange(N) / SR
     if have_score:
         place(mus, score_raw, 0.0)
         del score_raw
+        arr0 = sp.get("arrival")
+        score_arrival_raw = (kmean(meter, mus, cues.t(arr0["climax"][0]), cues.t(arr0["climax"][1]))
+                             - kmean(meter, mus, cues.t(arr0["pre"][0]), cues.t(arr0["pre"][1]))) if arr0 else float("nan")
         g = sc.get("gain_db", 0.0)
         if sc.get("auto"):
             au = sc["auto"]
@@ -1015,39 +1104,64 @@ def main() -> None:
         mus *= ride
         rep["mix_keys_resolved"] = [[round(t, 3), db] for t, db in mk]
         del ride
+    # ---- the flood (review 2): the city's first moment after the cut at least as loud as the score's last bar ----
+    if have_score and sp.get("flood_match"):
+        fm = sp["flood_match"]
+        lt = cues.t("@latch")
+        bar0, bar_how = score_last_bar(sc["file"], cues, lt, fm.get("fallback_bar_s", 2.0))
+        w0, w1 = cues.t(fm["window"][0]), cues.t(fm["window"][1])
+        fbus = buses[fm.get("bus", "city")]
+        Lb, Lc = kmean(meter, mus, bar0, lt - 0.02), kmean(meter, fbus, w0, w1)
+        lift = float(np.clip(Lb + fm.get("margin_db", 0.5) - Lc, 0.0, fm.get("max_db", 6.0)))
+        a0, a1 = cues.t(fm["attack"][0]), cues.t(fm["attack"][1])
+        h, r_ = cues.t(fm["hold_to"]), float(fm.get("release_s", 2.0))
+        if lift > 0.0:
+            w = np.clip(np.minimum((tt - a0) / max(a1 - a0, 1e-3), 1.0 - (tt - h) / r_), 0.0, 1.0)
+            fbus *= (10 ** (lift * (0.5 - 0.5 * np.cos(np.pi * w)) / 20))[:, None]
+            del w
+        rep["flood_match"] = {"score_last_bar": [round(bar0, 3), round(lt, 3)], "bar_from": bar_how,
+                              "score_last_bar_lufs": round(Lb, 2), "city_window": [round(w0, 3), round(w1, 3)],
+                              "city_lufs_before": round(Lc, 2), "lift_db": round(lift, 2),
+                              "lift_span": [round(a0, 3), round(a1, 3), round(h, 3), round(h + r_, 3)]}
     fx = sum(buses.values())
     rel_s = sp.get("limiter_release_s", 0.2)
     tg = sp.get("targets", {"mix": -14.0, "sfx_only": -16.0})
-    if have_score and sp.get("music_peak_db") is not None:
-        # the score's own peaks (timpani, brass accents) held on the music bus alone, at the level the master will
-        # put them, so the master limiter does not duck the city with them. The limiter takes loudness off the
-        # climax, so the "auto" balance (city N dB under the score there) is re-measured on the limited score and
-        # the score's gain corrected until it holds (<= 4 passes)
-        raw_mus = mus
-        au = sc.get("auto")
+    au = sc.get("auto")
+    raw_mus = mus
+
+    def limit_music(target: float) -> tuple[np.ndarray, dict | None]:
+        """The score's own peaks (timpani, brass accents) held on the music bus alone, at the level the master will
+        put them, so the master limiter does not duck the city with them. The limiter takes loudness off the climax,
+        so the "auto" balance (city N dB under the score there) is re-measured on the limited score and the score's
+        gain made up - capped at music_makeup_max_db: a make-up of the whole score for what the limiter took off the
+        climax alone flattens the climax's lift (review 1)."""
+        if not have_score or sp.get("music_peak_db") is None:
+            return raw_mus, None
+        cap = float(sp.get("music_makeup_max_db", 24.0))
         extra = 0.0
-        for _ in range(4):
+        for it in range(5):
             cur = raw_mus * 10 ** (extra / 20)
-            g0 = 10 ** ((tg["mix"] - meter.integrated_loudness(fx + cur)) / 20)
+            g0 = 10 ** ((target - meter.integrated_loudness(fx + cur)) / 20)
             lim, mg = limit(cur * g0, sp["music_peak_db"], sp.get("music_peak_release_s", 0.15))
-            mus = lim / g0
-            if not au:
+            m_ = lim / g0
+            if not au or it == 4:
                 break
             i0, i1 = int(cues.t(au["t0"]) * SR), int(cues.t(au["t1"]) * SR)
             short = (meter.integrated_loudness(buses[au.get("bus", "city")][i0:i1]) + au["city_under_db"]
-                     - meter.integrated_loudness(mus[i0:i1]))
-            if short < 0.2:
+                     - meter.integrated_loudness(m_[i0:i1]))
+            new = min(extra + short, cap) if short >= 0.2 else extra
+            if new - extra < 0.05:
                 break
-            extra += short
+            extra = new
         mgr = -20 * np.log10(np.maximum(mg, 1e-9))
-        rep["score"]["gain_db"] = round(rep["score"]["gain_db"] + extra, 2)
-        rep["score"]["bus_limiter"] = {"ceiling_dbfs_after_master": sp["music_peak_db"],
-                                       "gain_added_to_hold_auto_db": round(extra, 2),
-                                       "max_reduction_db": round(float(mgr.max()), 2),
-                                       "at_s": round(float(np.argmax(mgr) / SR), 2),
-                                       "seconds_over_1db": round(float((mgr > 1).sum() / SR), 2),
-                                       "seconds_over_3db": round(float((mgr > 3).sum() / SR), 2)}
-        del lim, mg, mgr, raw_mus, cur
+        cl = cues.t("@climax")
+        k = slice(int((cl - 1.0) * SR), int((cl + 1.0) * SR))
+        return m_, {"ceiling_dbfs_after_master": sp["music_peak_db"], "gain_added_to_hold_auto_db": round(extra, 2),
+                    "makeup_cap_db": cap, "max_reduction_db": round(float(mgr.max()), 2),
+                    "at_s": round(float(np.argmax(mgr) / SR), 2),
+                    "climax_2s_max_reduction_db": round(float(mgr[k].max()), 2),
+                    "seconds_over_1db": round(float((mgr > 1).sum() / SR), 2),
+                    "seconds_over_3db": round(float((mgr > 3).sum() / SR), 2)}
 
     def master(x: np.ndarray, lufs: float, name: str) -> dict:
         x = x.copy()
@@ -1063,24 +1177,65 @@ def main() -> None:
             g += err
         else:
             x, gain = limit(src * 10 ** (g / 20), sp.get("ceiling_db", -2.0), rel_s)
-        sf.write(os.path.join(out, name), x.astype(np.float32), SR, subtype="PCM_24")
         gr = -20 * np.log10(np.maximum(gain, 1e-9))
-        return {"file": name, "lufs": round(meter.integrated_loudness(x), 2), "true_peak_dbtp": round(true_peak_db(x), 2),
+        return {"file": name, "target_lufs": lufs, "lufs": round(meter.integrated_loudness(x), 2),
+                "true_peak_dbtp": round(true_peak_db(x), 2),
                 "gain_db": round(g, 2), "limiter_release_s": rel_s, "limiter_max_reduction_db": round(float(gr.max()), 2),
                 "limiter_max_at_s": round(float(np.argmax(gr) / SR), 2),
                 "limiter_seconds_over_1db": round(float(np.mean(gr > 1.0) * len(gr) / SR), 2),
                 "limiter_seconds_over_2db": round(float(np.mean(gr > 2.0) * len(gr) / SR), 2), "_x": x, "_gr": gr}
 
-    mix = master(fx + mus, tg["mix"], "mix.wav")
-    sfo = master(fx, tg["sfx_only"], "sfx_only.wav")
-    for b, a in buses.items():
-        sf.write(os.path.join(out, f"{b}.wav"), a.astype(np.float32), SR, subtype="FLOAT")
-    if have_score:
-        sf.write(os.path.join(out, "music_bus.wav"), mus.astype(np.float32), SR, subtype="FLOAT")
-    elif os.path.exists(os.path.join(out, "music_bus.wav")):
-        os.remove(os.path.join(out, "music_bus.wav"))
+    # ---- the master: -14 LUFS unless its limiting takes the climax's arrival away (review 1) ----
+    arr = sp.get("arrival")
+    arrival_of = (lambda x: kmean(meter, x, cues.t(arr["climax"][0]), cues.t(arr["climax"][1]))
+                  - kmean(meter, x, cues.t(arr["pre"][0]), cues.t(arr["pre"][1]))) if arr else (lambda x: None)
+    # (no score of this cut: no mix is made - the sound alone is mastered once, at the sfx_only level)
+    targets = [float(tg["mix"]) if have_score else float(tg["sfx_only"])]
+    if have_score and arr:
+        while targets[-1] - 0.5 >= float(arr.get("mix_min", tg["mix"])) - 1e-9:
+            targets.append(targets[-1] - 0.5)
+    tried = []
+    for T_ in targets:
+        mus, binfo = limit_music(T_)
+        mix = master(fx + mus, T_, "mix.wav")
+        a_mix = arrival_of(mix["_x"])
+        tried.append({"target_lufs": T_, "arrival_db": None if a_mix is None else round(a_mix, 2),
+                      "master_limiter_max_db": mix["limiter_max_reduction_db"],
+                      "music_bus_limiter_climax_max_db": binfo["climax_2s_max_reduction_db"] if binfo else None})
+        print("  master try", tried[-1], flush=True)
+        if not (have_score and arr) or a_mix >= arr["min_db"]:
+            break
+    if binfo:
+        rep["score"]["gain_db"] = round(rep["score"]["gain_db"] + binfo["gain_added_to_hold_auto_db"], 2)
+        rep["score"]["bus_limiter"] = binfo
+    del raw_mus
+    sfo = master(fx, tg["sfx_only"], "sfx_only.wav") if have_score else dict(mix, file="sfx_only.wav")
+    for m_ in ((mix, sfo) if have_score else (sfo,)):
+        sf.write(os.path.join(out, m_["file"]), m_["_x"].astype(np.float32), SR, subtype="PCM_24")
+    if not have_score and os.path.exists(os.path.join(out, "mix.wav")):
+        os.remove(os.path.join(out, "mix.wav"))   # a mix of another cut or score must not be picked up by mistake
+    if arr:
+        gm_ = 10 ** (mix["gain_db"] / 20)
+        rep["arrival"] = {"pre": [round(cues.t(arr["pre"][0]), 3), round(cues.t(arr["pre"][1]), 3)],
+                          "climax": [round(cues.t(arr["climax"][0]), 3), round(cues.t(arr["climax"][1]), 3)],
+                          "min_db": arr["min_db"], "master_tries": tried, "mix_target_lufs": mix["target_lufs"],
+                          "mix_db": round(arrival_of(mix["_x"]), 2), "sfx_only_db": round(arrival_of(sfo["_x"]), 2),
+                          "city_bus_db": round(arrival_of(buses["city"] * gm_), 2) if "city" in buses else None}
+        if have_score:
+            rep["arrival"]["score_as_composed_db"] = round(score_arrival_raw, 2)
+            rep["arrival"]["music_bus_db"] = round(arrival_of(mus), 2)
+    if write_stems:
+        for b, a in buses.items():
+            sf.write(os.path.join(out, f"{b}.wav"), a.astype(np.float32), SR, subtype="FLOAT")
+        if have_score:
+            sf.write(os.path.join(out, "music_bus.wav"), mus.astype(np.float32), SR, subtype="FLOAT")
+        elif os.path.exists(os.path.join(out, "music_bus.wav")):
+            os.remove(os.path.join(out, "music_bus.wav"))
     rep["mix"] = {k: v for k, v in mix.items() if not k.startswith("_")}
     rep["mix"]["with_score"] = have_score
+    if not have_score:
+        rep["mix"].update(file=None, note="no score of this cut: no mix.wav was written; sfx_only.wav is the film's "
+                                          "sound until the score is mixed (the QC below is measured on it)")
     rep["sfx_only"] = {k: v for k, v in sfo.items() if not k.startswith("_")}
     rep["stems"] = {b: f"{b}.wav" for b in buses}
     # ---- per-section loudness (in the mix's scale: stems and score x the mix's master gain) ----
@@ -1130,7 +1285,7 @@ def main() -> None:
     qc = {}
     ssum = sum(buses.values())
     qc["stems_sum_to_sound_bus_max_abs_err"] = float(np.abs(ssum - fx).max())
-    qc["mix_lufs_ok"] = abs(mix["lufs"] - tg["mix"]) <= 0.1
+    qc["mix_lufs_ok"] = abs(mix["lufs"] - mix["target_lufs"]) <= 0.1
     qc["mix_true_peak_ok"] = mix["true_peak_dbtp"] <= sp.get("ceiling_db", -2.0) + 0.05
     qc["sfx_only_lufs_ok"] = abs(sfo["lufs"] - tg["sfx_only"]) <= 0.1
     qc["sfx_only_true_peak_ok"] = sfo["true_peak_dbtp"] <= sp.get("ceiling_db", -2.0) + 0.05
@@ -1170,7 +1325,8 @@ def main() -> None:
     if sp.get("story_qc"):
         mk = cues.keys(sp["mix_keys"]) if sp.get("mix_keys") else [[0.0, 0.0]]
         ride_f = lambda t: 10 ** (np.interp(t, [k[0] for k in mk], [k[1] for k in mk]) / 20)
-        qc["story"] = story_qc(sp["story_qc"], cues, buses, mus, peers, mix, meter, ride_f)
+        qc["story"] = story_qc(sp["story_qc"], cues, buses, mus, peers, mix, meter, ride_f,
+                               sc.get("file") if have_score else None, sfo)
     # close sounds (foley, kitchen; level mode) must be HEARD within [-20, +60] ms of their event; far bells bloom
     # through reverb and glass and an "attack" onset is measured on its contact, so those are reported only
     qc["audible_onsets_within_-20_+60ms"] = all(s.get("heard_in_sync") for s in rep["sync"] if s.get("onset") is not None
