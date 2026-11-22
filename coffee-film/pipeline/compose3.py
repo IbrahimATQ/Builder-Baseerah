@@ -77,7 +77,7 @@ import numpy as np
 import pyloudnorm as pyln
 import soundfile as sf
 from scipy.ndimage import uniform_filter1d
-from scipy.signal import butter, sosfilt, sosfiltfilt
+from scipy.signal import butter, lfilter, sosfilt, sosfiltfilt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -749,19 +749,22 @@ def window(S: Score, cue: Cue):
 
     # ---------------------------------------------------------------- the street: the theme on B (violins I)
     S.line("strings", "vln_sus", [("B4", 3), ("C#5", 1), ("D5", 2), ("G5", 4)], W, 4, -10, -0.3, sp, layer=2,
-           attack=0.08, release=0.25, overlap=0.08, gains=[0, -0.5, 0.5, 1.5], first=dict(attack=0.03), last_end=ta + 0.3,
+           attack=0.08, release=0.25, overlap=0.08, gains=[0, -0.5, 0.5, 1.5], first=dict(attack=0.03), last_end=ta + 0.1,
            env=dyn, role="theme on B (violins I)")
     S.themes.append(dict(t=round(street, 3), first="B", voice="violins I", form="window form B-C#-D-G (sigh withheld)"))
     S.line("strings", "vln_sus", [("G4", 3), ("A4", 1), ("F4", 2), ("E4", 4)], W, 4, -14, -0.15, sp, layer=1,
-           attack=0.15, release=0.25, overlap=0.08, last_end=ta + 0.3, env=dyn, role="violins II")
+           attack=0.15, release=0.25, overlap=0.08, last_end=ta + 0.1, env=dyn, role="violins II")
+    # the street's harmony lets go as he turns away (turn_away + 0.1): the spiccato run rises alone into the cut,
+    # and the deceptive Bb comes in subito p (no street chord rings over the square cut)
+    let_go = ta + 0.1
     S.chords("strings", "vc_sus", [(street, ["G2", "D3"]), (t7, ["G2", "E3"]), (t8, ["Bb2", "F3"]), (t10, ["C3", "G3"]),
-                                   (t12, ["A2", "E3"])], sq + 0.04, -12, sp, pan=(0.25, 0.35), attack=0.12, release=0.15,
+                                   (t12, ["A2", "E3"])], let_go, -12, sp, pan=(0.25, 0.35), attack=0.12, release=0.25,
              layer=2, env=dyn, role="celli")
-    S.chords("strings", "cb_sus", [(street, ["G1"]), (t8, ["Bb1"]), (t10, ["C2"]), (t12, ["A1"])], sq + 0.04, -13, sp,
-             pan=(0.4, 0.4), attack=0.12, release=0.15, layer=2, env=dyn, role="contrabass")
+    S.chords("strings", "cb_sus", [(street, ["G1"]), (t8, ["Bb1"]), (t10, ["C2"]), (t12, ["A1"])], let_go, -13, sp,
+             pan=(0.4, 0.4), attack=0.12, release=0.25, layer=2, env=dyn, role="contrabass")
     S.chords("organ", "ged", [(street, ["G3", "B3", "D4"]), (t7, ["A3", "C#4", "E4"]), (t8, ["Bb3", "D4", "F4"]),
-                              (t10, ["C4", "E4", "G4"]), (t12, ["A3", "C#4", "E4", "G4"])], sq + 0.03, -16, sp,
-             pan=(-0.3, 0.3), attack=0.1, release=0.15, env=dyn, role="8' flutes")
+                              (t10, ["C4", "E4", "G4"]), (t12, ["A3", "C#4", "E4", "G4"])], let_go, -16, sp,
+             pan=(-0.3, 0.3), attack=0.1, release=0.25, env=dyn, role="8' flutes")
 
     # ---------------------------------------------------------------- the run under his turn: A7 arpeggio
     # the locked edit leaves 0.63 s from turn_away to the cut (inside his pilaster's wipe): the run starts under the
@@ -774,9 +777,11 @@ def window(S: Score, cue: Cue):
     tt_run = ta + g0 * (np.concatenate([[0], np.cumsum(gaps)])[:nrun] - gaps[:k_ta].sum())
     S.derived.update(run_start=round(float(tt_run[0]), 3), run_gaps_s=[round(float(g0 * x), 3) for x in gaps])
     for k, (p, t0) in enumerate(zip(run, tt_run)):
-        g = -16 + 1.5 * k / (nrun - 1) + (1.5 if k == 0 else 0.0)
+        g = -16 + 1.5 * min(k, 5) / 5 + (1.5 if k == 0 else 0.0)     # crescendo to the 6th note, then held
         for inst, d_oct, dg, pan in (("vln_spic", 0, 0, -0.25), ("va_spic", -12, -2, 0.15), ("vc_spic", -12, -3, 0.3)):
             if inst == "va_spic" and N(p) - 12 < N("C3"):
+                continue
+            if inst != "vln_spic" and k >= nrun - 2:     # the run thins to the violins at its top, into the cut
                 continue
             S.note("strings", inst, N(p) + d_oct, t0, 0.22, g + dg, pan, sp, layer=2, attack=0.002, release=0.06,
                    role="rising run (A7)")
@@ -1218,10 +1223,13 @@ def quantise24(x):
 
 # ============================================================================= analysis
 def k_weight(x):
+    """BS.1770 K-weighting (pyloudnorm's two stages), applied along TIME on every channel. (Until 2026-11-22 this
+    called the stages' apply_filter on the (n, 2) array, which filters along its last axis - across the two
+    channels - so the story loudness tests were unweighted energy with an offset; pyln.Meter itself was right.)"""
     m = pyln.Meter(SR)
-    y = x.astype(np.float64)
+    y = np.asarray(x, np.float64)
     for f in m._filters.values():
-        y = f.apply_filter(y)
+        y = f.passband_gain * lfilter(f.b, f.a, y, axis=0)
     return y
 
 
